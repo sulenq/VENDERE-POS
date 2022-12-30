@@ -1,0 +1,104 @@
+:root {
+  --accent: #fdd100;
+  --accent-dim: #d9b115;
+  --primary-50: #e5f0fc;
+  --primary-100: #ccdff9;
+  --primary-200: #adc7ed;
+  --primary-300: #92addc;
+  --primary-400: #6d8ac5;
+  --primary-500: #4f6aa9;
+  --primary-600: #364d8d;
+  --primary-700: #223472;
+  --primary-800: #14235e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* .vendereApp {
+  height: 100vh;
+  background-image: url('../assets/appBg.png');
+  background-position: center;
+} */
+
+.items,
+.invoice {
+  border: 1px solid yellow;
+}
+
+.nav {
+  width: 200px;
+}
+
+.navMobile {
+  position: fixed;
+  width: calc(100% - 16px);
+  bottom: 0;
+  background-color: var(--primary-500);
+  /* background: linear-gradient(
+    to bottom,
+    var(--primary-500),
+    var(--primary-600)
+  ); */
+  padding: 0 32px;
+  border-radius: 16px;
+  margin: 0 8px;
+  margin-bottom: 8px;
+}
+
+.navMobile > ul {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.navMobile > ul > li {
+  /* border: 1px solid black; */
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 0 4px;
+  padding-top: 14px;
+  padding-bottom: 12px;
+  cursor: pointer;
+}
+#navOther {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  margin: 0 4px;
+  cursor: pointer;
+}
+
+.navMobileContentBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+.navMobileContentBtnSelect {
+  width: 100%;
+  background: linear-gradient(
+    to bottom,
+    var(--primary-400),
+    var(--primary-500)
+  );
+  position: relative;
+}
+.navMobileContentBtnSelect::before {
+  content: '';
+  width: 100%;
+  height: 4px;
+  background: var(--accent);
+  position: absolute;
+  top: 0;
+}
+
+#colorModeSwitcherMobile {
+  margin-left: 8px;
+  margin-bottom: 8px;
+}
