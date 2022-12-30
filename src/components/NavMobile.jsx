@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Text,
   Icon,
@@ -19,44 +19,40 @@ import { ColorModeSwitcher } from '../components/ColorModeSwitcher';
 
 const Nav = ({ active }) => {
   let activeNav;
+  console.log(active);
   useEffect(() => {
     activeNav = document.querySelector(`#${active}`);
     activeNav.classList.add('navMobileContentBtnSelect');
   });
 
   const selectNavList = e => {
-    switch (active) {
-      case 'cashier':
-        activeNav.classList.remove('navMobileContentBtnSelect');
-        break;
-    }
+    activeNav.classList.remove('navMobileContentBtnSelect');
     const target = e.target;
     const ul = document.querySelector('.navMobile > ul');
 
     target.classList.add('navMobileContentBtnSelect');
   };
   const diselectNavList = e => {
-    switch (active) {
-      case 'cashier':
-        activeNav.classList.add('navMobileContentBtnSelect');
-        break;
-    }
     const target = e.target;
     target.classList.remove('navMobileContentBtnSelect');
+    activeNav.classList.add('navMobileContentBtnSelect');
   };
+
+  const navigate = useNavigate();
 
   return (
     <nav className="navMobile">
       <ul>
         {/* Reports */}
-        <Link></Link>
-        <li
-          id="reports"
-          onMouseEnter={selectNavList}
-          onMouseLeave={diselectNavList}
-        >
-          <div className="navMobileContentBtn">
-            <Icon as={SummarizeIcon} fontSize={'xx-large'} />
+        <li>
+          <div
+            id="reports"
+            className="navMobileContentBtn"
+            onClick={() => navigate('../reports')}
+            onMouseEnter={selectNavList}
+            onMouseLeave={diselectNavList}
+          >
+            <Icon as={SummarizeIcon} fontSize={'xx-large'} mx={'auto'} />
             <Text
               style={{ color: 'var(--primary-200)' }}
               fontSize={'xs'}
@@ -68,12 +64,14 @@ const Nav = ({ active }) => {
         </li>
 
         {/* Debts */}
-        <li
-          id="debts"
-          onMouseEnter={selectNavList}
-          onMouseLeave={diselectNavList}
-        >
-          <div className="navMobileContentBtn">
+        <li>
+          <div
+            id="debts"
+            className="navMobileContentBtn"
+            onClick={() => navigate('../debts')}
+            onMouseEnter={selectNavList}
+            onMouseLeave={diselectNavList}
+          >
             <Icon as={MoneyOffIcon} fontSize={'xx-large'} />
             <Text
               style={{ color: 'var(--primary-200)' }}
@@ -86,12 +84,14 @@ const Nav = ({ active }) => {
         </li>
 
         {/* Cashier */}
-        <li
-          id="cashier"
-          onMouseEnter={selectNavList}
-          onMouseLeave={diselectNavList}
-        >
-          <div className="navMobileContentBtn">
+        <li>
+          <div
+            id="cashier"
+            className="navMobileContentBtn"
+            onClick={() => navigate('../cashier')}
+            onMouseEnter={selectNavList}
+            onMouseLeave={diselectNavList}
+          >
             <Icon as={PointOfSaleRoundedIcon} fontSize={'xx-large'} />
             <Text
               style={{ color: 'var(--primary-200)' }}
@@ -104,12 +104,14 @@ const Nav = ({ active }) => {
         </li>
 
         {/* Transactions */}
-        <li
-          id="transactions"
-          onMouseEnter={selectNavList}
-          onMouseLeave={diselectNavList}
-        >
-          <div className="navMobileContentBtn">
+        <li>
+          <div
+            id="transactions"
+            className="navMobileContentBtn"
+            onClick={() => navigate('../transactions')}
+            onMouseEnter={selectNavList}
+            onMouseLeave={diselectNavList}
+          >
             <Icon as={ReceiptRoundedIcon} fontSize={'xx-large'} />
             <Text
               style={{ color: 'var(--primary-200)' }}
@@ -122,12 +124,16 @@ const Nav = ({ active }) => {
         </li>
 
         {/* Other */}
-        <div id="navOther">
+        <li id="navOther">
           <Menu>
-            <MenuButton aria-label="Other">
+            <MenuButton aria-label="Other" w={'100%'}>
               <div className="navMobileContentBtn">
                 <Icon as={MoreVertRoundedIcon} fontSize={'xx-large'} />
-                <Text fontSize={'xs'} style={{ color: 'var(--primary-200)' }}>
+                <Text
+                  fontSize={'xs'}
+                  style={{ color: 'var(--primary-200)' }}
+                  pt={1}
+                >
                   Other
                 </Text>
               </div>
@@ -140,7 +146,7 @@ const Nav = ({ active }) => {
               <MenuItem>Stock</MenuItem>
             </MenuList>
           </Menu>
-        </div>
+        </li>
       </ul>
     </nav>
   );

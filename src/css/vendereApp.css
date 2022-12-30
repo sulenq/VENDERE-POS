@@ -50,38 +50,25 @@
 .navMobile > ul {
   display: flex;
   list-style: none;
-  align-items: center;
-  justify-content: space-around;
+  /* align-items: center; */
+  justify-content: center;
 }
 
-.navMobile > ul > li {
-  /* border: 1px solid black; */
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  padding: 0 4px;
-  padding-top: 14px;
-  padding-bottom: 12px;
-  cursor: pointer;
-}
+.navMobile > ul > li,
 #navOther {
-  display: flex;
-  justify-content: center;
   width: 100%;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  margin: 0 4px;
-  cursor: pointer;
 }
 
 .navMobileContentBtn {
+  /* border: 1px solid red; */
+  padding: 12px 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
   color: white;
+  cursor: pointer;
 }
 .navMobileContentBtnSelect {
-  width: 100%;
   background: linear-gradient(
     to bottom,
     var(--primary-400),
@@ -89,6 +76,7 @@
   );
   position: relative;
 }
+
 .navMobileContentBtnSelect::before {
   content: '';
   width: 100%;

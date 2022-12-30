@@ -19,11 +19,11 @@ export default function Cashier() {
   return (
     <div className="vendereApp">
       {screenWidth <= 820 ? (
-        <NavMobile active="cashier" />
+        <NavMobile active="debts" />
       ) : (
-        <Nav active="cashier" />
+        <Nav active="debts" />
       )}
-      <h1>cashier Page</h1>
+      <h1>debts Page</h1>
       <p>Screen width: {screenWidth}px</p>
     </div>
   );

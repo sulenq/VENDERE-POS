@@ -4,7 +4,7 @@ import { Box } from '@chakra-ui/react';
 import Nav from '../components/Nav';
 import NavMobile from '../components/NavMobile';
 
-export default function Cashier() {
+export default function Reports() {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [screenHeight, setScreenHeight] = useState(window.innerHeight);
 
@@ -19,11 +19,11 @@ export default function Cashier() {
   return (
     <div className="vendereApp">
       {screenWidth <= 820 ? (
-        <NavMobile active="cashier" />
+        <NavMobile active="reports" />
       ) : (
-        <Nav active="cashier" />
+        <Nav active="reports" />
       )}
-      <h1>cashier Page</h1>
+      <h1>reports Page</h1>
       <p>Screen width: {screenWidth}px</p>
     </div>
   );
