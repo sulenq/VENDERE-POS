@@ -25,11 +25,10 @@ const Nav = ({ active }) => {
     activeNav.classList.add('navMobileContentBtnSelect');
   });
 
-  const selectNavList = e => {
+  const selectNavList = targetId => {
     activeNav.classList.remove('navMobileContentBtnSelect');
-    const target = e.target;
-    const ul = document.querySelector('.navMobile > ul');
-
+    const target = document.querySelector(`#${targetId}`);
+    console.log(target);
     target.classList.add('navMobileContentBtnSelect');
   };
   const diselectNavList = e => {
@@ -49,7 +48,9 @@ const Nav = ({ active }) => {
             id="reports"
             className="navMobileContentBtn"
             onClick={() => navigate('../reports')}
-            onMouseEnter={selectNavList}
+            onMouseEnter={() => {
+              selectNavList('reports');
+            }}
             onMouseLeave={diselectNavList}
           >
             <Icon as={SummarizeIcon} fontSize={'xx-large'} mx={'auto'} />
@@ -69,7 +70,9 @@ const Nav = ({ active }) => {
             id="debts"
             className="navMobileContentBtn"
             onClick={() => navigate('../debts')}
-            onMouseEnter={selectNavList}
+            onMouseEnter={() => {
+              selectNavList('debts');
+            }}
             onMouseLeave={diselectNavList}
           >
             <Icon as={MoneyOffIcon} fontSize={'xx-large'} />
@@ -89,7 +92,9 @@ const Nav = ({ active }) => {
             id="cashier"
             className="navMobileContentBtn"
             onClick={() => navigate('../cashier')}
-            onMouseEnter={selectNavList}
+            onMouseEnter={() => {
+              selectNavList('cashier');
+            }}
             onMouseLeave={diselectNavList}
           >
             <Icon as={PointOfSaleRoundedIcon} fontSize={'xx-large'} />
@@ -109,7 +114,9 @@ const Nav = ({ active }) => {
             id="transactions"
             className="navMobileContentBtn"
             onClick={() => navigate('../transactions')}
-            onMouseEnter={selectNavList}
+            onMouseEnter={() => {
+              selectNavList('transactions');
+            }}
             onMouseLeave={diselectNavList}
           >
             <Icon as={ReceiptRoundedIcon} fontSize={'xx-large'} />
