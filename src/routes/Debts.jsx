@@ -1,30 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Box } from '@chakra-ui/react';
 
-import Nav from '../components/Nav';
-import NavMobile from '../components/NavMobile';
+import ResponsiveNav from '../components/ResponsiveNav';
 
-export default function Cashier() {
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  const [screenHeight, setScreenHeight] = useState(window.innerHeight);
-
-  useEffect(() => {
-    function handleResize() {
-      setScreenWidth(window.innerWidth);
-      setScreenHeight(window.innerHeight);
-    }
-    window.addEventListener('resize', handleResize);
-  });
-
+export default function Debts() {
   return (
     <div className="vendereApp">
-      {screenWidth <= 820 ? (
-        <NavMobile active="debts" />
-      ) : (
-        <Nav active="debts" />
-      )}
+      <ResponsiveNav active={'debts'} />
       <h1>debts Page</h1>
-      <p>Screen width: {screenWidth}px</p>
     </div>
   );
 }

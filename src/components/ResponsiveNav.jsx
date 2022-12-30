@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Text,
@@ -17,7 +17,7 @@ import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
 import '../css/vendereApp.css';
 import { ColorModeSwitcher } from '../components/ColorModeSwitcher';
 
-const Nav = ({ active }) => {
+const NavMobile = ({ active }) => {
   let activeNav;
   console.log(active);
   useEffect(() => {
@@ -159,4 +159,53 @@ const Nav = ({ active }) => {
   );
 };
 
-export default Nav;
+const Nav = () => {
+  return (
+    <>
+      <div className="profile">
+        <img />
+        <Text>Username</Text>
+      </div>
+      <nav className="nav">
+        <ul>
+          <li>Cashier</li>
+          <li>Transaction</li>
+          <li>Debts</li>
+          <li>Reports</li>
+        </ul>
+
+        <ul>
+          <li>Support</li>
+          <li>Stock</li>
+        </ul>
+
+        <div className="profile">
+          <img />
+          <Text>Username</Text>
+        </div>
+      </nav>
+    </>
+  );
+};
+
+const ResponsiveNav = ({ active }) => {
+  // Width Meter
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    function handleResize() {
+      setScreenWidth(window.innerWidth);
+    }
+    window.addEventListener('resize', handleResize);
+  });
+  return (
+    <>
+      {screenWidth <= 820 ? (
+        <NavMobile active={active} />
+      ) : (
+        <Nav active={active} />
+      )}
+    </>
+  );
+};
+
+export default ResponsiveNav;
