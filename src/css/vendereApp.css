@@ -13,14 +13,33 @@
 }
 
 * {
-  box-sizing: border-box;
+  box-sizing: border-box !important;
+  scroll-behavior: smooth !important;
 }
 
-/* .vendereApp {
-  height: 100vh;
+body {
   background-image: url('../assets/appBg.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   background-position: center;
+}
+
+/* ::-webkit-scrollbar {
+  width: 12px;
+  border-radius: 16px;
+  background-color: var(--primary-100);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--primary-300);
+  border-radius: 16px;
 } */
+
+.vendereApp {
+  /* border: 1px solid blue; */
+  height: 100vh;
+  position: relative;
+}
 
 .items,
 .invoice {
@@ -33,29 +52,31 @@
 
 .navMobile {
   position: fixed;
-  width: calc(100% - 16px);
-  bottom: 0;
+  width: calc(100% - 24px);
+  height: 56px;
+  bottom: 8px;
+  padding: 0 32px;
+  margin: 0 12px;
+  border-radius: 16px;
   background-color: var(--primary-500);
+  transition: 0.3s;
   /* background: linear-gradient(
     to bottom,
     var(--primary-500),
     var(--primary-600)
   ); */
-  padding: 0 32px;
-  border-radius: 16px;
-  margin: 0 8px;
-  margin-bottom: 8px;
 }
 
 .navMobile > ul {
   display: flex;
   list-style: none;
-  /* align-items: center; */
+  align-items: center;
   justify-content: center;
 }
 
 .navMobile > ul > li,
 #navOther {
+  /* border: 1px solid white; */
   width: 100%;
 }
 
@@ -69,14 +90,9 @@
   cursor: pointer;
 }
 .navMobileContentBtnSelect {
-  background: linear-gradient(
-    to bottom,
-    var(--primary-400),
-    var(--primary-500)
-  );
+  background: linear-gradient(to bottom, var(--primary-400), transparent);
   position: relative;
 }
-
 .navMobileContentBtnSelect::before {
   content: '';
   width: 100%;
@@ -86,7 +102,8 @@
   top: 0;
 }
 
-#colorModeSwitcherMobile {
-  margin-left: 8px;
-  margin-bottom: 8px;
+.chartList {
+  /* border: 1px solid red; */
+  overflow: auto;
+  height: 100%;
 }

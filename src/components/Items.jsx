@@ -1,8 +1,12 @@
-import React from 'react';
+import '../css/vendereApp.css';
 
 const Items = () => {
   {
-    return <div className='items'>Items</div>;
+    return (
+      <div className="items">
+        <div className="wrapper"></div>
+      </div>
+    );
   }
 };
 

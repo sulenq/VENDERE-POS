@@ -12,15 +12,19 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import MoneyOffIcon from '@mui/icons-material/MoneyOff';
 import ReceiptRoundedIcon from '@mui/icons-material/ReceiptRounded';
 import PointOfSaleRoundedIcon from '@mui/icons-material/PointOfSaleRounded';
-import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
+import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
+import HelpRoundedIcon from '@mui/icons-material/HelpRounded';
+import Inventory2RoundedIcon from '@mui/icons-material/Inventory2Rounded';
 
 import '../css/vendereApp.css';
 import { ColorModeSwitcher } from '../components/ColorModeSwitcher';
 
 const NavMobile = ({ active }) => {
+  let nav;
   let activeNav;
   console.log(active);
   useEffect(() => {
+    nav = document.querySelector('.navMobile');
     activeNav = document.querySelector(`#${active}`);
     activeNav.classList.add('navMobileContentBtnSelect');
   });
@@ -28,12 +32,25 @@ const NavMobile = ({ active }) => {
   const selectNavList = targetId => {
     activeNav.classList.remove('navMobileContentBtnSelect');
     const target = document.querySelector(`#${targetId}`);
-    console.log(target);
     target.classList.add('navMobileContentBtnSelect');
+
+    const navLabels = document.querySelectorAll('.navLabel');
+    navLabels.forEach(navLabel => {
+      navLabel.style.display = 'block';
+    });
+    nav.style.height = '80px';
   };
-  const diselectNavList = e => {
-    const target = e.target;
+  const diselectNavList = targetId => {
+    const target = document.querySelector(`#${targetId}`);
+    const targetLabel = document.querySelector(`#${targetId} > p`);
     target.classList.remove('navMobileContentBtnSelect');
+    targetLabel.style.display = 'none';
+    nav.style.height = '56px';
+
+    const navLabels = document.querySelectorAll('.navLabel');
+    navLabels.forEach(navLabel => {
+      navLabel.style.display = 'none';
+    });
     activeNav.classList.add('navMobileContentBtnSelect');
   };
 
@@ -51,10 +68,12 @@ const NavMobile = ({ active }) => {
             onMouseEnter={() => {
               selectNavList('reports');
             }}
-            onMouseLeave={diselectNavList}
+            onMouseLeave={() => diselectNavList('reports')}
           >
             <Icon as={SummarizeIcon} fontSize={'xx-large'} mx={'auto'} />
             <Text
+              className="navLabel"
+              display={'none'}
               style={{ color: 'var(--primary-200)' }}
               fontSize={'xs'}
               pt={1}
@@ -73,10 +92,12 @@ const NavMobile = ({ active }) => {
             onMouseEnter={() => {
               selectNavList('debts');
             }}
-            onMouseLeave={diselectNavList}
+            onMouseLeave={() => diselectNavList('debts')}
           >
             <Icon as={MoneyOffIcon} fontSize={'xx-large'} />
             <Text
+              className="navLabel"
+              display={'none'}
               style={{ color: 'var(--primary-200)' }}
               fontSize={'xs'}
               pt={1}
@@ -95,10 +116,12 @@ const NavMobile = ({ active }) => {
             onMouseEnter={() => {
               selectNavList('cashier');
             }}
-            onMouseLeave={diselectNavList}
+            onMouseLeave={() => diselectNavList('cashier')}
           >
             <Icon as={PointOfSaleRoundedIcon} fontSize={'xx-large'} />
             <Text
+              className="navLabel"
+              display={'none'}
               style={{ color: 'var(--primary-200)' }}
               fontSize={'xs'}
               pt={1}
@@ -117,10 +140,12 @@ const NavMobile = ({ active }) => {
             onMouseEnter={() => {
               selectNavList('transactions');
             }}
-            onMouseLeave={diselectNavList}
+            onMouseLeave={() => diselectNavList('transactions')}
           >
             <Icon as={ReceiptRoundedIcon} fontSize={'xx-large'} />
             <Text
+              className="navLabel"
+              display={'none'}
               style={{ color: 'var(--primary-200)' }}
               fontSize={'xs'}
               pt={1}
@@ -130,22 +155,27 @@ const NavMobile = ({ active }) => {
           </div>
         </li>
 
-        {/* Other */}
+        {/* Profile */}
         <li id="navOther">
           <Menu>
             <MenuButton aria-label="Other" w={'100%'}>
-              <div className="navMobileContentBtn">
-                <Icon as={MoreVertRoundedIcon} fontSize={'xx-large'} />
+              <div id="profile" className="navMobileContentBtn">
+                <Icon as={AccountCircleRoundedIcon} fontSize={'xx-large'} />
                 <Text
-                  fontSize={'xs'}
+                  className="navLabel"
+                  display={'none'}
                   style={{ color: 'var(--primary-200)' }}
+                  fontSize={'xs'}
                   pt={1}
                 >
-                  Other
+                  Profile
                 </Text>
               </div>
             </MenuButton>
-            <MenuList minW={'150px'}>
+
+            <MenuList minW={'fit-content'}>
+              <div className="logo"></div>
+              <div className="profile"></div>
               <div id="colorModeSwitcherMobile">
                 <ColorModeSwitcher />
               </div>
