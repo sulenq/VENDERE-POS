@@ -6,7 +6,10 @@ export default function RedirectToCashier() {
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname === '/vendere-app') {
+    if (
+      location.pathname === '/vendere-app' ||
+      location.pathname === '/vendere-app/'
+    ) {
       navigate('/vendere-app/cashier');
     }
   }, [location, navigate]);

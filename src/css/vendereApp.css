@@ -1,7 +1,8 @@
 :root {
   --accent: #fdd100;
   --accent-dim: #d9b115;
-  --dark-dim: #
+  --dark-dim: #2d3748;
+  --dark: #1a202c;
   --primary-50: #e5f0fc;
   --primary-100: #ccdff9;
   --primary-200: #adc7ed;
@@ -110,7 +111,7 @@ body {
   top: 0;
 }
 
-.chartList {
+.cartList {
   /* border: 1px solid red; */
   overflow: auto;
   height: 100%;
