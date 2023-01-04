@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   useColorMode,
   Text,
@@ -80,7 +80,7 @@ function generateDummyChartList() {
 }
 // !!! DEV PURPOSE
 
-const Invoice = () => {
+const InvoiceMobile = () => {
   const { colorMode } = useColorMode();
   const [total, setTotal] = useState(1234567890);
   const [pay, setPay] = useState(0);
@@ -139,11 +139,8 @@ const Invoice = () => {
               </ModalHeader>
               <ModalCloseButton />
               <ModalBody p={0}>
-                <Input type={'text'} borderRadius={'50px'} />
+                <Input type={'text'} />
               </ModalBody>
-              {/* <ModalFooter>
-                <Button onClick={onClose}>Close</Button>
-              </ModalFooter> */}
             </ModalContent>
           </Modal>
 
@@ -199,6 +196,18 @@ const Invoice = () => {
       <ChartList chartList={chartList} colorMode={colorMode} />
     </VStack>
   );
+};
+
+const Invoice = () => {
+  // Width Meter
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    function handleResize() {
+      setScreenWidth(window.innerWidth);
+    }
+    window.addEventListener('resize', handleResize);
+  });
+  return <>{screenWidth <= 820 ? <InvoiceMobile /> : ''}</>;
 };
 
 export default Invoice;

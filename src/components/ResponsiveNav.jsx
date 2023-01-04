@@ -13,8 +13,6 @@ import MoneyOffIcon from '@mui/icons-material/MoneyOff';
 import ReceiptRoundedIcon from '@mui/icons-material/ReceiptRounded';
 import PointOfSaleRoundedIcon from '@mui/icons-material/PointOfSaleRounded';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
-import HelpRoundedIcon from '@mui/icons-material/HelpRounded';
-import Inventory2RoundedIcon from '@mui/icons-material/Inventory2Rounded';
 
 import '../css/vendereApp.css';
 import { ColorModeSwitcher } from '../components/ColorModeSwitcher';
@@ -32,6 +30,7 @@ const NavMobile = ({ active }) => {
   const selectNavList = targetId => {
     activeNav.classList.remove('navMobileContentBtnSelect');
     const target = document.querySelector(`#${targetId}`);
+    console.log(targetId);
     target.classList.add('navMobileContentBtnSelect');
 
     const navLabels = document.querySelectorAll('.navLabel');
@@ -156,33 +155,27 @@ const NavMobile = ({ active }) => {
         </li>
 
         {/* Profile */}
-        <li id="navOther">
-          <Menu>
-            <MenuButton aria-label="Other" w={'100%'}>
-              <div id="profile" className="navMobileContentBtn">
-                <Icon as={AccountCircleRoundedIcon} fontSize={'xx-large'} />
-                <Text
-                  className="navLabel"
-                  display={'none'}
-                  style={{ color: 'var(--primary-200)' }}
-                  fontSize={'xs'}
-                  pt={1}
-                >
-                  Profile
-                </Text>
-              </div>
-            </MenuButton>
-
-            <MenuList minW={'fit-content'}>
-              <div className="logo"></div>
-              <div className="profile"></div>
-              <div id="colorModeSwitcherMobile">
-                <ColorModeSwitcher />
-              </div>
-              <MenuItem>Support</MenuItem>
-              <MenuItem>Stock</MenuItem>
-            </MenuList>
-          </Menu>
+        <li>
+          <div
+            id="profile"
+            className="navMobileContentBtn"
+            onClick={() => navigate('../profile')}
+            onMouseEnter={() => {
+              selectNavList('profile');
+            }}
+            onMouseLeave={() => diselectNavList('profile')}
+          >
+            <Icon as={AccountCircleRoundedIcon} fontSize={'xx-large'} />
+            <Text
+              className="navLabel"
+              display={'none'}
+              style={{ color: 'var(--primary-200)' }}
+              fontSize={'xs'}
+              pt={1}
+            >
+              Profile
+            </Text>
+          </div>
         </li>
       </ul>
     </nav>

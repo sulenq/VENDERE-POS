@@ -9,6 +9,7 @@ import Cashier from './routes/Cashier';
 import Transactions from './routes/Transactions';
 import Debts from './routes/Debts';
 import Reports from './routes/Reports';
+import Profile from './routes/Profile';
 
 const BadRequest = () => {
   return <h1>404 TOD</h1>;
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="transactions" element={<Transactions />} />
           <Route path="debts" element={<Debts />} />
           <Route path="reports" element={<Reports />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
         <Route path="*" element={<BadRequest />} />
       </Routes>
