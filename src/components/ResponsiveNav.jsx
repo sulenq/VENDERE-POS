@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  Text,
-  Icon,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-} from '@chakra-ui/react';
+import { Text, Icon, Box, useColorMode } from '@chakra-ui/react';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import MoneyOffIcon from '@mui/icons-material/MoneyOff';
 import ReceiptRoundedIcon from '@mui/icons-material/ReceiptRounded';
@@ -15,7 +8,6 @@ import PointOfSaleRoundedIcon from '@mui/icons-material/PointOfSaleRounded';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 
 import '../css/vendereApp.css';
-import { ColorModeSwitcher } from '../components/ColorModeSwitcher';
 
 const NavMobile = ({ active }) => {
   let nav;
@@ -55,8 +47,12 @@ const NavMobile = ({ active }) => {
 
   const navigate = useNavigate();
 
+  const { colorMode } = useColorMode();
   return (
-    <nav className="navMobile">
+    <Box
+      className="navMobile"
+      background={colorMode === 'light' ? '#4f6aa9' : '#364d8d'}
+    >
       <ul>
         {/* Reports */}
         <li>
@@ -178,17 +174,13 @@ const NavMobile = ({ active }) => {
           </div>
         </li>
       </ul>
-    </nav>
+    </Box>
   );
 };
 
 const Nav = () => {
   return (
     <>
-      <div className="profile">
-        <img />
-        <Text>Username</Text>
-      </div>
       <nav className="nav">
         <ul>
           <li>Cashier</li>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import {
+  IconButton,
   useColorMode,
   Text,
   VStack,
@@ -14,13 +15,45 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  TableContainer,
   ModalCloseButton,
 } from '@chakra-ui/react';
 import AddShoppingCartRoundedIcon from '@mui/icons-material/AddShoppingCartRounded';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
 
 import '../css/vendereApp.css';
+import { ColorModeIconButton } from './ColorModeSwitcher';
+import Items from './Items';
+
+// !!! DEV PURPOSE
+function generateRandomData() {
+  // Generate random data
+
+  const data = {
+    code: Math.floor(Math.random() * 10000000).toString(),
+    name: 'Product ' + Math.floor(Math.random() * 1000),
+    price: Math.random() * (100000 - 100) + 100,
+    qty: (Math.random() * (10 - 1) + 1).toFixed(1),
+  };
+  return data;
+}
+function generateDummy() {
+  let dummyChartList = [];
+  for (let i = 0; i < 10; i++) {
+    dummyChartList.push(generateRandomData());
+  }
+
+  return dummyChartList;
+}
+// !!! DEV PURPOSE
 
 const ChartList = ({ chartList, colorMode }) => {
   if (chartList.length > 0) {
@@ -58,38 +91,19 @@ const ChartList = ({ chartList, colorMode }) => {
   }
 };
 
-// !!! DEV PURPOSE
-function generateRandomData() {
-  // Generate random data
-
-  const data = {
-    id: Math.random(),
-    name: 'Product ' + Math.floor(Math.random() * 1000),
-    price: Math.random() * (100000 - 100) + 100,
-    qty: (Math.random() * (10 - 1) + 1).toFixed(1),
-  };
-  return data;
-}
-function generateDummyChartList() {
-  let dummyChartList = [];
-  for (let i = 0; i < 10; i++) {
-    dummyChartList.push(generateRandomData());
-  }
-
-  return dummyChartList;
-}
-// !!! DEV PURPOSE
-
 const InvoiceMobile = () => {
   const { colorMode } = useColorMode();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [items, setItems] = useState(generateDummy);
   const [total, setTotal] = useState(1234567890);
   const [pay, setPay] = useState(0);
   const [change, setChange] = useState(1234567890);
-  const [chartList, setChartList] = useState(generateDummyChartList);
+  const [chartList, setChartList] = useState(generateDummy);
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [search, setSearch] = useState('');
 
-  const inputPayHandler = e => {
+  function inputPayHandler(e) {
     if (!e.target.value) {
       setPay(0);
     } else {
@@ -99,7 +113,7 @@ const InvoiceMobile = () => {
     console.log(parseInt(e.target.value));
     console.log(pay);
     console.log(change);
-  };
+  }
 
   return (
     <VStack
@@ -117,6 +131,7 @@ const InvoiceMobile = () => {
             Cashier's Name
           </Text>
         </VStack>
+
         <ButtonGroup>
           <Button
             leftIcon={<AddShoppingCartRoundedIcon />}
@@ -127,19 +142,156 @@ const InvoiceMobile = () => {
           >
             Add
           </Button>
+
           <Modal onClose={onClose} isOpen={isOpen} isCentered>
             <ModalOverlay
               bg="#00000070"
               backdropFilter="auto"
               backdropBlur="5px"
             />
-            <ModalContent py={4} px={6} borderRadius={12}>
+            <ModalContent
+              py={4}
+              px={4}
+              h={'95vh'}
+              w={'95%'}
+              m={'auto !important'}
+              borderRadius={12}
+              background={colorMode === 'light' ? '#ffffff' : '#1A202C'}
+            >
               <ModalHeader p={0} mb={4}>
-                Add Item
+                <HStack>
+                  <AddShoppingCartRoundedIcon />
+                  <Text fontWeight={'bold'}>Add Item</Text>
+                </HStack>
               </ModalHeader>
-              <ModalCloseButton />
+
+              <ModalCloseButton borderRadius={50} />
+
               <ModalBody p={0}>
-                <Input type={'text'} />
+                <HStack>
+                  <Input
+                    onChange={e => setSearch(e.target.value)}
+                    type={'text'}
+                    placeholder={'Search item by name or code'}
+                    w={'100%'}
+                    borderRadius={'50px 0 0 50px'}
+                    _focusVisible={{ border: '2px solid #ecc948' }}
+                  />
+                  <Button
+                    colorScheme={'yellow'}
+                    borderRadius={'0 50px 50px 0'}
+                    m={'0 !important'}
+                  >
+                    Search
+                  </Button>
+                </HStack>
+
+                <Box className="items">
+                  <TableContainer h={'80vh'} overflowY={'auto'}>
+                    <Table size={'sm'} variant="striped" colorScheme="gray">
+                      <Thead>
+                        <Tr>
+                          <Th>Code</Th>
+                          <Th>Name</Th>
+                          <Th textAlign={'center'}>Action</Th>
+                        </Tr>
+                      </Thead>
+                      <Tbody>
+                        {search
+                          ? items.map((item, index) => {
+                              if (
+                                item.name
+                                  .toLowerCase()
+                                  .includes(search.toLowerCase()) ||
+                                item.code.includes(search)
+                              ) {
+                                console.log(item.id);
+                                return (
+                                  <Tr key={index}>
+                                    <Td className="itemTd">{item.code}</Td>
+                                    <Td className="itemTd">
+                                      <Text fontWeight={'bold'}>
+                                        {item.name}
+                                      </Text>
+                                      <Text>
+                                        @ {item.price.toLocaleString()}
+                                      </Text>
+                                    </Td>
+                                    <Td>
+                                      <VStack>
+                                        <HStack>
+                                          <IconButton
+                                            variant={'ghost'}
+                                            colorScheme={'blackAlpha'}
+                                            icon={<RemoveRoundedIcon />}
+                                            borderRadius={50}
+                                          />
+                                          <Text>1</Text>
+                                          <IconButton
+                                            variant={'ghost'}
+                                            colorScheme={'blackAlpha'}
+                                            icon={<AddRoundedIcon />}
+                                            borderRadius={50}
+                                          />
+                                        </HStack>
+                                        <Button
+                                          size={'sm'}
+                                          colorScheme={'yellow'}
+                                          w={'100%'}
+                                          borderRadius={50}
+                                          variant={'outline'}
+                                        >
+                                          Add
+                                        </Button>
+                                      </VStack>
+                                    </Td>
+                                  </Tr>
+                                );
+                              }
+                            })
+                          : items.map((item, index) => {
+                              return (
+                                <Tr key={index}>
+                                  <Td className="itemTd">{item.code}</Td>
+                                  <Td className="itemTd">
+                                    <Text fontWeight={'bold'}>{item.name}</Text>
+                                    <Text>@ {item.price.toLocaleString()}</Text>
+                                  </Td>
+                                  <Td>
+                                    <VStack>
+                                      <HStack>
+                                        <IconButton
+                                          variant={'ghost'}
+                                          colorScheme={'blackAlpha'}
+                                          icon={<RemoveRoundedIcon />}
+                                          borderRadius={50}
+                                        />
+                                        <Text>1</Text>
+                                        <IconButton
+                                          variant={'ghost'}
+                                          colorScheme={'blackAlpha'}
+                                          icon={<AddRoundedIcon />}
+                                          borderRadius={50}
+                                        />
+                                      </HStack>
+                                      <Button
+                                        size={'sm'}
+                                        colorScheme={'yellow'}
+                                        w={'100%'}
+                                        borderRadius={50}
+                                        variant={'outline'}
+                                      >
+                                        Add
+                                      </Button>
+                                    </VStack>
+                                  </Td>
+                                </Tr>
+                              );
+                            })}
+                      </Tbody>
+                    </Table>
+                  </TableContainer>
+                </Box>
               </ModalBody>
             </ModalContent>
           </Modal>
@@ -147,6 +299,8 @@ const InvoiceMobile = () => {
           <Button borderRadius={'50px'} colorScheme={'yellow'}>
             CHECKOUT
           </Button>
+
+          <ColorModeIconButton />
         </ButtonGroup>
       </HStack>
 
@@ -207,7 +361,29 @@ const Invoice = () => {
     }
     window.addEventListener('resize', handleResize);
   });
-  return <>{screenWidth <= 820 ? <InvoiceMobile /> : ''}</>;
+
+  const { colorMode } = useColorMode();
+  const [items, setItems] = useState(generateDummy);
+  const [total, setTotal] = useState(1234567890);
+  const [pay, setPay] = useState(0);
+  const [change, setChange] = useState(1234567890);
+  const [chartList, setChartList] = useState(generateDummy);
+
+  return (
+    <>
+      {screenWidth <= 820 ? (
+        <InvoiceMobile
+          setItems={setItems}
+          setTotal={setTotal}
+          setPay={setPay}
+          setChange={setChange}
+          setChartList={setChartList}
+        />
+      ) : (
+        ''
+      )}
+    </>
+  );
 };
 
 export default Invoice;

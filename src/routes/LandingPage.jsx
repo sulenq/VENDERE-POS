@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@chakra-ui/react';
 
-import { ColorModeSwitcher } from '../components/ColorModeSwitcher';
+import { ColorModeIconButton } from '../components/ColorModeSwitcher';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ export default function Home() {
   };
   return (
     <div className="home">
-      <ColorModeSwitcher />
+      <ColorModeIconButton />
       <Button onClick={vendereApp}>Vendere App</Button>
     </div>
   );

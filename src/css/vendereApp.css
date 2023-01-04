@@ -1,6 +1,7 @@
 :root {
   --accent: #fdd100;
   --accent-dim: #d9b115;
+  --dark-dim: #
   --primary-50: #e5f0fc;
   --primary-100: #ccdff9;
   --primary-200: #adc7ed;
@@ -14,7 +15,13 @@
 
 * {
   box-sizing: border-box !important;
+}
+
+html,
+body,
+#root {
   scroll-behavior: smooth !important;
+  height: 100%;
 }
 
 body {
@@ -37,7 +44,8 @@ body {
 
 .vendereApp {
   /* border: 1px solid blue; */
-  height: 100vh;
+  height: 100%;
+  display: flex;
   position: relative;
 }
 
@@ -58,7 +66,7 @@ body {
   padding: 0 32px;
   margin: 0 12px;
   border-radius: 16px;
-  background-color: var(--primary-500);
+  /* background-color: var(--primary-500); */
   transition: 0.3s;
   /* background: linear-gradient(
     to bottom,
@@ -106,4 +114,14 @@ body {
   /* border: 1px solid red; */
   overflow: auto;
   height: 100%;
+}
+
+.items {
+  border: none;
+  height: 70vh;
+  margin-top: 12px;
+}
+
+.itemTd {
+  vertical-align: top;
 }
