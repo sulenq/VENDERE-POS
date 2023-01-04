@@ -60,9 +60,10 @@ function generateDummy() {
 // !!! DEV PURPOSE
 
 const CartList = ({ cartList, setCartList, colorMode, total, setTotal }) => {
-  function deleteItem(itemCode) {
+  function deleteItem(itemCode, itemTotalPrice) {
     const updatedCartList = cartList.filter(item => item.code !== itemCode);
     setCartList(updatedCartList);
+    setTotal(total - itemTotalPrice);
   }
 
   if (cartList.length > 0) {
@@ -87,7 +88,7 @@ const CartList = ({ cartList, setCartList, colorMode, total, setTotal }) => {
                   {/* Counter Qty */}
                 </VStack>
                 <VStack alignItems={'flex-end'}>
-                  <Text fontWeight={'bold'}>
+                  <Text id={`totalItemPrice${item.code}`} fontWeight={'bold'}>
                     {(item.price * item.qty).toLocaleString()}
                   </Text>
 
@@ -98,7 +99,13 @@ const CartList = ({ cartList, setCartList, colorMode, total, setTotal }) => {
                       borderRadius={50}
                       icon={<DeleteForeverRoundedIcon />}
                       onClick={() => {
-                        deleteItem(item.code);
+                        const itemQty = document.querySelector(
+                          `#qtyCart${item.code}`
+                        );
+                        deleteItem(
+                          item.code,
+                          item.price * parseInt(itemQty.textContent)
+                        );
                       }}
                     />
                     <IconButton
@@ -117,6 +124,12 @@ const CartList = ({ cartList, setCartList, colorMode, total, setTotal }) => {
                           itemQty.textContent =
                             parseInt(itemQty.textContent) - 1;
                           setTotal(total - item.price);
+                          const totalItemPrice = document.querySelector(
+                            `#totalItemPrice${item.code}`
+                          );
+                          totalItemPrice.textContent = (
+                            item.price * parseInt(itemQty.textContent)
+                          ).toLocaleString();
                         }
                       }}
                     />
@@ -145,8 +158,15 @@ const CartList = ({ cartList, setCartList, colorMode, total, setTotal }) => {
                         const itemQty = document.querySelector(
                           `#qtyCart${item.code}`
                         );
+
                         itemQty.textContent = parseInt(itemQty.textContent) + 1;
                         setTotal(total + item.price);
+                        const totalItemPrice = document.querySelector(
+                          `#totalItemPrice${item.code}`
+                        );
+                        totalItemPrice.textContent = (
+                          item.price * parseInt(itemQty.textContent)
+                        ).toLocaleString();
                       }}
                     />
                   </HStack>
