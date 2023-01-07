@@ -37,29 +37,15 @@ import '../css/vendereApp.css';
 import { ColorModeIconButton } from './ColorModeSwitcher';
 import Items from './Items';
 
-// !!! DEV PURPOSE
-function generateRandomData() {
-  // Generate random data
-
-  const data = {
-    code: Math.floor(Math.random() * 10000000).toString(),
-    name: 'Product ' + Math.floor(Math.random() * 1000),
-    price: Math.random() * (100000 - 100) + 100,
-    qty: (Math.random() * (10 - 1) + 1).toFixed(1),
-  };
-  return data;
-}
-function generateDummy() {
-  let dummyCartList = [];
-  for (let i = 0; i < 10; i++) {
-    dummyCartList.push(generateRandomData());
-  }
-
-  return dummyCartList;
-}
-// !!! DEV PURPOSE
-
-const CartList = ({ cartList, setCartList, colorMode, total, setTotal }) => {
+const CartList = ({
+  cartList,
+  setCartList,
+  colorMode,
+  total,
+  setTotal,
+  pay,
+  setChange,
+}) => {
   function deleteItem(itemCode, itemTotalPrice) {
     const updatedCartList = cartList.filter(item => item.code !== itemCode);
     setCartList(updatedCartList);
@@ -69,7 +55,7 @@ const CartList = ({ cartList, setCartList, colorMode, total, setTotal }) => {
   if (cartList.length > 0) {
     return (
       <Box w={'100%'} overflow={'hidden'} pb={'64px'}>
-        <VStack w={'100%'} pr={2} className="cartList" mt={2}>
+        <VStack w={'100%'} className="cartList">
           {cartList.map((item, index) => {
             return (
               <HStack
@@ -80,18 +66,19 @@ const CartList = ({ cartList, setCartList, colorMode, total, setTotal }) => {
                 alignItems={'flex-start'}
                 justifyContent={'space-between'}
                 borderRadius={'8px'}
-                background={colorMode === 'light' ? '#eee' : '#2d3748'}
+                background={colorMode === 'light' ? '#f1f1f1' : '#2d3748'}
               >
                 <VStack alignItems={'flex-start'}>
                   <Text fontWeight={'bold'}>{item.name}</Text>
-                  <Text m="0 !important">@{item.price.toLocaleString()}</Text>
-                  {/* Counter Qty */}
+                  <Text m="0 !important">@ {item.price.toLocaleString()}</Text>
                 </VStack>
+
                 <VStack alignItems={'flex-end'}>
                   <Text id={`totalItemPrice${item.code}`} fontWeight={'bold'}>
-                    {(item.price * item.qty).toLocaleString()}
+                    {item.totalPrice.toLocaleString()}
                   </Text>
 
+                  {/* Counter Qty */}
                   <HStack>
                     <IconButton
                       opacity={'.5'}
@@ -124,12 +111,16 @@ const CartList = ({ cartList, setCartList, colorMode, total, setTotal }) => {
                           itemQty.textContent =
                             parseInt(itemQty.textContent) - 1;
                           setTotal(total - item.price);
-                          const totalItemPrice = document.querySelector(
-                            `#totalItemPrice${item.code}`
-                          );
-                          totalItemPrice.textContent = (
-                            item.price * parseInt(itemQty.textContent)
-                          ).toLocaleString();
+                          setChange(pay - (total - item.price));
+                          cartList.forEach(searchItem => {
+                            if (searchItem.code === item.code) {
+                              searchItem.qty = searchItem.qty - 1;
+                              searchItem.totalPrice =
+                                searchItem.price * searchItem.qty;
+                              return;
+                            }
+                          });
+                          console.log(cartList);
                         }
                       }}
                     />
@@ -158,15 +149,17 @@ const CartList = ({ cartList, setCartList, colorMode, total, setTotal }) => {
                         const itemQty = document.querySelector(
                           `#qtyCart${item.code}`
                         );
-
                         itemQty.textContent = parseInt(itemQty.textContent) + 1;
                         setTotal(total + item.price);
-                        const totalItemPrice = document.querySelector(
-                          `#totalItemPrice${item.code}`
-                        );
-                        totalItemPrice.textContent = (
-                          item.price * parseInt(itemQty.textContent)
-                        ).toLocaleString();
+                        setChange(pay - (total + item.price));
+                        cartList.forEach(searchItem => {
+                          if (searchItem.code === item.code) {
+                            searchItem.qty = searchItem.qty + 1;
+                            searchItem.totalPrice =
+                              searchItem.price * searchItem.qty;
+                            return;
+                          }
+                        });
                       }}
                     />
                   </HStack>
@@ -201,7 +194,6 @@ const CartList = ({ cartList, setCartList, colorMode, total, setTotal }) => {
 
 const InvoiceMobile = ({
   items,
-  setItems,
   cartList,
   setCartList,
   total,
@@ -212,10 +204,10 @@ const InvoiceMobile = ({
   setChange,
   search,
   setSearch,
+  addCartList,
 }) => {
   const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const toast = useToast();
 
   function inputPayHandler(e) {
     if (!e.target.value) {
@@ -225,24 +217,6 @@ const InvoiceMobile = ({
       setPay(parseInt(e.target.value));
       setChange(parseInt(e.target.value) - total);
     }
-  }
-
-  function addCartList(itemCode, itemName, itemPrice, itemQty) {
-    const newCartList = {
-      code: itemCode,
-      name: itemName,
-      price: itemPrice,
-      qty: itemQty,
-    };
-    setCartList(prevCartList => [...prevCartList, newCartList]);
-    setTotal(total + newCartList.price);
-    toast({
-      title: 'Item added.',
-      description: `${itemQty} ${itemName} added `,
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
-    });
   }
 
   return (
@@ -313,9 +287,10 @@ const InvoiceMobile = ({
                   <Button
                     colorScheme={'yellow'}
                     borderRadius={'0 50px 50px 0'}
+                    fontWeight={'bold'}
                     m={'0 !important'}
                   >
-                    Search
+                    SCAN
                   </Button>
                 </HStack>
 
@@ -339,7 +314,8 @@ const InvoiceMobile = ({
                           ) {
                             return (
                               <Tr key={index}>
-                                <Td className="itemTd">{item.code}</Td>
+                                {/* <Td className="itemTd">{item.code}</Td> */}
+                                <Td className="itemTd">code item</Td>
                                 <Td className="itemTd">
                                   <Text fontWeight={'bold'}>{item.name}</Text>
                                   <Text>@ {item.price.toLocaleString()}</Text>
@@ -444,19 +420,21 @@ const InvoiceMobile = ({
         </Text>
       </HStack>
 
+      {/* PAY & CHANGE */}
       <HStack m={'0 !important'} w={'100%'} gap={2}>
         <VStack w={'100%'} alignItems={'flex-start'}>
           <Text>Pay</Text>
           <Input
             px={2}
             mt={'4px !important'}
+            value={pay || ''}
             type={'number'}
             onChange={inputPayHandler}
             isDisabled={cartList.length > 0 ? false : true}
           />
         </VStack>
 
-        <VStack w={'100%'} alignItems={'flex-start'}>
+        <VStack w={'100%'} alignItems={'flex-start'} ml={'0 !important'}>
           <Text>Change</Text>
           <Box
             w={'100%'}
@@ -478,12 +456,26 @@ const InvoiceMobile = ({
         colorMode={colorMode}
         total={total}
         setTotal={setTotal}
+        pay={pay}
+        setChange={setChange}
       />
     </VStack>
   );
 };
 
-const Invoice = () => {
+const Invoice = ({
+  items,
+  cartList,
+  setCartList,
+  total,
+  setTotal,
+  pay,
+  setPay,
+  change,
+  setChange,
+  search,
+  setSearch,
+}) => {
   // Width Meter
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -493,20 +485,43 @@ const Invoice = () => {
     window.addEventListener('resize', handleResize);
   });
 
-  const [items, setItems] = useState(generateDummy);
-  const [total, setTotal] = useState(0);
-  const [pay, setPay] = useState(0);
-  const [change, setChange] = useState(0);
-  const [cartList, setCartList] = useState([]);
+  const toast = useToast();
 
-  const [search, setSearch] = useState('');
+  function addCartList(itemCode, itemName, itemPrice, itemQty) {
+    let itemInCartList = false;
+    const newCartList = {
+      code: itemCode,
+      name: itemName,
+      price: itemPrice,
+      qty: itemQty,
+      totalPrice: itemPrice * itemQty,
+    };
+    cartList.forEach(item => {
+      if (item.code === itemCode) {
+        itemInCartList = true;
+        item.qty = item.qty + itemQty;
+      }
+    });
+    if (!itemInCartList) {
+      setCartList(prevCartList => [...prevCartList, newCartList]);
+    }
+    // console.log(cartList);
+    setTotal(total + itemPrice * itemQty);
+    setChange(pay - (total + itemPrice * itemQty));
+    toast({
+      title: 'Item added.',
+      description: `${itemQty} ${itemName} added`,
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
+  }
 
   return (
     <>
       {screenWidth <= 820 ? (
         <InvoiceMobile
           items={items}
-          setItems={setItems}
           total={total}
           setTotal={setTotal}
           pay={pay}
@@ -517,6 +532,7 @@ const Invoice = () => {
           setCartList={setCartList}
           search={search}
           setSearch={setSearch}
+          addCartList={addCartList}
         />
       ) : (
         ''
