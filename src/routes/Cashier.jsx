@@ -38,6 +38,7 @@ export default function Cashier() {
   const [search, setSearch] = useState('');
 
   const { colorMode } = useColorMode();
+
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
     function handleResize() {
@@ -47,7 +48,6 @@ export default function Cashier() {
   });
 
   const url = 'http://localhost:8080/api/v1/products/get';
-
   useEffect(() => {
     fetch(url)
       .then(r => r.json())
