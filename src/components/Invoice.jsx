@@ -342,114 +342,118 @@ const InvoiceMobile = ({
                   </HStack>
 
                   {items.map((item, index) => {
-                    return (
-                      <HStack
-                        alignItems={'flex-start'}
-                        key={index}
-                        py={2}
-                        background={
-                          index % 2 === 1
-                            ? colorMode === 'light'
-                              ? '#f1f1f1'
-                              : '#2d3748'
-                            : ''
-                        }
-                      >
-                        <Text w={'30%'} p={'4px 8px'}>
-                          item code
-                        </Text>
-
-                        <VStack w={'40%'} alignItems={'flex-start'}>
-                          <Text>{item.name}</Text>
-                          <Text w={'40%'} m={'0 !important'}>
-                            @ {item.price}
+                    if (
+                      item.name.toLowerCase().includes(search.toLowerCase()) ||
+                      item.code.includes(search)
+                    ) {
+                      return (
+                        <HStack
+                          alignItems={'flex-start'}
+                          key={index}
+                          py={2}
+                          background={
+                            index % 2 === 1
+                              ? colorMode === 'light'
+                                ? '#f1f1f1'
+                                : '#2d3748'
+                              : ''
+                          }
+                        >
+                          <Text w={'30%'} p={'4px 8px'}>
+                            item code
                           </Text>
-                        </VStack>
 
-                        <VStack pr={2}>
-                          {/* Counter Qty */}
-                          <HStack>
-                            <IconButton
-                              m={'0 !important'}
-                              size={'sm'}
-                              variant={'ghost'}
-                              colorScheme={'yellow'}
-                              icon={<RemoveRoundedIcon />}
-                              borderRadius={50}
+                          <VStack w={'40%'} alignItems={'flex-start'}>
+                            <Text>{item.name}</Text>
+                            <Text w={'40%'} m={'0 !important'}>
+                              @ {item.price}
+                            </Text>
+                          </VStack>
+
+                          <VStack pr={2}>
+                            {/* Counter Qty */}
+                            <HStack>
+                              <IconButton
+                                m={'0 !important'}
+                                size={'sm'}
+                                variant={'ghost'}
+                                icon={<RemoveRoundedIcon />}
+                                borderRadius={50}
+                                onClick={() => {
+                                  const itemQty = document.querySelector(
+                                    `#qty${item.code}`
+                                  );
+                                  if (parseInt(itemQty.value) > 1) {
+                                    itemQty.value = parseInt(itemQty.value) - 1;
+                                  }
+                                }}
+                              />
+
+                              <Input
+                                m={'0 !important'}
+                                w={'40px'}
+                                h={'28px'}
+                                id={`qty${item.code}`}
+                                type={'number'}
+                                defaultValue={1}
+                                onFocus={e => e.target.select()}
+                                onChange={e => {
+                                  if (
+                                    e.target.value === '' ||
+                                    e.target.value === '0'
+                                  ) {
+                                    e.target.value = 1;
+                                  }
+                                }}
+                                _focusVisible={{ border: '1px solid #4f6aa9' }}
+                                p={'0'}
+                                border={'none'}
+                                textAlign={'center'}
+                              />
+
+                              <IconButton
+                                size={'sm'}
+                                m={'0 !important'}
+                                onClick={() => {
+                                  const itemQty = document.querySelector(
+                                    `#qty${item.code}`
+                                  );
+                                  itemQty.value = parseInt(itemQty.value) + 1;
+                                }}
+                                variant={'ghost'}
+                                icon={<AddRoundedIcon />}
+                                borderRadius={50}
+                              />
+                            </HStack>
+
+                            {/* Add Button */}
+                            <Button
                               onClick={() => {
-                                const itemQty = document.querySelector(
-                                  `#qty${item.code}`
+                                const itemQty = parseInt(
+                                  document.querySelector(`#qty${item.code}`)
+                                    .value
                                 );
-                                if (parseInt(itemQty.value) > 1) {
-                                  itemQty.value = parseInt(itemQty.value) - 1;
+                                if (itemQty !== 0) {
+                                  addCartList(
+                                    item.code,
+                                    item.name,
+                                    item.price,
+                                    itemQty
+                                  );
                                 }
                               }}
-                            />
-
-                            <Input
-                              m={'0 !important'}
-                              w={'40px'}
-                              h={'28px'}
-                              id={`qty${item.code}`}
-                              type={'number'}
-                              defaultValue={1}
-                              onFocus={e => e.target.select()}
-                              onChange={e => {
-                                if (
-                                  e.target.value === '' ||
-                                  e.target.value === '0'
-                                ) {
-                                  e.target.value = 1;
-                                }
-                              }}
-                              _focusVisible={{ border: '1px solid #b7791f' }}
-                              p={'0'}
-                              border={'none'}
-                              textAlign={'center'}
-                            />
-
-                            <IconButton
                               size={'sm'}
-                              m={'0 !important'}
-                              onClick={() => {
-                                const itemQty = document.querySelector(
-                                  `#qty${item.code}`
-                                );
-                                itemQty.value = parseInt(itemQty.value) + 1;
-                              }}
-                              variant={'ghost'}
                               colorScheme={'yellow'}
-                              icon={<AddRoundedIcon />}
+                              w={'100%'}
                               borderRadius={50}
-                            />
-                          </HStack>
-
-                          {/* Add Button */}
-                          <Button
-                            onClick={() => {
-                              const itemQty = parseInt(
-                                document.querySelector(`#qty${item.code}`).value
-                              );
-                              if (itemQty !== 0) {
-                                addCartList(
-                                  item.code,
-                                  item.name,
-                                  item.price,
-                                  itemQty
-                                );
-                              }
-                            }}
-                            size={'sm'}
-                            colorScheme={'yellow'}
-                            w={'100%'}
-                            borderRadius={50}
-                            variant={'outline'}
-                          >
-                            Add
-                          </Button>
-                        </VStack>
-                      </HStack>
-                    );
+                              variant={'outline'}
+                            >
+                              Add
+                            </Button>
+                          </VStack>
+                        </HStack>
+                      );
+                    }
                   })}
                 </Box>
               </ModalBody>

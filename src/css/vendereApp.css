@@ -18,6 +18,10 @@
   box-sizing: border-box !important;
 }
 
+::selection {
+  background-color: var(--primary-200);
+}
+
 html,
 body,
 #root {

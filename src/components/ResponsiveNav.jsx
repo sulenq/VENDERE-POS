@@ -51,7 +51,7 @@ const NavMobile = ({ active }) => {
   return (
     <Box
       className="navMobile"
-      background={colorMode === 'light' ? '#4f6aa9' : '#364d8d'}
+      background={colorMode === 'light' ? '#4f6aa9' : '#4f6aa9'}
     >
       <ul>
         {/* Reports */}
