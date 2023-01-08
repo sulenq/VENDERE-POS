@@ -115,7 +115,7 @@ export default function Home() {
             </ModalBody>
 
             <ModalFooter
-              bg={colorMode === 'light' ? '#f1f1f1' : '#1a202c'}
+              bg={colorMode === 'light' ? '#e5f0fc' : '#1a202c'}
               borderRadius={'0 0 10px 10px'}
             >
               <ButtonGroup>

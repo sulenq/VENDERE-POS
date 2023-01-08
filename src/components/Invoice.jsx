@@ -59,7 +59,7 @@ const CartList = ({
     return (
       <Box w={'100%'} overflow={'hidden'} pb={'64px'}>
         <VStack w={'100%'} className="cartList">
-          {cartList.map((item, index) => {
+          {cartList.slice(0).reverse().map((item, index) => {
             return (
               <HStack
                 key={index}
