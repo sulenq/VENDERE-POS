@@ -1,6 +1,7 @@
 :root {
   --accent: #fdd100;
   --accent-dim: #d9b115;
+  --dark-border: #505765;
   --dark-dim: #2d3748;
   --dark: #1a202c;
   --primary-50: #e5f0fc;
@@ -30,8 +31,23 @@ body,
 }
 
 body {
-  background-image: url('../assets/appBg.png');
+  background-image: url('../../public/assets/bg.png');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
+}
+
+.landingPage {
+  height: 100%;
+  overflow: auto;
+  background-image: url('../../public/assets/bg.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+.landingPage #hero {
+  /* border: 1px solid red; */
+  height: 110vh;
+  overflow: hidden;
 }
