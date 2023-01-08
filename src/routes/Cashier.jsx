@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Box, useColorMode } from '@chakra-ui/react';
+import { Box, useColorMode, HStack } from '@chakra-ui/react';
 import '../css/vendereApp.css';
-import { setCookie } from 'set-cookie';
 
 import ResponsiveNav from '../components/ResponsiveNav';
 import Items from '../components/Items';
@@ -29,7 +28,7 @@ export default function Cashier() {
     return dummyCartList;
   }
   // !!! DEV PURPOSE
-
+  const [invoice, setInvoice] = useState({});
   const [items, setItems] = useState([]);
   const [total, setTotal] = useState(0);
   const [pay, setPay] = useState(0);
@@ -57,7 +56,7 @@ export default function Cashier() {
   return (
     <Box className="vendereApp">
       <ResponsiveNav active={'cashier'} />
-      <Box
+      <HStack
         borderRadius={'10px solid red'}
         h={'100%'}
         w={'100%'}
@@ -77,8 +76,9 @@ export default function Cashier() {
           setCartList={setCartList}
           search={search}
           setSearch={setSearch}
+          setInvoice={setInvoice}
         />
-      </Box>
+      </HStack>
     </Box>
   );
 }

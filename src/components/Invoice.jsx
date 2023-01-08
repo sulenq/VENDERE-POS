@@ -17,6 +17,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalBody,
+  ModalFooter,
   Table,
   Thead,
   Tbody,
@@ -32,6 +33,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
 import RemoveShoppingCartRoundedIcon from '@mui/icons-material/RemoveShoppingCartRounded';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
+import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 
 import '../css/vendereApp.css';
 import { ColorModeIconButton } from './ColorModeSwitcher';
@@ -58,7 +60,6 @@ const CartList = ({
       <Box w={'100%'} overflow={'hidden'} pb={'64px'}>
         <VStack w={'100%'} className="cartList">
           {cartList.map((item, index) => {
-            console.log(cartList);
             return (
               <HStack
                 key={index}
@@ -122,7 +123,6 @@ const CartList = ({
                               return;
                             }
                           });
-                          console.log(cartList);
                         }
                       }}
                     />
@@ -232,9 +232,12 @@ const InvoiceMobile = ({
   search,
   setSearch,
   addCartList,
+  clearInvoice,
+  checkout,
 }) => {
   const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const searchItem = useRef(null);
 
   function inputPayHandler(e) {
     if (!e.target.value) {
@@ -246,8 +249,94 @@ const InvoiceMobile = ({
     }
   }
 
+  const Checkout = () => {
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const checkoutBtn = useRef(null);
+
+    return (
+      <>
+        <Button
+          onClick={() => {
+            if (cartList.length > 0) {
+              onOpen();
+            }
+          }}
+          borderRadius={'50px'}
+          colorScheme={'yellow'}
+          size={'sm'}
+        >
+          CHECKOUT
+        </Button>
+        <Modal
+          initialFocusRef={checkoutBtn}
+          onClose={onClose}
+          isOpen={isOpen}
+          isCentered
+        >
+          <ModalOverlay
+            bg="#00000070"
+            backdropFilter="auto"
+            backdropBlur="5px"
+          />
+          <ModalContent
+            py={4}
+            px={4}
+            // h={'95%'}
+            w={'95%'}
+            m={'auto !important'}
+            borderRadius={12}
+            background={colorMode === 'light' ? '#ffffff' : '#1A202C'}
+          >
+            <ModalHeader p={0}>
+              <HStack>
+                <ShoppingCartCheckoutIcon />
+                <Text fontWeight={'bold'}>Checkout ?</Text>
+              </HStack>
+            </ModalHeader>
+
+            {/* <ModalCloseButton borderRadius={50} /> */}
+
+            <ModalBody pl={8}>
+              <Text>
+                This Invoice will be added to Transactions, are you sure you
+                wanna checkout this invoice?
+              </Text>
+            </ModalBody>
+
+            <ModalFooter p={0} mt={4}>
+              <ButtonGroup>
+                <Button
+                  variant={'ghost'}
+                  size={'sm'}
+                  className="btn"
+                  onClick={onClose}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  ref={checkoutBtn}
+                  size={'sm'}
+                  className="btn"
+                  colorScheme={'yellow'}
+                  onClick={() => {
+                    checkout('sulenq', total, pay, change, cartList);
+                    onClose();
+                    clearInvoice();
+                  }}
+                >
+                  Checkout
+                </Button>
+              </ButtonGroup>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </>
+    );
+  };
+
   return (
     <VStack
+      w={'100%'}
       height={'100%'}
       borderRadius={'20px'}
       alignItems={'flex-start'}
@@ -271,11 +360,16 @@ const InvoiceMobile = ({
             variant={'outline'}
             borderRadius={'50px'}
             colorScheme={'yellow'}
+            size={'sm'}
           >
             Add
           </Button>
-
-          <Modal onClose={onClose} isOpen={isOpen} isCentered>
+          <Modal
+            onClose={onClose}
+            isOpen={isOpen}
+            isCentered
+            initialFocusRef={searchItem}
+          >
             <ModalOverlay
               bg="#00000070"
               backdropFilter="auto"
@@ -308,6 +402,7 @@ const InvoiceMobile = ({
                 {/* Search Item */}
                 <HStack>
                   <Input
+                    ref={searchItem}
                     onFocus={e => e.target.select()}
                     onChange={e => setSearch(e.target.value)}
                     type={'text'}
@@ -460,11 +555,17 @@ const InvoiceMobile = ({
             </ModalContent>
           </Modal>
 
-          <Button borderRadius={'50px'} colorScheme={'yellow'}>
-            CHECKOUT
-          </Button>
+          <Checkout />
 
-          <ColorModeIconButton />
+          <Button
+            onClick={clearInvoice}
+            size={'sm'}
+            borderRadius={50}
+            fontWeight={'bold'}
+            variant={'outline'}
+          >
+            C
+          </Button>
         </ButtonGroup>
       </HStack>
 
@@ -556,6 +657,7 @@ const InvoiceDesktop = ({
   return (
     <VStack
       height={'100%'}
+      width={'100%'}
       borderRadius={'20px'}
       alignItems={'flex-start'}
       py={2}
@@ -652,6 +754,7 @@ const Invoice = ({
   setChange,
   search,
   setSearch,
+  setInvoice,
 }) => {
   // Width Meter
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -702,6 +805,42 @@ const Invoice = ({
     });
   }
 
+  function clearInvoice() {
+    setCartList([]);
+    setTotal(0);
+    setPay(0);
+    setChange(0);
+    setSearch('');
+  }
+
+  function checkout(chasierName, total, pay, change, cartList) {
+    if (total !== 0) {
+      let status = 'lunas';
+      if (change * -1 > 0) {
+        status = 'hutang';
+      }
+      const invoice = {
+        date: new Date(),
+        chasierName: chasierName,
+        total: total,
+        pay: pay,
+        change: change,
+        cartList: cartList,
+        status: status,
+      };
+
+      toast({
+        title: 'Transaction added.',
+        description: `This transaction has been added to Transactions`,
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+      console.log(invoice);
+    }
+    return;
+  }
+
   return (
     <>
       {screenWidth <= 820 ? (
@@ -718,6 +857,8 @@ const Invoice = ({
           search={search}
           setSearch={setSearch}
           addCartList={addCartList}
+          clearInvoice={clearInvoice}
+          checkout={checkout}
         />
       ) : (
         <InvoiceDesktop
@@ -733,6 +874,8 @@ const Invoice = ({
           search={search}
           setSearch={setSearch}
           addCartList={addCartList}
+          clearInvoice={clearInvoice}
+          setInvoice={setInvoice}
         />
       )}
     </>

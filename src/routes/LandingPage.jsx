@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@chakra-ui/react';
+import { Button, HStack } from '@chakra-ui/react';
+import '../css/landingPage.css';
 
 import { ColorModeIconButton } from '../components/ColorModeSwitcher';
 
@@ -9,10 +10,14 @@ export default function Home() {
   const vendereApp = () => {
     navigate('/vendere-app/cashier');
   };
+
   return (
-    <div className="home">
-      <ColorModeIconButton />
-      <Button onClick={vendereApp}>Vendere App</Button>
+    <div className="landingPage">
+      <HStack>
+        <Text>
+          
+        </Text>
+      </HStack>
     </div>
   );
 }
