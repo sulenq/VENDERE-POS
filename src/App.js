@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import './css/vendereApp.css';
@@ -16,22 +16,34 @@ const BadRequest = () => {
 };
 
 export default function App() {
-  const AppRouter = () => {
-    return (
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/vendere-app">
-          <Route index element={<RedirectToCashier />} />
-          <Route path="cashier" element={<Cashier />} />
-          <Route path="transactions" element={<Transactions />} />
-          <Route path="debts" element={<Debts />} />
-          <Route path="reports" element={<Reports />} />
-          <Route path="profile" element={<Profile />} />
-        </Route>
-        <Route path="*" element={<BadRequest />} />
-      </Routes>
-    );
-  };
+  const [total, settotal] = useState(0);
+  const [cartList, setCartList] = useState([]);
+  const [search, setSearch] = useState('');
 
-  return <AppRouter />;
+  return (
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/vendere-app">
+        <Route index element={<RedirectToCashier />} />
+        <Route
+          path="cashier"
+          element={
+            <Cashier
+              total={total}
+              setTotal={settotal}
+              cartList={cartList}
+              setCartList={setCartList}
+              search={search}
+              setSearch={setSearch}
+            />
+          }
+        />
+        <Route path="transactions" element={<Transactions />} />
+        <Route path="debts" element={<Debts />} />
+        <Route path="reports" element={<Reports />} />
+        <Route path="profile" element={<Profile />} />
+      </Route>
+      <Route path="*" element={<BadRequest />} />
+    </Routes>
+  );
 }

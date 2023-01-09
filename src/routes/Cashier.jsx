@@ -6,7 +6,14 @@ import ResponsiveNav from '../components/ResponsiveNav';
 import Items from '../components/Items';
 import Invoice from '../components/Invoice';
 
-export default function Cashier() {
+export default function Cashier({
+  total,
+  setTotal,
+  cartList,
+  setCartList,
+  search,
+  setSearch,
+}) {
   // !!! DEV PURPOSE
   function generateRandomData() {
     // Generate random data
@@ -28,13 +35,10 @@ export default function Cashier() {
     return dummyCartList;
   }
   // !!! DEV PURPOSE
+
+  const [items, setItems] = useState(generateDummy);
+
   const [invoice, setInvoice] = useState({});
-  const [items, setItems] = useState([]);
-  const [total, setTotal] = useState(0);
-  const [pay, setPay] = useState(0);
-  const [change, setChange] = useState(0);
-  const [cartList, setCartList] = useState([]);
-  const [search, setSearch] = useState('');
 
   const { colorMode } = useColorMode();
 
@@ -68,10 +72,6 @@ export default function Cashier() {
           items={items}
           total={total}
           setTotal={setTotal}
-          pay={pay}
-          setPay={setPay}
-          change={change}
-          setChange={setChange}
           cartList={cartList}
           setCartList={setCartList}
           search={search}

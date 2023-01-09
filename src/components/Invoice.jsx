@@ -18,13 +18,6 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableContainer,
   ModalCloseButton,
   useToast,
 } from '@chakra-ui/react';
@@ -39,161 +32,159 @@ import '../css/vendereApp.css';
 import { ColorModeIconButton } from './ColorModeSwitcher';
 import Items from './Items';
 
-const CartList = ({
-  cartList,
-  setCartList,
-  colorMode,
-  total,
-  setTotal,
-  pay,
-  setChange,
-}) => {
+const CartList = ({ cartList, setCartList, colorMode, total, setTotal }) => {
   function deleteItem(itemCode, itemTotalPrice) {
     const updatedCartList = cartList.filter(item => item.code !== itemCode);
     setCartList(updatedCartList);
     setTotal(total - itemTotalPrice);
-    setChange(pay - (total - itemTotalPrice));
+    // setChange(pay - (total - itemTotalPrice));
   }
 
   if (cartList.length > 0) {
     return (
       <Box w={'100%'} overflow={'hidden'} pb={'64px'}>
         <VStack w={'100%'} className="cartList">
-          {cartList.slice(0).reverse().map((item, index) => {
-            return (
-              <HStack
-                key={index}
-                w={'100%'}
-                py={2}
-                px={4}
-                alignItems={'flex-start'}
-                justifyContent={'space-between'}
-                borderRadius={'8px'}
-                background={colorMode === 'light' ? '#f1f1f1' : '#2d3748'}
-              >
-                <VStack alignItems={'flex-start'}>
-                  <Text fontWeight={'bold'}>{item.name}</Text>
-                  <Text m="0 !important">@ {item.price.toLocaleString()}</Text>
-                </VStack>
+          {cartList
+            .slice(0)
+            .reverse()
+            .map((item, index) => {
+              return (
+                <HStack
+                  key={index}
+                  w={'100%'}
+                  py={2}
+                  px={4}
+                  alignItems={'flex-start'}
+                  justifyContent={'space-between'}
+                  borderRadius={'8px'}
+                  bg={colorMode === 'light' ? '#f1f1f1' : '#2d3748'}
+                >
+                  <VStack alignItems={'flex-start'}>
+                    <Text fontWeight={'bold'}>{item.name}</Text>
+                    <Text m="0 !important">
+                      @ {item.price.toLocaleString()}
+                    </Text>
+                  </VStack>
 
-                <VStack alignItems={'flex-end'}>
-                  <Text id={`totalItemPrice${item.code}`} fontWeight={'bold'}>
-                    {item.totalPrice.toLocaleString()}
-                  </Text>
+                  <VStack alignItems={'flex-end'}>
+                    <Text id={`totalItemPrice${item.code}`} fontWeight={'bold'}>
+                      {item.totalPrice.toLocaleString()}
+                    </Text>
 
-                  <HStack>
-                    <IconButton
-                      opacity={'.5'}
-                      variant={'ghost'}
-                      borderRadius={50}
-                      icon={<DeleteForeverRoundedIcon />}
-                      onClick={() => {
-                        const itemQty = document.querySelector(
-                          `#qtyCart${item.code}`
-                        );
-                        deleteItem(
-                          item.code,
-                          item.price * parseInt(itemQty.value)
-                        );
-                      }}
-                    />
+                    <HStack>
+                      <IconButton
+                        opacity={'.5'}
+                        variant={'ghost'}
+                        borderRadius={50}
+                        icon={<DeleteForeverRoundedIcon />}
+                        onClick={() => {
+                          const itemQty = document.querySelector(
+                            `#qtyCart${item.code}`
+                          );
+                          deleteItem(
+                            item.code,
+                            item.price * parseInt(itemQty.value)
+                          );
+                        }}
+                      />
 
-                    {/* Counter Qty */}
-                    <IconButton
-                      size={'sm'}
-                      variant={'ghost'}
-                      icon={<RemoveRoundedIcon />}
-                      // borderRadius={50}
-                      border={'1px solid #ccc'}
-                      borderRight={'none'}
-                      borderRadius={'10px 0 0 10px'}
-                      onClick={() => {
-                        const itemQty = document.querySelector(
-                          `#qtyCart${item.code}`
-                        );
-                        if (parseInt(itemQty.value) > 1) {
-                          itemQty.value = parseInt(itemQty.value) - 1;
-                          setTotal(total - item.price);
-                          setChange(pay - (total - item.price));
+                      {/* Counter Qty */}
+                      <IconButton
+                        size={'sm'}
+                        variant={'ghost'}
+                        icon={<RemoveRoundedIcon />}
+                        // borderRadius={50}
+                        border={'1px solid #ccc'}
+                        borderRight={'none'}
+                        borderRadius={'10px 0 0 10px'}
+                        onClick={() => {
+                          const itemQty = document.querySelector(
+                            `#qtyCart${item.code}`
+                          );
+                          if (parseInt(itemQty.value) > 1) {
+                            itemQty.value = parseInt(itemQty.value) - 1;
+                            setTotal(total - item.price);
+                            // setChange(pay - (total - item.price));
+                            cartList.forEach(searchItem => {
+                              if (searchItem.code === item.code) {
+                                searchItem.qty = searchItem.qty - 1;
+                                searchItem.totalPrice =
+                                  searchItem.price * searchItem.qty;
+                                return;
+                              }
+                            });
+                          }
+                        }}
+                      />
+
+                      <Input
+                        id={`qtyCart${item.code}`}
+                        border={'1px solid #ccc !important'}
+                        borderRadius={'0'}
+                        borderRight={'none'}
+                        borderLeft={'none'}
+                        onFocus={e => e.target.select()}
+                        m={'0 !important'}
+                        p={'0'}
+                        h={'32px'}
+                        w={'40px'}
+                        textAlign={'center'}
+                        type={'number'}
+                        value={item.qty}
+                        min={1}
+                        onChange={e => {
+                          let itemQty = parseInt(e.target.value);
+                          if (itemQty === 0 || e.target.value === '') {
+                            itemQty = 1;
+                            e.target.value = 1;
+                          }
+                          let updateTotal = 0;
                           cartList.forEach(searchItem => {
                             if (searchItem.code === item.code) {
-                              searchItem.qty = searchItem.qty - 1;
+                              searchItem.qty = itemQty;
+                              searchItem.totalPrice =
+                                searchItem.price * itemQty;
+                              updateTotal += searchItem.price * itemQty;
+                            } else {
+                              updateTotal += searchItem.price * searchItem.qty;
+                            }
+                          });
+                          setTotal(updateTotal);
+                          // setChange(pay - updateTotal);
+                        }}
+                      />
+
+                      <IconButton
+                        size={'sm'}
+                        variant={'ghost'}
+                        icon={<AddRoundedIcon />}
+                        border={'1px solid #ccc'}
+                        borderLeft={'none'}
+                        borderRadius={'0 10px 10px 0'}
+                        // borderRadius={50}
+                        m={'0 !important'}
+                        onClick={() => {
+                          const itemQty = document.querySelector(
+                            `#qtyCart${item.code}`
+                          );
+                          itemQty.value = parseInt(itemQty.value) + 1;
+                          setTotal(total + item.price);
+                          // setChange(pay - (total + item.price));
+                          cartList.forEach(searchItem => {
+                            if (searchItem.code === item.code) {
+                              searchItem.qty = searchItem.qty + 1;
                               searchItem.totalPrice =
                                 searchItem.price * searchItem.qty;
                               return;
                             }
                           });
-                        }
-                      }}
-                    />
-
-                    <Input
-                      id={`qtyCart${item.code}`}
-                      border={'1px solid #ccc !important'}
-                      borderRadius={'0'}
-                      borderRight={'none'}
-                      borderLeft={'none'}
-                      onFocus={e => e.target.select()}
-                      m={'0 !important'}
-                      p={'0'}
-                      h={'32px'}
-                      w={'40px'}
-                      textAlign={'center'}
-                      type={'number'}
-                      value={item.qty}
-                      min={1}
-                      onChange={e => {
-                        let itemQty = parseInt(e.target.value);
-                        if (itemQty === 0 || e.target.value === '') {
-                          itemQty = 1;
-                          e.target.value = 1;
-                        }
-                        let updateTotal = 0;
-                        cartList.forEach(searchItem => {
-                          if (searchItem.code === item.code) {
-                            searchItem.qty = itemQty;
-                            searchItem.totalPrice = searchItem.price * itemQty;
-                            updateTotal += searchItem.price * itemQty;
-                          } else {
-                            updateTotal += searchItem.price * searchItem.qty;
-                          }
-                        });
-                        setTotal(updateTotal);
-                        setChange(pay - updateTotal);
-                      }}
-                    />
-
-                    <IconButton
-                      size={'sm'}
-                      variant={'ghost'}
-                      icon={<AddRoundedIcon />}
-                      border={'1px solid #ccc'}
-                      borderLeft={'none'}
-                      borderRadius={'0 10px 10px 0'}
-                      // borderRadius={50}
-                      m={'0 !important'}
-                      onClick={() => {
-                        const itemQty = document.querySelector(
-                          `#qtyCart${item.code}`
-                        );
-                        itemQty.value = parseInt(itemQty.value) + 1;
-                        setTotal(total + item.price);
-                        setChange(pay - (total + item.price));
-                        cartList.forEach(searchItem => {
-                          if (searchItem.code === item.code) {
-                            searchItem.qty = searchItem.qty + 1;
-                            searchItem.totalPrice =
-                              searchItem.price * searchItem.qty;
-                            return;
-                          }
-                        });
-                      }}
-                    />
-                  </HStack>
-                </VStack>
-              </HStack>
-            );
-          })}
+                        }}
+                      />
+                    </HStack>
+                  </VStack>
+                </HStack>
+              );
+            })}
         </VStack>
       </Box>
     );
@@ -206,6 +197,7 @@ const CartList = ({
           color={colorMode === 'light' ? '#ccdff9' : '#2d3748'}
         />
         <Text
+          cursor={'default'}
           textAlign={'center'}
           w={'100%'}
           fontWeight={'bold'}
@@ -225,13 +217,9 @@ const InvoiceMobile = ({
   setCartList,
   total,
   setTotal,
-  pay,
-  setPay,
-  change,
-  setChange,
   search,
   setSearch,
-  addCartList,
+  addItemToCartList,
   clearInvoice,
   checkout,
 }) => {
@@ -239,19 +227,22 @@ const InvoiceMobile = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const searchItem = useRef(null);
 
-  function inputPayHandler(e) {
-    if (!e.target.value) {
-      setPay(0);
-      setChange(0 - total);
-    } else {
-      setPay(parseInt(e.target.value));
-      setChange(parseInt(e.target.value) - total);
-    }
-  }
-
   const Checkout = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const checkoutBtn = useRef(null);
+
+    const [pay, setPay] = useState(0);
+    const [change, setChange] = useState(pay - total);
+
+    function inputPayHandler(e) {
+      if (!e.target.value) {
+        setPay(0);
+        setChange(0 - total);
+      } else {
+        setPay(parseInt(e.target.value));
+        setChange(parseInt(e.target.value) - total);
+      }
+    }
 
     return (
       <>
@@ -267,6 +258,7 @@ const InvoiceMobile = ({
         >
           CHECKOUT
         </Button>
+
         <Modal
           initialFocusRef={checkoutBtn}
           onClose={onClose}
@@ -279,15 +271,13 @@ const InvoiceMobile = ({
             backdropBlur="5px"
           />
           <ModalContent
-            py={4}
-            px={4}
             // h={'95%'}
             w={'95%'}
             m={'auto !important'}
             borderRadius={12}
-            background={colorMode === 'light' ? '#ffffff' : '#1A202C'}
+            bg={colorMode === 'light' ? '#ffffff' : '#1A202C'}
           >
-            <ModalHeader p={0}>
+            <ModalHeader mb={4} px={4}>
               <HStack>
                 <ShoppingCartCheckoutIcon />
                 <Text fontWeight={'bold'}>Checkout ?</Text>
@@ -296,17 +286,77 @@ const InvoiceMobile = ({
 
             {/* <ModalCloseButton borderRadius={50} /> */}
 
-            <ModalBody pl={8}>
-              <Text>
+            <ModalBody px={6}>
+              <Text>Total</Text>
+              <HStack
+                m={'0 !important'}
+                w={'100%'}
+                alignItems={'flex-start'}
+                justifyContent={'space-between'}
+              >
+                <Text fontSize={'x-large'} fontWeight={'bold'}>
+                  Rp
+                </Text>
+
+                <Text fontSize={'xxx-large'} fontWeight={'bold'}>
+                  {total.toLocaleString()}
+                </Text>
+              </HStack>
+
+              {/* PAY & CHANGE */}
+              <HStack m={'0 !important'} w={'100%'} gap={2}>
+                <VStack w={'100%'} alignItems={'flex-start'}>
+                  <Text>Pay</Text>
+                  <Input
+                    px={2}
+                    mt={'4px !important'}
+                    value={pay || ''}
+                    type={'number'}
+                    onChange={inputPayHandler}
+                    onFocus={e => e.target.select()}
+                    _focusVisible={{ border: '1px solid var(--primary-500)' }}
+                    isDisabled={cartList.length > 0 ? false : true}
+                  />
+                </VStack>
+
+                <VStack
+                  w={'100%'}
+                  alignItems={'flex-start'}
+                  ml={'0 !important'}
+                >
+                  <Text>Change</Text>
+                  <Box
+                    w={'100%'}
+                    p={'7px'}
+                    mt={'4px !important'}
+                    border={
+                      colorMode === 'light'
+                        ? '1px solid #ddd'
+                        : '1px solid #2d3748'
+                    }
+                    borderRadius={'6px'}
+                  >
+                    <Text>{change.toLocaleString()}</Text>
+                  </Box>
+                </VStack>
+              </HStack>
+
+              <Text mt={4} fontSize={'sm'}>
                 This Invoice will be added to Transactions, are you sure you
                 wanna checkout this invoice?
               </Text>
             </ModalBody>
 
-            <ModalFooter p={0} mt={4}>
+            <ModalFooter
+              px={6}
+              mt={4}
+              bg={colorMode === 'light' ? '#e5f0fc' : '#1a202c'}
+              borderRadius={'0 0 10px 10px'}
+            >
               <ButtonGroup>
                 <Button
                   variant={'ghost'}
+                  colorScheme={'blackAlpha'}
                   size={'sm'}
                   className="btn"
                   onClick={onClose}
@@ -342,7 +392,7 @@ const InvoiceMobile = ({
       alignItems={'flex-start'}
       py={2}
       px={4}
-      background={colorMode === 'light' ? '#fff' : '#1A202C'}
+      bg={colorMode === 'light' ? '#fff' : '#1A202C'}
     >
       {/* ADD & CHECKOUT */}
       <HStack w={'100%'} justifyContent={'space-between'}>
@@ -382,12 +432,12 @@ const InvoiceMobile = ({
               w={'95%'}
               m={'auto !important'}
               borderRadius={12}
-              background={colorMode === 'light' ? '#ffffff' : '#1A202C'}
+              bg={colorMode === 'light' ? '#ffffff' : '#1A202C'}
             >
               <ModalHeader p={0} mb={4}>
                 <HStack>
                   <AddShoppingCartRoundedIcon />
-                  <Text fontWeight={'bold'}>Add Item</Text>
+                  <Text fontWeight={'bold'}>Add Item to Cart</Text>
                 </HStack>
               </ModalHeader>
 
@@ -446,7 +496,7 @@ const InvoiceMobile = ({
                           alignItems={'flex-start'}
                           key={index}
                           py={2}
-                          background={
+                          bg={
                             index % 2 === 1
                               ? colorMode === 'light'
                                 ? '#f1f1f1'
@@ -485,10 +535,10 @@ const InvoiceMobile = ({
                               />
 
                               <Input
+                                id={`qty${item.code}`}
                                 m={'0 !important'}
                                 w={'40px'}
                                 h={'28px'}
-                                id={`qty${item.code}`}
                                 type={'number'}
                                 defaultValue={1}
                                 onFocus={e => e.target.select()}
@@ -528,14 +578,18 @@ const InvoiceMobile = ({
                                   document.querySelector(`#qty${item.code}`)
                                     .value
                                 );
-                                if (itemQty !== 0) {
-                                  addCartList(
-                                    item.code,
-                                    item.name,
-                                    item.price,
-                                    itemQty
-                                  );
-                                }
+
+                                addItemToCartList(
+                                  item.code,
+                                  item.name,
+                                  item.price,
+                                  itemQty
+                                );
+                                document.querySelector(
+                                  `#qty${item.code}`
+                                ).value = 1;
+
+                                searchItem.current.select();
                               }}
                               size={'sm'}
                               colorScheme={'yellow'}
@@ -581,42 +635,13 @@ const InvoiceMobile = ({
         <Text fontSize={'x-large'} fontWeight={'bold'}>
           Rp
         </Text>
+
         <Text fontSize={'xxx-large'} fontWeight={'bold'}>
           {total.toLocaleString()}
         </Text>
       </HStack>
 
-      {/* PAY & CHANGE */}
-      <HStack m={'0 !important'} w={'100%'} gap={2}>
-        <VStack w={'100%'} alignItems={'flex-start'}>
-          <Text>Pay</Text>
-          <Input
-            px={2}
-            mt={'4px !important'}
-            value={pay || ''}
-            type={'number'}
-            onChange={inputPayHandler}
-            onFocus={e => e.target.select()}
-            _focusVisible={{ border: '1px solid var(--primary-500)' }}
-            isDisabled={cartList.length > 0 ? false : true}
-          />
-        </VStack>
-
-        <VStack w={'100%'} alignItems={'flex-start'} ml={'0 !important'}>
-          <Text>Change</Text>
-          <Box
-            w={'100%'}
-            p={'7px'}
-            mt={'4px !important'}
-            border={
-              colorMode === 'light' ? '1px solid #ddd' : '1px solid #2d3748'
-            }
-            borderRadius={'6px'}
-          >
-            <Text>{change.toLocaleString()}</Text>
-          </Box>
-        </VStack>
-      </HStack>
+      <Divider my={2} />
 
       <CartList
         cartList={cartList}
@@ -624,8 +649,6 @@ const InvoiceMobile = ({
         colorMode={colorMode}
         total={total}
         setTotal={setTotal}
-        pay={pay}
-        setChange={setChange}
       />
     </VStack>
   );
@@ -662,7 +685,7 @@ const InvoiceDesktop = ({
       alignItems={'flex-start'}
       py={2}
       px={4}
-      background={colorMode === 'light' ? '#fff' : '#1A202C'}
+      bg={colorMode === 'light' ? '#fff' : '#1A202C'}
     >
       {/* ADD & CHECKOUT */}
       <HStack w={'100%'} justifyContent={'space-between'}>
@@ -767,7 +790,7 @@ const Invoice = ({
 
   const toast = useToast();
 
-  function addCartList(itemCode, itemName, itemPrice, itemQty) {
+  function addItemToCartList(itemCode, itemName, itemPrice, itemQty) {
     let itemInCartList = false;
     const newCartList = {
       code: itemCode,
@@ -792,25 +815,18 @@ const Invoice = ({
     let updateTotal = itemPrice * itemQty;
 
     setTotal(total + updateTotal);
-    setChange(pay - (total + updateTotal));
-
+    // setChange(pay - (total + updateTotal));
     // console.log(cartList);
+    toast.closeAll();
 
     toast({
       title: 'Item added.',
-      description: `${itemQty} ${itemName} added`,
+      description: `${itemQty} ${itemName} added, total ${updateTotal.toLocaleString()}`,
       status: 'success',
       duration: 3000,
       isClosable: true,
+      toastOptions: { exit: 'none' },
     });
-  }
-
-  function clearInvoice() {
-    setCartList([]);
-    setTotal(0);
-    setPay(0);
-    setChange(0);
-    setSearch('');
   }
 
   function checkout(chasierName, total, pay, change, cartList) {
@@ -841,6 +857,12 @@ const Invoice = ({
     return;
   }
 
+  function clearInvoice() {
+    setCartList([]);
+    setTotal(0);
+    setSearch('');
+  }
+
   return (
     <>
       {screenWidth <= 820 ? (
@@ -856,7 +878,7 @@ const Invoice = ({
           setCartList={setCartList}
           search={search}
           setSearch={setSearch}
-          addCartList={addCartList}
+          addItemToCartList={addItemToCartList}
           clearInvoice={clearInvoice}
           checkout={checkout}
         />
@@ -873,7 +895,7 @@ const Invoice = ({
           setCartList={setCartList}
           search={search}
           setSearch={setSearch}
-          addCartList={addCartList}
+          addItemToCartList={addItemToCartList}
           clearInvoice={clearInvoice}
           setInvoice={setInvoice}
         />
