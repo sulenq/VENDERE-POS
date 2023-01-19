@@ -211,6 +211,160 @@ const CartList = ({ cartList, setCartList, colorMode, total, setTotal }) => {
   }
 };
 
+const Checkout = ({ total, checkout, cartList, clearInvoice }) => {
+  const { colorMode } = useColorMode();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const checkoutBtn = useRef(null);
+
+  const [pay, setPay] = useState(0);
+  const [change, setChange] = useState(pay - total);
+  console.log(pay, total, change, pay - total);
+
+  function inputPayHandler(e) {
+    if (!e.target.value) {
+      setPay(0);
+      setChange(0 - total);
+    } else {
+      setPay(parseInt(e.target.value));
+      setChange(parseInt(e.target.value) - total);
+    }
+  }
+
+  return (
+    <>
+      <Button
+        onClick={() => {
+          if (cartList.length > 0) {
+            onOpen();
+          }
+        }}
+        borderRadius={'50px'}
+        colorScheme={'yellow'}
+        size={'sm'}
+      >
+        CHECKOUT
+      </Button>
+
+      <Modal
+        initialFocusRef={checkoutBtn}
+        onClose={onClose}
+        isOpen={isOpen}
+        isCentered
+      >
+        <ModalOverlay
+          bg="#00000070"
+          backdropFilter="auto"
+          backdropBlur="15px"
+        />
+        <ModalContent
+          // h={'95%'}
+          w={'95%'}
+          m={'auto !important'}
+          borderRadius={12}
+          bg={colorMode === 'light' ? '#ffffff' : '#1A202C95'}
+        >
+          <ModalHeader mb={4} px={4}>
+            <HStack>
+              <ShoppingCartCheckoutIcon />
+              <Text fontWeight={'bold'}>Checkout ?</Text>
+            </HStack>
+          </ModalHeader>
+
+          {/* <ModalCloseButton borderRadius={50} /> */}
+
+          <ModalBody px={6}>
+            <Text>Total</Text>
+            <HStack
+              m={'0 !important'}
+              w={'100%'}
+              alignItems={'flex-start'}
+              justifyContent={'space-between'}
+            >
+              <Text fontSize={'x-large'} fontWeight={'bold'}>
+                Rp
+              </Text>
+
+              <Text fontSize={'xxx-large'} fontWeight={'bold'}>
+                {total.toLocaleString()}
+              </Text>
+            </HStack>
+
+            {/* PAY & CHANGE */}
+            <HStack m={'0 !important'} w={'100%'} gap={2}>
+              <VStack w={'100%'} alignItems={'flex-start'}>
+                <Text>Pay</Text>
+                <Input
+                  px={2}
+                  mt={'4px !important'}
+                  value={pay || ''}
+                  type={'number'}
+                  onChange={inputPayHandler}
+                  onFocus={e => e.target.select()}
+                  _focusVisible={{ border: '1px solid var(--primary-500)' }}
+                  isDisabled={cartList.length > 0 ? false : true}
+                />
+              </VStack>
+
+              <VStack w={'100%'} alignItems={'flex-start'} ml={'0 !important'}>
+                <Text>Change</Text>
+                <Box
+                  w={'100%'}
+                  p={'7px'}
+                  mt={'4px !important'}
+                  border={
+                    colorMode === 'light'
+                      ? '1px solid #ddd'
+                      : '1px solid #2d3748'
+                  }
+                  borderRadius={'6px'}
+                >
+                  <Text>{(pay - total).toLocaleString()}</Text>
+                </Box>
+              </VStack>
+            </HStack>
+
+            <Text mt={4} fontSize={'sm'}>
+              This Invoice will be added to Transactions, are you sure you wanna
+              checkout this invoice?
+            </Text>
+          </ModalBody>
+
+          <ModalFooter
+            px={6}
+            mt={4}
+            bg={colorMode === 'light' ? '#eff2f6' : '#1a202c'}
+            borderRadius={'0 0 10px 10px'}
+          >
+            <ButtonGroup>
+              <Button
+                variant={'ghost'}
+                size={'sm'}
+                className="btn"
+                onClick={onClose}
+              >
+                Cancel
+              </Button>
+              <Button
+                ref={checkoutBtn}
+                size={'sm'}
+                className="btn"
+                colorScheme={'yellow'}
+                onClick={() => {
+                  checkout('sulenq', total, pay, change, cartList);
+                  onClose();
+                  clearInvoice();
+                }}
+              >
+                Checkout
+              </Button>
+            </ButtonGroup>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+};
+
 const InvoiceMobile = ({
   items,
   cartList,
@@ -226,163 +380,6 @@ const InvoiceMobile = ({
   const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const searchItem = useRef(null);
-
-  const Checkout = () => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const checkoutBtn = useRef(null);
-
-    const [pay, setPay] = useState(0);
-    const [change, setChange] = useState(pay - total);
-
-    function inputPayHandler(e) {
-      if (!e.target.value) {
-        setPay(0);
-        setChange(0 - total);
-      } else {
-        setPay(parseInt(e.target.value));
-        setChange(parseInt(e.target.value) - total);
-      }
-    }
-
-    return (
-      <>
-        <Button
-          onClick={() => {
-            if (cartList.length > 0) {
-              onOpen();
-            }
-          }}
-          borderRadius={'50px'}
-          colorScheme={'yellow'}
-          size={'sm'}
-        >
-          CHECKOUT
-        </Button>
-
-        <Modal
-          initialFocusRef={checkoutBtn}
-          onClose={onClose}
-          isOpen={isOpen}
-          isCentered
-        >
-          <ModalOverlay
-            bg="#00000070"
-            backdropFilter="auto"
-            backdropBlur="5px"
-          />
-          <ModalContent
-            // h={'95%'}
-            w={'95%'}
-            m={'auto !important'}
-            borderRadius={12}
-            bg={colorMode === 'light' ? '#ffffff' : '#1A202C'}
-          >
-            <ModalHeader mb={4} px={4}>
-              <HStack>
-                <ShoppingCartCheckoutIcon />
-                <Text fontWeight={'bold'}>Checkout ?</Text>
-              </HStack>
-            </ModalHeader>
-
-            {/* <ModalCloseButton borderRadius={50} /> */}
-
-            <ModalBody px={6}>
-              <Text>Total</Text>
-              <HStack
-                m={'0 !important'}
-                w={'100%'}
-                alignItems={'flex-start'}
-                justifyContent={'space-between'}
-              >
-                <Text fontSize={'x-large'} fontWeight={'bold'}>
-                  Rp
-                </Text>
-
-                <Text fontSize={'xxx-large'} fontWeight={'bold'}>
-                  {total.toLocaleString()}
-                </Text>
-              </HStack>
-
-              {/* PAY & CHANGE */}
-              <HStack m={'0 !important'} w={'100%'} gap={2}>
-                <VStack w={'100%'} alignItems={'flex-start'}>
-                  <Text>Pay</Text>
-                  <Input
-                    px={2}
-                    mt={'4px !important'}
-                    value={pay || ''}
-                    type={'number'}
-                    onChange={inputPayHandler}
-                    onFocus={e => e.target.select()}
-                    _focusVisible={{ border: '1px solid var(--primary-500)' }}
-                    isDisabled={cartList.length > 0 ? false : true}
-                  />
-                </VStack>
-
-                <VStack
-                  w={'100%'}
-                  alignItems={'flex-start'}
-                  ml={'0 !important'}
-                >
-                  <Text>Change</Text>
-                  <Box
-                    w={'100%'}
-                    p={'7px'}
-                    mt={'4px !important'}
-                    border={
-                      colorMode === 'light'
-                        ? '1px solid #ddd'
-                        : '1px solid #2d3748'
-                    }
-                    borderRadius={'6px'}
-                  >
-                    <Text>{change.toLocaleString()}</Text>
-                  </Box>
-                </VStack>
-              </HStack>
-
-              <Text mt={4} fontSize={'sm'}>
-                This Invoice will be added to Transactions, are you sure you
-                wanna checkout this invoice?
-              </Text>
-            </ModalBody>
-
-            <ModalFooter
-              px={6}
-              mt={4}
-              bg={colorMode === 'light' ? '#e5f0fc' : '#1a202c'}
-              borderRadius={'0 0 10px 10px'}
-            >
-              <ButtonGroup>
-                <Button
-                  variant={'ghost'}
-                  colorScheme={'blackAlpha'}
-                  size={'sm'}
-                  className="btn"
-                  onClick={onClose}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  ref={checkoutBtn}
-                  size={'sm'}
-                  className="btn"
-                  colorScheme={'yellow'}
-                  onClick={() => {
-                    checkout('sulenq', total, pay, change, cartList);
-                    onClose();
-                    clearInvoice();
-                  }}
-                >
-                  Checkout
-                </Button>
-              </ButtonGroup>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </>
-    );
-  };
 
   return (
     <VStack
@@ -404,6 +401,8 @@ const InvoiceMobile = ({
         </VStack>
 
         <ButtonGroup>
+          <ColorModeIconButton size={'sm'} />
+
           <Button
             leftIcon={<AddShoppingCartRoundedIcon />}
             onClick={onOpen}
@@ -423,18 +422,17 @@ const InvoiceMobile = ({
             <ModalOverlay
               bg="#00000070"
               backdropFilter="auto"
-              backdropBlur="5px"
+              backdropBlur="15px"
             />
             <ModalContent
               py={4}
-              px={4}
               h={'95%'}
               w={'95%'}
               m={'auto !important'}
               borderRadius={12}
-              bg={colorMode === 'light' ? '#ffffff' : '#1A202C'}
+              bg={colorMode === 'light' ? '#ffffff' : '#1A202C95'}
             >
-              <ModalHeader p={0} mb={4}>
+              <ModalHeader py={0} px={4} mb={4}>
                 <HStack>
                   <AddShoppingCartRoundedIcon />
                   <Text fontWeight={'bold'}>Add Item to Cart</Text>
@@ -450,7 +448,7 @@ const InvoiceMobile = ({
                 flexDirection={'column'}
               >
                 {/* Search Item */}
-                <HStack>
+                <HStack px={4}>
                   <Input
                     ref={searchItem}
                     onFocus={e => e.target.select()}
@@ -474,7 +472,7 @@ const InvoiceMobile = ({
 
                 {/* Items */}
                 <Box className="items" fontSize={'sm'} overflowY={'auto'}>
-                  <HStack w={'100%'} p={'4px 8px'}>
+                  <HStack w={'100%'} p={'4px 8px'} px={5}>
                     <Text fontWeight={'bold'} w={'30%'}>
                       CODE
                     </Text>
@@ -493,6 +491,7 @@ const InvoiceMobile = ({
                     ) {
                       return (
                         <HStack
+                          px={4}
                           alignItems={'flex-start'}
                           key={index}
                           py={2}
@@ -500,7 +499,7 @@ const InvoiceMobile = ({
                             index % 2 === 1
                               ? colorMode === 'light'
                                 ? '#f1f1f1'
-                                : '#2d3748'
+                                : '#2d374895'
                               : ''
                           }
                         >
@@ -609,7 +608,12 @@ const InvoiceMobile = ({
             </ModalContent>
           </Modal>
 
-          <Checkout />
+          <Checkout
+            total={total}
+            checkout={checkout}
+            cartList={cartList}
+            clearInvoice={clearInvoice}
+          />
 
           <Button
             onClick={clearInvoice}
@@ -667,102 +671,7 @@ const InvoiceDesktop = ({
   const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  function inputPayHandler(e) {
-    if (!e.target.value) {
-      setPay(0);
-      setChange(0 - total);
-    } else {
-      setPay(parseInt(e.target.value));
-      setChange(parseInt(e.target.value) - total);
-    }
-  }
-
-  return (
-    <VStack
-      height={'100%'}
-      width={'100%'}
-      borderRadius={'20px'}
-      alignItems={'flex-start'}
-      py={2}
-      px={4}
-      bg={colorMode === 'light' ? '#fff' : '#1A202C'}
-    >
-      {/* ADD & CHECKOUT */}
-      <HStack w={'100%'} justifyContent={'space-between'}>
-        <VStack alignItems={'flex-start'}>
-          <Text>31/12/2022</Text>
-          <Text fontWeight={'bold'} m="0 !important">
-            Cashier's Name
-          </Text>
-        </VStack>
-
-        <ButtonGroup>
-          <Button borderRadius={'50px'} colorScheme={'yellow'}>
-            CHECKOUT
-          </Button>
-
-          <ColorModeIconButton />
-        </ButtonGroup>
-      </HStack>
-
-      <Divider my={2} />
-
-      <Text>Total</Text>
-      <HStack
-        m={'0 !important'}
-        w={'100%'}
-        alignItems={'flex-start'}
-        justifyContent={'space-between'}
-      >
-        <Text fontSize={'x-large'} fontWeight={'bold'}>
-          Rp
-        </Text>
-        <Text fontSize={'xxx-large'} fontWeight={'bold'}>
-          {total.toLocaleString()}
-        </Text>
-      </HStack>
-
-      {/* PAY & CHANGE */}
-      <HStack m={'0 !important'} w={'100%'} gap={2}>
-        <VStack w={'100%'} alignItems={'flex-start'}>
-          <Text>Pay</Text>
-          <Input
-            px={2}
-            mt={'4px !important'}
-            value={pay || ''}
-            type={'number'}
-            onChange={inputPayHandler}
-            isDisabled={cartList.length > 0 ? false : true}
-          />
-        </VStack>
-
-        <VStack w={'100%'} alignItems={'flex-start'} ml={'0 !important'}>
-          <Text>Change</Text>
-          <Box
-            w={'100%'}
-            p={'7px'}
-            mt={'4px !important'}
-            border={
-              colorMode === 'light' ? '1px solid #ddd' : '1px solid #2d3748'
-            }
-            borderRadius={'6px'}
-          >
-            <Text>{change.toLocaleString()}</Text>
-          </Box>
-        </VStack>
-      </HStack>
-
-      <CartList
-        cartList={cartList}
-        setCartList={setCartList}
-        colorMode={colorMode}
-        total={total}
-        setTotal={setTotal}
-        pay={pay}
-        setChange={setChange}
-      />
-    </VStack>
-  );
+  return;
 };
 
 const Invoice = ({
@@ -825,7 +734,7 @@ const Invoice = ({
       status: 'success',
       duration: 3000,
       isClosable: true,
-      toastOptions: { exit: 'none' },
+      transition: 'none',
     });
   }
 

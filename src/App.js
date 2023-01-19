@@ -16,7 +16,7 @@ const BadRequest = () => {
 };
 
 export default function App() {
-  const [total, settotal] = useState(0);
+  const [total, setTotal] = useState(0);
   const [cartList, setCartList] = useState([]);
   const [search, setSearch] = useState('');
 
@@ -30,7 +30,7 @@ export default function App() {
           element={
             <Cashier
               total={total}
-              setTotal={settotal}
+              setTotal={setTotal}
               cartList={cartList}
               setCartList={setCartList}
               search={search}

@@ -31,7 +31,7 @@ body,
 }
 
 body {
-  background-image: url('../../public/assets/bg.png');
+  /* background-image: url('../../public/assets/bg.png'); */
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
@@ -40,7 +40,7 @@ body {
 .landingPage {
   height: 100%;
   overflow: auto;
-  background-image: url('../../public/assets/bg.png');
+  /* background-image: url('../../public/assets/appBg.png'); */
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
@@ -48,6 +48,6 @@ body {
 
 .landingPage #hero {
   /* border: 1px solid red; */
-  height: 110vh;
+  height: 95%;
   overflow: hidden;
 }

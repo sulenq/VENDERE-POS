@@ -6,16 +6,12 @@ import {
   HStack,
   Text,
   Box,
-  Stack,
-  Image,
   useDisclosure,
   Modal,
-  ModalOverlay,
   ModalContent,
   ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton,
   Icon,
   FormControl,
   Input,
@@ -23,18 +19,21 @@ import {
   useColorMode,
   Divider,
   VStack,
+  Select,
 } from '@chakra-ui/react';
 import '../css/landingPage.css';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircle';
 import GoogleIcon from '@mui/icons-material/Google';
 
 import { ColorModeIconButton } from '../components/ColorModeSwitcher';
+import { PrimaryButton } from '../components/Buttons';
+import { ModalOverlay } from '../components/Modals';
 
 export default function Home() {
   const navigate = useNavigate();
-  const vendereApp = () => {
+  function toVendereApp() {
     navigate('/vendere-app/cashier');
-  };
+  }
 
   const { colorMode } = useColorMode();
 
@@ -46,27 +45,76 @@ export default function Home() {
     window.addEventListener('resize', handleResize);
   });
 
+  const [loginEmail, setLoginEmail] = useState();
+  const [loginPassword, setLoginPassword] = useState();
+
   const SignUp = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const usernameSignup = useRef(null);
+    const registerFirstFocus = useRef();
+
+    const [registerUserType, setRegisterUserType] = useState('cashier');
+    const [registerShopName, setRegisterShopName] = useState();
+    const [registerShopCode, setRegisterShopCode] = useState();
+    const [registerDisplayName, setRegisterDisplayName] = useState();
+    const [registerEmail, setRegisterEmail] = useState();
+    const [registerPassword, setRegisterPassword] = useState();
+
+    function signUp() {
+      const URL = 'http://localhost:8080/api/v1/users/login';
+      let data;
+
+      switch (registerUserType) {
+        case 'admin':
+          data = {
+            userType: registerUserType,
+            shopName: registerShopName,
+            displayName: registerDisplayName,
+            email: registerEmail,
+            password: registerPassword,
+          };
+          break;
+        case 'cashier':
+          data = {
+            userType: registerUserType,
+            shopCode: registerShopCode,
+            displayName: registerDisplayName,
+            email: registerEmail,
+            password: registerPassword,
+          };
+          break;
+      }
+
+      fetch(URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+        .then(response => response.json())
+        .then(responseData => {
+          console.log(responseData);
+        });
+    }
 
     return (
       <>
-        <Button onClick={onOpen} className="btn" colorScheme={'yellow'}>
-          SIGN UP
-        </Button>
+        <PrimaryButton label="SIGN UP" onClick={onOpen} />
+
         <Modal
-          initialFocusRef={usernameSignup}
+          initialFocusRef={registerFirstFocus}
           isOpen={isOpen}
           onClose={onClose}
         >
-          <ModalOverlay
-            bg="#00000070"
-            backdropFilter="auto"
-            backdropBlur="5px"
-          />
+          <ModalOverlay />
 
-          <ModalContent borderRadius={12}>
+          <ModalContent
+            borderRadius={12}
+            w={'95%'}
+            bg={colorMode === 'light' ? '#ffffff' : '#1a202c95'}
+            backdropFilter="auto"
+            backdropBlur="20px"
+          >
             <ModalHeader>
               <HStack>
                 <Icon as={AccountCircleRoundedIcon} fontSize={'xx-large'} />
@@ -74,20 +122,147 @@ export default function Home() {
               </HStack>
             </ModalHeader>
 
-            <ModalBody pb={6}>
-              <FormControl isRequired>
-                <FormLabel>Name</FormLabel>
-                <Input
-                  ref={usernameSignup}
-                  placeholder="e.g Marco Leo"
-                  _focusVisible={{ border: '2px solid #fdd100' }}
+            <ModalBody py={6}>
+              <form id="signUpForm">
+                <FormControl isRequired>
+                  <FormLabel>Sign Up as</FormLabel>
+                  <Select
+                    ref={registerFirstFocus}
+                    _focusVisible={{ border: '2px solid #fdd100' }}
+                    onChange={e => {
+                      setRegisterUserType(e.target.value);
+                    }}
+                    value={registerUserType}
+                  >
+                    <option value="admin">Admin</option>
+                    <option value="cashier">Cashier</option>
+                  </Select>
+                </FormControl>
+
+                {registerUserType === 'admin' ? '' : ''}
+
+                <FormControl mt={4} isRequired>
+                  <FormLabel>Name</FormLabel>
+                  <Input
+                    placeholder="e.g Marco Leo"
+                    _focusVisible={{ border: '2px solid #fdd100' }}
+                    onChange={e => {
+                      setRegisterDisplayName(e.target.value);
+                    }}
+                  />
+                </FormControl>
+                <FormControl mt={4} isRequired>
+                  <FormLabel>E-mail</FormLabel>
+                  <Input
+                    placeholder="e.g marcoleo@email.com"
+                    _focusVisible={{ border: '2px solid #fdd100' }}
+                    onChange={e => {
+                      setRegisterEmail(e.target.value);
+                    }}
+                  />
+                </FormControl>
+                <FormControl mt={4} isRequired>
+                  <FormLabel>Password</FormLabel>
+                  <Input
+                    type={'password'}
+                    placeholder="Type strong password"
+                    _focusVisible={{ border: '2px solid #fdd100' }}
+                    onChange={e => {
+                      setRegisterPassword(e.target.value);
+                    }}
+                  />
+                </FormControl>
+              </form>
+
+              <HStack my={4} w={'100%'}>
+                <Divider />
+                <Text>or</Text>
+                <Divider />
+              </HStack>
+
+              <Button
+                w={'100%'}
+                py={6}
+                leftIcon={<GoogleIcon />}
+                variant={'outline'}
+              >
+                Login with Google
+              </Button>
+            </ModalBody>
+
+            <ModalFooter
+              bg={colorMode === 'light' ? '#eff2f6' : '#2d374830'}
+              borderRadius={'0 0 10px 10px'}
+            >
+              <ButtonGroup>
+                <Button className="btn" onClick={onClose} variant={'ghost'}>
+                  Cancel
+                </Button>
+                <PrimaryButton
+                  label={'Create Account'}
+                  onClick={signUp}
+                  type="submit"
+                  form="signUpForm"
                 />
-              </FormControl>
+              </ButtonGroup>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </>
+    );
+  };
+
+  const SignIn = () => {
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const emailSignIn = useRef();
+
+    function signIn() {
+      const URL = 'http://localhost:8080/api/v1/users/login';
+      let data = {
+        email: loginEmail,
+        password: loginPassword,
+      };
+
+      fetch(URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+        });
+    }
+
+    return (
+      <>
+        <PrimaryButton label={'SIGN IN'} onClick={onOpen} />
+
+        <Modal initialFocusRef={emailSignIn} isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+
+          <ModalContent
+            borderRadius={12}
+            w={'95%'}
+            bg={colorMode === 'light' ? '#ffffff' : '#1a202c95'}
+          >
+            <ModalHeader>
+              <HStack>
+                <Icon as={AccountCircleRoundedIcon} fontSize={'xx-large'} />
+                <Text>Let's Rock</Text>
+              </HStack>
+            </ModalHeader>
+
+            <ModalBody pb={6}>
               <FormControl mt={4} isRequired>
                 <FormLabel>E-mail</FormLabel>
                 <Input
+                  ref={emailSignIn}
                   placeholder="e.g marcoleo@email.com"
                   _focusVisible={{ border: '2px solid #fdd100' }}
+                  onChange={e => setLoginEmail(e.target.value)}
                 />
               </FormControl>
               <FormControl mt={4} isRequired>
@@ -96,6 +271,7 @@ export default function Home() {
                   type={'password'}
                   placeholder="Type strong password"
                   _focusVisible={{ border: '2px solid #fdd100' }}
+                  onChange={e => setLoginPassword(e.target.value)}
                 />
               </FormControl>
               <HStack my={4} w={'100%'}>
@@ -115,22 +291,14 @@ export default function Home() {
             </ModalBody>
 
             <ModalFooter
-              bg={colorMode === 'light' ? '#e5f0fc' : '#1a202c'}
+              bg={colorMode === 'light' ? '#eff2f6' : '#2d3748'}
               borderRadius={'0 0 10px 10px'}
             >
               <ButtonGroup>
-                <Button
-                  className="btn"
-                  onClick={onClose}
-                  variant={'ghost'}
-                  colorScheme={'blackAlpha'}
-                >
+                <Button className="btn" onClick={onClose} variant={'ghost'}>
                   Cancel
                 </Button>
-
-                <Button className="btn" colorScheme="yellow">
-                  Create Account
-                </Button>
+                <PrimaryButton label={'Sign In'} onClick={toVendereApp} />
               </ButtonGroup>
             </ModalFooter>
           </ModalContent>
@@ -145,7 +313,7 @@ export default function Home() {
       p={screenWidth <= 820 ? '16px 0' : '16px 100px'}
     >
       <HStack justifyContent={'space-between'} px={'24px'}>
-        <Text fontSize={'lg'} fontWeight={'bold'} color={'white'}>
+        <Text fontSize={'lg'} fontWeight={'bold'}>
           VENDERE
         </Text>
         <ButtonGroup>
@@ -153,43 +321,15 @@ export default function Home() {
 
           <SignUp />
 
-          <Button className="btn" colorScheme={'yellow'} onClick={vendereApp}>
-            SIGN IN
-          </Button>
+          <SignIn />
         </ButtonGroup>
       </HStack>
 
-      <Box id="hero" position={'relative'}>
-        <Image
-          opacity={'.5'}
-          src="./assets/vendere.png"
-          position={'absolute'}
-          w={'100%'}
-          top={'2rem'}
-        />
-        <Stack
-          position={'absolute'}
-          direction={screenWidth <= 820 ? 'column' : 'row-reverse'}
-          justifyContent={'center'}
-          alignItems={'center'}
-          w={'100%'}
-          h={'100%'}
-        >
-          <Box w={'100%'} ml={'100px!important'}>
-            <Image w={'100%'} src="./assets/toko.png" alt="hero" />
-          </Box>
-
-          <Text
-            fontSize={'4rem'}
-            fontWeight={'bold'}
-            lineHeight={'4.5rem'}
-            color={'white'}
-            px={'16px'}
-          >
-            Responsive, powerful system to grow your bussiness
-          </Text>
-        </Stack>
-      </Box>
+      <VStack id="hero" position={'relative'} justifyContent={'center'} px={10}>
+        <Text fontSize={'xxx-large'} fontWeight={'bold'} lineHeight={'3.75rem'}>
+          Responsive, powerful system to grow your bussiness
+        </Text>
+      </VStack>
     </Box>
   );
 }
