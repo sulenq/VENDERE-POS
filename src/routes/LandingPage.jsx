@@ -8,9 +8,7 @@ import {
   Box,
   useDisclosure,
   Modal,
-  ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   Icon,
   FormControl,
@@ -27,7 +25,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 
 import { ColorModeIconButton } from '../components/ColorModeSwitcher';
 import { PrimaryButton } from '../components/Buttons';
-import { ModalOverlay } from '../components/Modals';
+import { ModalOverlay, ModalContent, ModalFooter } from '../components/Modals';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -109,104 +107,107 @@ export default function Home() {
           <ModalOverlay />
 
           <ModalContent
-            borderRadius={12}
-            w={'95%'}
-            bg={colorMode === 'light' ? '#ffffff' : '#1a202c95'}
-            backdropFilter="auto"
-            backdropBlur="20px"
-          >
-            <ModalHeader>
-              <HStack>
-                <Icon as={AccountCircleRoundedIcon} fontSize={'xx-large'} />
-                <Text>Create Your Account</Text>
-              </HStack>
-            </ModalHeader>
+            content={
+              <>
+                <ModalHeader>
+                  <HStack>
+                    <Icon as={AccountCircleRoundedIcon} fontSize={'xx-large'} />
+                    <Text>Create Your Account</Text>
+                  </HStack>
+                </ModalHeader>
 
-            <ModalBody py={6}>
-              <form id="signUpForm">
-                <FormControl isRequired>
-                  <FormLabel>Sign Up as</FormLabel>
-                  <Select
-                    ref={registerFirstFocus}
-                    _focusVisible={{ border: '2px solid #fdd100' }}
-                    onChange={e => {
-                      setRegisterUserType(e.target.value);
-                    }}
-                    value={registerUserType}
+                <ModalBody py={6}>
+                  <form id="signUpForm">
+                    <FormControl isRequired>
+                      <FormLabel>Sign Up as</FormLabel>
+                      <Select
+                        ref={registerFirstFocus}
+                        _focusVisible={{ border: '2px solid #fdd100' }}
+                        onChange={e => {
+                          setRegisterUserType(e.target.value);
+                        }}
+                        value={registerUserType}
+                      >
+                        <option value="admin">Admin</option>
+                        <option value="cashier">Cashier</option>
+                      </Select>
+                    </FormControl>
+
+                    {registerUserType === 'admin' ? '' : ''}
+
+                    <FormControl mt={4} isRequired>
+                      <FormLabel>Name</FormLabel>
+                      <Input
+                        placeholder="e.g Marco Leo"
+                        _focusVisible={{ border: '2px solid #fdd100' }}
+                        onChange={e => {
+                          setRegisterDisplayName(e.target.value);
+                        }}
+                      />
+                    </FormControl>
+                    <FormControl mt={4} isRequired>
+                      <FormLabel>E-mail</FormLabel>
+                      <Input
+                        placeholder="e.g marcoleo@email.com"
+                        _focusVisible={{ border: '2px solid #fdd100' }}
+                        onChange={e => {
+                          setRegisterEmail(e.target.value);
+                        }}
+                      />
+                    </FormControl>
+                    <FormControl mt={4} isRequired>
+                      <FormLabel>Password</FormLabel>
+                      <Input
+                        type={'password'}
+                        placeholder="Type strong password"
+                        _focusVisible={{ border: '2px solid #fdd100' }}
+                        onChange={e => {
+                          setRegisterPassword(e.target.value);
+                        }}
+                      />
+                    </FormControl>
+                  </form>
+
+                  <HStack my={4} w={'100%'}>
+                    <Divider />
+                    <Text>or</Text>
+                    <Divider />
+                  </HStack>
+
+                  <Button
+                    w={'100%'}
+                    py={6}
+                    leftIcon={<GoogleIcon />}
+                    variant={'outline'}
                   >
-                    <option value="admin">Admin</option>
-                    <option value="cashier">Cashier</option>
-                  </Select>
-                </FormControl>
+                    Login with Google
+                  </Button>
+                </ModalBody>
 
-                {registerUserType === 'admin' ? '' : ''}
-
-                <FormControl mt={4} isRequired>
-                  <FormLabel>Name</FormLabel>
-                  <Input
-                    placeholder="e.g Marco Leo"
-                    _focusVisible={{ border: '2px solid #fdd100' }}
-                    onChange={e => {
-                      setRegisterDisplayName(e.target.value);
-                    }}
-                  />
-                </FormControl>
-                <FormControl mt={4} isRequired>
-                  <FormLabel>E-mail</FormLabel>
-                  <Input
-                    placeholder="e.g marcoleo@email.com"
-                    _focusVisible={{ border: '2px solid #fdd100' }}
-                    onChange={e => {
-                      setRegisterEmail(e.target.value);
-                    }}
-                  />
-                </FormControl>
-                <FormControl mt={4} isRequired>
-                  <FormLabel>Password</FormLabel>
-                  <Input
-                    type={'password'}
-                    placeholder="Type strong password"
-                    _focusVisible={{ border: '2px solid #fdd100' }}
-                    onChange={e => {
-                      setRegisterPassword(e.target.value);
-                    }}
-                  />
-                </FormControl>
-              </form>
-
-              <HStack my={4} w={'100%'}>
-                <Divider />
-                <Text>or</Text>
-                <Divider />
-              </HStack>
-
-              <Button
-                w={'100%'}
-                py={6}
-                leftIcon={<GoogleIcon />}
-                variant={'outline'}
-              >
-                Login with Google
-              </Button>
-            </ModalBody>
-
-            <ModalFooter
-              bg={colorMode === 'light' ? '#eff2f6' : '#2d374830'}
-              borderRadius={'0 0 10px 10px'}
-            >
-              <ButtonGroup>
-                <Button className="btn" onClick={onClose} variant={'ghost'}>
-                  Cancel
-                </Button>
-                <PrimaryButton
-                  label={'Create Account'}
-                  onClick={signUp}
-                  type="submit"
-                  form="signUpForm"
+                <ModalFooter
+                  content={
+                    <>
+                      <ButtonGroup>
+                        <Button
+                          className="btn"
+                          onClick={onClose}
+                          variant={'ghost'}
+                        >
+                          Cancel
+                        </Button>
+                        <PrimaryButton
+                          label={'Create Account'}
+                          onClick={signUp}
+                          type="submit"
+                          form="signUpForm"
+                        />
+                      </ButtonGroup>
+                    </>
+                  }
                 />
-              </ButtonGroup>
-            </ModalFooter>
-          </ModalContent>
+              </>
+            }
+          />
         </Modal>
       </>
     );
@@ -244,64 +245,72 @@ export default function Home() {
           <ModalOverlay />
 
           <ModalContent
-            borderRadius={12}
-            w={'95%'}
-            bg={colorMode === 'light' ? '#ffffff' : '#1a202c95'}
-          >
-            <ModalHeader>
-              <HStack>
-                <Icon as={AccountCircleRoundedIcon} fontSize={'xx-large'} />
-                <Text>Let's Rock</Text>
-              </HStack>
-            </ModalHeader>
+            content={
+              <>
+                <ModalHeader>
+                  <HStack>
+                    <Icon as={AccountCircleRoundedIcon} fontSize={'xx-large'} />
+                    <Text>Let's Get into Bussiness</Text>
+                  </HStack>
+                </ModalHeader>
 
-            <ModalBody pb={6}>
-              <FormControl mt={4} isRequired>
-                <FormLabel>E-mail</FormLabel>
-                <Input
-                  ref={emailSignIn}
-                  placeholder="e.g marcoleo@email.com"
-                  _focusVisible={{ border: '2px solid #fdd100' }}
-                  onChange={e => setLoginEmail(e.target.value)}
+                <ModalBody pb={6}>
+                  <FormControl mt={4} isRequired>
+                    <FormLabel>E-mail</FormLabel>
+                    <Input
+                      ref={emailSignIn}
+                      placeholder="e.g marcoleo@email.com"
+                      _focusVisible={{ border: '2px solid #fdd100' }}
+                      onChange={e => setLoginEmail(e.target.value)}
+                    />
+                  </FormControl>
+                  <FormControl mt={4} isRequired>
+                    <FormLabel>Password</FormLabel>
+                    <Input
+                      type={'password'}
+                      placeholder="Type strong password"
+                      _focusVisible={{ border: '2px solid #fdd100' }}
+                      onChange={e => setLoginPassword(e.target.value)}
+                    />
+                  </FormControl>
+                  <HStack my={4} w={'100%'}>
+                    <Divider />
+                    <Text>or</Text>
+                    <Divider />
+                  </HStack>
+
+                  <Button
+                    w={'100%'}
+                    py={6}
+                    leftIcon={<GoogleIcon />}
+                    variant={'outline'}
+                  >
+                    Login with Google
+                  </Button>
+                </ModalBody>
+
+                <ModalFooter
+                  content={
+                    <>
+                      <ButtonGroup>
+                        <Button
+                          className="btn"
+                          onClick={onClose}
+                          variant={'ghost'}
+                        >
+                          Cancel
+                        </Button>
+                        <PrimaryButton
+                          label={'Sign In'}
+                          onClick={toVendereApp}
+                        />
+                      </ButtonGroup>
+                    </>
+                  }
                 />
-              </FormControl>
-              <FormControl mt={4} isRequired>
-                <FormLabel>Password</FormLabel>
-                <Input
-                  type={'password'}
-                  placeholder="Type strong password"
-                  _focusVisible={{ border: '2px solid #fdd100' }}
-                  onChange={e => setLoginPassword(e.target.value)}
-                />
-              </FormControl>
-              <HStack my={4} w={'100%'}>
-                <Divider />
-                <Text>or</Text>
-                <Divider />
-              </HStack>
-
-              <Button
-                w={'100%'}
-                py={6}
-                leftIcon={<GoogleIcon />}
-                variant={'outline'}
-              >
-                Login with Google
-              </Button>
-            </ModalBody>
-
-            <ModalFooter
-              bg={colorMode === 'light' ? '#eff2f6' : '#2d3748'}
-              borderRadius={'0 0 10px 10px'}
-            >
-              <ButtonGroup>
-                <Button className="btn" onClick={onClose} variant={'ghost'}>
-                  Cancel
-                </Button>
-                <PrimaryButton label={'Sign In'} onClick={toVendereApp} />
-              </ButtonGroup>
-            </ModalFooter>
-          </ModalContent>
+              </>
+            }
+          />
         </Modal>
       </>
     );

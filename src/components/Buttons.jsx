@@ -5,12 +5,12 @@ const PrimaryButton = ({ leftIcon, label, onClick, type, form }) => {
   return (
     <Button
       className="btn"
-      leftIcon={leftIcon}
-      onClick={onClick}
       bg={'#4f6aa9'}
       color={'white'}
       _hover={{ bg: '#364d8d' }}
       _active={{ bg: '#223472' }}
+      leftIcon={leftIcon}
+      onClick={onClick}
       type={type}
       form={form}
     >
