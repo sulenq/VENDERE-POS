@@ -4,7 +4,7 @@ const Items = () => {
   {
     return (
       <div className="items">
-        <div className="wrapper"></div>
+        <div className="wrapper">Items List</div>
       </div>
     );
   }
