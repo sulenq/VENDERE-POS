@@ -1,7 +1,8 @@
 import { Button, useColorMode, Icon } from '@chakra-ui/react';
 import '../css/vendereApp.css';
 
-const PrimaryButton = ({ leftIcon, label, onClick, type, form, size }) => {
+const PrimaryButton = ({ 
+  leftIcon, label, onClick, type, form, size, refq }) => {
   return (
     <Button
       className="btn primaryBtn"
@@ -11,7 +12,8 @@ const PrimaryButton = ({ leftIcon, label, onClick, type, form, size }) => {
       size={size}
       type={type}
       form={form}
-      pb={'1px'}
+      ref={refq}
+      // pb={'1px'}
       style={{
         color: 'white',
       }}
@@ -28,6 +30,7 @@ const PrimaryButtonOutline = ({
   type,
   form,
   size,
+  refq,
 }) => {
   const { colorMode } = useColorMode();
 
@@ -39,7 +42,8 @@ const PrimaryButtonOutline = ({
       size={size}
       form={form}
       variant={'outline'}
-      pb={'1px'}
+      ref={refq}
+      // pb={'1px'}
       style={{
         color: colorMode === 'light' ? 'var(--p-500)' : 'var(--p-300)',
         border: '1px solid',

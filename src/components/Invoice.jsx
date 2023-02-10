@@ -219,7 +219,7 @@ const Checkout = ({ total, checkout, cartList, clearInvoice }) => {
 
   const [pay, setPay] = useState(0);
   const [change, setChange] = useState(pay - total);
-  console.log(pay, total, change, pay - total);
+  // console.log(pay, total, change, pay - total);
 
   function inputPayHandler(e) {
     if (!e.target.value) {
@@ -263,7 +263,7 @@ const Checkout = ({ total, checkout, cartList, clearInvoice }) => {
           borderRadius={12}
           bg={colorMode === 'light' ? '#ffffff' : '#1A202C95'}
         >
-          <ModalHeader mb={4} px={4}>
+          <ModalHeader px={4}>
             <HStack>
               <ShoppingCartCheckoutIcon />
               <Text fontWeight={'bold'}>Checkout ?</Text>
@@ -344,19 +344,16 @@ const Checkout = ({ total, checkout, cartList, clearInvoice }) => {
               >
                 Cancel
               </Button>
-              <Button
-                ref={checkoutBtn}
-                size={'sm'}
-                className="btn"
-                colorScheme={'yellow'}
+
+              <PrimaryButton
+                label={'CHECKOUT'}
+                size="sm"
                 onClick={() => {
-                  checkout('sulenq', total, pay, change, cartList);
+                  checkout('sulenq', total, pay, cartList);
                   onClose();
                   clearInvoice();
                 }}
-              >
-                Checkout
-              </Button>
+              />
             </ButtonGroup>
           </ModalFooter>
         </ModalContent>
@@ -429,9 +426,10 @@ const Invoice = ({
     });
   }
 
-  function checkout(chasierName, total, pay, change, cartList) {
+  function checkout(chasierName, total, pay, cartList) {
     if (total !== 0) {
       let status = 'lunas';
+      let change = pay - total;
       if (change * -1 > 0) {
         status = 'hutang';
       }
@@ -779,7 +777,6 @@ const Invoice = ({
 
 export default Invoice;
 
-// const InvoiceMobile = ({
 //   items,
 //   cartList,
 //   setCartList,
