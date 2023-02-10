@@ -1,7 +1,7 @@
 import { Button } from '@chakra-ui/react';
 import '../css/vendereApp.css';
 
-const PrimaryButton = ({ leftIcon, label, onClick, type, form }) => {
+const PrimaryButton = ({ leftIcon, label, onClick, type, form, size }) => {
   return (
     <Button
       className="btn"
@@ -11,6 +11,7 @@ const PrimaryButton = ({ leftIcon, label, onClick, type, form }) => {
       _active={{ bg: '#223472' }}
       leftIcon={leftIcon}
       onClick={onClick}
+      size={size}
       type={type}
       form={form}
     >
@@ -19,17 +20,26 @@ const PrimaryButton = ({ leftIcon, label, onClick, type, form }) => {
   );
 };
 
-const PrimaryButtonOutline = ({ leftIcon, label, onClick, type, form }) => {
+const PrimaryButtonOutline = ({
+  leftIcon,
+  label,
+  onClick,
+  type,
+  form,
+  size,
+}) => {
   return (
     <Button
       className="btn"
       leftIcon={leftIcon}
       onClick={onClick}
-      bg={'#fdd100'}
-      color={'black'}
-      _hover={{ bg: '#d9b115' }}
-      _active={{ bg: '#e9b115' }}
+      color={'#4f6aa9'}
+      _hover={{ bg: '#e5f0fc' }}
+      _active={{ bg: '#ccdff9' }}
+      border={'1px solid'}
+      borderColor={'#4f6aa9'}
       type={type}
+      size={size}
       form={form}
       variant={'outline'}
     >

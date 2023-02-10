@@ -31,6 +31,7 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import '../css/vendereApp.css';
 import { ColorModeIconButton } from './ColorModeSwitcher';
 import Items from './Items';
+import { PrimaryButton, PrimaryButtonOutline } from './Buttons';
 
 const CartList = ({ cartList, setCartList, colorMode, total, setTotal }) => {
   function deleteItem(itemCode, itemTotalPrice) {
@@ -232,7 +233,8 @@ const Checkout = ({ total, checkout, cartList, clearInvoice }) => {
 
   return (
     <>
-      <Button
+      <PrimaryButton
+        label={'CHECKOUT'}
         onClick={() => {
           if (cartList.length > 0) {
             onOpen();
@@ -241,9 +243,7 @@ const Checkout = ({ total, checkout, cartList, clearInvoice }) => {
         borderRadius={'50px'}
         colorScheme={'yellow'}
         size={'sm'}
-      >
-        CHECKOUT
-      </Button>
+      />
 
       <Modal
         initialFocusRef={checkoutBtn}
@@ -392,7 +392,7 @@ const InvoiceMobile = ({
       bg={colorMode === 'light' ? '#fff' : '#1A202C'}
     >
       {/* ADD & CHECKOUT */}
-      <HStack w={'100%'} justifyContent={'space-between'}>
+      <HStack w={'100%'} justifyContent={'space-between'} alignItems={'center'}>
         <VStack alignItems={'flex-start'}>
           <Text>31/12/2022</Text>
           <Text fontWeight={'bold'} m="0 !important">
@@ -401,18 +401,23 @@ const InvoiceMobile = ({
         </VStack>
 
         <ButtonGroup>
-          <ColorModeIconButton size={'sm'} />
-
           <Button
-            leftIcon={<AddShoppingCartRoundedIcon />}
-            onClick={onOpen}
-            variant={'outline'}
-            borderRadius={'50px'}
-            colorScheme={'yellow'}
+            onClick={clearInvoice}
             size={'sm'}
+            borderRadius={50}
+            fontWeight={'bold'}
+            variant={'outline'}
           >
-            Add
+            C
           </Button>
+
+          <PrimaryButtonOutline
+            label={'Add'}
+            leftIcon={<AddShoppingCartRoundedIcon />}
+            size={'sm'}
+            onClick={onOpen}
+          />
+
           <Modal
             onClose={onClose}
             isOpen={isOpen}
@@ -615,15 +620,7 @@ const InvoiceMobile = ({
             clearInvoice={clearInvoice}
           />
 
-          <Button
-            onClick={clearInvoice}
-            size={'sm'}
-            borderRadius={50}
-            fontWeight={'bold'}
-            variant={'outline'}
-          >
-            C
-          </Button>
+          <ColorModeIconButton size={'sm'} />
         </ButtonGroup>
       </HStack>
 
