@@ -300,7 +300,7 @@ const Checkout = ({ total, checkout, cartList, clearInvoice }) => {
                   type={'number'}
                   onChange={inputPayHandler}
                   onFocus={e => e.target.select()}
-                  _focusVisible={{ border: '1px solid var(--primary-500)' }}
+                  _focusVisible={{ border: '1px solid var(--p-500)' }}
                   isDisabled={cartList.length > 0 ? false : true}
                 />
               </VStack>
@@ -486,19 +486,16 @@ const Invoice = ({
         </VStack>
 
         <ButtonGroup>
-          <Button
-            onClick={clearInvoice}
+          <PrimaryButtonOutline
+            label={'C'}
             size={'sm'}
-            borderRadius={50}
-            fontWeight={'bold'}
-            variant={'outline'}
-          >
-            C
-          </Button>
+            onClick={clearInvoice}
+          />
+
           {screenWidth <= 820 ? (
             <PrimaryButtonOutline
-              label={'Add'}
-              leftIcon={<AddShoppingCartRoundedIcon size={'sm'} />}
+              label={'ADD'}
+              leftIcon={AddShoppingCartRoundedIcon}
               size={'sm'}
               onClick={onOpen}
             />

@@ -3,15 +3,15 @@
   --accent-dim: #d9b115;
   --dark-dim: #2d3748;
   --dark: #1a202c;
-  --primary-50: #e5f0fc;
-  --primary-100: #ccdff9;
-  --primary-200: #adc7ed;
-  --primary-300: #92addc;
-  --primary-400: #6d8ac5;
-  --primary-500: #4f6aa9;
-  --primary-600: #364d8d;
-  --primary-700: #223472;
-  --primary-800: #14235e;
+  --p-50: #e5f0fc;
+  --p-100: #ccdff9;
+  --p-200: #adc7ed;
+  --p-300: #92addc;
+  --p-400: #6d8ac5;
+  --p-500: #4f6aa9;
+  --p-600: #364d8d;
+  --p-700: #223472;
+  --p-800: #14235e;
 }
 
 * {
@@ -19,7 +19,7 @@
 }
 
 ::selection {
-  background-color: var(--primary-200);
+  background-color: var(--p-200);
 }
 
 html,
@@ -39,12 +39,12 @@ body {
 /* ::-webkit-scrollbar {
   width: 12px;
   border-radius: 16px;
-  background-color: var(--primary-100);
+  background-color: var(--p-100);
   padding-left: 4px;
 } */
 
 /* ::-webkit-scrollbar-thumb {
-  background-color: var(--primary-300);
+  background-color: var(--p-300);
   border-radius: 16px;
 } */
 
@@ -57,6 +57,20 @@ body {
 
 .btn {
   border-radius: 50px !important;
+}
+
+.primaryBtn:hover {
+  background: var(--p-600);
+}
+.primaryBtn:active {
+  background: var(--p-700);
+}
+
+.primaryBtnOutline:hover {
+  background: var(--p-50);
+}
+.primaryBtnOutline:active {
+  background: var(--p-100);
 }
 
 .items,
@@ -76,12 +90,12 @@ body {
   padding: 0 32px;
   margin: 0 8px;
   border-radius: 16px;
-  /* background-color: var(--primary-500); */
+  /* background-color: var(--p-500); */
   transition: 0.3s;
   /* background: linear-gradient(
     to bottom,
-    var(--primary-500),
-    var(--primary-600)
+    var(--p-500),
+    var(--p-600)
   ); */
 }
 
@@ -108,7 +122,7 @@ body {
   cursor: pointer;
 }
 .navMobileContentBtnSelect {
-  background: linear-gradient(to bottom, var(--primary-400), transparent);
+  background: linear-gradient(to bottom, var(--p-400), transparent);
   position: relative;
 }
 .navMobileContentBtnSelect::before {

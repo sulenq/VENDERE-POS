@@ -66,7 +66,7 @@ const NavMobile = ({ active }) => {
             <Text
               className="navLabel"
               display={'none'}
-              style={{ color: 'var(--primary-200)' }}
+              style={{ color: 'var(--p-200)' }}
               fontSize={'xs'}
               pt={1}
             >
@@ -90,7 +90,7 @@ const NavMobile = ({ active }) => {
             <Text
               className="navLabel"
               display={'none'}
-              style={{ color: 'var(--primary-200)' }}
+              style={{ color: 'var(--p-200)' }}
               fontSize={'xs'}
               pt={1}
             >
@@ -114,7 +114,7 @@ const NavMobile = ({ active }) => {
             <Text
               className="navLabel"
               display={'none'}
-              style={{ color: 'var(--primary-200)' }}
+              style={{ color: 'var(--p-200)' }}
               fontSize={'xs'}
               pt={1}
             >
@@ -138,7 +138,7 @@ const NavMobile = ({ active }) => {
             <Text
               className="navLabel"
               display={'none'}
-              style={{ color: 'var(--primary-200)' }}
+              style={{ color: 'var(--p-200)' }}
               fontSize={'xs'}
               pt={1}
             >
@@ -162,7 +162,7 @@ const NavMobile = ({ active }) => {
             <Text
               className="navLabel"
               display={'none'}
-              style={{ color: 'var(--primary-200)' }}
+              style={{ color: 'var(--p-200)' }}
               fontSize={'xs'}
               pt={1}
             >
