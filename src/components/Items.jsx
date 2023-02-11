@@ -31,46 +31,28 @@ import '../css/vendereApp.css';
 import { ColorModeIconButton } from './ColorModeSwitcher';
 import { PrimaryButton, PrimaryButtonOutline } from './Buttons';
 
-const Items = (
-  items,
-  cartList,
-  setCartList,
-  total,
-  setTotal,
-  pay,
-  setPay,
-  change,
-  setChange,
-  search,
-  setSearch,
-  setInvoice,
-  addItemToCartList
-) => {
+const Items = ({ items, search, setSearch, addItemToCartList }) => {
   {
     const { colorMode } = useColorMode();
     const searchItem = useRef(null);
 
     return (
-      <div className="items">
-        <div className="wrapper">Items List</div>
+      <Box h={'100%'} w={'50%'}>
         <Box
           py={4}
-          h={'95%'}
-          w={'95%'}
-          m={'auto !important'}
+          w={'100%'}
+          h={'100%'}
           borderRadius={12}
-          bg={colorMode === 'light' ? '#ffffff' : '#1A202C95'}
+          bg={colorMode === 'light' ? '#ffffff' : '#1A202C'}
         >
-          <ModalHeader py={0} px={4} mb={4}>
+          <Box py={0} px={4} mb={4}>
             <HStack>
               <AddShoppingCartRoundedIcon />
               <Text fontWeight={'bold'}>Add Item to Cart</Text>
             </HStack>
-          </ModalHeader>
+          </Box>
 
-          <ModalCloseButton borderRadius={50} />
-
-          <ModalBody p={0} h={'95%'} display={'flex'} flexDirection={'column'}>
+          <Box p={0} h={'95%'} display={'flex'} flexDirection={'column'}>
             {/* Search Items Section */}
             <HStack px={4}>
               <Input
@@ -82,7 +64,9 @@ const Items = (
                 value={search}
                 placeholder={'Search item by name or code'}
                 w={'100%'}
+                border={'1px solid'}
                 borderRadius={'10px 0 0 10px'}
+                style={{ borderColor: 'var(--p-500)' }}
                 _focusVisible={{ border: '2px solid #4f6aa9' }}
               />
               <PrimaryButton
@@ -92,7 +76,7 @@ const Items = (
               />
             </HStack>
 
-            {/* Items */}
+            {/* Items Head*/}
             <HStack
               fontSize={'sm'}
               w={'100%'}
@@ -100,19 +84,23 @@ const Items = (
               py={2}
               px={5}
               borderBottom={'1px solid'}
-              style={{ borderColor: '#e1e1e1' }}
+              style={{
+                borderColor:
+                  colorMode === 'light' ? '#e1e1e1' : 'var(--dark-dim)',
+              }}
             >
-              <Text fontWeight={'bold'} w={'30%'}>
+              <Text fontWeight={'bold'} w={'40%'}>
                 CODE
               </Text>
               <Text fontWeight={'bold'} w={'40%'}>
                 ITEM
               </Text>
-              <Text fontWeight={'bold'} w={'30%'} textAlign={'center'}>
+              <Text fontWeight={'bold'} w={'27%'} textAlign={'center'}>
                 ACTION
               </Text>
             </HStack>
 
+            {/* Items */}
             <Box className="items" fontSize={'sm'} overflowY={'auto'}>
               {items.map((item, index) => {
                 if (
@@ -134,7 +122,7 @@ const Items = (
                             : '',
                       }}
                     >
-                      <Text w={'30%'} p={'4px 8px'}>
+                      <Text w={'40%'} p={'4px 8px'}>
                         item code
                       </Text>
 
@@ -145,7 +133,7 @@ const Items = (
                         </Text>
                       </VStack>
 
-                      <VStack pr={2}>
+                      <VStack pr={2} w={'20%'}>
                         {/* Counter Qty */}
                         <HStack>
                           <IconButton
@@ -230,9 +218,9 @@ const Items = (
                 }
               })}
             </Box>
-          </ModalBody>
+          </Box>
         </Box>
-      </div>
+      </Box>
     );
   }
 };

@@ -32,7 +32,14 @@ import { ColorModeIconButton } from './ColorModeSwitcher';
 import { PrimaryButton, PrimaryButtonOutline } from './Buttons';
 import { ModalOverlay } from '../components/Modals';
 
-const CartList = ({ cartList, setCartList, colorMode, total, setTotal }) => {
+const CartList = ({
+  cartList,
+  setCartList,
+  colorMode,
+  total,
+  setTotal,
+  screenWidth,
+}) => {
   function deleteItem(itemCode, itemTotalPrice) {
     const updatedCartList = cartList.filter(item => item.code !== itemCode);
     setCartList(updatedCartList);
@@ -42,7 +49,11 @@ const CartList = ({ cartList, setCartList, colorMode, total, setTotal }) => {
 
   if (cartList.length > 0) {
     return (
-      <Box w={'100%'} overflow={'hidden'} pb={'64px'}>
+      <Box
+        w={'100%'}
+        overflow={'hidden'}
+        pb={screenWidth <= 820 ? '64px' : '12px'}
+      >
         <VStack w={'100%'} className="cartList">
           {cartList
             .slice(0)
@@ -424,13 +435,14 @@ const Invoice = ({
     setTotal(0);
     setSearch('');
   }
+
   const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const searchItem = useRef(null);
 
   return (
     <VStack
-      w={'100%'}
+      w={screenWidth <= 820 ? '100%' : '50%'}
       height={'100%'}
       borderRadius={'20px'}
       alignItems={'flex-start'}
@@ -508,7 +520,9 @@ const Invoice = ({
                     value={search}
                     placeholder={'Search item by name or code'}
                     w={'100%'}
+                    border={'1px solid'}
                     borderRadius={'10px 0 0 10px'}
+                    style={{ borderColor: 'var(--p-500)' }}
                     _focusVisible={{ border: '2px solid #4f6aa9' }}
                   />
                   <PrimaryButton
@@ -698,6 +712,7 @@ const Invoice = ({
         colorMode={colorMode}
         total={total}
         setTotal={setTotal}
+        screenWidth={screenWidth}
       />
     </VStack>
   );

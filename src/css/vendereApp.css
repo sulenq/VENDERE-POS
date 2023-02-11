@@ -52,6 +52,8 @@ body {
 .vendereApp {
   /* border: 1px solid blue; */
   height: 100%;
+  width: 100%;
+  /* border: 2px solid red; */
   display: flex;
   position: relative;
 }

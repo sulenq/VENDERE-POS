@@ -62,7 +62,7 @@ export default function Cashier({
     <Box className="vendereApp">
       <ResponsiveNav active={'cashier'} />
       <HStack
-        borderRadius={'10px solid red'}
+        overflow={'hidden'}
         h={'100%'}
         w={'100%'}
         p={2}
@@ -71,7 +71,12 @@ export default function Cashier({
         {screenWidth <= 820 ? (
           ''
         ) : (
-          <Items addItemToCartList={addItemToCartList} />
+          <Items
+            items={items}
+            search={search}
+            setSearch={setSearch}
+            addItemToCartList={addItemToCartList}
+          />
         )}
         <Invoice
           items={items}
