@@ -227,7 +227,7 @@ const CartList = ({
   }
 };
 
-const Checkout = ({ total, checkout, cartList, clearInvoice }) => {
+const Checkout = ({ total, checkout, cartList, clearInvoice, screenWidth }) => {
   const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const checkoutBtn = useRef(null);
@@ -258,7 +258,7 @@ const Checkout = ({ total, checkout, cartList, clearInvoice }) => {
         borderRadius={'50px'}
         colorScheme={'yellow'}
         size={'sm'}
-        pb={'1px'}
+        pb={screenWidth <= 820 ? '1px' : null}
       />
 
       <Modal
@@ -313,7 +313,9 @@ const Checkout = ({ total, checkout, cartList, clearInvoice }) => {
                   type={'number'}
                   onChange={inputPayHandler}
                   onFocus={e => e.target.select()}
-                  _focusVisible={{ border: '1px solid var(--p-500)' }}
+                  border={'1px solid'}
+                  style={{ borderColor: 'var(--p-500)' }}
+                  _focusVisible={{ border: '2px solid var(--p-500)' }}
                   isDisabled={cartList.length > 0 ? false : true}
                 />
               </VStack>
@@ -464,7 +466,7 @@ const Invoice = ({
             label={'C'}
             size={'sm'}
             onClick={clearInvoice}
-            pb={'1px'}
+            pb={screenWidth <= 820 ? '1px' : null}
           />
 
           {/* ADD Button */}
@@ -680,6 +682,7 @@ const Invoice = ({
             checkout={checkout}
             cartList={cartList}
             clearInvoice={clearInvoice}
+            screenWidth={screenWidth}
           />
 
           <ColorModeIconButton size={'sm'} />

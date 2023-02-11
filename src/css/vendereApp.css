@@ -4,6 +4,7 @@
   --dark-dim: #2d3748;
   --dark: #1a202c;
   --light: #f8f8f8;
+  --light-dim: #e0e0e0;
   --p-50: #e5f0fc;
   --p-100: #ccdff9;
   --p-200: #adc7ed;
@@ -50,12 +51,15 @@ body {
 } */
 
 .vendereApp {
-  /* border: 1px solid blue; */
+  /* border: 2px solid red; */
   height: 100%;
   width: 100%;
-  /* border: 2px solid red; */
   display: flex;
   position: relative;
+  background-image: url('../../public/assets/bg.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
 }
 
 .btn {

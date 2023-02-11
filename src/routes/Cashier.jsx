@@ -59,14 +59,17 @@ export default function Cashier({
   }, []);
 
   return (
-    <Box className="vendereApp">
+    <Box className="vendereApp" p={screenWidth <= 820 ? 0 : 2}>
       <ResponsiveNav active={'cashier'} />
       <HStack
         overflow={'hidden'}
         h={'100%'}
         w={'100%'}
         p={2}
-        background={colorMode === 'light' ? '#ccdff9' : '#2d3748'}
+        borderRadius={'20px'}
+        style={{
+          background: colorMode === 'light' ? 'var(--p-50)' : '#2d3748',
+        }}
       >
         {screenWidth <= 820 ? (
           ''
