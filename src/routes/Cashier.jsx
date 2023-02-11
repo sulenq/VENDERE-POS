@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Box, useColorMode, HStack } from '@chakra-ui/react';
-import '../css/vendereApp.css';
 
+import '../css/vendereApp.css';
+import bgDark from '../assets/appBg.png';
+import bgLight from '../assets/bg.png';
 import ResponsiveNav from '../components/ResponsiveNav';
 import Items from '../components/Items';
 import Invoice from '../components/Invoice';
@@ -59,7 +61,14 @@ export default function Cashier({
   }, []);
 
   return (
-    <Box className="vendereApp" p={screenWidth <= 820 ? 0 : 2}>
+    <Box
+      className="vendereApp"
+      p={screenWidth <= 820 ? 0 : 4}
+      // style={{
+      //   backgroundImage: `url(${colorMode === 'light' ? bgLight : bgDark})`,
+      // }}
+      backgroundImage={`url(${bgDark})`}
+    >
       <ResponsiveNav active={'cashier'} />
       <HStack
         overflow={'hidden'}

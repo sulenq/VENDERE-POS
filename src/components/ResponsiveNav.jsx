@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Text, Icon, Box, useColorMode } from '@chakra-ui/react';
+import {
+  Text,
+  Icon,
+  Box,
+  useColorMode,
+  Heading,
+  HStack,
+  Divider,
+  VStack,
+} from '@chakra-ui/react';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import MoneyOffIcon from '@mui/icons-material/MoneyOff';
 import ReceiptRoundedIcon from '@mui/icons-material/ReceiptRounded';
@@ -8,6 +17,11 @@ import PointOfSaleRoundedIcon from '@mui/icons-material/PointOfSaleRounded';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 
 import '../css/vendereApp.css';
+import {
+  PrimaryButton,
+  PrimaryButtonOutline,
+  SecondaryButtonOutline,
+} from './Buttons';
 
 const NavMobile = ({ active }) => {
   let nav;
@@ -175,26 +189,91 @@ const NavMobile = ({ active }) => {
   );
 };
 
-const Nav = () => {
+const Nav = ({ active }) => {
+  const navigate = useNavigate();
+
   return (
     <>
-      <nav className="nav">
-        <ul>
-          <li>Cashier</li>
-          <li>Transaction</li>
-          <li>Debts</li>
-          <li>Reports</li>
-        </ul>
+      <nav>
+        <VStack h={'100%'} overflow={'auto'}>
+          <Heading as={'h1'} size="lg" color={'white'} mb={8}>
+            <HStack alignItems={'center'}>
+              <PointOfSaleRoundedIcon style={{ color: 'var(--accent)' }} />
+              <Text>Vendere</Text>
+            </HStack>
+          </Heading>
 
-        <ul>
-          <li>Support</li>
-          <li>Stock</li>
-        </ul>
+          <VStack justifyContent={'space-between !important'} h={'100%'}>
+            <Box color="white" fontWeight={'bold'} className="navListWrapper">
+              <ul>
+                <li
+                  className={active === 'cashier' ? 'navListActive' : null}
+                  onClick={() => navigate('../cashier')}
+                >
+                  <Icon as={PointOfSaleRoundedIcon} fontSize={'xl'} />
+                  <Text ml={2}>Cashier</Text>
+                </li>
 
-        <div className="profile">
-          <img />
-          <Text>Username</Text>
-        </div>
+                <li
+                  className={active === 'transactions' ? 'navListActive' : null}
+                  onClick={() => navigate('../transactions')}
+                >
+                  <Icon as={ReceiptRoundedIcon} fontSize={'xl'} />
+                  <Text ml={2}>Transactions</Text>
+                </li>
+
+                <li
+                  className={active === 'debts' ? 'navListActive' : null}
+                  onClick={() => navigate('../debts')}
+                >
+                  <Icon as={MoneyOffIcon} fontSize={'xl'} />
+                  <Text ml={2}>Debts</Text>
+                </li>
+
+                <li
+                  className={active === 'reports' ? 'navListActive' : null}
+                  onClick={() => navigate('../reports')}
+                >
+                  <Icon as={SummarizeIcon} fontSize={'xl'} />
+                  <Text ml={2}>Reports</Text>
+                </li>
+              </ul>
+
+              <Divider mr={4} />
+
+              <ul>
+                <li>
+                  <Text>Support</Text>
+                </li>
+                <li>
+                  <Text>Stock</Text>
+                </li>
+              </ul>
+            </Box>
+
+            <VStack className="miniProfile" w={'100%'}>
+              <Box className="miniProfileImage">
+                <img />
+              </Box>
+              <VStack
+                borderRadius={'20px'}
+                style={{ background: 'var(--p-450)' }}
+                py={2}
+                px={4}
+                w={'100%'}
+              >
+                <VStack color={'white'} pt={10} mb={4}>
+                  <Text fontWeight={'bold'}>Username</Text>
+                  <Text fontSize={'sm'} m={'0px !important'}>
+                    Cashier
+                  </Text>
+                </VStack>
+                <PrimaryButton label={'Manage'} w={'100%'} />
+                <SecondaryButtonOutline label={'LogOut'} w={'100%'} />
+              </VStack>
+            </VStack>
+          </VStack>
+        </VStack>
       </nav>
     </>
   );
