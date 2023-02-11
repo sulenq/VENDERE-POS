@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { useToast } from '@chakra-ui/react';
 
 import './css/vendereApp.css';
 
@@ -16,9 +17,50 @@ const BadRequest = () => {
 };
 
 export default function App() {
+  const toast = useToast();
+
   const [total, setTotal] = useState(0);
   const [cartList, setCartList] = useState([]);
   const [search, setSearch] = useState('');
+
+  function addItemToCartList(itemCode, itemName, itemPrice, itemQty) {
+    let itemInCartList = false;
+    const newCartList = {
+      code: itemCode,
+      name: itemName,
+      price: itemPrice,
+      qty: itemQty,
+      totalPrice: itemPrice * itemQty,
+    };
+
+    cartList.forEach(item => {
+      if (item.code === itemCode) {
+        itemInCartList = true;
+        item.qty += itemQty;
+        item.totalPrice += itemPrice * itemQty;
+      }
+    });
+
+    if (!itemInCartList) {
+      setCartList(prevCartList => [...prevCartList, newCartList]);
+    }
+
+    let updateTotal = itemPrice * itemQty;
+
+    setTotal(total + updateTotal);
+    // setChange(pay - (total + updateTotal));
+    // console.log(cartList);
+    toast.closeAll();
+
+    toast({
+      title: 'Item added.',
+      description: `${itemQty} ${itemName} added, total ${updateTotal.toLocaleString()}`,
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+      transition: 'none',
+    });
+  }
 
   return (
     <Routes>
@@ -35,6 +77,7 @@ export default function App() {
               setCartList={setCartList}
               search={search}
               setSearch={setSearch}
+              addItemToCartList={addItemToCartList}
             />
           }
         />

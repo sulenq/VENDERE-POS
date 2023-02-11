@@ -1,23 +1,36 @@
 import { Button, useColorMode, Icon } from '@chakra-ui/react';
 import '../css/vendereApp.css';
 
-const PrimaryButton = ({ 
-  leftIcon, label, onClick, type, form, size, refq }) => {
+const PrimaryButton = ({
+  leftIcon,
+  label,
+  onClick,
+  type,
+  form,
+  size,
+  refq,
+  pb,
+  borderRadius,
+  ml,
+}) => {
   return (
     <Button
       className="btn primaryBtn"
-      bg={'#4f6aa9'}
-      leftIcon={leftIcon}
       onClick={onClick}
       size={size}
       type={type}
       form={form}
+      variant={'solid'}
       ref={refq}
-      // pb={'1px'}
+      pb={pb}
+      borderRadius={borderRadius}
+      ml={ml}
       style={{
         color: 'white',
+        background: '#4f6aa9',
       }}
     >
+      {leftIcon && <Icon as={leftIcon} w={5} pr={'2px'} />}
       {label}
     </Button>
   );
@@ -31,6 +44,8 @@ const PrimaryButtonOutline = ({
   form,
   size,
   refq,
+  pb,
+  w,
 }) => {
   const { colorMode } = useColorMode();
 
@@ -43,14 +58,15 @@ const PrimaryButtonOutline = ({
       form={form}
       variant={'outline'}
       ref={refq}
-      // pb={'1px'}
+      pb={pb}
+      w={w}
       style={{
         color: colorMode === 'light' ? 'var(--p-500)' : 'var(--p-300)',
         border: '1px solid',
         borderColor: colorMode === 'light' ? 'var(--p-500)' : 'var(--p-300)',
       }}
     >
-      {leftIcon && <Icon as={leftIcon} w={5} pr={'2px'} />}
+      {leftIcon && <Icon as={leftIcon} h={5} pr={'2px'} />}
       {label}
     </Button>
   );

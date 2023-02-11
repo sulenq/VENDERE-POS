@@ -13,6 +13,7 @@ export default function Cashier({
   setCartList,
   search,
   setSearch,
+  addItemToCartList,
 }) {
   // !!! DEV PURPOSE
   function generateRandomData() {
@@ -67,7 +68,11 @@ export default function Cashier({
         p={2}
         background={colorMode === 'light' ? '#ccdff9' : '#2d3748'}
       >
-        {screenWidth <= 820 ? '' : <Items />}
+        {screenWidth <= 820 ? (
+          ''
+        ) : (
+          <Items addItemToCartList={addItemToCartList} />
+        )}
         <Invoice
           items={items}
           total={total}
@@ -77,6 +82,7 @@ export default function Cashier({
           search={search}
           setSearch={setSearch}
           setInvoice={setInvoice}
+          addItemToCartList={addItemToCartList}
         />
       </HStack>
     </Box>

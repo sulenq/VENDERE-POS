@@ -8,7 +8,7 @@ import {
 
 const ModalOverlay = () => {
   return (
-    <Modaloverlay bg="#00000070" backdropFilter="auto" backdropBlur="5px" />
+    <Modaloverlay bg="#00000070" backdropFilter="auto" backdropBlur="10px" />
   );
 };
 
