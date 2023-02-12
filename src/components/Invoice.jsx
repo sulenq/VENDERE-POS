@@ -442,6 +442,16 @@ const Invoice = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const searchItem = useRef(null);
 
+  const handleKeyUp = e => {
+    if (e.key === 'Enter') {
+      const btn = document.querySelector(
+        '.items :first-child .actionBtnSection > button'
+      );
+      console.log(btn);
+      btn.click();
+    }
+  };
+
   return (
     <VStack
       w={screenWidth <= 820 ? '100%' : '50%'}
@@ -516,6 +526,7 @@ const Invoice = ({
                   <Input
                     ref={searchItem}
                     className={'inputBox'}
+                    onKeyUp={handleKeyUp}
                     onFocus={e => e.target.select()}
                     onChange={e => setSearch(e.target.value)}
                     type={'text'}
@@ -587,7 +598,7 @@ const Invoice = ({
                             </Text>
                           </VStack>
 
-                          <VStack pr={2}>
+                          <VStack pr={2} className={'actionBtnSection'}>
                             {/* Counter Qty */}
                             <HStack>
                               <IconButton

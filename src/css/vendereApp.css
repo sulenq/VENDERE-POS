@@ -128,8 +128,6 @@ nav li:hover {
   border-radius: 100px 0 0 100px;
 }
 
-.miniProfile {
-}
 .miniProfileImage {
   height: 80px;
   width: 80px;
@@ -137,6 +135,9 @@ nav li:hover {
   background: var(--p-100);
   position: absolute;
   bottom: 190px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .navMobile {

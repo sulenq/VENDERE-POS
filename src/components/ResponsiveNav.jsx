@@ -253,11 +253,18 @@ const Nav = ({ active }) => {
 
             <VStack className="miniProfile" w={'100%'}>
               <Box className="miniProfileImage">
-                <img />
+                <Icon
+                  as={AccountCircleRoundedIcon}
+                  fontSize={'90px'}
+                  style={{ color: 'var(--p-50)' }}
+                />
               </Box>
               <VStack
                 borderRadius={'20px'}
-                style={{ background: 'var(--p-450)' }}
+                style={{
+                  background:
+                    'linear-gradient(to bottom, var(--p-450), var(--p-400))',
+                }}
                 py={2}
                 px={4}
                 w={'100%'}
@@ -268,8 +275,8 @@ const Nav = ({ active }) => {
                     Cashier
                   </Text>
                 </VStack>
-                <PrimaryButton label={'Manage'} w={'100%'} />
-                <SecondaryButtonOutline label={'LogOut'} w={'100%'} />
+                <SecondaryButtonOutline label={'Manage'} w={'100%'} />
+                <PrimaryButton label={'LogOut'} w={'100%'} />
               </VStack>
             </VStack>
           </VStack>

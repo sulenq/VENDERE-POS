@@ -36,6 +36,16 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
     const { colorMode } = useColorMode();
     const searchItem = useRef(null);
 
+    const handleKeyUp = e => {
+      if (e.key === 'Enter') {
+        const btn = document.querySelector(
+          '.items :first-child .actionBtnSection > button'
+        );
+        console.log(btn);
+        btn.click();
+      }
+    };
+
     return (
       <Box h={'100%'} w={'50%'}>
         <Box
@@ -58,6 +68,8 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
               <Input
                 ref={searchItem}
                 className={'inputBox'}
+                onKeyUp={handleKeyUp}
+                tabIndex={0}
                 onFocus={e => e.target.select()}
                 onChange={e => setSearch(e.target.value)}
                 type={'text'}
@@ -76,7 +88,7 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
               />
             </HStack>
 
-            {/* Items Head*/}
+            {/* Items Header */}
             <HStack
               fontSize={'sm'}
               w={'100%'}
@@ -133,7 +145,7 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
                         </Text>
                       </VStack>
 
-                      <VStack pr={2} w={'20%'}>
+                      <VStack pr={2} w={'20%'} className={'actionBtnSection'}>
                         {/* Counter Qty */}
                         <HStack>
                           <IconButton
