@@ -79,7 +79,9 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
         const btn = document.querySelector(
           `.items :nth-child(${itemIndex}) .actionBtnSection > button`
         );
-        btn.click();
+        if (btn) {
+          btn.click();
+        }
       }
     };
 
@@ -100,7 +102,6 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
     };
 
     // KeyUp Event
-    
 
     return (
       <Box h={'100%'} w={'50%'}>
