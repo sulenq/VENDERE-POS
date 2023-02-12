@@ -63,10 +63,8 @@ export default function Cashier({
   return (
     <Box
       className="vendereApp"
-      p={screenWidth <= 820 ? 0 : 4}
-      // style={{
-      //   backgroundImage: `url(${colorMode === 'light' ? bgLight : bgDark})`,
-      // }}
+      p={screenWidth <= 1000 ? 0 : 4}
+      // backgroundImage={colorMode === 'light' ? `url(${bgDark})` : ''}
       backgroundImage={`url(${bgDark})`}
     >
       <ResponsiveNav active={'cashier'} />
@@ -75,12 +73,12 @@ export default function Cashier({
         h={'100%'}
         w={'100%'}
         p={2}
-        borderRadius={screenWidth <= 820 ? 0 : '20px'}
+        borderRadius={screenWidth <= 1000 ? 0 : '20px'}
         style={{
           background: colorMode === 'light' ? 'var(--p-50)' : '#2d3748',
         }}
       >
-        {screenWidth <= 820 ? (
+        {screenWidth <= 1000 ? (
           ''
         ) : (
           <Items

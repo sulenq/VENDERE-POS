@@ -196,7 +196,7 @@ const Nav = ({ active }) => {
     <>
       <nav>
         <VStack h={'100%'} overflow={'auto'}>
-          <Heading as={'h1'} size="lg" color={'white'} mb={8}>
+          <Heading as={'h1'} size="lg" color={'white'} mb={4}>
             <HStack alignItems={'center'}>
               <PointOfSaleRoundedIcon style={{ color: 'var(--accent)' }} />
               <Text>Vendere</Text>
@@ -239,7 +239,7 @@ const Nav = ({ active }) => {
                 </li>
               </ul>
 
-              <Divider mr={4} />
+              <Divider mr={4} style={{ background: 'var(--p-50)' }} />
 
               <ul>
                 <li>
@@ -297,7 +297,7 @@ const ResponsiveNav = ({ active }) => {
   });
   return (
     <>
-      {screenWidth <= 820 ? (
+      {screenWidth <= 1000 ? (
         <NavMobile active={active} />
       ) : (
         <Nav active={active} />

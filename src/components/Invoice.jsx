@@ -52,7 +52,7 @@ const CartList = ({
       <Box
         w={'100%'}
         overflow={'hidden'}
-        pb={screenWidth <= 820 ? '64px' : '12px'}
+        pb={screenWidth <= 1000 ? '64px' : '12px'}
       >
         <VStack w={'100%'} className="cartList">
           {cartList
@@ -258,7 +258,7 @@ const Checkout = ({ total, checkout, cartList, clearInvoice, screenWidth }) => {
         borderRadius={'50px'}
         colorScheme={'yellow'}
         size={'sm'}
-        pb={screenWidth <= 820 ? '1px' : null}
+        pb={screenWidth <= 1000 ? '1px' : null}
       />
 
       <Modal
@@ -438,11 +438,18 @@ const Invoice = ({
     setSearch('');
   }
 
+  // KeyUp Events
+  document.addEventListener('keyup', function (e) {
+    if (e.code === 'KeyC') {
+      clearInvoice();
+    }
+  });
+
   const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const searchItem = useRef(null);
 
-  const handleKeyUp = e => {
+  const onEnterKeyUpOnSearch = e => {
     if (e.key === 'Enter') {
       const btn = document.querySelector(
         '.items :first-child .actionBtnSection > button'
@@ -454,7 +461,7 @@ const Invoice = ({
 
   return (
     <VStack
-      w={screenWidth <= 820 ? '100%' : '50%'}
+      w={screenWidth <= 1000 ? '100%' : '50%'}
       height={'100%'}
       borderRadius={'20px'}
       alignItems={'flex-start'}
@@ -462,7 +469,7 @@ const Invoice = ({
       px={4}
       bg={colorMode === 'light' ? '#fff' : '#1A202C'}
     >
-      {/* ADD & CHECKOUT */}
+      {/* HEADER, ADD & CHECKOUT */}
       <HStack w={'100%'} justifyContent={'space-between'} alignItems={'center'}>
         <VStack alignItems={'flex-start'}>
           <Text>31/12/2022</Text>
@@ -476,11 +483,11 @@ const Invoice = ({
             label={'C'}
             size={'sm'}
             onClick={clearInvoice}
-            pb={screenWidth <= 820 ? '1px' : null}
+            pb={screenWidth <= 1000 ? '1px' : null}
           />
 
           {/* ADD Button */}
-          {screenWidth <= 820 ? (
+          {screenWidth <= 1000 ? (
             <PrimaryButtonOutline
               label={'ADD'}
               leftIcon={AddShoppingCartRoundedIcon}
@@ -506,185 +513,201 @@ const Invoice = ({
               borderRadius={12}
               bg={colorMode === 'light' ? '#ffffff' : '#1A202C95'}
             >
-              <ModalHeader py={0} px={4} mb={4}>
-                <HStack>
-                  <AddShoppingCartRoundedIcon />
-                  <Text fontWeight={'bold'}>Add Item to Cart</Text>
-                </HStack>
-              </ModalHeader>
-
-              <ModalCloseButton borderRadius={50} />
-
-              <ModalBody
-                p={0}
-                h={'95%'}
-                display={'flex'}
-                flexDirection={'column'}
+              <ModalCloseButton borderRadius={'50px'} />
+              <Box
+                // py={4}
+                w={'100%'}
+                h={'100%'}
+                borderRadius={12}
+                bg={colorMode === 'light' ? '#ffffff' : '#1A202C'}
               >
-                {/* Search Items Section */}
-                <HStack px={4}>
-                  <Input
-                    ref={searchItem}
-                    className={'inputBox'}
-                    onKeyUp={handleKeyUp}
-                    onFocus={e => e.target.select()}
-                    onChange={e => setSearch(e.target.value)}
-                    type={'text'}
-                    value={search}
-                    placeholder={'Search item by name or code'}
-                    w={'100%'}
-                    border={'1px solid'}
-                    borderRadius={'10px 0 0 10px'}
-                    style={{ borderColor: 'var(--p-500)' }}
-                    _focusVisible={{ border: '2px solid #4f6aa9' }}
-                  />
-                  <PrimaryButton
-                    label={'SCAN'}
-                    borderRadius={'0 10px 10px 0 !important'}
-                    ml={'0px !important'}
-                  />
-                </HStack>
-
-                {/* Items */}
-                <HStack
-                  fontSize={'sm'}
-                  w={'100%'}
-                  mt={2}
-                  py={2}
-                  px={5}
-                  borderBottom={'1px solid'}
-                  style={{ borderColor: '#e1e1e1' }}
-                >
-                  <Text fontWeight={'bold'} w={'30%'}>
-                    CODE
-                  </Text>
-                  <Text fontWeight={'bold'} w={'40%'}>
-                    ITEM
-                  </Text>
-                  <Text fontWeight={'bold'} w={'30%'} textAlign={'center'}>
-                    ACTION
-                  </Text>
-                </HStack>
-
-                <Box className="items" fontSize={'sm'} overflowY={'auto'}>
-                  {items.map((item, index) => {
-                    if (
-                      item.name.toLowerCase().includes(search.toLowerCase()) ||
-                      item.code.includes(search)
-                    ) {
-                      return (
-                        <HStack
-                          px={4}
-                          alignItems={'flex-start'}
-                          key={index}
-                          py={2}
-                          style={{
-                            background:
-                              index % 2 === 1
-                                ? colorMode === 'light'
-                                  ? 'var(--light)'
-                                  : '#2d374895'
-                                : '',
-                          }}
-                        >
-                          <Text w={'30%'} p={'4px 8px'}>
-                            item code
-                          </Text>
-
-                          <VStack w={'40%'} alignItems={'flex-start'}>
-                            <Text>{item.name}</Text>
-                            <Text w={'40%'} m={'0 !important'}>
-                              @ {item.price}
-                            </Text>
-                          </VStack>
-
-                          <VStack pr={2} className={'actionBtnSection'}>
-                            {/* Counter Qty */}
-                            <HStack>
-                              <IconButton
-                                m={'0 !important'}
-                                size={'sm'}
-                                variant={'ghost'}
-                                icon={<RemoveRoundedIcon />}
-                                borderRadius={50}
-                                onClick={() => {
-                                  const itemQty = document.querySelector(
-                                    `#qty${item.code}`
-                                  );
-                                  if (parseInt(itemQty.value) > 1) {
-                                    itemQty.value = parseInt(itemQty.value) - 1;
-                                  }
-                                }}
-                              />
-
-                              <Input
-                                id={`qty${item.code}`}
-                                m={'0 !important'}
-                                w={'40px'}
-                                h={'28px'}
-                                type={'number'}
-                                defaultValue={1}
-                                onFocus={e => e.target.select()}
-                                onChange={e => {
-                                  if (
-                                    e.target.value === '' ||
-                                    e.target.value === '0'
-                                  ) {
-                                    e.target.value = 1;
-                                  }
-                                }}
-                                _focusVisible={{ border: '1px solid #4f6aa9' }}
-                                p={'0'}
-                                border={'none'}
-                                textAlign={'center'}
-                              />
-
-                              <IconButton
-                                size={'sm'}
-                                m={'0 !important'}
-                                onClick={() => {
-                                  const itemQty = document.querySelector(
-                                    `#qty${item.code}`
-                                  );
-                                  itemQty.value = parseInt(itemQty.value) + 1;
-                                }}
-                                variant={'ghost'}
-                                icon={<AddRoundedIcon />}
-                                borderRadius={50}
-                              />
-                            </HStack>
-
-                            {/* Add Button */}
-                            <PrimaryButtonOutline
-                              label={'ADD'}
-                              w={'100%'}
-                              onClick={() => {
-                                const itemQty = parseInt(
-                                  document.querySelector(`#qty${item.code}`)
-                                    .value
-                                );
-
-                                addItemToCartList(
-                                  item.code,
-                                  item.name,
-                                  item.price,
-                                  itemQty
-                                );
-                                document.querySelector(
-                                  `#qty${item.code}`
-                                ).value = 1;
-
-                                searchItem.current.select();
-                              }}
-                              size={'sm'}
-                            />
-                          </VStack>
-                        </HStack>
-                      );
-                    }
-                  })}
+                <Box py={0} px={4} mb={4}>
+                  <HStack>
+                    <AddShoppingCartRoundedIcon />
+                    <Text fontWeight={'bold'}>Add Item to Cart</Text>
+                  </HStack>
                 </Box>
-              </ModalBody>
+
+                <Box p={0} h={'95%'} display={'flex'} flexDirection={'column'}>
+                  {/* Search Items Section */}
+                  <HStack px={4}>
+                    <Input
+                      ref={searchItem}
+                      className={'inputBox'}
+                      onKeyUp={onEnterKeyUpOnSearch}
+                      tabIndex={0}
+                      onFocus={e => e.target.select()}
+                      onChange={e => setSearch(e.target.value)}
+                      type={'text'}
+                      value={search}
+                      placeholder={'Search item by name or code'}
+                      w={'100%'}
+                      border={'1px solid'}
+                      borderRadius={'10px 0 0 10px'}
+                      style={{ borderColor: 'var(--p-500)' }}
+                      _focusVisible={{ border: '2px solid #4f6aa9' }}
+                    />
+                    <PrimaryButton
+                      label={'SCAN'}
+                      borderRadius={'0 10px 10px 0 !important'}
+                      ml={'0px !important'}
+                    />
+                  </HStack>
+
+                  {/* Items Header */}
+                  <HStack
+                    fontSize={'sm'}
+                    w={'100%'}
+                    mt={2}
+                    py={2}
+                    px={5}
+                    borderBottom={'1px solid'}
+                    style={{
+                      borderColor:
+                        colorMode === 'light' ? '#e1e1e1' : 'var(--dark-dim)',
+                    }}
+                  >
+                    <Text fontWeight={'bold'} w={'40%'}>
+                      CODE
+                    </Text>
+                    <Text fontWeight={'bold'} w={'40%'}>
+                      ITEM
+                    </Text>
+                    <Text fontWeight={'bold'} w={'27%'} textAlign={'center'}>
+                      ACTION
+                    </Text>
+                  </HStack>
+
+                  {/* Items */}
+                  <Box className="items" fontSize={'sm'} overflowY={'auto'}>
+                    {items.map((item, index) => {
+                      if (
+                        item.name
+                          .toLowerCase()
+                          .includes(search.toLowerCase()) ||
+                        item.code.includes(search)
+                      ) {
+                        return (
+                          <HStack
+                            px={4}
+                            alignItems={'flex-start'}
+                            key={index}
+                            py={2}
+                            style={{
+                              background:
+                                index % 2 === 1
+                                  ? colorMode === 'light'
+                                    ? 'var(--light)'
+                                    : '#2d374895'
+                                  : '',
+                            }}
+                          >
+                            <Text w={'40%'} p={'4px 8px'}>
+                              item code
+                            </Text>
+
+                            <VStack w={'40%'} alignItems={'flex-start'}>
+                              <Text>{item.name}</Text>
+                              <Text w={'40%'} m={'0 !important'}>
+                                @ {item.price}
+                              </Text>
+                            </VStack>
+
+                            <VStack
+                              pr={2}
+                              w={'20%'}
+                              className={'actionBtnSection'}
+                            >
+                              {/* Counter Qty */}
+                              <HStack>
+                                <IconButton
+                                  m={'0 !important'}
+                                  size={'sm'}
+                                  variant={'ghost'}
+                                  icon={<RemoveRoundedIcon />}
+                                  borderRadius={50}
+                                  onClick={() => {
+                                    const itemQty = document.querySelector(
+                                      `#qty${item.code}`
+                                    );
+                                    if (parseInt(itemQty.value) > 1) {
+                                      itemQty.value =
+                                        parseInt(itemQty.value) - 1;
+                                    }
+                                  }}
+                                />
+
+                                <Input
+                                  id={`qty${item.code}`}
+                                  m={'0 !important'}
+                                  w={'40px'}
+                                  h={'28px'}
+                                  type={'number'}
+                                  defaultValue={1}
+                                  onFocus={e => e.target.select()}
+                                  onChange={e => {
+                                    if (
+                                      e.target.value === '' ||
+                                      e.target.value === '0'
+                                    ) {
+                                      e.target.value = 1;
+                                    }
+                                  }}
+                                  _focusVisible={{
+                                    border: '1px solid #4f6aa9',
+                                  }}
+                                  p={'0'}
+                                  border={'none'}
+                                  textAlign={'center'}
+                                />
+
+                                <IconButton
+                                  size={'sm'}
+                                  m={'0 !important'}
+                                  onClick={() => {
+                                    const itemQty = document.querySelector(
+                                      `#qty${item.code}`
+                                    );
+                                    itemQty.value = parseInt(itemQty.value) + 1;
+                                  }}
+                                  variant={'ghost'}
+                                  icon={<AddRoundedIcon />}
+                                  borderRadius={50}
+                                />
+                              </HStack>
+
+                              {/* Add Button */}
+                              <PrimaryButtonOutline
+                                label={'ADD'}
+                                w={'100%'}
+                                onClick={() => {
+                                  const itemQty = parseInt(
+                                    document.querySelector(`#qty${item.code}`)
+                                      .value
+                                  );
+
+                                  addItemToCartList(
+                                    item.code,
+                                    item.name,
+                                    item.price,
+                                    itemQty
+                                  );
+                                  document.querySelector(
+                                    `#qty${item.code}`
+                                  ).value = 1;
+
+                                  searchItem.current.select();
+                                }}
+                                size={'sm'}
+                              />
+                            </VStack>
+                          </HStack>
+                        );
+                      }
+                    })}
+                  </Box>
+                </Box>
+              </Box>
             </ModalContent>
           </Modal>
 

@@ -319,7 +319,7 @@ export default function Home() {
   return (
     <Box
       className="landingPage"
-      p={screenWidth <= 820 ? '16px 0' : '16px 100px'}
+      p={screenWidth <= 1000 ? '16px 0' : '16px 100px'}
     >
       <HStack justifyContent={'space-between'} px={'24px'}>
         <Text fontSize={'lg'} fontWeight={'bold'}>
