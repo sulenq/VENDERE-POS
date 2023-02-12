@@ -36,6 +36,8 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
     const { colorMode } = useColorMode();
     const searchItem = useRef(null);
 
+    const [itemIndex, setItemIndex] = useState(1);
+
     const handleKeyUp = e => {
       if (e.key === 'Enter') {
         const btn = document.querySelector(
@@ -43,6 +45,18 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
         );
         console.log(btn);
         btn.click();
+      }
+    };
+
+    const handleKeyDown = e => {
+      if (e.key === 'ArrowDown') {
+        let idx = 1;
+        const selectedItem = document.querySelector(
+          `.items > :nth-child(${idx})`
+        );
+        idx++;
+        console.log(document.querySelector('.items'));
+        console.log(selectedItem);
       }
     };
 
@@ -69,9 +83,15 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
                 ref={searchItem}
                 className={'inputBox'}
                 onKeyUp={handleKeyUp}
+                onKeyDown={handleKeyDown}
                 tabIndex={0}
                 onFocus={e => e.target.select()}
-                onChange={e => setSearch(e.target.value)}
+                onChange={e => {
+                  setSearch(e.target.value);
+                  document
+                    .querySelector('.items > :nth-child(1)')
+                    .classList.add('itemSelected');
+                }}
                 type={'text'}
                 value={search}
                 placeholder={'Search item by name or code'}
@@ -121,10 +141,13 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
                 ) {
                   return (
                     <HStack
+                      id={index}
+                      // className={'item itemSelected'}
                       px={4}
                       alignItems={'flex-start'}
                       key={index}
                       py={2}
+                      position={'relative'}
                       style={{
                         background:
                           index % 2 === 1
@@ -138,8 +161,8 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
                         item code
                       </Text>
 
-                      <VStack w={'40%'} alignItems={'flex-start'}>
-                        <Text>{item.name}</Text>
+                      <VStack w={'40%'} alignItems={'flex-start'} pr={4}>
+                        <Text fontWeight={'bold'}>{item.name}</Text>
                         <Text w={'40%'} m={'0 !important'}>
                           @ {item.price}
                         </Text>

@@ -438,13 +438,6 @@ const Invoice = ({
     setSearch('');
   }
 
-  // KeyUp Events
-  document.addEventListener('keyup', function (e) {
-    if (e.code === 'KeyC') {
-      clearInvoice();
-    }
-  });
-
   const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const searchItem = useRef(null);
@@ -606,8 +599,8 @@ const Invoice = ({
                               item code
                             </Text>
 
-                            <VStack w={'40%'} alignItems={'flex-start'}>
-                              <Text>{item.name}</Text>
+                            <VStack w={'40%'} alignItems={'flex-start'} pr={4}>
+                              <Text fontWeight={'bold'}>{item.name}</Text>
                               <Text w={'40%'} m={'0 !important'}>
                                 @ {item.price}
                               </Text>

@@ -29,7 +29,7 @@ const PrimaryButton = ({
       w={w}
       style={{
         color: 'white',
-        background: '#4f6aa9',
+        background: 'var(--p-500)',
       }}
     >
       {leftIcon && <Icon as={leftIcon} w={5} pr={'2px'} />}

@@ -32,17 +32,17 @@ body,
   height: 100%;
 }
 
-/* ::-webkit-scrollbar {
-  width: 12px;
+::-webkit-scrollbar {
+  width: 8px;
   border-radius: 16px;
   background-color: var(--p-100);
   padding-left: 4px;
-} */
+}
 
-/* ::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   background-color: var(--p-300);
   border-radius: 16px;
-} */
+}
 
 .vendereApp {
   /* border: 2px solid red; */
@@ -60,9 +60,6 @@ body,
   border-radius: 50px !important;
 }
 
-.primaryBtn {
-  background: #4f6aa9;
-}
 .primaryBtn:hover {
   background: var(--p-600) !important;
 }
@@ -88,31 +85,37 @@ body,
   border: '2px solid var(--p-700) !important';
 } */
 
+.inputBox {
+  padding: 0 12px !important;
+}
+
 .items,
 .invoice {
   border: 1px solid yellow;
 }
 
 nav {
-  width: 200px;
+  width: 230px;
   height: 100%;
-  padding-right: 16px;
+  /* padding-right: 8px; */
   /* border: 1px solid white; */
   /* font-size: 20px; */
 }
-
+#cashierNav {
+  margin: 0;
+}
 nav li {
+  /* transition: 0.3s; */
   display: flex;
   align-items: center;
   /* border: 1px solid white; */
+  /* background: transparent; */
   padding: 6px 16px;
   border-radius: 10px;
   margin: 16px 0;
   cursor: pointer;
 }
-nav li:hover {
-  text-decoration: 1px solid underline;
-}
+
 .navListActive {
   background: linear-gradient(to right, var(--p-50), var(--p-50));
   color: var(--p-500);
@@ -128,13 +131,18 @@ nav li:hover {
   border-radius: 100px 0 0 100px;
 }
 
+.miniProfile {
+  /* border: 1px solid white; */
+  padding-top: 32px;
+  position: relative;
+}
 .miniProfileImage {
   height: 80px;
   width: 80px;
   border-radius: 100%;
   background: var(--p-100);
   position: absolute;
-  bottom: 190px;
+  bottom: 175px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -203,6 +211,10 @@ nav li:hover {
   border: none;
   height: 90%;
   /* margin-top: 12px; */
+}
+
+.itemSelected {
+  border-left: 8px solid var(--accent) !important;
 }
 
 .itemTd {

@@ -63,7 +63,7 @@ const NavMobile = ({ active }) => {
 
   const { colorMode } = useColorMode();
   return (
-    <Box className="navMobile" background={'#4f6aa9'}>
+    <Box className="navMobile" style={{ background: 'var(--p-500)' }}>
       <ul>
         {/* Reports */}
         <li>
@@ -192,66 +192,144 @@ const NavMobile = ({ active }) => {
 const Nav = ({ active }) => {
   const navigate = useNavigate();
 
+  // hover
+  const navActive = document.querySelector(`#${active}Nav`);
+  const selectNav = targetId => {
+    const target = document.querySelector(`#${targetId}`);
+    target.classList.add('navListActive');
+  };
+  const diselectNav = targetId => {
+    const target = document.querySelector(`#${targetId}`);
+    target.classList.remove('navListActive');
+    navActive.classList.add('navListActive');
+  };
+
   return (
     <>
       <nav>
-        <VStack h={'100%'} overflow={'auto'}>
-          <Heading as={'h1'} size="lg" color={'white'} mb={4}>
+        <VStack h={'100%'} w={'100%'}>
+          <Heading
+            as={'h1'}
+            size="lg"
+            color={'white'}
+            mb={8}
+            alignSelf="flex-start"
+          >
             <HStack alignItems={'center'}>
               <PointOfSaleRoundedIcon style={{ color: 'var(--accent)' }} />
               <Text>Vendere</Text>
             </HStack>
           </Heading>
 
-          <VStack justifyContent={'space-between !important'} h={'100%'}>
-            <Box color="white" fontWeight={'bold'} className="navListWrapper">
+          <VStack
+            justifyContent={'space-between !important'}
+            h={'100%'}
+            w={'100%'}
+            overflowY={'auto'}
+          >
+            {/* the Nav List */}
+            <Box
+              id="navList"
+              color="white"
+              fontWeight={'bold'}
+              className="navListWrapper"
+              w={'100%'}
+              pr={4}
+            >
               <ul>
                 <li
+                  id="cashierNav"
                   className={active === 'cashier' ? 'navListActive' : null}
                   onClick={() => navigate('../cashier')}
+                  onMouseEnter={() => {
+                    selectNav('cashierNav');
+                  }}
+                  onMouseLeave={() => {
+                    diselectNav('cashierNav');
+                  }}
                 >
                   <Icon as={PointOfSaleRoundedIcon} fontSize={'xl'} />
                   <Text ml={2}>Cashier</Text>
                 </li>
 
                 <li
+                  id="transactionsNav"
                   className={active === 'transactions' ? 'navListActive' : null}
                   onClick={() => navigate('../transactions')}
+                  onMouseEnter={() => {
+                    selectNav('transactionsNav');
+                  }}
+                  onMouseLeave={() => {
+                    diselectNav('transactionsNav');
+                  }}
                 >
                   <Icon as={ReceiptRoundedIcon} fontSize={'xl'} />
                   <Text ml={2}>Transactions</Text>
                 </li>
 
                 <li
+                  id="debtsNav"
                   className={active === 'debts' ? 'navListActive' : null}
                   onClick={() => navigate('../debts')}
+                  onMouseEnter={() => {
+                    selectNav('debtsNav');
+                  }}
+                  onMouseLeave={() => {
+                    diselectNav('debtsNav');
+                  }}
                 >
                   <Icon as={MoneyOffIcon} fontSize={'xl'} />
                   <Text ml={2}>Debts</Text>
                 </li>
 
                 <li
+                  id="reportsNav"
                   className={active === 'reports' ? 'navListActive' : null}
                   onClick={() => navigate('../reports')}
+                  onMouseEnter={() => {
+                    selectNav('reportsNav');
+                  }}
+                  onMouseLeave={() => {
+                    diselectNav('reportsNav');
+                  }}
                 >
                   <Icon as={SummarizeIcon} fontSize={'xl'} />
                   <Text ml={2}>Reports</Text>
                 </li>
-              </ul>
 
-              <Divider mr={4} style={{ background: 'var(--p-50)' }} />
+                <Divider mr={4} style={{ background: 'var(--p-50)' }} />
 
-              <ul>
-                <li>
+                <li
+                  id="supportNav"
+                  className={active === 'support' ? 'navListActive' : null}
+                  onClick={() => navigate('../support')}
+                  onMouseEnter={() => {
+                    selectNav('supportNav');
+                  }}
+                  onMouseLeave={() => {
+                    diselectNav('supportNav');
+                  }}
+                >
                   <Text>Support</Text>
                 </li>
-                <li>
+                <li
+                  id="stockNav"
+                  className={active === 'stock' ? 'navListActive' : null}
+                  onClick={() => navigate('../stock')}
+                  onMouseEnter={() => {
+                    selectNav('stockNav');
+                  }}
+                  onMouseLeave={() => {
+                    diselectNav('stockNav');
+                  }}
+                >
                   <Text>Stock</Text>
                 </li>
               </ul>
             </Box>
 
-            <VStack className="miniProfile" w={'100%'}>
+            {/* Mini Profile */}
+            <VStack className="miniProfile" w={'100%'} pr={4}>
               <Box className="miniProfileImage">
                 <Icon
                   as={AccountCircleRoundedIcon}
@@ -264,6 +342,7 @@ const Nav = ({ active }) => {
                 style={{
                   background:
                     'linear-gradient(to bottom, var(--p-450), var(--p-400))',
+                  border: '2px solid var(--p-400)',
                 }}
                 py={2}
                 px={4}
@@ -276,7 +355,7 @@ const Nav = ({ active }) => {
                   </Text>
                 </VStack>
                 <SecondaryButtonOutline label={'Manage'} w={'100%'} />
-                <PrimaryButton label={'LogOut'} w={'100%'} />
+                <PrimaryButton label={'Logout'} w={'100%'} />
               </VStack>
             </VStack>
           </VStack>
