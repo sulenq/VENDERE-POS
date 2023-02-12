@@ -65,7 +65,7 @@ export default function Cashier({
       className="vendereApp"
       p={screenWidth <= 1000 ? 0 : 4}
       // backgroundImage={colorMode === 'light' ? `url(${bgDark})` : ''}
-      backgroundImage={`url(${bgDark})`}
+      // backgroundImage={`url(${bgDark})`}
     >
       <ResponsiveNav active={'cashier'} />
       <HStack

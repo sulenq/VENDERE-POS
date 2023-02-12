@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import {
   IconButton,
   Icon,
@@ -37,28 +37,70 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
     const searchItem = useRef(null);
 
     const [itemIndex, setItemIndex] = useState(1);
+    const [itemsLength, setItemLength] = useState(0);
+
+    useEffect(() => {
+      setItemIndex(1);
+      const targetItem = document.querySelector(
+        `.items > :nth-child(${itemIndex})`
+      );
+      const items = document.querySelectorAll('.items > div');
+
+      setItemLength(items.length);
+
+      items.forEach(item => {
+        item.classList.remove('itemSelected');
+      });
+      if (targetItem) {
+        targetItem.classList.add('itemSelected');
+      }
+      console.log(itemIndex);
+    }, [search]);
+
+    useEffect(() => {
+      const targetItem = document.querySelector(
+        `.items > :nth-child(${itemIndex})`
+      );
+      const items = document.querySelectorAll('.items > div');
+
+      setItemLength(items.length);
+
+      items.forEach(item => {
+        item.classList.remove('itemSelected');
+      });
+      if (targetItem) {
+        targetItem.classList.add('itemSelected');
+      }
+      console.log(itemIndex);
+    }, [itemIndex]);
 
     const handleKeyUp = e => {
       if (e.key === 'Enter') {
         const btn = document.querySelector(
-          '.items :first-child .actionBtnSection > button'
+          `.items :nth-child(${itemIndex}) .actionBtnSection > button`
         );
-        console.log(btn);
         btn.click();
       }
     };
 
     const handleKeyDown = e => {
       if (e.key === 'ArrowDown') {
-        let idx = 1;
-        const selectedItem = document.querySelector(
-          `.items > :nth-child(${idx})`
-        );
-        idx++;
-        console.log(document.querySelector('.items'));
-        console.log(selectedItem);
+        e.preventDefault();
+        if (itemIndex < itemsLength) {
+          setItemIndex(itemIndex + 1);
+        }
+      }
+
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (itemIndex > 1) {
+          setItemIndex(itemIndex - 1);
+        }
       }
     };
+
+    // KeyUp Event
+    
 
     return (
       <Box h={'100%'} w={'50%'}>
@@ -88,9 +130,6 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
                 onFocus={e => e.target.select()}
                 onChange={e => {
                   setSearch(e.target.value);
-                  document
-                    .querySelector('.items > :nth-child(1)')
-                    .classList.add('itemSelected');
                 }}
                 type={'text'}
                 value={search}
@@ -142,8 +181,8 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
                   return (
                     <HStack
                       id={index}
-                      // className={'item itemSelected'}
-                      px={4}
+                      pl={4}
+                      pr={6}
                       alignItems={'flex-start'}
                       key={index}
                       py={2}
@@ -158,14 +197,12 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
                       }}
                     >
                       <Text w={'40%'} p={'4px 8px'}>
-                        item code
+                        {item.code}
                       </Text>
 
                       <VStack w={'40%'} alignItems={'flex-start'} pr={4}>
                         <Text fontWeight={'bold'}>{item.name}</Text>
-                        <Text w={'40%'} m={'0 !important'}>
-                          @ {item.price}
-                        </Text>
+                        <Text m={'0 !important'}>@ {item.price}</Text>
                       </VStack>
 
                       <VStack pr={2} w={'20%'} className={'actionBtnSection'}>

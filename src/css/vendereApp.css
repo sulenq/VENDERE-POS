@@ -51,6 +51,7 @@ body,
   display: flex;
   position: relative;
   background-image: url('../assets/appBg.png');
+  background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
@@ -210,6 +211,7 @@ nav li {
   /* border: 1px solid red; */
   border: none;
   height: 90%;
+  /* padding-right: 8px !important; */
   /* margin-top: 12px; */
 }
 
