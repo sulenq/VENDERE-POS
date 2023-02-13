@@ -31,7 +31,7 @@ export default function Cashier({
     },
     {
       code: '089686010527',
-      name: 'Indomie Goreng',
+      name: 'Indomie Kari Ayam',
       price: 3500,
       stok: 100,
     },

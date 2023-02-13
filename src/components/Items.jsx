@@ -39,12 +39,26 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
     const [itemIndex, setItemIndex] = useState(1);
     const [itemsLength, setItemLength] = useState(0);
 
-    useEffect(() => {
-      setItemIndex(1);
+    function selectItem() {
       const targetItem = document.querySelector(
         `.items > :nth-child(${itemIndex})`
       );
       const items = document.querySelectorAll('.items > div');
+
+      if (targetItem) {
+        const rect = targetItem.getBoundingClientRect();
+        if (
+          rect.top >= 100 &&
+          rect.left >= 0 &&
+          rect.bottom <= window.innerHeight &&
+          rect.right <= window.innerWidth
+        ) {
+          console.log('Element is in view and not overflowing!');
+        } else {
+          console.log('Element is either not in view or overflowing!');
+          targetItem.scrollIntoView();
+        }
+      }
 
       setItemLength(items.length);
 
@@ -53,25 +67,18 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
       });
       if (targetItem) {
         targetItem.classList.add('itemSelected');
+        window.scrollBy(0, -2000);
       }
       console.log(itemIndex);
+    }
+
+    useEffect(() => {
+      setItemIndex(1);
+      selectItem();
     }, [search]);
 
     useEffect(() => {
-      const targetItem = document.querySelector(
-        `.items > :nth-child(${itemIndex})`
-      );
-      const items = document.querySelectorAll('.items > div');
-
-      setItemLength(items.length);
-
-      items.forEach(item => {
-        item.classList.remove('itemSelected');
-      });
-      if (targetItem) {
-        targetItem.classList.add('itemSelected');
-      }
-      console.log(itemIndex);
+      selectItem();
     }, [itemIndex]);
 
     const handleKeyUp = e => {
@@ -179,7 +186,16 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
             </HStack>
 
             {/* Items */}
-            <Box className="items" fontSize={'sm'} overflowY={'auto'}>
+            <Box
+              className="items"
+              fontSize={'sm'}
+              overflowY={'auto'}
+              borderBottom={'1px solid'}
+              style={{
+                borderColor:
+                  colorMode === 'light' ? '#e1e1e1' : 'var(--dark-dim)',
+              }}
+            >
               {items.map((item, index) => {
                 if (
                   item.name.toLowerCase().includes(search.toLowerCase()) ||

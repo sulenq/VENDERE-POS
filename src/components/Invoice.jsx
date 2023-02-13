@@ -447,15 +447,61 @@ const Invoice = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const searchItem = useRef(null);
 
-  const onEnterKeyUpOnSearch = e => {
-    if (e.key === 'Enter') {
-      const btn = document.querySelector(
-        '.items :first-child .actionBtnSection > button'
-      );
-      console.log(btn);
-      btn.click();
-    }
-  };
+  // const [itemIndex, setItemIndex] = useState(1);
+  // const [itemsLength, setItemLength] = useState(0);
+
+  // function selectItem() {
+  //   const targetItem = document.querySelector(
+  //     `.items > :nth-child(${itemIndex})`
+  //   );
+  //   const items = document.querySelectorAll('.items > div');
+
+  //   setItemLength(items.length);
+
+  //   items.forEach(item => {
+  //     item.classList.remove('itemSelected');
+  //   });
+  //   if (targetItem) {
+  //     targetItem.classList.add('itemSelected');
+  //   }
+  //   console.log(itemIndex);
+  // }
+
+  // useEffect(() => {
+  //   setItemIndex(1);
+  //   selectItem();
+  // }, [search]);
+
+  // useEffect(() => {
+  //   selectItem();
+  // }, [itemIndex]);
+
+  // const handleKeyUp = e => {
+  //   if (e.key === 'Enter') {
+  //     const btn = document.querySelector(
+  //       `.items :nth-child(${itemIndex}) .actionBtnSection > button`
+  //     );
+  //     if (btn) {
+  //       btn.click();
+  //     }
+  //   }
+  // };
+
+  // const handleKeyDown = e => {
+  //   if (e.key === 'ArrowDown') {
+  //     e.preventDefault();
+  //     if (itemIndex < itemsLength) {
+  //       setItemIndex(itemIndex + 1);
+  //     }
+  //   }
+
+  //   if (e.key === 'ArrowUp') {
+  //     e.preventDefault();
+  //     if (itemIndex > 1) {
+  //       setItemIndex(itemIndex - 1);
+  //     }
+  //   }
+  // };
 
   return (
     <VStack
@@ -504,7 +550,7 @@ const Invoice = ({
             <ModalOverlay />
 
             <ModalContent
-              py={4}
+              pt={4}
               h={'95%'}
               w={'95%'}
               m={'auto !important'}
@@ -513,7 +559,6 @@ const Invoice = ({
             >
               <ModalCloseButton borderRadius={'50px'} />
               <Box
-                // py={4}
                 w={'100%'}
                 h={'100%'}
                 borderRadius={12}
@@ -532,10 +577,13 @@ const Invoice = ({
                     <Input
                       ref={searchItem}
                       className={'inputBox'}
-                      onKeyUp={onEnterKeyUpOnSearch}
+                      // onKeyUp={handleKeyUp}
+                      // onKeyDown={handleKeyDown}
                       tabIndex={0}
                       onFocus={e => e.target.select()}
-                      onChange={e => setSearch(e.target.value)}
+                      onChange={e => {
+                        setSearch(e.target.value);
+                      }}
                       type={'text'}
                       value={search}
                       placeholder={'Search item by name or code'}
@@ -558,26 +606,38 @@ const Invoice = ({
                     w={'100%'}
                     mt={2}
                     py={2}
-                    px={5}
+                    pl={4}
+                    pr={6}
                     borderBottom={'1px solid'}
                     style={{
                       borderColor:
                         colorMode === 'light' ? '#e1e1e1' : 'var(--dark-dim)',
                     }}
                   >
-                    <Text fontWeight={'bold'} w={'40%'}>
+                    <Text fontWeight={'bold'} w={'30%'}>
                       CODE
                     </Text>
-                    <Text fontWeight={'bold'} w={'40%'}>
+                    <Text fontWeight={'bold'} w={'50%'}>
                       ITEM
                     </Text>
-                    <Text fontWeight={'bold'} w={'27%'} textAlign={'center'}>
+                    <Text
+                      fontWeight={'bold'}
+                      w={'20%'}
+                      textAlign={'center'}
+                      ml={'0px !important'}
+                    >
                       ACTION
                     </Text>
                   </HStack>
 
                   {/* Items */}
-                  <Box className="items" fontSize={'sm'} overflowY={'auto'}>
+                  <Box
+                    className="items"
+                    fontSize={'sm'}
+                    overflowY={'auto'}
+                    height={'100%'}
+                    pb={4}
+                  >
                     {items.map((item, index) => {
                       if (
                         item.name
@@ -587,10 +647,13 @@ const Invoice = ({
                       ) {
                         return (
                           <HStack
-                            px={4}
+                            id={index}
+                            pl={4}
+                            pr={6}
                             alignItems={'flex-start'}
                             key={index}
                             py={2}
+                            position={'relative'}
                             style={{
                               background:
                                 index % 2 === 1
@@ -600,22 +663,19 @@ const Invoice = ({
                                   : '',
                             }}
                           >
-                            <Text w={'40%'} p={'4px 8px'}>
-                              item code
+                            {/* Item's Code */}
+                            <Text w={'30%'} p={'4px 8px'}>
+                              {item.code}
                             </Text>
 
-                            <VStack w={'40%'} alignItems={'flex-start'} pr={4}>
+                            {/* Item's Name */}
+                            <VStack w={'50%'} alignItems={'flex-start'} pr={4}>
                               <Text fontWeight={'bold'}>{item.name}</Text>
-                              <Text w={'40%'} m={'0 !important'}>
-                                @ {item.price}
-                              </Text>
+                              <Text m={'0 !important'}>@ {item.price}</Text>
                             </VStack>
 
-                            <VStack
-                              pr={2}
-                              w={'20%'}
-                              className={'actionBtnSection'}
-                            >
+                            {/* Item Action */}
+                            <VStack w={'20%'} className={'actionBtnSection'}>
                               {/* Counter Qty */}
                               <HStack>
                                 <IconButton
