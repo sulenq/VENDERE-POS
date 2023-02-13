@@ -154,20 +154,26 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
               w={'100%'}
               mt={2}
               py={2}
-              px={5}
+              pl={4}
+              pr={6}
               borderBottom={'1px solid'}
               style={{
                 borderColor:
                   colorMode === 'light' ? '#e1e1e1' : 'var(--dark-dim)',
               }}
             >
-              <Text fontWeight={'bold'} w={'40%'}>
+              <Text fontWeight={'bold'} w={'30%'}>
                 CODE
               </Text>
-              <Text fontWeight={'bold'} w={'40%'}>
+              <Text fontWeight={'bold'} w={'50%'}>
                 ITEM
               </Text>
-              <Text fontWeight={'bold'} w={'27%'} textAlign={'center'}>
+              <Text
+                fontWeight={'bold'}
+                w={'20%'}
+                textAlign={'center'}
+                ml={'0px !important'}
+              >
                 ACTION
               </Text>
             </HStack>
@@ -197,16 +203,19 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
                             : '',
                       }}
                     >
-                      <Text w={'40%'} p={'4px 8px'}>
+                      {/* Item's Code */}
+                      <Text w={'30%'} p={'4px 8px'}>
                         {item.code}
                       </Text>
 
-                      <VStack w={'40%'} alignItems={'flex-start'} pr={4}>
+                      {/* Item's Name */}
+                      <VStack w={'50%'} alignItems={'flex-start'} pr={4}>
                         <Text fontWeight={'bold'}>{item.name}</Text>
                         <Text m={'0 !important'}>@ {item.price}</Text>
                       </VStack>
 
-                      <VStack pr={2} w={'20%'} className={'actionBtnSection'}>
+                      {/* Item Action */}
+                      <VStack w={'20%'} className={'actionBtnSection'}>
                         {/* Counter Qty */}
                         <HStack>
                           <IconButton

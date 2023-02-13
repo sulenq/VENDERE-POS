@@ -18,28 +18,126 @@ export default function Cashier({
   addItemToCartList,
 }) {
   // !!! DEV PURPOSE
-  function generateRandomData() {
-    // Generate random data
 
-    const data = {
-      code: Math.floor(Math.random() * 10000000).toString(),
-      name: 'Product ' + Math.floor(Math.random() * 1000),
-      price: Math.random() * (100000 - 100) + 100,
-      qty: (Math.random() * (10 - 1) + 1).toFixed(1),
-    };
-    return data;
-  }
-  function generateDummy() {
-    let dummyCartList = [];
-    for (let i = 0; i < 10; i++) {
-      dummyCartList.push(generateRandomData());
-    }
-
-    return dummyCartList;
-  }
+  const dummyItems = [
+    {
+      code: '089686010947',
+      name: 'Indomie Goreng',
+      price: 3500,
+      stok: 100,
+    },
+    {
+      code: '089686910704',
+      name: 'Indomie Goreng Rendang',
+      price: 3500,
+      stok: 100,
+    },
+    {
+      code: '089686010527',
+      name: 'Indomie Goreng',
+      price: 3500,
+      stok: 100,
+    },
+    {
+      code: '089686010046',
+      name: 'Indomie Ayam Spesial',
+      price: 3000,
+      stok: 100,
+    },
+    {
+      code: '089686010015',
+      name: 'Indomie Ayam Bawang',
+      price: 3000,
+      stok: 100,
+    },
+    {
+      code: '089686010343',
+      name: 'Indomie Soto',
+      price: 3000,
+      stok: 100,
+    },
+    {
+      code: '089686043433',
+      name: 'Indomie Hype Abis Ayam Geprek',
+      price: 3000,
+      stok: 100,
+    },
+    {
+      code: '8998866203104',
+      name: 'Sedap Singapore Spicy Laksa',
+      price: 3500,
+      stok: 100,
+    },
+    {
+      code: '8998866200578',
+      name: 'Sedap Kari Spesial',
+      price: 3500,
+      stok: 100,
+    },
+    {
+      code: '8998866200318',
+      name: 'Sedap Ayam Bawang',
+      price: 3500,
+      stok: 100,
+    },
+    {
+      code: '8998866200301',
+      name: 'Sedap Goreng',
+      price: 3500,
+      stok: 100,
+    },
+    {
+      code: '8886008101053',
+      name: 'Aqua 600ml (tanggung)',
+      price: 3000,
+      stok: 100,
+    },
+    {
+      code: '8886008101091',
+      name: 'Aqua 1500ml | 1.5L (besar)',
+      price: 6000,
+      stok: 100,
+    },
+    {
+      code: 'ndog1',
+      name: 'Telur 1kg',
+      price: 27500,
+      stok: 100,
+    },
+    {
+      code: 'ndog2',
+      name: 'Telur 1/2kg',
+      price: 14000,
+      stok: 100,
+    },
+    {
+      code: 'ndog4',
+      name: 'Telur 1/4kg',
+      price: 7500,
+      stok: 100,
+    },
+    {
+      code: 'pasir1',
+      name: 'Gula Pasir 1kg',
+      price: 14500,
+      stok: 100,
+    },
+    {
+      code: 'pasir2',
+      name: 'Gula Pasir 1/2kg',
+      price: 7500,
+      stok: 100,
+    },
+    {
+      code: 'pasir4',
+      name: 'Gula Pasir 1.4kg',
+      price: 4000,
+      stok: 100,
+    },
+  ];
   // !!! DEV PURPOSE
 
-  const [items, setItems] = useState(generateDummy);
+  const [items, setItems] = useState(dummyItems);
 
   const [invoice, setInvoice] = useState({});
 
