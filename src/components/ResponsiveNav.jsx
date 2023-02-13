@@ -193,15 +193,17 @@ const Nav = ({ active }) => {
   const navigate = useNavigate();
 
   // hover
-  const navActive = document.querySelector(`#${active}Nav`);
   const selectNav = targetId => {
+    const navActive = document.querySelector(`#${active}Nav`);
     const target = document.querySelector(`#${targetId}`);
     target.classList.add('navListActive');
   };
   const diselectNav = targetId => {
+    const navActive = document.querySelector(`#${active}Nav`);
     const target = document.querySelector(`#${targetId}`);
     target.classList.remove('navListActive');
     navActive.classList.add('navListActive');
+    console.log(navActive);
   };
 
   return (

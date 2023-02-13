@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import { Box, useColorMode, HStack } from '@chakra-ui/react';
 
 import '../css/vendereApp.css';
-import bgDark from '../assets/appBg.png';
-import bgLight from '../assets/bg.png';
 import ResponsiveNav from '../components/ResponsiveNav';
 import Items from '../components/Items';
 import Invoice from '../components/Invoice';
@@ -18,7 +16,6 @@ export default function Cashier({
   addItemToCartList,
 }) {
   // !!! DEV PURPOSE
-
   const dummyItems = [
     {
       code: '089686010947',
