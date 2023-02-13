@@ -227,7 +227,14 @@ const CartList = ({
   }
 };
 
-const Checkout = ({ total, checkout, cartList, clearInvoice, screenWidth }) => {
+const Checkout = ({
+  total,
+  checkout,
+  cartList,
+  clearInvoice,
+  screenWidth,
+  displayName,
+}) => {
   const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const checkoutBtn = useRef(null);
@@ -364,7 +371,7 @@ const Checkout = ({ total, checkout, cartList, clearInvoice, screenWidth }) => {
                 label={'CHECKOUT'}
                 size="sm"
                 onClick={() => {
-                  checkout('sulenq', total, pay, cartList);
+                  checkout(displayName, total, pay, cartList);
                   onClose();
                   clearInvoice();
                 }}
@@ -383,10 +390,6 @@ const Invoice = ({
   setCartList,
   total,
   setTotal,
-  pay,
-  setPay,
-  change,
-  setChange,
   search,
   setSearch,
   setInvoice,
@@ -401,9 +404,11 @@ const Invoice = ({
     window.addEventListener('resize', handleResize);
   });
 
+  const [displayName, setDisplayName] = useState('sulenq');
+
   const toast = useToast();
 
-  function checkout(chasierName, total, pay, cartList) {
+  function checkout(displayName, total, pay, cartList) {
     if (total !== 0) {
       let status = 'lunas';
       let change = pay - total;
@@ -412,7 +417,7 @@ const Invoice = ({
       }
       const invoice = {
         date: new Date(),
-        chasierName: chasierName,
+        chasierName: displayName,
         total: total,
         pay: pay,
         change: change,
@@ -710,6 +715,7 @@ const Invoice = ({
             cartList={cartList}
             clearInvoice={clearInvoice}
             screenWidth={screenWidth}
+            displayName={displayName}
           />
 
           <ColorModeIconButton size={'sm'} />
