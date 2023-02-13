@@ -194,7 +194,6 @@ const Nav = ({ active }) => {
 
   // hover
   const selectNav = targetId => {
-    const navActive = document.querySelector(`#${active}Nav`);
     const target = document.querySelector(`#${targetId}`);
     target.classList.add('navListActive');
   };

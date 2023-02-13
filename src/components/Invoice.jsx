@@ -51,10 +51,12 @@ const CartList = ({
     return (
       <Box
         w={'100%'}
+        h={'100%'}
         overflow={'hidden'}
-        pb={screenWidth <= 1000 ? '64px' : '12px'}
+        pb={screenWidth <= 1000 ? '64px' : '0px'}
+        style={{ borderBottom: '1px solid var(--light-dim)' }}
       >
-        <VStack w={'100%'} className="cartList">
+        <VStack w={'100%'} className="cartList" px={2} pb={2}>
           {cartList
             .slice(0)
             .reverse()
@@ -507,14 +509,18 @@ const Invoice = ({
     <VStack
       w={screenWidth <= 1000 ? '100%' : '50%'}
       height={'100%'}
-      borderRadius={'20px'}
+      borderRadius={12}
       alignItems={'flex-start'}
       py={2}
-      px={4}
       bg={colorMode === 'light' ? '#fff' : '#1A202C'}
     >
       {/* HEADER, ADD & CHECKOUT */}
-      <HStack w={'100%'} justifyContent={'space-between'} alignItems={'center'}>
+      <HStack
+        w={'100%'}
+        justifyContent={'space-between'}
+        alignItems={'center'}
+        px={4}
+      >
         <VStack alignItems={'flex-start'}>
           <Text>31/12/2022</Text>
           <Text fontWeight={'bold'} m="0 !important">
@@ -784,8 +790,9 @@ const Invoice = ({
 
       <Divider my={2} />
 
-      <Text>Total</Text>
+      <Text px={4}>Total</Text>
       <HStack
+        px={4}
         m={'0 !important'}
         w={'100%'}
         alignItems={'flex-start'}

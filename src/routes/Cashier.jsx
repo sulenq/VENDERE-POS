@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box, useColorMode, HStack } from '@chakra-ui/react';
+import { useColorMode, HStack } from '@chakra-ui/react';
 
 import '../css/vendereApp.css';
 import ResponsiveNav from '../components/ResponsiveNav';
@@ -127,8 +127,14 @@ export default function Cashier({
     },
     {
       code: 'pasir4',
-      name: 'Gula Pasir 1.4kg',
+      name: 'Gula Pasir 1/4kg',
       price: 4000,
+      stok: 100,
+    },
+    {
+      code: 'beras1',
+      name: 'Beras Stroberi 1kg',
+      price: 12000,
       stok: 100,
     },
   ];
@@ -156,15 +162,16 @@ export default function Cashier({
   }, []);
 
   return (
-    <Box
+    <HStack
       className="vendereApp"
       p={screenWidth <= 1000 ? 0 : 4}
+      alignItems={'center'}
       // backgroundImage={colorMode === 'light' ? `url(${bgDark})` : ''}
       // backgroundImage={`url(${bgDark})`}
     >
       <ResponsiveNav active={'cashier'} />
       <HStack
-        overflow={'hidden'}
+        id="appContentWrapper"
         h={'100%'}
         w={'100%'}
         p={2}
@@ -195,6 +202,6 @@ export default function Cashier({
           addItemToCartList={addItemToCartList}
         />
       </HStack>
-    </Box>
+    </HStack>
   );
 }
