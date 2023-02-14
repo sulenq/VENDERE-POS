@@ -22,11 +22,7 @@ import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 
 import '../css/vendereApp.css';
-import {
-  PrimaryButton,
-  PrimaryButtonOutline,
-  SecondaryButtonOutline,
-} from './Buttons';
+import { PrimaryButton, SecondaryButtonOutline } from './Buttons';
 
 const NavMobile = ({ active }) => {
   let nav;

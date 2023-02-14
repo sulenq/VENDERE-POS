@@ -49,7 +49,7 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
     if (targetItem) {
       targetItem.classList.add('itemSelected');
     }
-    console.log(itemIndex);
+    // console.log(itemIndex);
   }
 
   useEffect(() => {
