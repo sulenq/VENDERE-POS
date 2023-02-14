@@ -110,6 +110,7 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
           {/* Search Items Section */}
           <HStack px={4} w={'100%'}>
             <Input
+              id={'itemSearchBox'}
               ref={searchItem}
               className={'inputBox'}
               onKeyUp={handleKeyUp}

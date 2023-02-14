@@ -50,11 +50,13 @@ const PrimaryButtonOutline = ({
   refq,
   pb,
   w,
+  id,
 }) => {
   const { colorMode } = useColorMode();
 
   return (
     <Button
+      id={id}
       className="btn primaryBtnOutline"
       onClick={onClick}
       type={type}

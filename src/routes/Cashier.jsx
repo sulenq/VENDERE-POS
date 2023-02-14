@@ -174,7 +174,29 @@ export default function Cashier({
     window.addEventListener('resize', handleResize);
   });
 
-  const url = 'http://localhost:8080/api/v1/products/get';
+  document.documentElement.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (!screenWidth <= 1000) {
+        // const addItemBtn = document.querySelector('#addItemBtn');
+        // addItemBtn.click();
+
+        const itemSearchBox = document.querySelector('#itemSearchBox');
+
+        itemSearchBox.focus();
+      }
+    }
+
+    if (e.ctrlKey) {
+      const checkoutConfirmationBtn = document.querySelector(
+        '#checkoutConfirmationBtn'
+      );
+      checkoutConfirmationBtn.click();
+    }
+  });
+
+  const url = new URL('http://localhost:8080/api/v1/products/get');
+
   useEffect(() => {
     fetch(url)
       .then(r => r.json())

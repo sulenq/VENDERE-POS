@@ -242,22 +242,23 @@ const Checkout = ({
   const checkoutBtn = useRef(null);
 
   const [pay, setPay] = useState(0);
-  const [change, setChange] = useState(pay - total);
+  // const [change, setChange] = useState(pay - total);
   // console.log(pay, total, change, pay - total);
 
   function inputPayHandler(e) {
     if (!e.target.value) {
       setPay(0);
-      setChange(0 - total);
+      // setChange(0 - total);
     } else {
       setPay(parseInt(e.target.value));
-      setChange(parseInt(e.target.value) - total);
+      // setChange(parseInt(e.target.value) - total);
     }
   }
 
   return (
     <>
       <PrimaryButton
+        id={'checkoutConfirmationBtn'}
         label={'CHECKOUT'}
         onClick={() => {
           if (cartList.length > 0) {
@@ -382,6 +383,7 @@ const Checkout = ({
                   checkout(displayName, total, pay, cartList);
                   onClose();
                   clearInvoice();
+                  setPay(0);
                 }}
               />
             </ButtonGroup>
@@ -545,6 +547,7 @@ const Invoice = ({
           {/* ADD Button */}
           {screenWidth <= 1000 ? (
             <PrimaryButtonOutline
+              id={'addItemBtn'}
               label={'ADD'}
               leftIcon={AddShoppingCartRoundedIcon}
               size={'sm'}
@@ -587,6 +590,7 @@ const Invoice = ({
                   {/* Search Items Section */}
                   <HStack px={4}>
                     <Input
+                      id={'itemSearchBox'}
                       ref={searchItem}
                       className={'inputBox'}
                       // onKeyUp={handleKeyUp}
