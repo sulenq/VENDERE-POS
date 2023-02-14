@@ -750,12 +750,13 @@ const Invoice = ({
                                       .value
                                   );
 
-                                  addItemToCartList(
-                                    item.code,
-                                    item.name,
-                                    item.price,
-                                    itemQty
-                                  );
+                                  addItemToCartList({
+                                    itemId: item.id,
+                                    itemCode: item.code,
+                                    itemName: item.name,
+                                    itemPrice: item.price,
+                                    itemQty: itemQty,
+                                  });
                                   document.querySelector(
                                     `#qty${item.code}`
                                   ).value = 1;

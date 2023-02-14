@@ -23,9 +23,11 @@ export default function App() {
   const [cartList, setCartList] = useState([]);
   const [search, setSearch] = useState('');
 
-  function addItemToCartList(itemCode, itemName, itemPrice, itemQty) {
+  function addItemToCartList({itemId, itemCode, itemName, itemPrice, itemQty}) {
     let itemInCartList = false;
+
     const newCartList = {
+      id: itemId,
       code: itemCode,
       name: itemName,
       price: itemPrice,
@@ -33,8 +35,10 @@ export default function App() {
       totalPrice: itemPrice * itemQty,
     };
 
+    console.log(newCartList);
+
     cartList.forEach(item => {
-      if (item.code === itemCode) {
+      if (item.id === itemId) {
         itemInCartList = true;
         item.qty += itemQty;
         item.totalPrice += itemPrice * itemQty;
