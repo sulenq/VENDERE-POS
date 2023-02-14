@@ -321,6 +321,11 @@ const Checkout = ({
                   value={pay || ''}
                   type={'number'}
                   onChange={inputPayHandler}
+                  onKeyUp={e => {
+                    if (e.key === 'Enter') {
+                      document.querySelector('#checkoutBtn').click();
+                    }
+                  }}
                   onFocus={e => e.target.select()}
                   border={'1px solid'}
                   style={{ borderColor: 'var(--p-500)' }}
@@ -370,6 +375,7 @@ const Checkout = ({
               </Button>
 
               <PrimaryButton
+                id={'checkoutBtn'}
                 label={'CHECKOUT'}
                 size="sm"
                 onClick={() => {
@@ -411,7 +417,7 @@ const Invoice = ({
   const toast = useToast();
 
   function checkout(displayName, total, pay, cartList) {
-    if (total !== 0) {
+    if (total > 0) {
       let status = 'lunas';
       let change = pay - total;
       if (change * -1 > 0) {
@@ -429,7 +435,7 @@ const Invoice = ({
 
       toast({
         title: 'Transaction added.',
-        description: `This transaction has been added to Transactions`,
+        description: `This invoice has been added to Transactions`,
         status: 'success',
         duration: 3000,
         isClosable: true,

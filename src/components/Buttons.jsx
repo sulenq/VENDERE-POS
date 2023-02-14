@@ -13,9 +13,11 @@ const PrimaryButton = ({
   borderRadius,
   ml,
   w,
+  id,
 }) => {
   return (
     <Button
+      id={id}
       className="btn primaryBtn"
       onClick={onClick}
       size={size}
