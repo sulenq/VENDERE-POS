@@ -23,7 +23,13 @@ export default function App() {
   const [cartList, setCartList] = useState([]);
   const [search, setSearch] = useState('');
 
-  function addItemToCartList({itemId, itemCode, itemName, itemPrice, itemQty}) {
+  function addItemToCartList({
+    itemId,
+    itemCode,
+    itemName,
+    itemPrice,
+    itemQty,
+  }) {
     let itemInCartList = false;
 
     const newCartList = {
@@ -35,7 +41,7 @@ export default function App() {
       totalPrice: itemPrice * itemQty,
     };
 
-    console.log(newCartList);
+    // console.log(newCartList);
 
     cartList.forEach(item => {
       if (item.id === itemId) {

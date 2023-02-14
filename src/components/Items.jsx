@@ -31,13 +31,16 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
       const rect = targetItem.getBoundingClientRect();
       if (
         !(
-          rect.top >= 100 &&
+          rect.top >= 200 &&
           rect.left >= 0 &&
-          rect.bottom <= window.innerHeight &&
+          rect.bottom <= window.innerHeight - 100 &&
           rect.right <= window.innerWidth
         )
       ) {
-        targetItem.scrollIntoView();
+        targetItem.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+        });
       }
     }
 
@@ -87,8 +90,6 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
       }
     }
   };
-
-  // KeyUp Event
 
   return (
     <VStack id="addItemToCart" h={'100%'} w={'50%'}>
