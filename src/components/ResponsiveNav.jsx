@@ -10,10 +10,15 @@ import {
   Divider,
   VStack,
 } from '@chakra-ui/react';
-import SummarizeIcon from '@mui/icons-material/Summarize';
-import MoneyOffIcon from '@mui/icons-material/MoneyOff';
-import ReceiptRoundedIcon from '@mui/icons-material/ReceiptRounded';
+
+// MUI
+import LoyaltyOutlinedIcon from '@mui/icons-material/LoyaltyOutlined';
 import PointOfSaleRoundedIcon from '@mui/icons-material/PointOfSaleRounded';
+import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
+import MoneyOffIcon from '@mui/icons-material/MoneyOff';
+import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined';
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 
 import '../css/vendereApp.css';
@@ -36,7 +41,7 @@ const NavMobile = ({ active }) => {
   const selectNavList = targetId => {
     activeNav.classList.remove('navMobileContentBtnSelect');
     const target = document.querySelector(`#${targetId}`);
-    console.log(targetId);
+    // console.log(targetId);
     target.classList.add('navMobileContentBtnSelect');
 
     const navLabels = document.querySelectorAll('.navLabel');
@@ -76,7 +81,11 @@ const NavMobile = ({ active }) => {
             }}
             onMouseLeave={() => diselectNavList('reports')}
           >
-            <Icon as={SummarizeIcon} fontSize={'xx-large'} mx={'auto'} />
+            <Icon
+              as={SummarizeOutlinedIcon}
+              fontSize={'xx-large'}
+              mx={'auto'}
+            />
             <Text
               className="navLabel"
               display={'none'}
@@ -148,7 +157,7 @@ const NavMobile = ({ active }) => {
             }}
             onMouseLeave={() => diselectNavList('transactions')}
           >
-            <Icon as={ReceiptRoundedIcon} fontSize={'xx-large'} />
+            <Icon as={ReceiptLongOutlinedIcon} fontSize={'xx-large'} />
             <Text
               className="navLabel"
               display={'none'}
@@ -202,7 +211,7 @@ const Nav = ({ active }) => {
     const target = document.querySelector(`#${targetId}`);
     target.classList.remove('navListActive');
     navActive.classList.add('navListActive');
-    console.log(navActive);
+    // console.log(navActive);
   };
 
   return (
@@ -217,7 +226,7 @@ const Nav = ({ active }) => {
             alignSelf="flex-start"
           >
             <HStack alignItems={'center'}>
-              <PointOfSaleRoundedIcon style={{ color: 'var(--accent)' }} />
+              <LoyaltyOutlinedIcon style={{ color: 'var(--accent)' }} />
               <Text>Vendere</Text>
             </HStack>
           </Heading>
@@ -264,7 +273,7 @@ const Nav = ({ active }) => {
                     diselectNav('transactionsNav');
                   }}
                 >
-                  <Icon as={ReceiptRoundedIcon} fontSize={'xl'} />
+                  <Icon as={ReceiptLongOutlinedIcon} fontSize={'xl'} />
                   <Text ml={2}>Transactions</Text>
                 </li>
 
@@ -284,23 +293,6 @@ const Nav = ({ active }) => {
                 </li>
 
                 <li
-                  id="reportsNav"
-                  className={active === 'reports' ? 'navListActive' : null}
-                  onClick={() => navigate('../reports')}
-                  onMouseEnter={() => {
-                    selectNav('reportsNav');
-                  }}
-                  onMouseLeave={() => {
-                    diselectNav('reportsNav');
-                  }}
-                >
-                  <Icon as={SummarizeIcon} fontSize={'xl'} />
-                  <Text ml={2}>Reports</Text>
-                </li>
-
-                <Divider mr={4} style={{ background: 'var(--p-50)' }} />
-
-                <li
                   id="supportNav"
                   className={active === 'support' ? 'navListActive' : null}
                   onClick={() => navigate('../support')}
@@ -311,8 +303,27 @@ const Nav = ({ active }) => {
                     diselectNav('supportNav');
                   }}
                 >
-                  <Text>Support</Text>
+                  <Icon as={HelpOutlineOutlinedIcon} fontSize={'xl'} />
+                  <Text ml={2}>Support</Text>
                 </li>
+
+                <Divider mr={4} style={{ background: 'var(--p-50)' }} />
+
+                <li
+                  id="reportsNav"
+                  className={active === 'reports' ? 'navListActive' : null}
+                  onClick={() => navigate('../reports')}
+                  onMouseEnter={() => {
+                    selectNav('reportsNav');
+                  }}
+                  onMouseLeave={() => {
+                    diselectNav('reportsNav');
+                  }}
+                >
+                  <Icon as={SummarizeOutlinedIcon} fontSize={'xl'} />
+                  <Text ml={2}>Reports</Text>
+                </li>
+
                 <li
                   id="stockNav"
                   className={active === 'stock' ? 'navListActive' : null}
@@ -324,7 +335,8 @@ const Nav = ({ active }) => {
                     diselectNav('stockNav');
                   }}
                 >
-                  <Text>Stock</Text>
+                  <Icon as={Inventory2OutlinedIcon} fontSize={'xl'} />
+                  <Text ml={2}>Stock</Text>
                 </li>
               </ul>
             </Box>
