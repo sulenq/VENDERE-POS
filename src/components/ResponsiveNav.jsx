@@ -255,7 +255,7 @@ const Nav = ({ active }) => {
                   }}
                 >
                   <Icon as={PointOfSaleRoundedIcon} fontSize={'xl'} />
-                  <Text ml={2}>Cashier</Text>
+                  <Text ml={2}>Cashiering</Text>
                 </li>
 
                 <li
@@ -321,18 +321,18 @@ const Nav = ({ active }) => {
                 </li>
 
                 <li
-                  id="stockNav"
-                  className={active === 'stock' ? 'navListActive' : null}
-                  onClick={() => navigate('../stock')}
+                  id="supplyNav"
+                  className={active === 'supply' ? 'navListActive' : null}
+                  onClick={() => navigate('../supply')}
                   onMouseEnter={() => {
-                    selectNav('stockNav');
+                    selectNav('supplyNav');
                   }}
                   onMouseLeave={() => {
-                    diselectNav('stockNav');
+                    diselectNav('supplyNav');
                   }}
                 >
                   <Icon as={Inventory2OutlinedIcon} fontSize={'xl'} />
-                  <Text ml={2}>Stock</Text>
+                  <Text ml={2}>Supply</Text>
                 </li>
               </ul>
             </Box>

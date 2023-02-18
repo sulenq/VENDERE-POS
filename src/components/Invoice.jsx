@@ -20,12 +20,15 @@ import {
   ModalCloseButton,
   useToast,
 } from '@chakra-ui/react';
+
+// MUI Icons
 import AddShoppingCartRoundedIcon from '@mui/icons-material/AddShoppingCartRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
 import RemoveShoppingCartRoundedIcon from '@mui/icons-material/RemoveShoppingCartRounded';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
+import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 
 import '../css/vendereApp.css';
 import { ColorModeIconButton } from './ColorModeSwitcher';
@@ -208,7 +211,16 @@ const CartList = ({
     );
   } else {
     return (
-      <VStack w={'100%'} h={'100%'} justifyContent={'center'} pb={24}>
+      <VStack
+        w={'100%'}
+        h={'100%'}
+        justifyContent={'center'}
+        pb={24}
+        borderBottom={'1px solid'}
+        style={{
+          borderColor: colorMode === 'light' ? '#e1e1e1' : 'var(--dark-dim)',
+        }}
+      >
         <Icon
           as={RemoveShoppingCartRoundedIcon}
           fontSize={'10rem'}
@@ -573,63 +585,52 @@ const Invoice = ({
               bg={colorMode === 'light' ? '#ffffff' : '#1A202C95'}
             >
               <ModalCloseButton borderRadius={'50px'} />
-              <Box
-                w={'100%'}
+
+              <VStack
+                id="addItemToCart"
                 h={'100%'}
+                w={'100%'}
+                alignItems={'flex-start'}
+                py={2}
                 borderRadius={12}
                 bg={colorMode === 'light' ? '#ffffff' : '#1A202C'}
               >
-                <Box py={0} px={4} mb={4}>
-                  <HStack>
-                    <AddShoppingCartRoundedIcon />
-                    <Text fontWeight={'bold'}>Add Item to Cart</Text>
-                  </HStack>
-                </Box>
+                <HStack py={0} px={4}>
+                  <AddShoppingCartRoundedIcon />
+                  <Text fontWeight={'bold'}>Add Item to Cart</Text>
+                </HStack>
 
-                <Box p={0} h={'95%'} display={'flex'} flexDirection={'column'}>
-                  {/* Search Items Section */}
-                  <HStack px={4}>
-                    <Input
-                      id={'itemSearchBox'}
-                      ref={searchItem}
-                      className={'inputBox'}
-                      // onKeyUp={handleKeyUp}
-                      // onKeyDown={handleKeyDown}
-                      tabIndex={0}
-                      onFocus={e => e.target.select()}
-                      onChange={e => {
-                        setSearch(e.target.value);
-                      }}
-                      type={'text'}
-                      value={search}
-                      placeholder={'Search item by name or code'}
-                      w={'100%'}
-                      border={'1px solid'}
-                      borderRadius={'10px 0 0 10px'}
-                      style={{ borderColor: 'var(--p-500)' }}
-                      _focusVisible={{ border: '2px solid #4f6aa9' }}
-                    />
-                    <PrimaryButton
-                      label={'SCAN'}
-                      borderRadius={'0 10px 10px 0 !important'}
-                      ml={'0px !important'}
-                    />
-                  </HStack>
-
-                  {/* Items Header */}
-                  <HStack
-                    fontSize={'sm'}
-                    w={'100%'}
-                    mt={2}
-                    py={2}
-                    pl={4}
-                    pr={6}
-                    borderBottom={'1px solid'}
-                    style={{
-                      borderColor:
-                        colorMode === 'light' ? '#e1e1e1' : 'var(--dark-dim)',
+                {/* Search Items Section */}
+                <HStack px={4} w={'100%'}>
+                  <Input
+                    id={'itemSearchBox'}
+                    ref={searchItem}
+                    className={'inputBox'}
+                    tabIndex={0}
+                    onFocus={e => e.target.select()}
+                    onChange={e => {
+                      setSearch(e.target.value);
                     }}
-                  >
+                    type={'text'}
+                    value={search}
+                    placeholder={'Search item by name or code'}
+                    w={'100%'}
+                    border={'1px solid'}
+                    borderRadius={'10px 0 0 10px'}
+                    style={{ borderColor: 'var(--p-500)' }}
+                    _focusVisible={{ border: '2px solid #4f6aa9' }}
+                  />
+                  <PrimaryButton
+                    label={'SCAN'}
+                    borderRadius={'0 10px 10px 0 !important'}
+                    ml={'0px !important'}
+                  />
+                </HStack>
+
+                {/* Items Section */}
+                <VStack h={'calc(100% - 80px)'} w={'100%'}>
+                  {/* Items Header */}
+                  <HStack fontSize={'sm'} w={'100%'} py={2} pl={4} pr={6}>
                     <Text fontWeight={'bold'} w={'30%'}>
                       CODE
                     </Text>
@@ -647,12 +648,20 @@ const Invoice = ({
                   </HStack>
 
                   {/* Items */}
-                  <Box
+                  <VStack
                     className="items"
+                    h={'100%'}
+                    w={'100%'}
+                    mt={'0px !important'}
                     fontSize={'sm'}
                     overflowY={'auto'}
-                    height={'100%'}
-                    pb={4}
+                    borderBottom={'1px solid'}
+                    borderTop={'1px solid'}
+                    // pb={2}
+                    style={{
+                      borderColor:
+                        colorMode === 'light' ? '#e1e1e1' : 'var(--dark-dim)',
+                    }}
                   >
                     {items.map((item, index) => {
                       if (
@@ -666,6 +675,8 @@ const Invoice = ({
                             id={index}
                             pl={4}
                             pr={6}
+                            mt={'0px !important'}
+                            w={'100%'}
                             alignItems={'flex-start'}
                             key={index}
                             py={2}
@@ -779,10 +790,11 @@ const Invoice = ({
                           </HStack>
                         );
                       }
+                      return null;
                     })}
-                  </Box>
-                </Box>
-              </Box>
+                  </VStack>
+                </VStack>
+              </VStack>
             </ModalContent>
           </Modal>
 

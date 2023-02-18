@@ -6,10 +6,14 @@ import {
   VStack,
   HStack,
   Input,
+  Icon,
 } from '@chakra-ui/react';
+
+// MUI Icons
 import AddShoppingCartRoundedIcon from '@mui/icons-material/AddShoppingCartRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
+import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 
 import '../css/vendereApp.css';
 import { PrimaryButton, PrimaryButtonOutline } from './Buttons';
@@ -20,6 +24,7 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
 
   const [itemIndex, setItemIndex] = useState(1);
   const [itemsLength, setItemLength] = useState(0);
+  const [itemsFound, setItemsFound] = useState(true);
 
   function selectItem() {
     const targetItem = document.querySelector(
@@ -163,9 +168,8 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
           mt={'0px !important'}
           fontSize={'sm'}
           overflowY={'auto'}
-          borderBottom={'1px solid'}
           borderTop={'1px solid'}
-          // pb={2}
+          borderBottom={'1px solid'}
           style={{
             borderColor: colorMode === 'light' ? '#e1e1e1' : 'var(--dark-dim)',
           }}
@@ -285,8 +289,9 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
                   </VStack>
                 </HStack>
               );
+            } else {
+              return null;
             }
-            return null;
           })}
         </VStack>
       </VStack>
