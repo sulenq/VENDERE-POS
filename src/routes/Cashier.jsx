@@ -186,7 +186,9 @@ export default function Cashier({
         itemSearchBox.focus();
       }
     }
+  });
 
+  document.documentElement.addEventListener('keydown', e => {
     if (e.ctrlKey) {
       const checkoutConfirmationBtn = document.querySelector(
         '#checkoutConfirmationBtn'
@@ -195,10 +197,10 @@ export default function Cashier({
     }
   });
 
-  const url = new URL('http://localhost:8080/api/v1/products/get');
+  const itemsAPI = new URL('http://localhost:8080/api/v1/products/get');
 
   useEffect(() => {
-    fetch(url)
+    fetch(itemsAPI)
       .then(r => r.json())
       .then(json => setItems(json));
   }, []);
