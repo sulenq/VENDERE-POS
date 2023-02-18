@@ -27,7 +27,7 @@ import { PrimaryButton, SecondaryButtonOutline } from './Buttons';
 const NavMobile = ({ active }) => {
   let nav;
   let activeNav;
-  console.log(active);
+
   useEffect(() => {
     nav = document.querySelector('.navMobile');
     activeNav = document.querySelector(`#${active}`);

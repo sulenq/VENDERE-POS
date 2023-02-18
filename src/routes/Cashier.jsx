@@ -188,14 +188,15 @@ export default function Cashier({
     }
   });
 
-  document.documentElement.addEventListener('keydown', e => {
-    if (e.ctrlKey) {
-      const checkoutConfirmationBtn = document.querySelector(
-        '#checkoutConfirmationBtn'
-      );
-      checkoutConfirmationBtn.click();
-    }
-  });
+  // Ctrl to checkout
+  // document.documentElement.addEventListener('keydown', e => {
+  //   if (e.ctrlKey) {
+  //     const checkoutConfirmationBtn = document.querySelector(
+  //       '#checkoutConfirmationBtn'
+  //     );
+  //     checkoutConfirmationBtn.click();
+  //   }
+  // });
 
   const itemsAPI = new URL('http://localhost:8080/api/v1/products/get');
 
