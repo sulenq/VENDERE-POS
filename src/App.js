@@ -17,6 +17,8 @@ const BadRequest = () => {
 };
 
 export default function App() {
+  const DOMAINAPI = 'http://localhost:8080';
+
   // !!! DEV PURPOSE
   const dummyItems = [
     {
@@ -164,12 +166,13 @@ export default function App() {
 
   const [items, setItems] = useState(dummyItems);
 
-  const itemsAPI = new URL('http://localhost:8080/api/v1/products/get');
-  useEffect(() => {
-    fetch(itemsAPI)
-      .then(r => r.json())
-      .then(json => setItems(json));
-  }, []);
+  // const itemsAPI = new URL(`${DOMAINAPI}/api/v1/products`);
+
+  // useEffect(() => {
+  //   fetch(itemsAPI)
+  //     .then(r => r.json())
+  //     .then(json => setItems(json));
+  // }, []);
 
   const toast = useToast();
 

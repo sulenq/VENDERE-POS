@@ -4,20 +4,24 @@ import * as ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
+
 import { ChakraProvider, theme } from '@chakra-ui/react';
 import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from 'react-auth-kit';
 
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
 
 root.render(
   <ChakraProvider theme={theme}>
-    <BrowserRouter>
-      <StrictMode>
-        <ColorModeScript />
-        <App />
-      </StrictMode>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <StrictMode>
+          <ColorModeScript />
+          <App />
+        </StrictMode>
+      </BrowserRouter>
+    </AuthProvider>
   </ChakraProvider>
 );
 

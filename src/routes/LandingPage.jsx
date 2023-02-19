@@ -28,7 +28,10 @@ import { PrimaryButton } from '../components/Buttons';
 import { ModalOverlay, ModalContent, ModalFooter } from '../components/Modals';
 
 export default function Home() {
+  const DOMAIN_API = 'http://localhost:8080';
+
   const navigate = useNavigate();
+
   function toVendereApp() {
     navigate('/vendere-app/cashier');
   }
@@ -43,46 +46,30 @@ export default function Home() {
     window.addEventListener('resize', handleResize);
   });
 
-  const [loginEmail, setLoginEmail] = useState();
-  const [loginPassword, setLoginPassword] = useState();
+  const [dataLogin, setDataLogin] = useState(null);
 
+  // SIGN UP SECTION
   const SignUp = () => {
+    const [registerShopName, setRegisterShopName] = useState(null);
+    const [registerEmail, setRegisterEmail] = useState(null);
+    const [registerPassword, setRegisterPassword] = useState();
+
     const { isOpen, onOpen, onClose } = useDisclosure();
     const registerFirstFocus = useRef();
 
-    const [registerUserType, setRegisterUserType] = useState('cashier');
-    const [registerShopName, setRegisterShopName] = useState();
-    const [registerShopCode, setRegisterShopCode] = useState();
-    const [registerDisplayName, setRegisterDisplayName] = useState();
-    const [registerEmail, setRegisterEmail] = useState();
-    const [registerPassword, setRegisterPassword] = useState();
+    function signUp(e) {
+      e.preventDefault();
+      const adminRegisterAPI = new URL(
+        `${DOMAIN_API}/api/v1/users/admin/register`
+      );
 
-    function signUp() {
-      const URL = 'http://localhost:8080/api/v1/users/login';
-      let data;
+      const data = {
+        shop_name: registerShopName,
+        email: registerEmail,
+        password: registerPassword,
+      };
 
-      switch (registerUserType) {
-        case 'admin':
-          data = {
-            userType: registerUserType,
-            shopName: registerShopName,
-            displayName: registerDisplayName,
-            email: registerEmail,
-            password: registerPassword,
-          };
-          break;
-        case 'cashier':
-          data = {
-            userType: registerUserType,
-            shopCode: registerShopCode,
-            displayName: registerDisplayName,
-            email: registerEmail,
-            password: registerPassword,
-          };
-          break;
-      }
-
-      fetch(URL, {
+      fetch(adminRegisterAPI, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,6 +79,7 @@ export default function Home() {
         .then(response => response.json())
         .then(responseData => {
           console.log(responseData);
+          // navigate('/vendere-app');
         });
     }
 
@@ -116,51 +104,33 @@ export default function Home() {
                   </HStack>
                 </ModalHeader>
 
-                <ModalBody py={6}>
+                <ModalBody pb={6}>
                   <form id="signUpForm">
-                    <FormControl isRequired>
-                      <FormLabel>Sign Up as</FormLabel>
-                      <Select
-                        ref={registerFirstFocus}
-                        _focusVisible={{ border: '2px solid #fdd100' }}
-                        onChange={e => {
-                          setRegisterUserType(e.target.value);
-                        }}
-                        value={registerUserType}
-                      >
-                        <option value="admin">Admin</option>
-                        <option value="cashier">Cashier</option>
-                      </Select>
-                    </FormControl>
-
-                    {registerUserType === 'admin' ? '' : ''}
-
                     <FormControl mt={4} isRequired>
-                      <FormLabel>Name</FormLabel>
+                      <FormLabel>Shop's Name</FormLabel>
                       <Input
-                        placeholder="e.g Marco Leo"
-                        _focusVisible={{ border: '2px solid #fdd100' }}
+                        placeholder="e.g Kiosk Melati"
                         onChange={e => {
-                          setRegisterDisplayName(e.target.value);
+                          setRegisterShopName(e.target.value);
                         }}
                       />
                     </FormControl>
+
                     <FormControl mt={4} isRequired>
                       <FormLabel>E-mail</FormLabel>
                       <Input
                         placeholder="e.g marcoleo@email.com"
-                        _focusVisible={{ border: '2px solid #fdd100' }}
                         onChange={e => {
                           setRegisterEmail(e.target.value);
                         }}
                       />
                     </FormControl>
+
                     <FormControl mt={4} isRequired>
                       <FormLabel>Password</FormLabel>
                       <Input
                         type={'password'}
                         placeholder="Type strong password"
-                        _focusVisible={{ border: '2px solid #fdd100' }}
                         onChange={e => {
                           setRegisterPassword(e.target.value);
                         }}
@@ -198,8 +168,7 @@ export default function Home() {
                         <PrimaryButton
                           label={'Create Account'}
                           onClick={signUp}
-                          type="submit"
-                          form="signUpForm"
+                          isLoading={false}
                         />
                       </ButtonGroup>
                     </>
@@ -213,18 +182,54 @@ export default function Home() {
     );
   };
 
+  // SIGN IN SECTION
   const SignIn = () => {
+    const [loginRole, setLoginRole] = useState('admin');
+    const [loginUsername, setLoginUsername] = useState(null);
+    const [loginPassword, setLoginPassword] = useState(null);
+
     const { isOpen, onOpen, onClose } = useDisclosure();
     const emailSignIn = useRef();
 
-    function signIn() {
-      const URL = 'http://localhost:8080/api/v1/users/login';
+    function selectLoginRole(e) {
+      const role = e.target.value;
+      setLoginRole(role);
+      console.log(role);
+    }
+
+    function adminSignIn() {
+      console.log('admin login');
+      const adminLoginAPI = new URL(`${DOMAIN_API}/api/v1/users/admin/login`);
+
       let data = {
-        email: loginEmail,
+        email: loginUsername,
         password: loginPassword,
       };
 
-      fetch(URL, {
+      fetch(adminLoginAPI, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+        });
+    }
+
+    function cashierSignIn() {
+      console.log('cashier login');
+
+      const adminLoginAPI = new URL(`${DOMAIN_API}/api/v1/users/cashier/login`);
+
+      let data = {
+        username: loginUsername,
+        password: loginPassword,
+      };
+
+      fetch(adminLoginAPI, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -255,38 +260,46 @@ export default function Home() {
                 </ModalHeader>
 
                 <ModalBody pb={6}>
-                  <FormControl mt={4} isRequired>
-                    <FormLabel>E-mail</FormLabel>
-                    <Input
-                      ref={emailSignIn}
-                      placeholder="e.g marcoleo@email.com"
-                      _focusVisible={{ border: '2px solid #fdd100' }}
-                      onChange={e => setLoginEmail(e.target.value)}
-                    />
-                  </FormControl>
-                  <FormControl mt={4} isRequired>
-                    <FormLabel>Password</FormLabel>
-                    <Input
-                      type={'password'}
-                      placeholder="Type strong password"
-                      _focusVisible={{ border: '2px solid #fdd100' }}
-                      onChange={e => setLoginPassword(e.target.value)}
-                    />
-                  </FormControl>
-                  <HStack my={4} w={'100%'}>
-                    <Divider />
-                    <Text>or</Text>
-                    <Divider />
-                  </HStack>
+                  <form id="loginForm">
+                    <FormControl mt={4} isRequired>
+                      <FormLabel>Login As...</FormLabel>
+                      <Select onChange={selectLoginRole}>
+                        <option value={'admin'}>Admin</option>
+                        <option value={'cashier'}>Cashier</option>
+                      </Select>
+                    </FormControl>
+                    <FormControl mt={4} isRequired>
+                      <FormLabel>E-mail / Username</FormLabel>
+                      <Input
+                        className="inputBox"
+                        ref={emailSignIn}
+                        placeholder="e.g marcoleo@email.com"
+                        onChange={e => setLoginUsername(e.target.value)}
+                      />
+                    </FormControl>
+                    <FormControl mt={4} isRequired>
+                      <FormLabel>Password</FormLabel>
+                      <Input
+                        type={'password'}
+                        placeholder="Type your password"
+                        onChange={e => setLoginPassword(e.target.value)}
+                      />
+                    </FormControl>
+                    <HStack my={4} w={'100%'}>
+                      <Divider />
+                      <Text>or</Text>
+                      <Divider />
+                    </HStack>
 
-                  <Button
-                    w={'100%'}
-                    py={6}
-                    leftIcon={<GoogleIcon />}
-                    variant={'outline'}
-                  >
-                    Login with Google
-                  </Button>
+                    <Button
+                      w={'100%'}
+                      py={6}
+                      leftIcon={<GoogleIcon />}
+                      variant={'outline'}
+                    >
+                      Login with Google
+                    </Button>
+                  </form>
                 </ModalBody>
 
                 <ModalFooter
@@ -301,8 +314,12 @@ export default function Home() {
                           Cancel
                         </Button>
                         <PrimaryButton
+                          type={'submit'}
+                          form={'loginForm'}
                           label={'Sign In'}
-                          onClick={toVendereApp}
+                          onClick={
+                            loginRole === 'admin' ? adminSignIn : cashierSignIn
+                          }
                         />
                       </ButtonGroup>
                     </>
@@ -316,6 +333,7 @@ export default function Home() {
     );
   };
 
+  // Lading Page Main
   return (
     <Box
       className="landingPage"

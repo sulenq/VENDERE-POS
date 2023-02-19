@@ -66,6 +66,7 @@ export default function Cashier({
         h={'100%'}
         w={'100%'}
         p={2}
+        ml={'0px !important'}
         borderRadius={screenWidth <= 1000 ? 0 : '20px'}
         style={{
           background: colorMode === 'light' ? 'var(--p-50)' : '#2d3748',

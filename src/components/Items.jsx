@@ -88,7 +88,7 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
       }
     }
 
-    if (e.key === 'ArrowUp') {
+    if (e.key === 'ArrowUp' ) {
       e.preventDefault();
       if (itemIndex > 1) {
         setItemIndex(itemIndex - 1);

@@ -14,6 +14,7 @@ const PrimaryButton = ({
   ml,
   w,
   id,
+  isLoading,
 }) => {
   return (
     <Button
@@ -29,6 +30,7 @@ const PrimaryButton = ({
       borderRadius={borderRadius}
       ml={ml}
       w={w}
+      isLoading={isLoading}
       style={{
         color: 'white',
         background: 'var(--p-500)',
