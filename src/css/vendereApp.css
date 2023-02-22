@@ -4,11 +4,13 @@
   --dark-dim: #2d3748;
   --dark: #1a1a1a;
   --light: #f8f8f8;
-  --light-dim: #e0e0e0;
+  --light-dim: #f0f0f0;
   --p-50: #fff;
-  --p-100: #cccccc;
+  --p-75: #f3f3f3;
+  --p-100: #bebebe;
   --p-200: #888888;
   --p-300: #404040;
+  --p-350: #252525;
   --p-400: #1f1f1f;
   --p-450: #161616;
   --p-500: #000000;
@@ -28,10 +30,14 @@ html,
 body,
 #root {
   scroll-behavior: smooth !important;
+  display: flex;
   height: 100%;
+  width: 100%;
 }
 
-::-webkit-scrollbar {
+#navOptions::-webkit-scrollbar,
+.items::-webkit-scrollbar,
+.cartList::-webkit-scrollbar {
   width: 8px;
   /* border-radius: 16px; */
   background-color: var(--p-100);
@@ -67,26 +73,8 @@ body,
   padding: 0 12px !important;
 }
 
-nav {
-  /* width: 230px; */
-  height: 100%;
-  /* padding-right: 8px; */
-  /* border: 1px solid white; */
-  /* font-size: 20px; */
-}
 #cashierNav {
   margin: 0;
-}
-nav li {
-  /* transition: 0.3s; */
-  display: flex;
-  align-items: center;
-  /* border: 1px solid white; */
-  /* background: transparent; */
-  padding: 6px 16px;
-  border-radius: 10px;
-  margin: 16px 0;
-  cursor: pointer;
 }
 
 .navListActive {
@@ -102,23 +90,6 @@ nav li {
   position: absolute;
   left: 0px;
   border-radius: 100px 0 0 100px;
-}
-
-.miniProfile {
-  /* border: 1px solid white; */
-  padding-top: 32px;
-  position: relative;
-}
-.miniProfileImage {
-  height: 80px;
-  width: 80px;
-  border-radius: 100%;
-  background: var(--p-100);
-  position: absolute;
-  bottom: 175px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .navMobile {

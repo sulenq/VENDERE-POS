@@ -19,7 +19,7 @@ import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 import '../css/vendereApp.css';
 import { PrimaryButton, PrimaryButtonOutline } from './Buttons';
 
-const Items = ({ items, search, setSearch, addItemToCartList }) => {
+export default function Items({ items, search, setSearch, addItemToCartList }) {
   const { colorMode } = useColorMode();
   const searchItem = useRef(null);
 
@@ -307,6 +307,4 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
       </VStack>
     </VStack>
   );
-};
-
-export default Items;
+}

@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { useState, useEffect } from 'react';
 import { useColorMode, HStack } from '@chakra-ui/react';
 
@@ -8,16 +10,7 @@ import ResponsiveNav from '../components/ResponsiveNav';
 import Items from '../components/Items';
 import Invoice from '../components/Invoice';
 
-export default function Cashier({
-  items,
-  total,
-  setTotal,
-  cartList,
-  setCartList,
-  search,
-  setSearch,
-  addItemToCartList,
-}) {
+export default function Employees() {
   const [invoice, setInvoice] = useState({});
 
   const { colorMode } = useColorMode();
@@ -44,16 +37,6 @@ export default function Cashier({
     }
   });
 
-  // Ctrl to checkout
-  // document.documentElement.addEventListener('keydown', e => {
-  //   if (e.ctrlKey) {
-  //     const checkoutConfirmationBtn = document.querySelector(
-  //       '#checkoutConfirmationBtn'
-  //     );
-  //     checkoutConfirmationBtn.click();
-  //   }
-  // });
-
   return (
     <HStack
       className="vendereApp"
@@ -62,7 +45,7 @@ export default function Cashier({
       // backgroundImage={colorMode === 'light' ? `url(${bgDark})` : ''}
       // backgroundImage={`url(${bgDark})`}
     >
-      <ResponsiveNav active={'cashier'} w={'15%'} />
+      <ResponsiveNav active={'employees'} w={'15%'} />
       <HStack
         id="appContentWrapper"
         h={'100%'}
@@ -74,29 +57,7 @@ export default function Cashier({
           background:
             colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-450)',
         }}
-      >
-        {screenWidth <= 1000 ? (
-          ''
-        ) : (
-          <Items
-            items={items}
-            search={search}
-            setSearch={setSearch}
-            addItemToCartList={addItemToCartList}
-          />
-        )}
-        <Invoice
-          items={items}
-          total={total}
-          setTotal={setTotal}
-          cartList={cartList}
-          setCartList={setCartList}
-          search={search}
-          setSearch={setSearch}
-          setInvoice={setInvoice}
-          addItemToCartList={addItemToCartList}
-        />
-      </HStack>
+      ></HStack>
     </HStack>
   );
 }

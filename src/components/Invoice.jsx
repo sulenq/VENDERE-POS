@@ -345,7 +345,12 @@ const Checkout = ({ total, checkout, cartList, clearInvoice, screenWidth }) => {
                 content={
                   <>
                     {!isAuthTokenExist && (
-                      <Alert status="error" variant={'left-accent'} mb={4}>
+                      <Alert
+                        borderRadius={'8px'}
+                        status="error"
+                        variant={'left-accent'}
+                        mb={4}
+                      >
                         <AlertIcon alignSelf={'flex-start'} />
                         <Box>
                           <AlertTitle>Access Denied!</AlertTitle>

@@ -167,28 +167,6 @@ export default function LandingPage() {
       //! Simulasi loading
     }
 
-    // const adminRegisterAPI = new URL(
-    //   `${DOMAIN_API}/api/v1/users/admin/register`
-    // );
-
-    // fetch(adminRegisterAPI, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(registerData),
-    // })
-    //   .then(response => response.json())
-    //   .then(responseData => {
-    //     setRegisterData({
-    //       shop_name: '',
-    //       email: '',
-    //       password: '',
-    //     });
-    //     toastRegisterStatus(responseData);
-    //   })
-    //   .finally(setIsCreateAccountLoading(false));
-
     return (
       <>
         <PrimaryButtonOutline
@@ -214,7 +192,11 @@ export default function LandingPage() {
                 </ModalHeader>
 
                 <ModalBody pb={6}>
-                  <Alert status="info" variant={'left-accent'}>
+                  <Alert
+                    borderRadius={'8px'}
+                    status="info"
+                    variant={'left-accent'}
+                  >
                     Here you will register your shop and this registered account
                     will be admin account of this shop.
                   </Alert>

@@ -4,38 +4,25 @@ import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 
 import '../css/vendereApp.css';
 
-const PrimaryButton = ({
-  leftIcon,
-  label,
-  onClick,
-  type,
-  form,
-  size,
-  pb,
-  borderRadius,
-  ml,
-  w,
-  id,
-  isLoading,
-  refq,
-}) => {
+const PrimaryButton = props => {
   const { colorMode } = useColorMode();
 
   return (
     <Button
-      id={id}
-      ref={refq}
+      id={props.id}
+      ref={props.refq}
       className="btn primaryBtn"
-      onClick={onClick}
-      size={size}
-      type={type}
-      form={form}
+      onClick={props.onClick}
+      size={props.size}
+      form={props.form}
+      type={props.type}
       variant={'solid'}
-      pb={pb}
-      borderRadius={borderRadius}
-      ml={ml}
-      w={w}
-      isLoading={isLoading}
+      pb={props.pb}
+      borderRadius={props.borderRadius}
+      ml={props.ml}
+      mr={props.mr}
+      w={props.w}
+      isLoading={props.isLoading}
       _hover={{
         background:
           colorMode === 'light'
@@ -50,38 +37,27 @@ const PrimaryButton = ({
         background: 'var(--accent) !important',
       }}
     >
-      {leftIcon && <Icon as={leftIcon} w={5} pr={'2px'} />}
-      {label}
+      {props.leftIcon && <Icon as={props.leftIcon} w={5} pr={'2px'} />}
+      {props.label}
     </Button>
   );
 };
 
-const PrimaryButtonOutline = ({
-  leftIcon,
-  label,
-  onClick,
-  type,
-  form,
-  size,
-  refq,
-  pb,
-  w,
-  id,
-}) => {
+const PrimaryButtonOutline = props => {
   const { colorMode } = useColorMode();
 
   return (
     <Button
-      id={id}
+      id={props.id}
       className="btn primaryBtnOutline"
-      onClick={onClick}
-      type={type}
-      size={size}
-      form={form}
+      onClick={props.onClick}
+      type={props.type}
+      size={props.size}
+      form={props.form}
       variant={'outline'}
-      ref={refq}
-      pb={pb}
-      w={w}
+      ref={props.refq}
+      pb={props.pb}
+      w={props.w}
       style={{
         color: colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)',
         border: '2px solid',
@@ -95,44 +71,30 @@ const PrimaryButtonOutline = ({
       }}
       _active={{ background: 'var(--p-100) !important' }}
     >
-      {leftIcon && <Icon as={leftIcon} h={5} pr={'2px'} />}
-      {label}
+      {props.leftIcon && <Icon as={props.leftIcon} h={5} pr={'2px'} />}
+      {props.label}
     </Button>
   );
 };
 
-const PrimaryButtonNav = ({
-  leftIcon,
-  label,
-  onClick,
-  type,
-  form,
-  size,
-  pb,
-  borderRadius,
-  ml,
-  w,
-  id,
-  isLoading,
-  refq,
-}) => {
+const PrimaryButtonNav = props => {
   const { colorMode } = useColorMode();
 
   return (
     <Button
-      id={id}
-      ref={refq}
+      id={props.id}
+      ref={props.refq}
       className="btn primaryBtn"
-      onClick={onClick}
-      size={size}
-      type={type}
-      form={form}
+      onClick={props.onClick}
+      size={props.size}
+      type={props.type}
+      form={props.form}
       variant={'solid'}
-      pb={pb}
-      borderRadius={borderRadius}
-      ml={ml}
-      w={w}
-      isLoading={isLoading}
+      pb={props.pb}
+      borderRadius={props.borderRadius}
+      ml={props.ml}
+      w={props.w}
+      isLoading={props.isLoading}
       _hover={{
         background: 'var(--p-100) !important',
       }}
@@ -142,44 +104,38 @@ const PrimaryButtonNav = ({
       }}
       _active={{ background: 'var(--accent) !important' }}
     >
-      {leftIcon && <Icon as={leftIcon} w={5} pr={'2px'} />}
-      {label}
+      {props.leftIcon && <Icon as={props.leftIcon} w={5} pr={'2px'} />}
+      {props.label}
     </Button>
   );
 };
 
-const SecondaryButtonOutlineNav = ({
-  leftIcon,
-  label,
-  onClick,
-  type,
-  form,
-  size,
-  refq,
-  pb,
-  w,
-}) => {
+const SecondaryButtonOutlineNav = props => {
   const { colorMode } = useColorMode();
 
   return (
     <Button
       className="btn secondaryButtonOutline"
-      onClick={onClick}
-      type={type}
-      size={size}
-      form={form}
+      onClick={props.onClick}
+      type={props.type}
+      size={props.size}
+      form={props.form}
       variant={'outline'}
-      ref={refq}
-      pb={pb}
-      w={w}
+      ref={props.refq}
+      pb={props.pb}
+      w={props.w}
       style={{
         color: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-50)',
         border: '2px solid',
         borderColor: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-50)',
       }}
+      _hover={{
+        background: 'whiteAlpha.200 !important',
+      }}
+      _active={{ background: 'whiteAlpha.300 !important' }}
     >
-      {leftIcon && <Icon as={leftIcon} h={5} pr={'2px'} />}
-      {label}
+      {props.leftIcon && <Icon as={props.leftIcon} h={5} pr={'2px'} />}
+      {props.label}
     </Button>
   );
 };
