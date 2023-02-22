@@ -18,23 +18,55 @@ import {
   Divider,
   VStack,
   Select,
+  useToast,
+  Avatar,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
 } from '@chakra-ui/react';
+
+import { useSignIn, useAuthUser, useIsAuthenticated } from 'react-auth-kit';
+
 import '../css/landingPage.css';
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircle';
+
+// MUI Icons
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
 import GoogleIcon from '@mui/icons-material/Google';
 
 import { ColorModeIconButton } from '../components/ColorModeSwitcher';
-import { PrimaryButton } from '../components/Buttons';
+import { PrimaryButton, PrimaryButtonOutline } from '../components/Buttons';
 import { ModalOverlay, ModalContent, ModalFooter } from '../components/Modals';
 
-export default function Home() {
+export default function LandingPage() {
   const DOMAIN_API = 'http://localhost:8080';
 
-  const navigate = useNavigate();
+  // to vendere app if still logged in
+  // function checkAuthCookie() {
+  //   // Get all cookies
+  //   const cookies = document.cookie.split(';');
 
-  function toVendereApp() {
-    navigate('/vendere-app/cashier');
-  }
+  //   // Check if _auth cookie exists and is not empty
+  //   const authCookie = cookies.find(cookie =>
+  //     cookie.trim().startsWith('_auth=')
+  //   );
+  //   if (authCookie && authCookie.split('=')[1].trim() !== '') {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
+  // useEffect(() => {
+  //   if (checkAuthCookie()) {
+  //     navigate('/vendere-app');
+  //   }
+  // }, []);
+
+  const auth = useAuthUser();
+  const isAuthenticated = useIsAuthenticated();
+  const navigate = useNavigate();
+  const toast = useToast();
 
   const { colorMode } = useColorMode();
 
@@ -46,52 +78,126 @@ export default function Home() {
     window.addEventListener('resize', handleResize);
   });
 
-  const [dataLogin, setDataLogin] = useState(null);
+  // Coming Soon Toast
+  function comingSoon() {
+    toast({
+      position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+      duration: 2000,
+      title: 'Coming Soon! ╰(*°▽°*)╯ 💻',
+      description: 'we are working on it for you.',
+      isClosable: true,
+    });
+  }
 
   // SIGN UP SECTION
   const SignUp = () => {
-    const [registerShopName, setRegisterShopName] = useState(null);
-    const [registerEmail, setRegisterEmail] = useState(null);
-    const [registerPassword, setRegisterPassword] = useState();
+    function toastRegisterStatus(r) {
+      console.log(r);
+      if (r.data.error) {
+        toast({
+          position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+          title: 'Sorry, fail to create account.',
+          description: r.data.error,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      } else if (r.data.code === 201 && r.status === 'Created') {
+        toast({
+          position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+          title: 'Account created.',
+          description: `your account has been registered!, with username/email ${r.data.user_id}`,
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
+        onClose();
+      } else {
+        toast({
+          position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+          title: 'Error.',
+          description: 'Please buy a new computer!',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    }
+
+    const [registerData, setRegisterData] = useState({
+      shop_name: '',
+      email: '',
+      password: '',
+    });
+
+    const [isCreateAccountLoading, setIsCreateAccountLoading] = useState(false);
 
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const registerFirstFocus = useRef();
 
     function signUp(e) {
       e.preventDefault();
-      const adminRegisterAPI = new URL(
-        `${DOMAIN_API}/api/v1/users/admin/register`
-      );
+      console.log('Creating Account...');
+      console.log(registerData);
+      setIsCreateAccountLoading(true);
 
-      const data = {
-        shop_name: registerShopName,
-        email: registerEmail,
-        password: registerPassword,
-      };
+      //! Simulasi loading
+      setTimeout(() => {
+        const adminRegisterAPI = new URL(
+          `${DOMAIN_API}/api/v1/users/admin/register`
+        );
 
-      fetch(adminRegisterAPI, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-        .then(response => response.json())
-        .then(responseData => {
-          console.log(responseData);
-          // navigate('/vendere-app');
-        });
+        fetch(adminRegisterAPI, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(registerData),
+        })
+          .then(response => response.json())
+          .then(responseData => {
+            setRegisterData({
+              shop_name: '',
+              email: '',
+              password: '',
+            });
+            toastRegisterStatus(responseData);
+          })
+          .finally(setIsCreateAccountLoading(false));
+      }, 1000);
+      //! Simulasi loading
     }
+
+    // const adminRegisterAPI = new URL(
+    //   `${DOMAIN_API}/api/v1/users/admin/register`
+    // );
+
+    // fetch(adminRegisterAPI, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(registerData),
+    // })
+    //   .then(response => response.json())
+    //   .then(responseData => {
+    //     setRegisterData({
+    //       shop_name: '',
+    //       email: '',
+    //       password: '',
+    //     });
+    //     toastRegisterStatus(responseData);
+    //   })
+    //   .finally(setIsCreateAccountLoading(false));
 
     return (
       <>
-        <PrimaryButton label="SIGN UP" onClick={onOpen} />
+        <PrimaryButtonOutline
+          id={'signUpBtn'}
+          label="SIGN UP"
+          onClick={onOpen}
+        />
 
-        <Modal
-          initialFocusRef={registerFirstFocus}
-          isOpen={isOpen}
-          onClose={onClose}
-        >
+        <Modal isOpen={isOpen} onClose={onClose} isCentered>
           <ModalOverlay />
 
           <ModalContent
@@ -99,19 +205,31 @@ export default function Home() {
               <>
                 <ModalHeader>
                   <HStack>
-                    <Icon as={AccountCircleRoundedIcon} fontSize={'xx-large'} />
+                    <Icon
+                      as={AccountCircleOutlinedIcon}
+                      fontSize={'xx-large'}
+                    />
                     <Text>Create Your Account</Text>
                   </HStack>
                 </ModalHeader>
 
                 <ModalBody pb={6}>
+                  <Alert status="info" variant={'left-accent'}>
+                    Here you will register your shop and this registered account
+                    will be admin account of this shop.
+                  </Alert>
+
                   <form id="signUpForm">
                     <FormControl mt={4} isRequired>
                       <FormLabel>Shop's Name</FormLabel>
                       <Input
                         placeholder="e.g Kiosk Melati"
+                        value={registerData.shop_name}
                         onChange={e => {
-                          setRegisterShopName(e.target.value);
+                          setRegisterData({
+                            ...registerData,
+                            shop_name: e.target.value,
+                          });
                         }}
                       />
                     </FormControl>
@@ -120,8 +238,12 @@ export default function Home() {
                       <FormLabel>E-mail</FormLabel>
                       <Input
                         placeholder="e.g marcoleo@email.com"
+                        value={registerData.email}
                         onChange={e => {
-                          setRegisterEmail(e.target.value);
+                          setRegisterData({
+                            ...registerData,
+                            email: e.target.value,
+                          });
                         }}
                       />
                     </FormControl>
@@ -131,8 +253,12 @@ export default function Home() {
                       <Input
                         type={'password'}
                         placeholder="Type strong password"
+                        value={registerData.password}
                         onChange={e => {
-                          setRegisterPassword(e.target.value);
+                          setRegisterData({
+                            ...registerData,
+                            password: e.target.value,
+                          });
                         }}
                       />
                     </FormControl>
@@ -149,26 +275,27 @@ export default function Home() {
                     py={6}
                     leftIcon={<GoogleIcon />}
                     variant={'outline'}
+                    onClick={comingSoon}
                   >
-                    Login with Google
+                    Sign In with Google
                   </Button>
                 </ModalBody>
 
                 <ModalFooter
                   content={
                     <>
-                      <ButtonGroup>
+                      <ButtonGroup alignSelf={'flex-end'}>
                         <Button
                           className="btn"
                           onClick={onClose}
                           variant={'ghost'}
                         >
-                          Cancel
+                          Close
                         </Button>
                         <PrimaryButton
                           label={'Create Account'}
                           onClick={signUp}
-                          isLoading={false}
+                          isLoading={isCreateAccountLoading}
                         />
                       </ButtonGroup>
                     </>
@@ -184,52 +311,93 @@ export default function Home() {
 
   // SIGN IN SECTION
   const SignIn = () => {
+    const signIn = useSignIn();
+
+    const [isSignInLoading, setIsSignInLoading] = useState(false);
+
     const [loginRole, setLoginRole] = useState('admin');
-    const [loginUsername, setLoginUsername] = useState(null);
-    const [loginPassword, setLoginPassword] = useState(null);
-
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const emailSignIn = useRef();
-
     function selectLoginRole(e) {
       const role = e.target.value;
       setLoginRole(role);
-      console.log(role);
     }
 
-    function adminSignIn() {
-      console.log('admin login');
-      const adminLoginAPI = new URL(`${DOMAIN_API}/api/v1/users/admin/login`);
+    const [loginData, setLoginData] = useState({
+      username: '',
+      password: '',
+    });
 
-      let data = {
-        email: loginUsername,
-        password: loginPassword,
-      };
+    function adminSignIn(e) {
+      e.preventDefault();
+      console.log('Loging in as Admin...');
+      setIsSignInLoading(true);
 
-      fetch(adminLoginAPI, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-        });
+      //!Simulasi Loading
+      setTimeout(() => {
+        const adminLoginAPI = new URL(`${DOMAIN_API}/api/v1/users/admin/login`);
+
+        let data = {
+          role: loginRole,
+          email: loginData.username,
+          password: loginData.password,
+        };
+
+        fetch(adminLoginAPI, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+          .then(response => response.json())
+          .then(r => {
+            console.log(r);
+            if (r.data.error) {
+              if (r.data.error === 'password not match') {
+                setLoginData({ ...loginData, password: '' });
+              } else {
+                setLoginData({ username: '', password: '' });
+              }
+              toast({
+                position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+                title: 'Sorry, fail to sign in',
+                description: r.data.error,
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+              });
+            } else if (r.code === 200 && r.status === 'OK') {
+              console.log('logged in');
+              signIn({
+                token: r.data.tokenCookie,
+                tokenType: 'Bearer',
+                expiresIn: 301,
+                authState: {
+                  userId: r.data.user_id,
+                  displayName: r.data.shop_name,
+                  userRole: r.data.role,
+                },
+              });
+              navigate('/vendere-app');
+            }
+          })
+          .finally(setIsSignInLoading(false));
+      }, 1000);
+      //!Simulasi Loading
     }
 
     function cashierSignIn() {
       console.log('cashier login');
-
-      const adminLoginAPI = new URL(`${DOMAIN_API}/api/v1/users/cashier/login`);
+      const cashierLoginAPI = new URL(
+        `${DOMAIN_API}/api/v1/users/cashier/login`
+      );
 
       let data = {
-        username: loginUsername,
-        password: loginPassword,
+        role: loginRole,
+        username: loginData.username,
+        password: loginData.password,
       };
 
-      fetch(adminLoginAPI, {
+      fetch(cashierLoginAPI, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -241,20 +409,28 @@ export default function Home() {
           console.log(data);
         });
     }
+
+    function toSignUp() {
+      const signUpBtn = document.querySelector('#signUpBtn');
+      signUpBtn.click();
+    }
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
       <>
         <PrimaryButton label={'SIGN IN'} onClick={onOpen} />
 
-        <Modal initialFocusRef={emailSignIn} isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onClose={onClose} isCentered>
           <ModalOverlay />
 
           <ModalContent
+            id="signInModal"
             content={
               <>
                 <ModalHeader>
                   <HStack>
-                    <Icon as={AccountCircleRoundedIcon} fontSize={'xx-large'} />
+                    <Icon as={StorefrontOutlinedIcon} fontSize={'xx-large'} />
                     <Text>Let's Get into Bussiness</Text>
                   </HStack>
                 </ModalHeader>
@@ -262,29 +438,43 @@ export default function Home() {
                 <ModalBody pb={6}>
                   <form id="loginForm">
                     <FormControl mt={4} isRequired>
-                      <FormLabel>Login As...</FormLabel>
+                      <FormLabel>Sign In As...</FormLabel>
                       <Select onChange={selectLoginRole}>
                         <option value={'admin'}>Admin</option>
                         <option value={'cashier'}>Cashier</option>
                       </Select>
                     </FormControl>
+
                     <FormControl mt={4} isRequired>
                       <FormLabel>E-mail / Username</FormLabel>
                       <Input
                         className="inputBox"
-                        ref={emailSignIn}
-                        placeholder="e.g marcoleo@email.com"
-                        onChange={e => setLoginUsername(e.target.value)}
+                        placeholder="e.g marcoleo@email.com / marcoleo"
+                        value={loginData.username}
+                        onChange={e =>
+                          setLoginData({
+                            ...loginData,
+                            username: e.target.value,
+                          })
+                        }
                       />
                     </FormControl>
+
                     <FormControl mt={4} isRequired>
                       <FormLabel>Password</FormLabel>
                       <Input
                         type={'password'}
                         placeholder="Type your password"
-                        onChange={e => setLoginPassword(e.target.value)}
+                        value={loginData.password}
+                        onChange={e =>
+                          setLoginData({
+                            ...loginData,
+                            password: e.target.value,
+                          })
+                        }
                       />
                     </FormControl>
+
                     <HStack my={4} w={'100%'}>
                       <Divider />
                       <Text>or</Text>
@@ -296,30 +486,44 @@ export default function Home() {
                       py={6}
                       leftIcon={<GoogleIcon />}
                       variant={'outline'}
+                      onClick={comingSoon}
                     >
-                      Login with Google
+                      Sign In with Google
                     </Button>
                   </form>
+
+                  <Text
+                    fontSize={'sm'}
+                    mt={8}
+                    cursor={'pointer'}
+                    style={{
+                      color:
+                        colorMode === 'light' ? 'var(--p-500)' : 'var(--p-300)',
+                    }}
+                    _hover={{ textDecoration: 'underline' }}
+                    onClick={toSignUp}
+                  >
+                    Don't have account?, let's register yours
+                  </Text>
                 </ModalBody>
 
                 <ModalFooter
                   content={
                     <>
-                      <ButtonGroup>
+                      <ButtonGroup alignSelf={'flex-end'}>
                         <Button
                           className="btn"
                           onClick={onClose}
                           variant={'ghost'}
                         >
-                          Cancel
+                          Close
                         </Button>
                         <PrimaryButton
-                          type={'submit'}
-                          form={'loginForm'}
                           label={'Sign In'}
                           onClick={
                             loginRole === 'admin' ? adminSignIn : cashierSignIn
                           }
+                          isLoading={isSignInLoading}
                         />
                       </ButtonGroup>
                     </>
@@ -335,20 +539,42 @@ export default function Home() {
 
   // Lading Page Main
   return (
-    <Box
+    <VStack
       className="landingPage"
       p={screenWidth <= 1000 ? '16px 0' : '16px 100px'}
     >
-      <HStack justifyContent={'space-between'} px={'24px'}>
+      <HStack w={'100%'} justifyContent={'space-between'} px={'24px'}>
         <Text fontSize={'lg'} fontWeight={'bold'}>
           VENDERE
         </Text>
         <ButtonGroup>
           <ColorModeIconButton />
 
-          <SignUp />
-
-          <SignIn />
+          {isAuthenticated() ? (
+            <>
+              <HStack
+                onClick={() => {
+                  navigate('/vendere-app');
+                }}
+                _hover={{ cursor: 'pointer' }}
+                style={{
+                  border: '2px solid var(--p-500)',
+                  borderRadius: '50px',
+                  padding: '4px 12px',
+                  color: 'var(--p-500)',
+                  fontWeight: 'bold',
+                }}
+              >
+                <Avatar style={{ background: 'var(--p-500)' }} size={'xs'} />
+                <Text>{auth().displayName}</Text>
+              </HStack>
+            </>
+          ) : (
+            <>
+              <SignUp />
+              <SignIn />
+            </>
+          )}
         </ButtonGroup>
       </HStack>
 
@@ -357,6 +583,6 @@ export default function Home() {
           Responsive, powerful system to grow your bussiness
         </Text>
       </VStack>
-    </Box>
+    </VStack>
   );
 }

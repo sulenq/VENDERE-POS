@@ -1,4 +1,7 @@
 import { Button, useColorMode, Icon } from '@chakra-ui/react';
+
+import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
+
 import '../css/vendereApp.css';
 
 const PrimaryButton = ({
@@ -8,32 +11,43 @@ const PrimaryButton = ({
   type,
   form,
   size,
-  refq,
   pb,
   borderRadius,
   ml,
   w,
   id,
   isLoading,
+  refq,
 }) => {
+  const { colorMode } = useColorMode();
+
   return (
     <Button
       id={id}
+      ref={refq}
       className="btn primaryBtn"
       onClick={onClick}
       size={size}
       type={type}
       form={form}
       variant={'solid'}
-      ref={refq}
       pb={pb}
       borderRadius={borderRadius}
       ml={ml}
       w={w}
       isLoading={isLoading}
+      _hover={{
+        background:
+          colorMode === 'light'
+            ? 'var(--p-300) !important'
+            : 'var(--p-100) !important',
+      }}
       style={{
-        color: 'white',
-        background: 'var(--p-500)',
+        color: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-500)',
+        background: colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)',
+      }}
+      _active={{
+        background: 'var(--accent) !important',
       }}
     >
       {leftIcon && <Icon as={leftIcon} w={5} pr={'2px'} />}
@@ -69,10 +83,17 @@ const PrimaryButtonOutline = ({
       pb={pb}
       w={w}
       style={{
-        color: colorMode === 'light' ? 'var(--p-500)' : 'var(--p-300)',
-        border: '1px solid',
-        borderColor: colorMode === 'light' ? 'var(--p-500)' : 'var(--p-300)',
+        color: colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)',
+        border: '2px solid',
+        borderColor: colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)',
       }}
+      _hover={{
+        background:
+          colorMode === 'light'
+            ? 'var(--light) !important'
+            : 'var(--p-100) !important',
+      }}
+      _active={{ background: 'var(--p-100) !important' }}
     >
       {leftIcon && <Icon as={leftIcon} h={5} pr={'2px'} />}
       {label}
@@ -80,7 +101,54 @@ const PrimaryButtonOutline = ({
   );
 };
 
-const SecondaryButtonOutline = ({
+const PrimaryButtonNav = ({
+  leftIcon,
+  label,
+  onClick,
+  type,
+  form,
+  size,
+  pb,
+  borderRadius,
+  ml,
+  w,
+  id,
+  isLoading,
+  refq,
+}) => {
+  const { colorMode } = useColorMode();
+
+  return (
+    <Button
+      id={id}
+      ref={refq}
+      className="btn primaryBtn"
+      onClick={onClick}
+      size={size}
+      type={type}
+      form={form}
+      variant={'solid'}
+      pb={pb}
+      borderRadius={borderRadius}
+      ml={ml}
+      w={w}
+      isLoading={isLoading}
+      _hover={{
+        background: 'var(--p-100) !important',
+      }}
+      style={{
+        color: 'var(--p-500)',
+        background: 'var(--p-50)',
+      }}
+      _active={{ background: 'var(--accent) !important' }}
+    >
+      {leftIcon && <Icon as={leftIcon} w={5} pr={'2px'} />}
+      {label}
+    </Button>
+  );
+};
+
+const SecondaryButtonOutlineNav = ({
   leftIcon,
   label,
   onClick,
@@ -106,7 +174,7 @@ const SecondaryButtonOutline = ({
       w={w}
       style={{
         color: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-50)',
-        border: '1px solid',
+        border: '2px solid',
         borderColor: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-50)',
       }}
     >
@@ -116,4 +184,9 @@ const SecondaryButtonOutline = ({
   );
 };
 
-export { PrimaryButton, PrimaryButtonOutline, SecondaryButtonOutline };
+export {
+  PrimaryButton,
+  PrimaryButtonOutline,
+  PrimaryButtonNav,
+  SecondaryButtonOutlineNav,
+};

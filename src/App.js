@@ -1,16 +1,156 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { useToast } from '@chakra-ui/react';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { RequireAuth } from 'react-auth-kit';
+
+import {
+  useToast,
+  HStack,
+  useColorMode,
+  SimpleGrid,
+  VStack,
+  Text,
+  StatLabel,
+  StatNumber,
+  StatHelpText,
+  StatArrow,
+  StatGroup,
+  Icon,
+} from '@chakra-ui/react';
+
+// MUI Icons
+import PaymentsOutlinedIcon from '@mui/icons-material/PaymentsOutlined';
+import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 
 import './css/vendereApp.css';
 
+import ResponsiveNav from './components/ResponsiveNav';
 import LandingPage from './routes/LandingPage';
-import RedirectToCashier from './routes/RedirectToCashier';
 import Cashier from './routes/Cashier';
 import Transactions from './routes/Transactions';
 import Debts from './routes/Debts';
 import Reports from './routes/Reports';
 import Profile from './routes/Profile';
+import { Stat } from './components/Data';
+
+const Home = () => {
+  const { colorMode } = useColorMode();
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    function handleResize() {
+      setScreenWidth(window.innerWidth);
+    }
+    window.addEventListener('resize', handleResize);
+  });
+
+  const PriorityDashboard = () => {
+    return (
+      <HStack w={'100%'} px={2}>
+        <Stat
+          w={'40%'}
+          content={
+            <>
+              <StatLabel>
+                <HStack>
+                  <Icon as={PaymentsOutlinedIcon} fontSize={'lg'} />
+                  <Text>Income</Text>
+                </HStack>
+              </StatLabel>
+              <StatNumber>
+                <HStack alignItems={'flex-start'}>
+                  <Text fontSize={'sm'}>Rp. </Text>
+                  <Text>0</Text>
+                </HStack>
+              </StatNumber>
+              <StatHelpText>
+                <StatArrow type="increase" />
+                23.36%
+              </StatHelpText>
+            </>
+          }
+        />
+
+        <Stat
+          w={'30%'}
+          content={
+            <>
+              <StatLabel>
+                <HStack>
+                  <Icon as={ReceiptLongOutlinedIcon} fontSize={'lg'} />
+                  <Text>Transactions</Text>
+                </HStack>
+              </StatLabel>
+              <StatNumber>0</StatNumber>
+              <StatHelpText>
+                <StatArrow type="increase" />
+                23.36%
+              </StatHelpText>
+            </>
+          }
+        />
+
+        <Stat
+          w={'30%'}
+          content={
+            <>
+              <StatLabel>
+                <HStack>
+                  <Icon as={ReceiptLongOutlinedIcon} fontSize={'lg'} />
+                  <Text>Running Out Items</Text>
+                </HStack>
+              </StatLabel>
+              <StatNumber>0</StatNumber>
+            </>
+          }
+        />
+      </HStack>
+    );
+  };
+
+  return (
+    <HStack
+      className="vendereApp"
+      p={screenWidth <= 1000 ? 0 : 4}
+      alignItems={'center'}
+      // backgroundImage={colorMode === 'light' ? `url(${bgDark})` : ''}
+      // backgroundImage={`url(${bgDark})`}
+    >
+      <ResponsiveNav active={'home'} w={'15%'} />
+      <VStack
+        id="appContentWrapper"
+        h={'100%'}
+        w={'100%'}
+        p={2}
+        ml={'0px !important'}
+        borderRadius={screenWidth <= 1000 ? 0 : '12px'}
+        style={{
+          background: colorMode === 'light' ? 'var(--p-50)' : '#2d3748',
+        }}
+      >
+        <VStack
+          w={'100%'}
+          h={'100%'}
+          py={2}
+          borderRadius={'12px'}
+          style={{
+            background: colorMode === 'light' ? 'white' : 'var(--dark)',
+          }}
+        >
+          <PriorityDashboard />
+        </VStack>
+      </VStack>
+    </HStack>
+  );
+  // const navigate = useNavigate();
+  // const location = useLocation();
+  // useEffect(() => {
+  //   if (
+  //     location.pathname === '/vendere-app' ||
+  //     location.pathname === '/vendere-app/'
+  //   ) {
+  //     navigate('/vendere-app/cashier');
+  //   }
+  // }, [location, navigate]);
+};
 
 const BadRequest = () => {
   return <h1>404 TOD</h1>;
@@ -188,7 +328,6 @@ export default function App() {
     itemQty,
   }) {
     let itemInCartList = false;
-
     const newCartList = {
       id: itemId,
       code: itemCode,
@@ -223,6 +362,7 @@ export default function App() {
       title: 'Item added.',
       description: `${itemQty} ${itemName} added, total ${updateTotal.toLocaleString()}`,
       status: 'success',
+      position: 'bottom-right',
       duration: 3000,
       isClosable: true,
       transition: 'none',
@@ -233,23 +373,40 @@ export default function App() {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/vendere-app">
-        <Route index element={<RedirectToCashier />} />
+        <Route
+          index
+          element={
+            <RequireAuth loginPath="/">
+              <Home />
+            </RequireAuth>
+          }
+        />
         <Route
           path="cashier"
           element={
-            <Cashier
-              items={items}
-              total={total}
-              setTotal={setTotal}
-              cartList={cartList}
-              setCartList={setCartList}
-              search={search}
-              setSearch={setSearch}
-              addItemToCartList={addItemToCartList}
-            />
+            <RequireAuth loginPath="/">
+              <Cashier
+                items={items}
+                total={total}
+                setTotal={setTotal}
+                cartList={cartList}
+                setCartList={setCartList}
+                search={search}
+                setSearch={setSearch}
+                addItemToCartList={addItemToCartList}
+              />
+            </RequireAuth>
           }
         />
-        <Route path="transactions" element={<Transactions />} />
+
+        <Route
+          path="transactions"
+          element={
+            <RequireAuth loginPath="/">
+              <Transactions />
+            </RequireAuth>
+          }
+        />
         <Route path="debts" element={<Debts />} />
         <Route path="reports" element={<Reports />} />
         <Route path="profile" element={<Profile />} />

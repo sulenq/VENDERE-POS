@@ -2,19 +2,18 @@
   --accent: #fdd100;
   --accent-dim: #d9b115;
   --dark-dim: #2d3748;
-  --dark: #1a202c;
+  --dark: #1a1a1a;
   --light: #f8f8f8;
   --light-dim: #e0e0e0;
-  --p-50: #e5f0fc;
-  --p-100: #ccdff9;
-  --p-200: #adc7ed;
-  --p-300: #92addc;
-  --p-400: #6d8ac5;
-  --p-450: #5b78b3;
-  --p-500: #4f6aa9;
-  --p-600: #364d8d;
-  --p-700: #223472;
-  --p-800: #14235e;
+  --p-50: #fff;
+  --p-100: #cccccc;
+  --p-200: #888888;
+  --p-300: #404040;
+  --p-400: #1f1f1f;
+  --p-450: #161616;
+  --p-500: #000000;
+  --p-500a: #09090980;
+  --p-450a: #1e1e1e70;
 }
 
 * {
@@ -60,27 +59,6 @@ body,
   border-radius: 50px !important;
 }
 
-.primaryBtn:hover {
-  background: var(--p-600) !important;
-}
-.primaryBtn:active {
-  background: var(--p-700) !important;
-}
-
-.primaryBtnOutline:hover {
-  background: var(--p-50) !important;
-}
-.primaryBtnOutline:active {
-  background: var(--p-100) !important;
-}
-
-.secondaryButtonOutline:hover {
-  background: var(--p-400) !important;
-}
-.secondaryButtonOutline:active {
-  background: var(--p-300) !important;
-}
-
 /* .inputBox:focus-visible {
   border: '2px solid var(--p-700) !important';
 } */
@@ -90,7 +68,7 @@ body,
 }
 
 nav {
-  width: 230px;
+  /* width: 230px; */
   height: 100%;
   /* padding-right: 8px; */
   /* border: 1px solid white; */

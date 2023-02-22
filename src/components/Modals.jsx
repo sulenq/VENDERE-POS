@@ -12,14 +12,15 @@ const ModalOverlay = () => {
   );
 };
 
-const ModalContent = ({ content }) => {
+const ModalContent = ({ content, id }) => {
   const { colorMode } = useColorMode();
 
   return (
     <Modalcontent
+      id={id}
       borderRadius={12}
       w={'95%'}
-      bg={colorMode === 'light' ? '#ffffff' : '#1a202c95'}
+      bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-500a)'}
       backdropFilter="auto"
       backdropBlur="20px"
     >
@@ -28,8 +29,12 @@ const ModalContent = ({ content }) => {
   );
 };
 
-const ModalBody = ({ content }) => {
-  return <Modalbody>{content}</Modalbody>;
+const ModalBody = ({ content, id }) => {
+  return (
+    <Modalbody id={id} pb={4}>
+      {content}
+    </Modalbody>
+  );
 };
 
 const ModalFooter = ({ content }) => {
@@ -37,8 +42,10 @@ const ModalFooter = ({ content }) => {
 
   return (
     <Modalfooter
-      bg={colorMode === 'light' ? '#eff2f6' : '#2d374850'}
+      bg={colorMode === 'light' ? '#eff2f6' : 'var(--p-450a)'}
       borderRadius={'0 0 10px 10px'}
+      flexDirection={'column'}
+      py={3}
     >
       {content}
     </Modalfooter>

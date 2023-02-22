@@ -13,16 +13,21 @@ const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
 
 root.render(
-  <ChakraProvider theme={theme}>
-    <AuthProvider>
-      <BrowserRouter>
-        <StrictMode>
+  <StrictMode>
+    <ChakraProvider theme={theme}>
+      <AuthProvider
+        authType={'cookie'}
+        authName={'_auth'}
+        cookieDomain={window.location.hostname}
+        cookieSecure={false}
+      >
+        <BrowserRouter>
           <ColorModeScript />
           <App />
-        </StrictMode>
-      </BrowserRouter>
-    </AuthProvider>
-  </ChakraProvider>
+        </BrowserRouter>
+      </AuthProvider>
+    </ChakraProvider>
+  </StrictMode>
 );
 
 // If you want your app to work offline and load faster, you can change

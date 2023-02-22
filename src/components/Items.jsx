@@ -7,6 +7,7 @@ import {
   HStack,
   Input,
   Icon,
+  Avatar,
 } from '@chakra-ui/react';
 
 // MUI Icons
@@ -24,7 +25,6 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
 
   const [itemIndex, setItemIndex] = useState(1);
   const [itemsLength, setItemLength] = useState(0);
-  const [itemsFound, setItemsFound] = useState(true);
 
   function selectItem() {
     const targetItem = document.querySelector(
@@ -88,7 +88,7 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
       }
     }
 
-    if (e.key === 'ArrowUp' ) {
+    if (e.key === 'ArrowUp') {
       e.preventDefault();
       if (itemIndex > 1) {
         setItemIndex(itemIndex - 1);
@@ -104,7 +104,9 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
       alignItems={'flex-start'}
       py={2}
       borderRadius={12}
-      bg={colorMode === 'light' ? '#ffffff' : '#1A202C'}
+      style={{
+        background: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400)',
+      }}
     >
       <HStack py={0} px={4}>
         <AddShoppingCartRoundedIcon />
@@ -130,8 +132,15 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
           w={'100%'}
           border={'1px solid'}
           borderRadius={'10px 0 0 10px'}
-          style={{ borderColor: 'var(--p-500)' }}
-          _focusVisible={{ border: '2px solid #4f6aa9' }}
+          style={{
+            borderColor:
+              colorMode === 'light'
+                ? '2px solid var(--p-500)'
+                : '2px solid var(--p-50)',
+          }}
+          _focusVisible={{
+            border: colorMode === 'light' ? '2px solid ' : '2px solid',
+          }}
         />
         <PrimaryButton
           label={'SCAN'}
@@ -171,7 +180,8 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
           borderTop={'1px solid'}
           borderBottom={'1px solid'}
           style={{
-            borderColor: colorMode === 'light' ? '#e1e1e1' : 'var(--dark-dim)',
+            borderColor:
+              colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
           }}
         >
           {items.map((item, index) => {
@@ -195,7 +205,7 @@ const Items = ({ items, search, setSearch, addItemToCartList }) => {
                       index % 2 === 1
                         ? colorMode === 'light'
                           ? 'var(--light)'
-                          : '#2d374895'
+                          : 'var(--dark)'
                         : '',
                   }}
                 >

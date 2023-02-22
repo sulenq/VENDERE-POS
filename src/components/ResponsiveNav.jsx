@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSignOut, useAuthUser } from 'react-auth-kit';
 import {
   Text,
   Icon,
@@ -9,9 +10,17 @@ import {
   HStack,
   Divider,
   VStack,
+  useDisclosure,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalCloseButton,
+  ButtonGroup,
+  Badge,
 } from '@chakra-ui/react';
 
 // MUI
+import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import LoyaltyOutlinedIcon from '@mui/icons-material/LoyaltyOutlined';
 import PointOfSaleRoundedIcon from '@mui/icons-material/PointOfSaleRounded';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
@@ -20,11 +29,18 @@ import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
 import '../css/vendereApp.css';
-import { PrimaryButton, SecondaryButtonOutline } from './Buttons';
+import {
+  PrimaryButton,
+  PrimaryButtonNav,
+  SecondaryButtonOutlineNav,
+} from './Buttons';
+import { ModalContent, ModalBody, ModalFooter, ModalOverlay } from './Modals';
 
 const NavMobile = ({ active }) => {
+  console.log(active);
   let nav;
   let activeNav;
 
@@ -64,7 +80,11 @@ const NavMobile = ({ active }) => {
 
   const { colorMode } = useColorMode();
   return (
-    <Box className="navMobile" style={{ background: 'var(--p-500)' }}>
+    <Box
+      className="navMobile"
+      style={{ background: 'var(--p-500)' }}
+      zIndex={99}
+    >
       <ul>
         {/* Reports */}
         <li>
@@ -114,6 +134,30 @@ const NavMobile = ({ active }) => {
               pt={1}
             >
               Debts
+            </Text>
+          </div>
+        </li>
+
+        {/* Cashier */}
+        <li>
+          <div
+            id="home"
+            className="navMobileContentBtn"
+            onClick={() => navigate('../')}
+            onMouseEnter={() => {
+              selectNavList('home');
+            }}
+            onMouseLeave={() => diselectNavList('home')}
+          >
+            <Icon as={DashboardOutlinedIcon} fontSize={'xx-large'} />
+            <Text
+              className="navLabel"
+              display={'none'}
+              style={{ color: 'var(--p-200)' }}
+              fontSize={'xs'}
+              pt={1}
+            >
+              Dashboard
             </Text>
           </div>
         </li>
@@ -194,10 +238,81 @@ const NavMobile = ({ active }) => {
   );
 };
 
-const Nav = ({ active }) => {
+const Nav = ({ active, logout, setTotal, setCartList, setSearch }) => {
   const navigate = useNavigate();
+  const auth = useAuthUser();
 
-  // hover
+  const SignOut = () => {
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [isSignOutLoading, setIsSignOutLoading] = useState(false);
+
+    useEffect(() => {
+      if (isSignOutLoading) {
+        setTimeout(() => {
+          logout();
+          localStorage.clear();
+          setTotal(0);
+          setCartList([]);
+          setSearch('');
+          setIsSignOutLoading(false);
+          navigate('/');
+        }, 1000);
+      }
+    }, [isSignOutLoading]);
+
+    return (
+      <>
+        <PrimaryButtonNav label={'Sign Out'} w={'100%'} onClick={onOpen} />
+
+        <Modal onClose={onClose} isOpen={isOpen} isCentered>
+          <ModalOverlay />
+          <ModalContent
+            content={
+              <>
+                <ModalHeader>
+                  <HStack>
+                    <Icon as={LogoutOutlinedIcon} />
+                    <Text>Signing Out?</Text>
+                  </HStack>
+                </ModalHeader>
+
+                <ModalBody
+                  content={
+                    <>
+                      <Text>Are you sure you want to sign out?</Text>
+                    </>
+                  }
+                />
+
+                <ModalFooter
+                  content={
+                    <ButtonGroup alignSelf={'flex-end'}>
+                      <Button
+                        className="btn"
+                        onClick={onClose}
+                        variant={'ghost'}
+                      >
+                        Close
+                      </Button>
+                      <PrimaryButton
+                        label={'Sign Out'}
+                        isLoading={isSignOutLoading}
+                        onClick={() => {
+                          setIsSignOutLoading(true);
+                        }}
+                      />
+                    </ButtonGroup>
+                  }
+                />
+              </>
+            }
+          />
+        </Modal>
+      </>
+    );
+  };
+
+  // Selecting Nav List
   const selectNav = targetId => {
     const target = document.querySelector(`#${targetId}`);
     target.classList.add('navListActive');
@@ -244,9 +359,24 @@ const Nav = ({ active }) => {
             >
               <ul>
                 <li
+                  id="homeNav"
+                  className={active === 'home' ? 'navListActive' : null}
+                  onClick={() => navigate('../')}
+                  onMouseEnter={() => {
+                    selectNav('homeNav');
+                  }}
+                  onMouseLeave={() => {
+                    diselectNav('homeNav');
+                  }}
+                >
+                  <Icon as={DashboardOutlinedIcon} fontSize={'xl'} />
+                  <Text ml={2}>Dashboard</Text>
+                </li>
+
+                <li
                   id="cashierNav"
                   className={active === 'cashier' ? 'navListActive' : null}
-                  onClick={() => navigate('../cashier')}
+                  onClick={() => navigate('../vendere-app/cashier')}
                   onMouseEnter={() => {
                     selectNav('cashierNav');
                   }}
@@ -347,24 +477,26 @@ const Nav = ({ active }) => {
                 />
               </Box>
               <VStack
-                borderRadius={'20px'}
+                borderRadius={'12px'}
                 style={{
-                  background:
-                    'linear-gradient(to bottom, var(--p-450), var(--p-400))',
-                  border: '2px solid var(--p-400)',
+                  border: '2px solid var(--p-300)',
                 }}
                 py={2}
                 px={4}
                 w={'100%'}
               >
                 <VStack color={'white'} pt={10} mb={4}>
-                  <Text fontWeight={'bold'}>Username</Text>
-                  <Text fontSize={'sm'} m={'0px !important'}>
-                    Cashier
-                  </Text>
+                  <Text fontWeight={'bold'}>{auth().displayName}</Text>
+                  <Badge
+                    fontSize={'sm'}
+                    style={{ background: 'var(--p-450)', color: 'white' }}
+                    m={'0px !important'}
+                  >
+                    {auth().userRole}
+                  </Badge>
                 </VStack>
-                <SecondaryButtonOutline label={'Manage'} w={'100%'} />
-                <PrimaryButton label={'Logout'} w={'100%'} />
+                <SecondaryButtonOutlineNav label={'Manage'} w={'100%'} />
+                <SignOut />
               </VStack>
             </VStack>
           </VStack>
@@ -374,7 +506,7 @@ const Nav = ({ active }) => {
   );
 };
 
-const ResponsiveNav = ({ active }) => {
+const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
   // Width Meter
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -383,12 +515,20 @@ const ResponsiveNav = ({ active }) => {
     }
     window.addEventListener('resize', handleResize);
   });
+
+  const logout = useSignOut();
   return (
     <>
       {screenWidth <= 1000 ? (
-        <NavMobile active={active} />
+        <NavMobile active={active} logout={logout} />
       ) : (
-        <Nav active={active} />
+        <Nav
+          active={active}
+          logout={logout}
+          setTotal={setTotal}
+          setCartList={setCartList}
+          setSearch={setSearch}
+        />
       )}
     </>
   );

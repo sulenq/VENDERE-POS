@@ -1,4 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
+import { useIsAuthenticated, useAuthUser } from 'react-auth-kit';
+
+// Chakra UI
 import {
   IconButton,
   Icon,
@@ -14,11 +17,16 @@ import {
   useDisclosure,
   Modal,
   ModalHeader,
-  ModalContent,
-  ModalBody,
-  ModalFooter,
   ModalCloseButton,
   useToast,
+  Textarea,
+  Alert,
+  AlertTitle,
+  AlertDescription,
+  AlertIcon,
+  Link,
+  Kbd,
+  Slide,
 } from '@chakra-ui/react';
 
 // MUI Icons
@@ -33,7 +41,7 @@ import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 import '../css/vendereApp.css';
 import { ColorModeIconButton } from './ColorModeSwitcher';
 import { PrimaryButton, PrimaryButtonOutline } from './Buttons';
-import { ModalOverlay } from '../components/Modals';
+import { ModalContent, ModalBody, ModalFooter, ModalOverlay } from './Modals';
 
 const CartList = ({
   cartList,
@@ -57,7 +65,12 @@ const CartList = ({
         h={'100%'}
         overflow={'hidden'}
         pb={screenWidth <= 1000 ? '64px' : '0px'}
-        style={{ borderBottom: '1px solid var(--light-dim)' }}
+        style={{
+          borderBottom:
+            colorMode === 'light'
+              ? '1px solid var(--light-dim)'
+              : '1px solid var(--p-300)',
+        }}
       >
         <VStack w={'100%'} className="cartList" px={2} pb={2}>
           {cartList
@@ -75,9 +88,7 @@ const CartList = ({
                   borderRadius={'8px'}
                   style={{
                     background:
-                      colorMode === 'light'
-                        ? 'var(--light)'
-                        : 'var(--dark-dim)',
+                      colorMode === 'light' ? 'var(--light)' : 'var(--dark)',
                   }}
                 >
                   <VStack alignItems={'flex-start'}>
@@ -241,19 +252,21 @@ const CartList = ({
   }
 };
 
-const Checkout = ({
-  total,
-  checkout,
-  cartList,
-  clearInvoice,
-  screenWidth,
-  displayName,
-}) => {
+const Checkout = ({ total, checkout, cartList, clearInvoice, screenWidth }) => {
   const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const checkoutBtn = useRef(null);
+  const toast = useToast();
 
   const [pay, setPay] = useState(0);
+  const [note, setNote] = useState('');
+
+  const isAuthenticated = useIsAuthenticated();
+  const isAuthTokenExist = document.cookie
+    .split(';')
+    .some(cookie => cookie.trim().startsWith('_auth='));
+
+  const [isCheckoutLLoading, setIsCheckoutLoading] = useState(false);
+
   // const [change, setChange] = useState(pay - total);
   // console.log(pay, total, change, pay - total);
 
@@ -264,6 +277,36 @@ const Checkout = ({
     } else {
       setPay(parseInt(e.target.value));
       // setChange(parseInt(e.target.value) - total);
+    }
+  }
+
+  function onCheckout() {
+    if (isAuthTokenExist) {
+      setIsCheckoutLoading(true);
+      console.log('cheking out...');
+
+      //!Loading simulation
+      setTimeout(() => {
+        checkout({
+          total: total,
+          pay: pay,
+          cartList: cartList,
+          note: note,
+        });
+        onClose();
+        clearInvoice();
+        setPay(0);
+        setNote('');
+        setIsCheckoutLoading(false);
+      }, 2000);
+    } else {
+      toast({
+        position: 'bottom-right',
+        status: 'error',
+        title: 'Access Denied!',
+        description: 'please sign in again.',
+        isClosable: true,
+      });
     }
   }
 
@@ -283,124 +326,184 @@ const Checkout = ({
         pb={screenWidth <= 1000 ? '1px' : null}
       />
 
-      <Modal
-        initialFocusRef={checkoutBtn}
-        onClose={onClose}
-        isOpen={isOpen}
-        isCentered
-      >
+      <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
 
         <ModalContent
-          // h={'95%'}
-          w={'95%'}
-          m={'auto !important'}
-          borderRadius={12}
-          bg={colorMode === 'light' ? '#ffffff' : '#1A202C95'}
-        >
-          <ModalHeader px={4}>
-            <HStack>
-              <ShoppingCartCheckoutIcon />
-              <Text fontWeight={'bold'}>Checkout ?</Text>
-            </HStack>
-          </ModalHeader>
+          content={
+            <>
+              <ModalHeader px={4}>
+                <HStack>
+                  <ShoppingCartCheckoutIcon />
+                  <Text fontWeight={'bold'}>Checkout ?</Text>
+                </HStack>
+              </ModalHeader>
 
-          {/* <ModalCloseButton borderRadius={50} /> */}
+              {/* <ModalCloseButton borderRadius={50} /> */}
 
-          <ModalBody px={6}>
-            <Text>Total</Text>
-            <HStack
-              m={'0 !important'}
-              w={'100%'}
-              alignItems={'flex-start'}
-              justifyContent={'space-between'}
-            >
-              <Text fontSize={'x-large'} fontWeight={'bold'}>
-                Rp
-              </Text>
+              <ModalBody
+                content={
+                  <>
+                    {!isAuthTokenExist && (
+                      <Alert status="error" variant={'left-accent'} mb={4}>
+                        <AlertIcon alignSelf={'flex-start'} />
+                        <Box>
+                          <AlertTitle>Access Denied!</AlertTitle>
+                          <AlertDescription>
+                            you need to{' '}
+                            <Link
+                              color={colorMode === 'light' ? 'blue' : 'cyan'}
+                              href="/"
+                            >
+                              sign in
+                            </Link>{' '}
+                            again or refresh the page{' '}
+                            <Kbd
+                              bg={
+                                colorMode === 'light'
+                                  ? 'blackAlpha.100'
+                                  : 'whiteAlpha.200'
+                              }
+                              borderColor={
+                                colorMode === 'light'
+                                  ? 'blackAlpha.200'
+                                  : 'whiteAlpha.300'
+                              }
+                            >
+                              ctrl
+                            </Kbd>{' '}
+                            +{' '}
+                            <Kbd
+                              bg={
+                                colorMode === 'light'
+                                  ? 'blackAlpha.200'
+                                  : 'whiteAlpha.200'
+                              }
+                              borderColor={
+                                colorMode === 'light'
+                                  ? 'blackAlpha.300'
+                                  : 'whiteAlpha.300'
+                              }
+                            >
+                              R
+                            </Kbd>
+                          </AlertDescription>
+                        </Box>
+                      </Alert>
+                    )}
 
-              <Text fontSize={'xxx-large'} fontWeight={'bold'}>
-                {total.toLocaleString()}
-              </Text>
-            </HStack>
+                    <Text>Total</Text>
+                    <HStack
+                      m={'0 !important'}
+                      w={'100%'}
+                      alignItems={'flex-start'}
+                      justifyContent={'space-between'}
+                    >
+                      <Text fontSize={'x-large'} fontWeight={'bold'}>
+                        Rp
+                      </Text>
 
-            {/* PAY & CHANGE */}
-            <HStack m={'0 !important'} w={'100%'} gap={2}>
-              <VStack w={'100%'} alignItems={'flex-start'}>
-                <Text>Pay</Text>
-                <Input
-                  px={2}
-                  mt={'4px !important'}
-                  value={pay || ''}
-                  type={'number'}
-                  onChange={inputPayHandler}
-                  onKeyUp={e => {
-                    if (e.key === 'Enter') {
-                      document.querySelector('#checkoutBtn').click();
-                    }
-                  }}
-                  onFocus={e => e.target.select()}
-                  border={'1px solid'}
-                  style={{ borderColor: 'var(--p-500)' }}
-                  _focusVisible={{ border: '2px solid var(--p-500)' }}
-                  isDisabled={cartList.length > 0 ? false : true}
-                />
-              </VStack>
+                      <Text fontSize={'xxx-large'} fontWeight={'bold'}>
+                        {total.toLocaleString()}
+                      </Text>
+                    </HStack>
 
-              <VStack w={'100%'} alignItems={'flex-start'} ml={'0 !important'}>
-                <Text>Change</Text>
-                <Box
-                  w={'100%'}
-                  p={'7px'}
-                  mt={'4px !important'}
-                  border={
-                    colorMode === 'light'
-                      ? '1px solid #ddd'
-                      : '1px solid #2d3748'
-                  }
-                  borderRadius={'6px'}
-                >
-                  <Text>{(pay - total).toLocaleString()}</Text>
-                </Box>
-              </VStack>
-            </HStack>
+                    {/* PAY & CHANGE */}
+                    <HStack m={'0 !important'} w={'100%'} gap={2}>
+                      <VStack w={'100%'} alignItems={'flex-start'}>
+                        <Text>Pay</Text>
+                        <Input
+                          px={2}
+                          mt={'4px !important'}
+                          value={pay || ''}
+                          type={'number'}
+                          onChange={inputPayHandler}
+                          onKeyUp={e => {
+                            if (e.key === 'Enter') {
+                              document.querySelector('#checkoutBtn').click();
+                            }
+                          }}
+                          onFocus={e => e.target.select()}
+                          _focusVisible={{
+                            border:
+                              colorMode === 'light'
+                                ? '2px solid '
+                                : '2px solid',
+                          }}
+                          isDisabled={cartList.length > 0 ? false : true}
+                        />
+                      </VStack>
 
-            <Text mt={4} fontSize={'sm'}>
-              This Invoice will be added to Transactions, are you sure you wanna
-              checkout this invoice?
-            </Text>
-          </ModalBody>
+                      <VStack
+                        w={'100%'}
+                        alignItems={'flex-start'}
+                        ml={'0 !important'}
+                      >
+                        <Text>Change</Text>
+                        <Box
+                          w={'100%'}
+                          p={'7px'}
+                          mt={'4px !important'}
+                          border={
+                            colorMode === 'light'
+                              ? '1px solid #ddd'
+                              : '1px solid #2d3748'
+                          }
+                          borderRadius={'6px'}
+                        >
+                          <Text>{(pay - total).toLocaleString()}</Text>
+                        </Box>
+                      </VStack>
+                    </HStack>
 
-          <ModalFooter
-            px={6}
-            mt={4}
-            bg={colorMode === 'light' ? '#eff2f6' : '#1a202c'}
-            borderRadius={'0 0 10px 10px'}
-          >
-            <ButtonGroup>
-              <Button
-                variant={'ghost'}
-                size={'sm'}
-                className="btn"
-                onClick={onClose}
-              >
-                Cancel
-              </Button>
+                    {/* Add Note */}
+                    <VStack alignItems={'flex-start'} mt={2}>
+                      <Text>Add Note</Text>
+                      <Textarea
+                        mt={'0px !important'}
+                        value={note || ''}
+                        borderRadius={6}
+                        onChange={e => {
+                          setNote(e.target.value);
+                        }}
+                        placeholder="Write some note here."
+                        size="sm"
+                        _focusVisible={{
+                          border:
+                            colorMode === 'light' ? '2px solid ' : '2px solid',
+                        }}
+                      />
+                    </VStack>
 
-              <PrimaryButton
-                id={'checkoutBtn'}
-                label={'CHECKOUT'}
-                size="sm"
-                onClick={() => {
-                  checkout(displayName, total, pay, cartList);
-                  onClose();
-                  clearInvoice();
-                  setPay(0);
-                }}
+                    <Text mt={4} fontSize={'sm'}>
+                      This Invoice will be added to Transactions, are you sure
+                      you wanna checkout this invoice?
+                    </Text>
+                  </>
+                }
               />
-            </ButtonGroup>
-          </ModalFooter>
-        </ModalContent>
+
+              <ModalFooter
+                content={
+                  <ButtonGroup alignSelf={'flex-end'}>
+                    <Button variant={'ghost'} className="btn" onClick={onClose}>
+                      Cancel
+                    </Button>
+
+                    <PrimaryButton
+                      id={'checkoutBtn'}
+                      label={'CHECKOUT'}
+                      onClick={() => {
+                        onCheckout();
+                      }}
+                      isLoading={isCheckoutLLoading}
+                    />
+                  </ButtonGroup>
+                }
+              />
+            </>
+          }
+        />
       </Modal>
     </>
   );
@@ -426,35 +529,46 @@ const Invoice = ({
     window.addEventListener('resize', handleResize);
   });
 
-  const [displayName, setDisplayName] = useState('sulenq');
+  const auth = useAuthUser();
+  const isAuthenticated = useIsAuthenticated();
+  const isAuthTokenExist = document.cookie
+    .split(';')
+    .some(cookie => cookie.trim().startsWith('_auth='));
 
   const toast = useToast();
 
-  function checkout(displayName, total, pay, cartList) {
-    if (total > 0) {
-      let status = 'lunas';
-      let change = pay - total;
-      if (change * -1 > 0) {
-        status = 'hutang';
-      }
-      const invoice = {
-        date: new Date(),
-        chasierName: displayName,
-        total: total,
-        pay: pay,
-        change: change,
-        cartList: cartList,
-        status: status,
-      };
+  function checkout({ total, pay, cartList, note }) {
+    if (isAuthTokenExist) {
+      if (total > 0) {
+        let status = 'lunas';
+        let change = pay - total;
+        if (change * -1 > 0) {
+          status = 'hutang';
+        }
+        const invoice = {
+          date: new Date(),
+          cashierId: auth().userId,
+          total: total,
+          pay: pay,
+          change: change,
+          cartList: cartList,
+          status: status,
+          note: note,
+        };
 
-      toast({
-        title: 'Transaction added.',
-        description: `This invoice has been added to Transactions`,
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      });
-      console.log(invoice);
+        toast({
+          position: 'bottom-right',
+          title: 'Transaction added.',
+          description: `This invoice has been added to Transactions`,
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
+        console.log(invoice);
+        console.log('checkout success');
+      }
+    } else {
+      console.log('Auth needed');
     }
     return;
   }
@@ -532,7 +646,9 @@ const Invoice = ({
       borderRadius={12}
       alignItems={'flex-start'}
       py={2}
-      bg={colorMode === 'light' ? '#fff' : '#1A202C'}
+      style={{
+        background: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400)',
+      }}
     >
       {/* HEADER, ADD & CHECKOUT */}
       <HStack
@@ -618,7 +734,7 @@ const Invoice = ({
                     border={'1px solid'}
                     borderRadius={'10px 0 0 10px'}
                     style={{ borderColor: 'var(--p-500)' }}
-                    _focusVisible={{ border: '2px solid #4f6aa9' }}
+                    _focusVisible={{ border: '2px solid var(--p-500)' }}
                   />
                   <PrimaryButton
                     label={'SCAN'}
@@ -804,7 +920,6 @@ const Invoice = ({
             cartList={cartList}
             clearInvoice={clearInvoice}
             screenWidth={screenWidth}
-            displayName={displayName}
           />
 
           <ColorModeIconButton size={'sm'} />

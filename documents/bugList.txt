@@ -1,0 +1,1 @@
+- auth token expired while modal checkout opened, checkout bug, still auth

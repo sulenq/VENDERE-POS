@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useColorMode, HStack } from '@chakra-ui/react';
 
+import { useAuthUser } from 'react-auth-kit';
+
 import '../css/vendereApp.css';
 import ResponsiveNav from '../components/ResponsiveNav';
 import Items from '../components/Items';
@@ -60,16 +62,16 @@ export default function Cashier({
       // backgroundImage={colorMode === 'light' ? `url(${bgDark})` : ''}
       // backgroundImage={`url(${bgDark})`}
     >
-      <ResponsiveNav active={'cashier'} />
+      <ResponsiveNav active={'cashier'} w={'15%'} />
       <HStack
         id="appContentWrapper"
         h={'100%'}
         w={'100%'}
         p={2}
         ml={'0px !important'}
-        borderRadius={screenWidth <= 1000 ? 0 : '20px'}
+        borderRadius={screenWidth <= 1000 ? 0 : '12px'}
         style={{
-          background: colorMode === 'light' ? 'var(--p-50)' : '#2d3748',
+          background: colorMode === 'light' ? 'var(--p-100)' : 'var(--p-450)',
         }}
       >
         {screenWidth <= 1000 ? (
