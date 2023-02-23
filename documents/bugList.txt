@@ -1,1 +1,2 @@
 - auth token expired while modal checkout opened, checkout bug, still auth
+- profile tembus ke bawah saaat resize vertical

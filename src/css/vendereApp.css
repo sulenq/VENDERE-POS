@@ -6,6 +6,7 @@
   --light: #f8f8f8;
   --light-dim: #f0f0f0;
   --p-50: #fff;
+  --p-50a: #ffffff90;
   --p-75: #f3f3f3;
   --p-100: #bebebe;
   --p-200: #888888;
@@ -30,17 +31,25 @@ html,
 body,
 #root {
   scroll-behavior: smooth !important;
-  display: flex;
   height: 100%;
   width: 100%;
 }
 
-#navOptions::-webkit-scrollbar,
 .items::-webkit-scrollbar,
 .cartList::-webkit-scrollbar {
   width: 8px;
   /* border-radius: 16px; */
   background-color: var(--p-100);
+}
+
+#navOptions::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 16px;
+  background-color: var(--p-100);
+}
+
+#navOptions::-webkit-scrollbar-thumb {
+  border-radius: 20px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -124,12 +133,12 @@ body,
 
 .navMobileContentBtn {
   /* border: 1px solid red; */
-  padding: 12px 8px;
+  /* padding: 12px 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
   color: white;
-  cursor: pointer;
+  cursor: pointer; */
 }
 .navMobileContentBtnSelect {
   background: linear-gradient(to bottom, var(--p-400), transparent);

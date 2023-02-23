@@ -352,14 +352,26 @@ export default function LandingPage() {
               signIn({
                 token: r.data.tokenCookie,
                 tokenType: 'Bearer',
-                expiresIn: 301,
+                expiresIn: 300,
                 authState: {
                   userId: r.data.user_id,
-                  displayName: r.data.shop_name,
+                  displayName: r.data.nama,
                   userRole: r.data.role,
                 },
               });
               navigate('/vendere-app');
+            }
+          })
+          .catch(err => {
+            if (err) {
+              toast({
+                position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+                title: 'Sorry, fail to sign in',
+                description: 'internet problem, please check your connection',
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+              });
             }
           })
           .finally(setIsSignInLoading(false));

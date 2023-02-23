@@ -40,10 +40,9 @@ import {
   SecondaryButtonOutlineNav,
 } from './Buttons';
 import { ModalContent, ModalBody, ModalFooter, ModalOverlay } from './Modals';
+import { fontSize } from '@mui/system';
 
 const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
-  console.log(active);
-
   // Width Meter
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -52,6 +51,7 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
     }
     window.addEventListener('resize', handleResize);
   });
+  const { colorMode } = useColorMode();
 
   const auth = useAuthUser();
   const logout = useSignOut();
@@ -87,6 +87,9 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
       icon: HelpOutlineOutlinedIcon,
       restriction: '',
     },
+  ];
+
+  const navs2 = [
     {
       name: 'Employees',
       link: '/vendere-app/employees',
@@ -113,9 +116,9 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
     let activeNav;
 
     useEffect(() => {
-      nav = document.querySelector('.navMobile');
+      nav = document.querySelector('#navMobile');
       activeNav = document.querySelector(`#${active}`);
-      activeNav.classList.add('navMobileContentBtnSelect');
+      activeNav?.classList.add('navMobileContentBtnSelect');
     });
 
     const selectNavList = targetId => {
@@ -131,6 +134,7 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
       nav.style.height = '80px';
     };
     const diselectNavList = targetId => {
+      activeNav.classList.remove('navMobileContentBtnSelect');
       const target = document.querySelector(`#${targetId}`);
       const targetLabel = document.querySelector(`#${targetId} > p`);
       target.classList.remove('navMobileContentBtnSelect');
@@ -146,163 +150,92 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
 
     const navigate = useNavigate();
 
-    const { colorMode } = useColorMode();
     return (
-      <Box
-        className="navMobile"
-        style={{ background: 'var(--p-500)' }}
-        zIndex={99}
+      <HStack
+        id={'navMobile'}
+        style={{
+          width: '100%',
+          height: '56px',
+          background: colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)',
+          // borderRadius: '12px',
+          position: 'fixed',
+          bottom: '0',
+          // marginLeft: '8px',
+          zIndex: 99,
+          // transition: '0.3s',
+          cursor: 'pointer',
+        }}
       >
-        <ul>
-          {/* Reports */}
-          <li>
-            <div
-              id="reports"
-              className="navMobileContentBtn"
-              onClick={() => navigate('../reports')}
-              onMouseEnter={() => {
-                selectNavList('reports');
-              }}
-              onMouseLeave={() => diselectNavList('reports')}
-            >
-              <Icon
-                as={SummarizeOutlinedIcon}
-                fontSize={'xx-large'}
-                mx={'auto'}
-              />
-              <Text
-                className="navLabel"
-                display={'none'}
-                style={{ color: 'var(--p-200)' }}
-                fontSize={'xs'}
-                pt={1}
+        {navs.map((nav, index) => {
+          if (auth().userRole === nav.restriction || nav.restriction === '') {
+            return (
+              <VStack
+                key={index}
+                id={nav.name}
+                className={'navMobileContentBtn'}
+                m={'0px !important'}
+                style={{
+                  color: 'var(--p-50)',
+                  padding: '12px 8px',
+                  width: '100%',
+                }}
+                onClick={() => {
+                  navigate(nav.link);
+                }}
+                onMouseEnter={() => {
+                  selectNavList(nav.name);
+                }}
+                onMouseLeave={() => diselectNavList(nav.name)}
               >
-                Reports
-              </Text>
-            </div>
-          </li>
-
-          {/* Debts */}
-          <li>
-            <div
-              id="debts"
-              className="navMobileContentBtn"
-              onClick={() => navigate('../debts')}
-              onMouseEnter={() => {
-                selectNavList('debts');
-              }}
-              onMouseLeave={() => diselectNavList('debts')}
-            >
-              <Icon as={MoneyOffIcon} fontSize={'xx-large'} />
-              <Text
-                className="navLabel"
-                display={'none'}
-                style={{ color: 'var(--p-200)' }}
-                fontSize={'xs'}
-                pt={1}
-              >
-                Debts
-              </Text>
-            </div>
-          </li>
-
-          {/* Cashier */}
-          <li>
-            <div
-              id="home"
-              className="navMobileContentBtn"
-              onClick={() => navigate('../')}
-              onMouseEnter={() => {
-                selectNavList('home');
-              }}
-              onMouseLeave={() => diselectNavList('home')}
-            >
-              <Icon as={DashboardOutlinedIcon} fontSize={'xx-large'} />
-              <Text
-                className="navLabel"
-                display={'none'}
-                style={{ color: 'var(--p-200)' }}
-                fontSize={'xs'}
-                pt={1}
-              >
-                Dashboard
-              </Text>
-            </div>
-          </li>
-
-          {/* Cashier */}
-          <li>
-            <div
-              id="cashier"
-              className="navMobileContentBtn"
-              onClick={() => navigate('../cashier')}
-              onMouseEnter={() => {
-                selectNavList('cashier');
-              }}
-              onMouseLeave={() => diselectNavList('cashier')}
-            >
-              <Icon as={PointOfSaleRoundedIcon} fontSize={'xx-large'} />
-              <Text
-                className="navLabel"
-                display={'none'}
-                style={{ color: 'var(--p-200)' }}
-                fontSize={'xs'}
-                pt={1}
-              >
-                Cashier
-              </Text>
-            </div>
-          </li>
-
-          {/* Transactions */}
-          <li>
-            <div
-              id="transactions"
-              className="navMobileContentBtn"
-              onClick={() => navigate('../transactions')}
-              onMouseEnter={() => {
-                selectNavList('transactions');
-              }}
-              onMouseLeave={() => diselectNavList('transactions')}
-            >
-              <Icon as={ReceiptLongOutlinedIcon} fontSize={'xx-large'} />
-              <Text
-                className="navLabel"
-                display={'none'}
-                style={{ color: 'var(--p-200)' }}
-                fontSize={'xs'}
-                pt={1}
-              >
-                Transactions
-              </Text>
-            </div>
-          </li>
-
-          {/* Profile */}
-          <li>
-            <div
-              id="profile"
-              className="navMobileContentBtn"
-              onClick={() => navigate('../profile')}
-              onMouseEnter={() => {
-                selectNavList('profile');
-              }}
-              onMouseLeave={() => diselectNavList('profile')}
-            >
-              <Icon as={AccountCircleRoundedIcon} fontSize={'xx-large'} />
-              <Text
-                className="navLabel"
-                display={'none'}
-                style={{ color: 'var(--p-200)' }}
-                fontSize={'xs'}
-                pt={1}
-              >
-                Profile
-              </Text>
-            </div>
-          </li>
-        </ul>
-      </Box>
+                <Icon
+                  as={nav.icon}
+                  style={{ margin: 'auto auto', fontSize: 'xx-large' }}
+                />
+                <Text
+                  className="navLabel"
+                  display={'none'}
+                  style={{ color: 'var(--p-200)' }}
+                  fontSize={'xs'}
+                  pt={1}
+                >
+                  {nav.name}
+                </Text>
+              </VStack>
+            );
+          }
+        })}
+        <VStack
+          id={'Profile'}
+          className={'navMobileContentBtn'}
+          m={'0px !important'}
+          style={{
+            color: 'var(--p-50)',
+            padding: '12px 8px',
+            width: '100%',
+          }}
+          onClick={() => {
+            navigate('vendere-app/profile');
+          }}
+          onMouseEnter={() => {
+            selectNavList('Profile');
+          }}
+          onMouseLeave={() => diselectNavList('Profile')}
+        >
+          <Icon
+            as={AccountCircleRoundedIcon}
+            style={{ margin: 'auto auto', fontSize: 'xx-large' }}
+          />
+          <Text
+            className="navLabel"
+            display={'none'}
+            style={{ color: 'var(--p-200)' }}
+            fontSize={'xs'}
+            pt={1}
+          >
+            Profile
+          </Text>
+        </VStack>
+      </HStack>
     );
   };
 
@@ -464,6 +397,47 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
                   );
                 }
               })}
+
+              {auth().userRole === 'admin' ? (
+                <Divider borderColor={'var(--p-200)'} />
+              ) : (
+                ''
+              )}
+
+              {navs2.map((nav, index) => {
+                if (
+                  auth().userRole === nav.restriction ||
+                  nav.restriction === ''
+                ) {
+                  return (
+                    <HStack
+                      key={index}
+                      id={nav.name + 'Nav'}
+                      className={
+                        active === nav.name
+                          ? 'navListActive navLink'
+                          : 'navLink'
+                      }
+                      onClick={() => navigate(nav.link)}
+                      onMouseEnter={() => {
+                        selectNav(nav.name + 'Nav');
+                      }}
+                      onMouseLeave={() => {
+                        diselectNav(nav.name + 'Nav');
+                      }}
+                      style={{
+                        width: '100%',
+                        padding: '8px 16px',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <Icon as={nav.icon} fontSize={'xl'} />
+                      <Text ml={2}>{nav.name}</Text>
+                    </HStack>
+                  );
+                }
+              })}
             </VStack>
 
             {/* Mini Profile */}
@@ -483,14 +457,19 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
               <Avatar
                 size={'xl'}
                 name={auth().displayName}
-                style={{ position: 'absolute', top: '-50px' }}
+                style={{
+                  position: 'absolute',
+                  top: '-50px',
+                  background: 'var(--p-300)',
+                  color: 'var(--p-200)',
+                }}
               />
               <Text style={{ fontWeight: 'bold' }}>{auth().displayName}</Text>
               <Badge
-                mt={'0 !important'}
+                mt={'4px !important'}
                 style={{
                   background: 'var(--accent)',
-                  color: 'black',
+                  color: '#00000080',
                   borderRadius: '12px',
                 }}
               >
