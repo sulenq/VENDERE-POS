@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 import {
   ButtonGroup,
   Button,
@@ -298,76 +300,82 @@ export default function LandingPage() {
     const [isSignInLoading, setIsSignInLoading] = useState(false);
 
     const [loginRole, setLoginRole] = useState('admin');
-    function selectLoginRole(e) {
-      const role = e.target.value;
-      setLoginRole(role);
-    }
 
     const [loginData, setLoginData] = useState({
       username: '',
       password: '',
     });
 
-    function adminSignIn(e) {
+    function selectLoginRole(e) {
+      const role = e.target.value;
+      setLoginRole(role);
+    }
+
+    function userLogin(e) {
       e.preventDefault();
-      console.log('Loging in as Admin...');
+      console.log('User Loging in...');
       setIsSignInLoading(true);
 
       //!Simulasi Loading
       setTimeout(() => {
-        const adminLoginAPI = new URL(`${DOMAIN_API}/api/v1/users/admin/login`);
+        let loginAPI;
+        let data;
+        switch (loginRole) {
+          case 'admin':
+            loginAPI = new URL(`${DOMAIN_API}/api/v1/users/admin/login`);
+            data = {
+              role: loginRole,
+              email: loginData.username,
+              password: loginData.password,
+            };
+            break;
+          case 'cashier':
+            loginAPI = new URL(`${DOMAIN_API}/api/v1/users/cashier/login`);
+            data = {
+              role: loginRole,
+              username: loginData.username,
+              password: loginData.password,
+            };
+            break;
+        }
 
-        let data = {
-          role: loginRole,
-          email: loginData.username,
-          password: loginData.password,
-        };
-
-        fetch(adminLoginAPI, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        })
-          .then(response => response.json())
+        axios
+          .post(loginAPI, data)
           .then(r => {
             console.log(r);
-            if (r.data.error) {
-              if (r.data.error === 'password not match') {
-                setLoginData({ ...loginData, password: '' });
-              } else {
-                setLoginData({ username: '', password: '' });
+            if (r) {
+              if (r.status === 200 && r.statusText === 'OK') {
+                toast({
+                  position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+                  title: `Signed In 😎`,
+                  description: `as ${r.data.data.role} of ${r.data.data.nama}`,
+                  status: 'success',
+                  duration: 5000,
+                  isClosable: true,
+                });
+                signIn({
+                  token: r.data.data.tokenCookie,
+                  tokenType: 'Bearer',
+                  expiresIn: 300,
+                  authState: {
+                    userId: r.data.data.user_id,
+                    displayName: r.data.data.nama,
+                    userRole: r.data.data.role,
+                  },
+                });
+                console.log('User logged in');
+                navigate('/vendere-app');
               }
-              toast({
-                position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-                title: 'Sorry, fail to sign in',
-                description: r.data.error,
-                status: 'error',
-                duration: 5000,
-                isClosable: true,
-              });
-            } else if (r.code === 200 && r.status === 'OK') {
-              console.log('logged in');
-              signIn({
-                token: r.data.tokenCookie,
-                tokenType: 'Bearer',
-                expiresIn: 300,
-                authState: {
-                  userId: r.data.user_id,
-                  displayName: r.data.nama,
-                  userRole: r.data.role,
-                },
-              });
-              navigate('/vendere-app');
             }
           })
           .catch(err => {
             if (err) {
+              console.log(err);
+              console.log(data);
               toast({
                 position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-                title: 'Sorry, fail to sign in',
-                description: 'internet problem, please check your connection',
+                title: 'Sorry, fail to sign in ☹️',
+                description: err.response.data.data.error,
                 status: 'error',
                 duration: 5000,
                 isClosable: true,
@@ -377,31 +385,6 @@ export default function LandingPage() {
           .finally(setIsSignInLoading(false));
       }, 1000);
       //!Simulasi Loading
-    }
-
-    function cashierSignIn() {
-      console.log('cashier login');
-      const cashierLoginAPI = new URL(
-        `${DOMAIN_API}/api/v1/users/cashier/login`
-      );
-
-      let data = {
-        role: loginRole,
-        username: loginData.username,
-        password: loginData.password,
-      };
-
-      fetch(cashierLoginAPI, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-        });
     }
 
     function toSignUp() {
@@ -491,8 +474,7 @@ export default function LandingPage() {
                     mt={8}
                     cursor={'pointer'}
                     style={{
-                      color:
-                        colorMode === 'light' ? 'var(--p-500)' : 'var(--p-300)',
+                      color: colorMode === 'light' ? 'blue' : 'cyan',
                     }}
                     _hover={{ textDecoration: 'underline' }}
                     onClick={toSignUp}
@@ -514,9 +496,7 @@ export default function LandingPage() {
                         </Button>
                         <PrimaryButton
                           label={'Sign In'}
-                          onClick={
-                            loginRole === 'admin' ? adminSignIn : cashierSignIn
-                          }
+                          onClick={userLogin}
                           isLoading={isSignInLoading}
                         />
                       </ButtonGroup>
@@ -536,6 +516,7 @@ export default function LandingPage() {
     <VStack
       className="landingPage"
       p={screenWidth <= 1000 ? '16px 0' : '16px 100px'}
+      bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-450)'}
     >
       <HStack w={'100%'} justifyContent={'space-between'} px={'24px'}>
         <Text fontSize={'lg'} fontWeight={'bold'}>
@@ -552,14 +533,26 @@ export default function LandingPage() {
                 }}
                 _hover={{ cursor: 'pointer' }}
                 style={{
-                  border: '2px solid var(--p-500)',
+                  border: '2px solid',
+                  borderColor:
+                    colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)',
                   borderRadius: '50px',
-                  padding: '4px 12px',
-                  color: 'var(--p-500)',
+                  padding: '4px',
+                  paddingRight: '8px',
+                  color: colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)',
                   fontWeight: 'bold',
                 }}
               >
-                <Avatar style={{ background: 'var(--p-500)' }} size={'xs'} />
+                <Avatar
+                  name={auth().displayName}
+                  style={{
+                    background:
+                      colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)',
+                    color:
+                      colorMode !== 'light' ? 'var(--p-500)' : 'var(--p-50)',
+                  }}
+                  size={'sm'}
+                />
                 <Text>{auth().displayName}</Text>
               </HStack>
             </>

@@ -18,6 +18,7 @@ import {
   ButtonGroup,
   Badge,
   Avatar,
+  useToast,
 } from '@chakra-ui/react';
 
 // MUI
@@ -52,6 +53,7 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
     window.addEventListener('resize', handleResize);
   });
   const { colorMode } = useColorMode();
+  const toast = useToast();
 
   const auth = useAuthUser();
   const logout = useSignOut();
@@ -256,6 +258,13 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
             }
             logout();
             setIsSignOutLoading(false);
+            toast({
+              position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+              title: `Signed Out 🫡`,
+              status: 'success',
+              duration: 5000,
+              isClosable: true,
+            });
             navigate('/');
           }, 1000);
         }

@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
+
 import {
   RequireAuth,
   useSignIn,
@@ -78,10 +80,11 @@ const BadRequest = () => {
 
 export default function App() {
   const auth = useAuthUser();
+
   const DOMAIN = 'http://localhost:8080';
 
   const Dashboard = () => {
-    const DOMAIN_API = 'http://localhost:8080';
+    const baseURL = 'http://localhost:8080';
 
     const { colorMode } = useColorMode();
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -304,8 +307,7 @@ export default function App() {
           username: '',
           password: '',
         });
-        const [isCreateAccountLoading, setIsCreateAccountLoading] =
-          useState(false);
+        const [isCreatingAcount, setIsCreatingCashierAccount] = useState(false);
 
         function toastRegisterStatus(r) {
           console.log(r);
@@ -342,33 +344,65 @@ export default function App() {
 
         function signUp(e) {
           e.preventDefault();
+
+          const authToken = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('_auth='));
+          const authTokenValue = authToken?.split('=')[1];
+
           console.log('Creating Employee Account...');
           console.log(registerData);
-          setIsCreateAccountLoading(true);
+          console.log(authTokenValue);
+          setIsCreatingCashierAccount(true);
+
+          const cashierRegisterAPI = new URL(
+            `${baseURL}/api/v1/users/cashier/register`
+          );
+
+          axios.defaults.headers.common[
+            'Authorization'
+          ] = `Bearer ${authTokenValue}`;
+
+          axios.defaults.headers.common['refererer'] = 'no-referrer';
+
+          axios
+            .post(
+              cashierRegisterAPI,
+              { registerData },
+              { headers: { Authorization: `Bearer ${authTokenValue}` } }
+            )
+            .then(r => {
+              console.log(r);
+              setRegisterData({
+                username: '',
+                password: '',
+              });
+              toastRegisterStatus(r);
+            })
+            .catch(err => {
+              console.log(err);
+            })
+            .finally(setIsCreatingCashierAccount(false));
 
           //! Simulasi loading
           setTimeout(() => {
-            const adminRegisterAPI = new URL(
-              `${DOMAIN_API}/api/v1/users/cashier/register`
-            );
-
-            fetch(adminRegisterAPI, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + authTokenValue,
-              },
-              body: JSON.stringify(registerData),
-            })
-              .then(response => response.json())
-              .then(responseData => {
-                setRegisterData({
-                  username: '',
-                  password: '',
-                });
-                toastRegisterStatus(responseData);
-              })
-              .finally(setIsCreateAccountLoading(false));
+            // fetch(cashierRegisterAPI, {
+            //   method: 'POST',
+            //   headers: {
+            //     'Content-Type': 'application/json',
+            //     Authorization: 'Bearer ' + authTokenValue,
+            //   },
+            //   body: JSON.stringify(registerData),
+            // })
+            //   .then(response => response.json())
+            //   .then(responseData => {
+            //     setRegisterData({
+            //       username: '',
+            //       password: '',
+            //     });
+            //     toastRegisterStatus(responseData);
+            //   })
+            //   .finally(setIsCreatingCashierAccount(false));
           }, 1000);
           //! Simulasi loading
         }
@@ -377,7 +411,7 @@ export default function App() {
           <>
             <PrimaryButton
               w={'100%'}
-              label={'Sign Up for Employee Account'}
+              label={'Sign Up Employee Account'}
               // size={'sm'}
               onClick={onOpen}
               // mr={'-8px !important'}
@@ -470,7 +504,7 @@ export default function App() {
                             <PrimaryButton
                               label={'Create Account'}
                               onClick={signUp}
-                              isLoading={isCreateAccountLoading}
+                              isLoading={isCreatingAcount}
                             />
                           </ButtonGroup>
                         </>
@@ -519,8 +553,12 @@ export default function App() {
                     <Avatar
                       size={'lg'}
                       name={emp.name}
-                      background={'var(--p-75)'}
-                      color={'black'}
+                      background={
+                        colorMode == 'light' ? 'var(--p-75)' : 'var(--p-350)'
+                      }
+                      color={
+                        colorMode == 'light' ? 'var(--p-350)' : 'var(--p-75)'
+                      }
                     />
                     <VStack alignItems={'flex-start'} pl={1}>
                       <Text mt={'0px !important'}>{emp.name}</Text>
@@ -555,7 +593,7 @@ export default function App() {
           ml={'0px !important'}
           style={{
             background:
-              colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-450)',
+              colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-400)',
             borderRadius: screenWidth <= 1000 ? 0 : '12px',
           }}
         >
@@ -604,56 +642,51 @@ export default function App() {
   const [user, setUser] = useState({});
   const [isAuthLoading, setIsAuthLoading] = useState(false);
 
-  const authToken = document.cookie
-    .split('; ')
-    .find(row => row.startsWith('_auth='));
-  const authTokenValue = authToken?.split('=')[1];
+  // useEffect(() => {
+  //   console.log('Validating user...');
+  //   setIsAuthLoading(true);
 
-  useEffect(() => {
-    console.log('Validating as Admin...');
-    setIsAuthLoading(true);
+  //   //!Simulasi Loading
+  //   setTimeout(() => {
+  //     let authValidationAPI = new URL(`${DOMAIN}/api/v1/users/admin/check`);
 
-    //!Simulasi Loading
-    setTimeout(() => {
-      let authValidationAPI;
+  //     let data = {
+  //       token_input: authTokenValue,
+  //     };
 
-      let data = {
-        token_input: authTokenValue,
-      };
+  //     console.log(authTokenValue);
 
-      console.log(authTokenValue);
-
-      fetch(authValidationAPI, {
-        method: 'POST',
-        headers: {
-          Authorization: 'Bearer ' + authTokenValue,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-        .then(response => response.json())
-        .then(r => {
-          console.log(r);
-          if (r.error) {
-            console.log(r.error);
-          } else if (r.code === 200 && r.status === 'OK') {
-            console.log('logged in');
-            signIn({
-              token: r.data.tokenCookie,
-              tokenType: 'Bearer',
-              expiresIn: 300,
-              authState: {
-                userId: r.data.user_id,
-                displayName: r.data.nama,
-                userRole: r.data.role,
-              },
-            });
-          }
-        })
-        .finally(setIsAuthLoading(false));
-    }, 1000);
-    //!Simulasi Loading
-  }, []);
+  //     fetch(authValidationAPI, {
+  //       method: 'POST',
+  //       headers: {
+  //         Authorization: 'Bearer ' + authTokenValue,
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(data),
+  //     })
+  //       .then(response => response.json())
+  //       .then(r => {
+  //         console.log(r);
+  //         if (r.error) {
+  //           console.log(r.error);
+  //         } else if (r.code === 200 && r.status === 'OK') {
+  //           console.log('logged in');
+  //           signIn({
+  //             token: r.data.tokenCookie,
+  //             tokenType: 'Bearer',
+  //             expiresIn: 300,
+  //             authState: {
+  //               userId: r.data.user_id,
+  //               displayName: r.data.nama,
+  //               userRole: r.data.role,
+  //             },
+  //           });
+  //         }
+  //       })
+  //       .finally(setIsAuthLoading(false));
+  //   }, 1000);
+  //   //!Simulasi Loading
+  // }, []);
 
   // !!! DEV PURPOSE
   const dummyItems = [

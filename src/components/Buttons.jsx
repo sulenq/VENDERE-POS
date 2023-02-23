@@ -67,9 +67,14 @@ const PrimaryButtonOutline = props => {
         background:
           colorMode === 'light'
             ? 'var(--light) !important'
-            : 'var(--p-100) !important',
+            : 'var(--p-350) !important',
       }}
-      _active={{ background: 'var(--p-100) !important' }}
+      _active={{
+        background:
+          colorMode === 'light'
+            ? 'var(--p-75) !important'
+            : 'var(--p-300) !important',
+      }}
     >
       {props.leftIcon && <Icon as={props.leftIcon} h={5} pr={'2px'} />}
       {props.label}
