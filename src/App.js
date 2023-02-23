@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import { RequireAuth, useSignIn, useAuthHeader } from 'react-auth-kit';
+import {
+  RequireAuth,
+  useSignIn,
+  useAuthHeader,
+  useAuthUser,
+  useSignOut,
+} from 'react-auth-kit';
 
 import {
   useToast,
@@ -71,7 +77,8 @@ const BadRequest = () => {
 };
 
 export default function App() {
-  const DOMAINAPI = 'http://localhost:8080';
+  const auth = useAuthUser();
+  const DOMAIN = 'http://localhost:8080';
 
   const Dashboard = () => {
     const DOMAIN_API = 'http://localhost:8080';
@@ -593,6 +600,7 @@ export default function App() {
   });
 
   const signIn = useSignIn();
+  const logout = useSignOut();
   const [user, setUser] = useState({});
   const [isAuthLoading, setIsAuthLoading] = useState(false);
 
@@ -601,53 +609,51 @@ export default function App() {
     .find(row => row.startsWith('_auth='));
   const authTokenValue = authToken?.split('=')[1];
 
-  // useEffect(() => {
-  //   console.log('Validating as Admin...');
-  //   setIsAuthLoading(true);
+  useEffect(() => {
+    console.log('Validating as Admin...');
+    setIsAuthLoading(true);
 
-  //   //!Simulasi Loading
-  //   setTimeout(() => {
-  //     const authValidationAPI = new URL(
-  //       `${DOMAINAPI}/api/v1/users/admin/check`
-  //     );
+    //!Simulasi Loading
+    setTimeout(() => {
+      let authValidationAPI;
 
-  //     let data = {
-  //       token_input: authTokenValue,
-  //     };
+      let data = {
+        token_input: authTokenValue,
+      };
 
-  //     console.log(authTokenValue);
+      console.log(authTokenValue);
 
-  //     fetch(authValidationAPI, {
-  //       method: 'POST',
-  //       headers: {
-  //         Authorization: 'Bearer ' + authTokenValue,
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(data),
-  //     })
-  //       .then(response => response.json())
-  //       .then(r => {
-  //         console.log(r);
-  //         if (r.error) {
-  //           console.log(r.error);
-  //         } else if (r.code === 200 && r.status === 'OK') {
-  //           console.log('logged in');
-  //           signIn({
-  //             token: r.data.tokenCookie,
-  //             tokenType: 'Bearer',
-  //             expiresIn: 300,
-  //             authState: {
-  //               userId: r.data.user_id,
-  //               displayName: r.data.nama,
-  //               userRole: r.data.role,
-  //             },
-  //           });
-  //         }
-  //       })
-  //       .finally(setIsAuthLoading(false));
-  //   }, 1000);
-  //   //!Simulasi Loading
-  // }, []);
+      fetch(authValidationAPI, {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + authTokenValue,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+        .then(response => response.json())
+        .then(r => {
+          console.log(r);
+          if (r.error) {
+            console.log(r.error);
+          } else if (r.code === 200 && r.status === 'OK') {
+            console.log('logged in');
+            signIn({
+              token: r.data.tokenCookie,
+              tokenType: 'Bearer',
+              expiresIn: 300,
+              authState: {
+                userId: r.data.user_id,
+                displayName: r.data.nama,
+                userRole: r.data.role,
+              },
+            });
+          }
+        })
+        .finally(setIsAuthLoading(false));
+    }, 1000);
+    //!Simulasi Loading
+  }, []);
 
   // !!! DEV PURPOSE
   const dummyItems = [
@@ -879,7 +885,7 @@ export default function App() {
                       fontSize={'xl'}
                       fontWeight={'bold'}
                     >
-                      Validating as admin...
+                      Validating user...
                     </Text>
                   </HStack>
                 </VStack>

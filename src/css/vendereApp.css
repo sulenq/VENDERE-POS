@@ -24,7 +24,8 @@
 }
 
 ::selection {
-  background-color: var(--p-200);
+  background-color: var(--accent) !important;
+  color: black;
 }
 
 html,
