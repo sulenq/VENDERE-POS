@@ -230,20 +230,16 @@ const CartList = ({
         borderBottom={'1px solid'}
         style={{
           borderColor: colorMode === 'light' ? '#e1e1e1' : 'var(--dark-dim)',
+          color: colorMode === 'light' ? 'var(--p-100)' : 'var(--p-300)',
         }}
       >
-        <Icon
-          as={RemoveShoppingCartRoundedIcon}
-          fontSize={'10rem'}
-          color={colorMode === 'light' ? '#ccdff9' : '#2d3748'}
-        />
+        <Icon as={RemoveShoppingCartRoundedIcon} fontSize={'10rem'} />
         <Text
           cursor={'default'}
           textAlign={'center'}
           w={'100%'}
           fontWeight={'bold'}
           fontSize="xx-large"
-          color={colorMode === 'light' ? '#ccdff9' : '#2d3748'}
         >
           Cart is Empty!
         </Text>
@@ -261,14 +257,20 @@ const Checkout = ({ total, checkout, cartList, clearInvoice, screenWidth }) => {
   const [note, setNote] = useState('');
 
   const isAuthenticated = useIsAuthenticated();
-  const isAuthTokenExist = document.cookie
-    .split(';')
-    .some(cookie => cookie.trim().startsWith('_auth='));
+  const [isAuthTokenExist, setIsAuthTokenExist] = useState(true);
 
-  const [isCheckoutLLoading, setIsCheckoutLoading] = useState(false);
+  const [isCheckoutLLoading, setIsCheckoutLoading] = useState(true);
 
-  // const [change, setChange] = useState(pay - total);
-  // console.log(pay, total, change, pay - total);
+  useEffect(() => {
+    const authToken = document.cookie
+      .split(';')
+      .some(cookie => cookie.trim().startsWith('_auth='));
+    if (authToken) {
+      setIsAuthTokenExist(true);
+    } else {
+      setIsAuthTokenExist(false);
+    }
+  });
 
   function inputPayHandler(e) {
     if (!e.target.value) {
@@ -543,37 +545,33 @@ const Invoice = ({
   const toast = useToast();
 
   function checkout({ total, pay, cartList, note }) {
-    if (isAuthTokenExist) {
-      if (total > 0) {
-        let status = 'lunas';
-        let change = pay - total;
-        if (change * -1 > 0) {
-          status = 'hutang';
-        }
-        const invoice = {
-          date: new Date(),
-          cashierId: auth().userId,
-          total: total,
-          pay: pay,
-          change: change,
-          cartList: cartList,
-          status: status,
-          note: note,
-        };
-
-        toast({
-          position: 'bottom-right',
-          title: 'Transaction added.',
-          description: `This invoice has been added to Transactions`,
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-        });
-        console.log(invoice);
-        console.log('checkout success');
+    if (total > 0) {
+      let status = 'lunas';
+      let change = pay - total;
+      if (change * -1 > 0) {
+        status = 'hutang';
       }
-    } else {
-      console.log('Auth needed');
+      const invoice = {
+        date: new Date(),
+        cashierId: auth().userId,
+        total: total,
+        pay: pay,
+        change: change,
+        cartList: cartList,
+        status: status,
+        note: note,
+      };
+
+      toast({
+        position: 'bottom-right',
+        title: 'Transaction added.',
+        description: `This invoice has been added to Transactions`,
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+      console.log(invoice);
+      console.log('checkout success');
     }
     return;
   }
@@ -587,62 +585,6 @@ const Invoice = ({
   const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const searchItem = useRef(null);
-
-  // const [itemIndex, setItemIndex] = useState(1);
-  // const [itemsLength, setItemLength] = useState(0);
-
-  // function selectItem() {
-  //   const targetItem = document.querySelector(
-  //     `.items > :nth-child(${itemIndex})`
-  //   );
-  //   const items = document.querySelectorAll('.items > div');
-
-  //   setItemLength(items.length);
-
-  //   items.forEach(item => {
-  //     item.classList.remove('itemSelected');
-  //   });
-  //   if (targetItem) {
-  //     targetItem.classList.add('itemSelected');
-  //   }
-  //   console.log(itemIndex);
-  // }
-
-  // useEffect(() => {
-  //   setItemIndex(1);
-  //   selectItem();
-  // }, [search]);
-
-  // useEffect(() => {
-  //   selectItem();
-  // }, [itemIndex]);
-
-  // const handleKeyUp = e => {
-  //   if (e.key === 'Enter') {
-  //     const btn = document.querySelector(
-  //       `.items :nth-child(${itemIndex}) .actionBtnSection > button`
-  //     );
-  //     if (btn) {
-  //       btn.click();
-  //     }
-  //   }
-  // };
-
-  // const handleKeyDown = e => {
-  //   if (e.key === 'ArrowDown') {
-  //     e.preventDefault();
-  //     if (itemIndex < itemsLength) {
-  //       setItemIndex(itemIndex + 1);
-  //     }
-  //   }
-
-  //   if (e.key === 'ArrowUp') {
-  //     e.preventDefault();
-  //     if (itemIndex > 1) {
-  //       setItemIndex(itemIndex - 1);
-  //     }
-  //   }
-  // };
 
   return (
     <VStack

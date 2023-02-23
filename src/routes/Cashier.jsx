@@ -62,7 +62,7 @@ export default function Cashier({
       // backgroundImage={colorMode === 'light' ? `url(${bgDark})` : ''}
       // backgroundImage={`url(${bgDark})`}
     >
-      <ResponsiveNav active={'cashier'} w={'15%'} />
+      <ResponsiveNav active={'Cashier'} w={'15%'} />
       <HStack
         id="appContentWrapper"
         h={'100%'}
@@ -72,7 +72,7 @@ export default function Cashier({
         borderRadius={screenWidth <= 1000 ? 0 : '12px'}
         style={{
           background:
-            colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-450)',
+            colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
         }}
       >
         {screenWidth <= 1000 ? (

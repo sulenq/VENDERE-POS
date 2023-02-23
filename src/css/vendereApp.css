@@ -7,10 +7,10 @@
   --light-dim: #f0f0f0;
   --p-50: #fff;
   --p-50a: #ffffff90;
-  --p-75: #f3f3f3;
+  --p-75: #e9e9e9;
   --p-100: #bebebe;
   --p-200: #888888;
-  --p-300: #404040;
+  --p-300: #303030;
   --p-350: #252525;
   --p-400: #1f1f1f;
   --p-450: #161616;
@@ -132,15 +132,6 @@ body,
   width: 100%;
 }
 
-.navMobileContentBtn {
-  /* border: 1px solid red; */
-  /* padding: 12px 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: white;
-  cursor: pointer; */
-}
 .navMobileContentBtnSelect {
   background: linear-gradient(to bottom, var(--p-400), transparent);
   position: relative;
@@ -166,4 +157,10 @@ body,
 
 .itemTd {
   vertical-align: top;
+}
+
+.selectedLoginRole {
+  background: var(--p-500);
+  color: var(--p-100);
+  font-weight: bold;
 }

@@ -80,13 +80,27 @@ const BadRequest = () => {
 
 export default function App() {
   const auth = useAuthUser();
+  const navigate = useNavigate();
 
-  const DOMAIN = 'http://localhost:8080';
+  const baseURL = 'http://localhost:8080';
 
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    function handleResize() {
+      setScreenWidth(window.innerWidth);
+    }
+    window.addEventListener('resize', handleResize);
+  });
+
+  const signIn = useSignIn();
+  const logout = useSignOut();
+  const [user, setUser] = useState({});
+  const [isAuthLoading, setIsAuthLoading] = useState(false);
+
+  // Dashboar Section
   const Dashboard = () => {
-    const baseURL = 'http://localhost:8080';
-
     const { colorMode } = useColorMode();
+
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     useEffect(() => {
       function handleResize() {
@@ -309,39 +323,6 @@ export default function App() {
         });
         const [isCreatingAcount, setIsCreatingCashierAccount] = useState(false);
 
-        function toastRegisterStatus(r) {
-          console.log(r);
-          if (r.error) {
-            toast({
-              position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-              title: 'Sorry, fail to create account.',
-              description: r.error,
-              status: 'error',
-              duration: 5000,
-              isClosable: true,
-            });
-          } else if (r.data.code === 200 && r.status === 'OK') {
-            toast({
-              position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-              title: 'Account created.',
-              description: `your account has been registered!, with username/email ${r.data.user_id}`,
-              status: 'success',
-              duration: 5000,
-              isClosable: true,
-            });
-            onClose();
-          } else {
-            toast({
-              position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-              title: 'Error.',
-              description: 'Please buy a new computer!',
-              status: 'error',
-              duration: 5000,
-              isClosable: true,
-            });
-          }
-        }
-
         function signUp(e) {
           e.preventDefault();
 
@@ -351,36 +332,46 @@ export default function App() {
           const authTokenValue = authToken?.split('=')[1];
 
           console.log('Creating Employee Account...');
-          console.log(registerData);
-          console.log(authTokenValue);
+          // console.log(registerData);
+          // console.log(authTokenValue);
           setIsCreatingCashierAccount(true);
 
           const cashierRegisterAPI = new URL(
             `${baseURL}/api/v1/users/cashier/register`
           );
 
-          axios.defaults.headers.common[
-            'Authorization'
-          ] = `Bearer ${authTokenValue}`;
-
-          axios.defaults.headers.common['refererer'] = 'no-referrer';
-
           axios
-            .post(
-              cashierRegisterAPI,
-              { registerData },
-              { headers: { Authorization: `Bearer ${authTokenValue}` } }
-            )
+            .post(cashierRegisterAPI, registerData, {
+              headers: { Authorization: `Bearer ${authTokenValue}` },
+            })
             .then(r => {
               console.log(r);
               setRegisterData({
                 username: '',
                 password: '',
               });
-              toastRegisterStatus(r);
+              if (r.status === 201) {
+                toast({
+                  position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+                  title: 'Cashier account registered',
+                  status: 'success',
+                  duration: 5000,
+                  isClosable: true,
+                });
+              }
             })
             .catch(err => {
               console.log(err);
+              if (err) {
+                toast({
+                  position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+                  title: 'Sorry, fail to create account.',
+                  description: err.response.data.data.error,
+                  status: 'error',
+                  duration: 5000,
+                  isClosable: true,
+                });
+              }
             })
             .finally(setIsCreatingCashierAccount(false));
 
@@ -629,66 +620,53 @@ export default function App() {
     );
   };
 
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
-    function handleResize() {
-      setScreenWidth(window.innerWidth);
-    }
-    window.addEventListener('resize', handleResize);
-  });
+    console.log('Validating user...');
+    setIsAuthLoading(true);
 
-  const signIn = useSignIn();
-  const logout = useSignOut();
-  const [user, setUser] = useState({});
-  const [isAuthLoading, setIsAuthLoading] = useState(false);
+    //!Simulasi Loading
+    setTimeout(() => {
+      const authValidationAPI = new URL(`${baseURL}/api/v1/users/checker`);
+      const authToken = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('_auth='));
+      const authTokenValue = authToken?.split('=')[1];
 
-  // useEffect(() => {
-  //   console.log('Validating user...');
-  //   setIsAuthLoading(true);
+      let data = {
+        token_input: authTokenValue,
+      };
 
-  //   //!Simulasi Loading
-  //   setTimeout(() => {
-  //     let authValidationAPI = new URL(`${DOMAIN}/api/v1/users/admin/check`);
+      console.log(authTokenValue);
 
-  //     let data = {
-  //       token_input: authTokenValue,
-  //     };
-
-  //     console.log(authTokenValue);
-
-  //     fetch(authValidationAPI, {
-  //       method: 'POST',
-  //       headers: {
-  //         Authorization: 'Bearer ' + authTokenValue,
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(data),
-  //     })
-  //       .then(response => response.json())
-  //       .then(r => {
-  //         console.log(r);
-  //         if (r.error) {
-  //           console.log(r.error);
-  //         } else if (r.code === 200 && r.status === 'OK') {
-  //           console.log('logged in');
-  //           signIn({
-  //             token: r.data.tokenCookie,
-  //             tokenType: 'Bearer',
-  //             expiresIn: 300,
-  //             authState: {
-  //               userId: r.data.user_id,
-  //               displayName: r.data.nama,
-  //               userRole: r.data.role,
-  //             },
-  //           });
-  //         }
-  //       })
-  //       .finally(setIsAuthLoading(false));
-  //   }, 1000);
-  //   //!Simulasi Loading
-  // }, []);
+      axios
+        .post(authValidationAPI, data, {
+          headers: { Authorization: `Bearer ${authTokenValue}` },
+        })
+        .then(r => {
+          console.log(r);
+          toast({
+            position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+            title: `Validated as ${r.data.data.role}`,
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+          });
+          if (r.data.data.role === 'admin') {
+            navigate('/vendere-app');
+          } else if (r.data.data.role) {
+            navigate('/vendere-app/cashier');
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(setIsAuthLoading(false));
+    }, 1000);
+    //!Simulasi Loading
+  }, []);
 
   // !!! DEV PURPOSE
+
   const dummyItems = [
     {
       id: 1,
@@ -921,6 +899,7 @@ export default function App() {
                       Validating user...
                     </Text>
                   </HStack>
+                  <Text>Tips</Text>
                 </VStack>
               }
             />

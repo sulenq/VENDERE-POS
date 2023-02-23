@@ -40,6 +40,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import { ColorModeIconButton } from '../components/ColorModeSwitcher';
 import { PrimaryButton, PrimaryButtonOutline } from '../components/Buttons';
 import { ModalOverlay, ModalContent, ModalFooter } from '../components/Modals';
+import { textAlign } from '@mui/system';
 
 export default function LandingPage() {
   const DOMAIN_API = 'http://localhost:8080';
@@ -306,10 +307,7 @@ export default function LandingPage() {
       password: '',
     });
 
-    function selectLoginRole(e) {
-      const role = e.target.value;
-      setLoginRole(role);
-    }
+    const roles = ['Admin', 'Cashier'];
 
     function userLogin(e) {
       e.preventDefault();
@@ -348,7 +346,7 @@ export default function LandingPage() {
                 toast({
                   position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
                   title: `Signed In 😎`,
-                  description: `as ${r.data.data.role} of ${r.data.data.nama}`,
+                  description: `as ${r.data.data.role}.`,
                   status: 'success',
                   duration: 5000,
                   isClosable: true,
@@ -364,7 +362,11 @@ export default function LandingPage() {
                   },
                 });
                 console.log('User logged in');
-                navigate('/vendere-app');
+                if (r.data.data.role === 'admin') {
+                  navigate('/vendere-app');
+                } else if (r.data.data.role) {
+                  navigate('/vendere-app/cashier');
+                }
               }
             }
           })
@@ -398,7 +400,7 @@ export default function LandingPage() {
       <>
         <PrimaryButton label={'SIGN IN'} onClick={onOpen} />
 
-        <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <Modal isOpen={true} onClose={onClose} isCentered>
           <ModalOverlay />
 
           <ModalContent
@@ -416,10 +418,36 @@ export default function LandingPage() {
                   <form id="loginForm">
                     <FormControl mt={4} isRequired>
                       <FormLabel>Sign In As...</FormLabel>
-                      <Select onChange={selectLoginRole}>
-                        <option value={'admin'}>Admin</option>
-                        <option value={'cashier'}>Cashier</option>
-                      </Select>
+                      <HStack>
+                        {roles.map((role, index) => {
+                          return (
+                            <Text
+                              className={
+                                loginRole === role.toLowerCase()
+                                  ? 'selectedLoginRole'
+                                  : ''
+                              }
+                              key={index}
+                              style={{
+                                textAlign: 'center',
+                                width: '100%',
+                                border:
+                                  colorMode === 'light'
+                                    ? '2px solid var(--p-75)'
+                                    : '2px solid var(--p-300)',
+                                borderRadius: '8px',
+                                padding: '4px',
+                                cursor: 'pointer',
+                              }}
+                              onClick={() => {
+                                setLoginRole(role.toLowerCase());
+                              }}
+                            >
+                              {role}
+                            </Text>
+                          );
+                        })}
+                      </HStack>
                     </FormControl>
 
                     <FormControl mt={4} isRequired>

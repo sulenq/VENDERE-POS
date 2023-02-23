@@ -251,11 +251,11 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
       useEffect(() => {
         if (isSignOutLoading) {
           setTimeout(() => {
-            if (auth().userRole === 'cashier') {
-              setTotal(0);
-              setCartList([]);
-              setSearch('');
-            }
+            // if (auth().userRole === 'cashier') {
+            //   setTotal(0);
+            //   setCartList([]);
+            //   setSearch('');
+            // }
             logout();
             setIsSignOutLoading(false);
             toast({
@@ -473,7 +473,15 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
                   color: 'var(--p-200)',
                 }}
               />
-              <Text style={{ fontWeight: 'bold' }}>{auth().displayName}</Text>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  width: '100px',
+                  textAlign: 'center',
+                }}
+              >
+                {auth().displayName}
+              </Text>
               <Badge
                 mt={'4px !important'}
                 style={{
