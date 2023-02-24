@@ -544,7 +544,7 @@ export default function LandingPage() {
         <Text fontSize={'lg'} fontWeight={'bold'}>
           VENDERE
         </Text>
-        <ButtonGroup>
+        <HStack>
           <ColorModeIconButton />
 
           {isAuthenticated() ? (
@@ -584,7 +584,7 @@ export default function LandingPage() {
               <SignIn />
             </>
           )}
-        </ButtonGroup>
+        </HStack>
       </HStack>
 
       <VStack id="hero" position={'relative'} justifyContent={'center'} px={10}>

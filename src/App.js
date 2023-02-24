@@ -311,7 +311,7 @@ export default function App() {
           path="cashier"
           element={
             <RequireRoleAuth
-              loginPath="/"
+              loginPath="/?login=1"
               restriction="cashier"
               element={
                 <Cashier

@@ -57,7 +57,7 @@ export default function RequireRoleAuth(props) {
           headers: { Authorization: `Bearer ${authTokenValue}` },
         })
         .then(r => {
-          console.log(r.data.data);
+          // console.log(r.data.data);
           if (r.status === 200 && r.data.data.message === 'token benar') {
             setIsAuth(r.data.data);
             toast({
@@ -89,6 +89,7 @@ export default function RequireRoleAuth(props) {
             break;
           case 'cashier':
             navigate('/vendere-app/cashier');
+            break;
         }
       }
     } else {
