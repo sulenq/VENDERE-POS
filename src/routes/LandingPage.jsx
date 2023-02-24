@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 import {
   ButtonGroup,
@@ -42,16 +43,19 @@ import { PrimaryButton, PrimaryButtonOutline } from '../components/Buttons';
 import { ModalOverlay, ModalContent, ModalFooter } from '../components/Modals';
 import { textAlign } from '@mui/system';
 
-export default function LandingPage() {
+export default function LandingPage(props) {
   const DOMAIN_API = 'http://localhost:8080';
 
+  props.setToken(Cookies.get('_auth'));
+
   const [searchParams] = useSearchParams();
+
   useEffect(() => {
     if (searchParams.get('login') === '1') {
       const signInBtn = document.querySelector('#signInBtn');
       signInBtn?.click();
     }
-  }, []);
+  });
 
   const auth = useAuthUser();
   const isAuthenticated = useIsAuthenticated();
@@ -81,43 +85,15 @@ export default function LandingPage() {
 
   // SIGN UP SECTION
   const SignUp = () => {
-    function toastRegisterStatus(r) {
-      console.log(r);
-      if (r.data.error) {
-        toast({
-          position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-          title: 'Sorry, fail to create account.',
-          description: r.data.error,
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-        });
-      } else if (r.data.code === 201 && r.status === 'Created') {
-        toast({
-          position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-          title: 'Account created.',
-          description: `your account has been registered!, with username/email ${r.data.user_id}`,
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-        });
-        onClose();
-      } else {
-        toast({
-          position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-          title: 'Error.',
-          description: 'Please buy a new computer!',
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-        });
-      }
-    }
-
     const [registerData, setRegisterData] = useState({
       shop_name: '',
       email: '',
       password: '',
+    });
+
+    const [confirmPassword, setConfirmPassword] = useState({
+      password: '',
+      ok: false,
     });
 
     const [isCreateAccountLoading, setIsCreateAccountLoading] = useState(false);
@@ -136,21 +112,35 @@ export default function LandingPage() {
           `${DOMAIN_API}/api/v1/users/admin/register`
         );
 
-        fetch(adminRegisterAPI, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(registerData),
-        })
-          .then(response => response.json())
-          .then(responseData => {
+        axios
+          .post(adminRegisterAPI, registerData)
+          .then(r => {
+            console.log(r);
             setRegisterData({
               shop_name: '',
               email: '',
               password: '',
             });
-            toastRegisterStatus(responseData);
+            toast({
+              position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+              title: 'Account created.',
+              description: `your account has been registered!`,
+              status: 'success',
+              duration: 3000,
+              isClosable: true,
+            });
+            onClose();
+          })
+          .catch(err => {
+            console.log(err);
+            toast({
+              position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+              title: 'Sorry, fail to create account.',
+              description: err.response.data.data.error,
+              status: 'error',
+              duration: 3000,
+              isClosable: true,
+            });
           })
           .finally(setIsCreateAccountLoading(false));
       }, 1000);
@@ -335,7 +325,7 @@ export default function LandingPage() {
                   title: `Signed In 😎`,
                   description: `as ${r.data.data.role}.`,
                   status: 'success',
-                  duration: 5000,
+                  duration: 3000,
                   isClosable: true,
                 });
                 signIn({
@@ -366,7 +356,7 @@ export default function LandingPage() {
                 title: 'Sorry, fail to sign in ☹️',
                 description: err.response.data.data.error,
                 status: 'error',
-                duration: 5000,
+                duration: 3000,
                 isClosable: true,
               });
             }

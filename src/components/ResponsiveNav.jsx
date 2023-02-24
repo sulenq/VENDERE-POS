@@ -261,7 +261,7 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
               position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
               title: `Signed Out 🫡`,
               status: 'success',
-              duration: 5000,
+              duration: 3000,
               isClosable: true,
             });
             navigate('/');
@@ -369,6 +369,7 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
                 fontWeight: 'bold',
                 color: 'white',
                 alignItems: 'flex-start',
+                width: '100%',
               }}
             >
               {navs.map((nav, index) => {
@@ -475,7 +476,7 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
               <Text
                 style={{
                   fontWeight: 'bold',
-                  width: '100px',
+                  width: '150px',
                   textAlign: 'center',
                 }}
               >

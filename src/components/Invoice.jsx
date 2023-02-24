@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import { useIsAuthenticated, useAuthUser } from 'react-auth-kit';
+import { useNavigate } from 'react-router-dom';
+import { useIsAuthenticated, useAuthUser, useSignOut } from 'react-auth-kit';
+import Cookies from 'js-cookie';
 
 // Chakra UI
 import {
@@ -250,29 +252,22 @@ const CartList = ({
   }
 };
 
-const Checkout = ({ total, checkout, cartList, clearInvoice, screenWidth }) => {
+const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
   const { colorMode } = useColorMode();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   const toast = useToast();
 
   const [pay, setPay] = useState(0);
+
   const [note, setNote] = useState('');
 
-  const isAuthenticated = useIsAuthenticated();
-  const [isAuthTokenExist, setIsAuthTokenExist] = useState(true);
+  const logout = useSignOut();
 
-  const [isCheckoutLLoading, setIsCheckoutLoading] = useState(true);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const authToken = document.cookie
-      .split(';')
-      .some(cookie => cookie.trim().startsWith('_auth='));
-    if (authToken) {
-      setIsAuthTokenExist(true);
-    } else {
-      setIsAuthTokenExist(false);
-    }
-  });
+  const [isCheckoutLLoading, setIsCheckoutLoading] = useState(false);
 
   function inputPayHandler(e) {
     if (!e.target.value) {
@@ -285,33 +280,46 @@ const Checkout = ({ total, checkout, cartList, clearInvoice, screenWidth }) => {
   }
 
   function onCheckout() {
-    if (isAuthTokenExist) {
-      setIsCheckoutLoading(true);
-      console.log('cheking out...');
+    setIsCheckoutLoading(true);
+    console.log('cheking out...');
 
-      //!Loading simulation
-      setTimeout(() => {
-        checkout({
+    //!Loading simulation
+    setTimeout(() => {
+      if (total > 0) {
+        let status = 'lunas';
+        let change = pay - total;
+        if (change * -1 > 0) {
+          status = 'hutang';
+        }
+        const invoice = {
+          date: new Date(),
+          cashierId: auth().userId,
           total: total,
           pay: pay,
+          change: change,
           cartList: cartList,
+          status: status,
           note: note,
+        };
+
+        toast({
+          position: 'bottom-right',
+          title: 'Transaction added.',
+          description: `This invoice has been added to Transactions`,
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
         });
-        onClose();
-        clearInvoice();
-        setPay(0);
-        setNote('');
-        setIsCheckoutLoading(false);
-      }, 2000);
-    } else {
-      toast({
-        position: 'bottom-right',
-        status: 'error',
-        title: 'Access Denied!',
-        description: 'please sign in again.',
-        isClosable: true,
-      });
-    }
+        console.log(invoice);
+        console.log('checkout success');
+      }
+      onClose();
+      clearInvoice();
+      setPay(0);
+      setNote('');
+      setIsCheckoutLoading(false);
+      return;
+    }, 500);
   }
 
   return (
@@ -348,59 +356,6 @@ const Checkout = ({ total, checkout, cartList, clearInvoice, screenWidth }) => {
               <ModalBody
                 content={
                   <>
-                    {!isAuthTokenExist && (
-                      <Alert
-                        borderRadius={'8px'}
-                        status="error"
-                        variant={'left-accent'}
-                        mb={4}
-                      >
-                        <AlertIcon alignSelf={'flex-start'} />
-                        <Box>
-                          <AlertTitle>Access Denied!</AlertTitle>
-                          <AlertDescription>
-                            you need to{' '}
-                            <Link
-                              color={colorMode === 'light' ? 'blue' : 'cyan'}
-                              href="/"
-                            >
-                              sign in
-                            </Link>{' '}
-                            again or refresh the page{' '}
-                            <Kbd
-                              bg={
-                                colorMode === 'light'
-                                  ? 'blackAlpha.100'
-                                  : 'whiteAlpha.200'
-                              }
-                              borderColor={
-                                colorMode === 'light'
-                                  ? 'blackAlpha.200'
-                                  : 'whiteAlpha.300'
-                              }
-                            >
-                              ctrl
-                            </Kbd>{' '}
-                            +{' '}
-                            <Kbd
-                              bg={
-                                colorMode === 'light'
-                                  ? 'blackAlpha.200'
-                                  : 'whiteAlpha.200'
-                              }
-                              borderColor={
-                                colorMode === 'light'
-                                  ? 'blackAlpha.300'
-                                  : 'whiteAlpha.300'
-                              }
-                            >
-                              R
-                            </Kbd>
-                          </AlertDescription>
-                        </Box>
-                      </Alert>
-                    )}
-
                     <Text>Total</Text>
                     <HStack
                       m={'0 !important'}
@@ -539,44 +494,6 @@ const Invoice = ({
   });
 
   const auth = useAuthUser();
-  const isAuthenticated = useIsAuthenticated();
-  const isAuthTokenExist = document.cookie
-    .split(';')
-    .some(cookie => cookie.trim().startsWith('_auth='));
-
-  const toast = useToast();
-
-  function checkout({ total, pay, cartList, note }) {
-    if (total > 0) {
-      let status = 'lunas';
-      let change = pay - total;
-      if (change * -1 > 0) {
-        status = 'hutang';
-      }
-      const invoice = {
-        date: new Date(),
-        cashierId: auth().userId,
-        total: total,
-        pay: pay,
-        change: change,
-        cartList: cartList,
-        status: status,
-        note: note,
-      };
-
-      toast({
-        position: 'bottom-right',
-        title: 'Transaction added.',
-        description: `This invoice has been added to Transactions`,
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      });
-      console.log(invoice);
-      console.log('checkout success');
-    }
-    return;
-  }
 
   function clearInvoice() {
     setCartList([]);
@@ -884,8 +801,8 @@ const Invoice = ({
           </Modal>
 
           <Checkout
+            auth={auth}
             total={total}
-            checkout={checkout}
             cartList={cartList}
             clearInvoice={clearInvoice}
             screenWidth={screenWidth}

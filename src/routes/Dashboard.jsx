@@ -325,7 +325,7 @@ export default function Dashboard() {
                 position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
                 title: 'Cashier account registered',
                 status: 'success',
-                duration: 5000,
+                duration: 3000,
                 isClosable: true,
               });
             }
@@ -338,34 +338,12 @@ export default function Dashboard() {
                 title: 'Sorry, fail to create account.',
                 description: err.response.data.data.error,
                 status: 'error',
-                duration: 5000,
+                duration: 3000,
                 isClosable: true,
               });
             }
           })
           .finally(setIsCreatingCashierAccount(false));
-
-        //! Simulasi loading
-        setTimeout(() => {
-          // fetch(cashierRegisterAPI, {
-          //   method: 'POST',
-          //   headers: {
-          //     'Content-Type': 'application/json',
-          //     Authorization: 'Bearer ' + authTokenValue,
-          //   },
-          //   body: JSON.stringify(registerData),
-          // })
-          //   .then(response => response.json())
-          //   .then(responseData => {
-          //     setRegisterData({
-          //       username: '',
-          //       password: '',
-          //     });
-          //     toastRegisterStatus(responseData);
-          //   })
-          //   .finally(setIsCreatingCashierAccount(false));
-        }, 1000);
-        //! Simulasi loading
       }
 
       return (

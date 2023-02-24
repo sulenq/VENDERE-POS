@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSignOut } from 'react-auth-kit';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 // Chakra UI
 import {
@@ -18,6 +19,8 @@ import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettin
 
 export default function RequireRoleAuth(props) {
   const baseURL = 'http://localhost:8080';
+
+  props.setToken(Cookies.get('_auth'));
 
   const logout = useSignOut();
 
@@ -64,7 +67,7 @@ export default function RequireRoleAuth(props) {
               position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
               title: `Validated as ${r.data.data.role}`,
               status: 'success',
-              duration: 5000,
+              duration: 3000,
               isClosable: true,
             });
           }

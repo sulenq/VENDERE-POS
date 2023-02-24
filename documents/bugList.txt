@@ -1,3 +1,5 @@
-- auth token expired while modal checkout opened, checkout bug, still auth
+
 - profile tembus ke bawah saaat resize vertical
-- tombol oncheckout loading trus
+
+- saat signout manual trus landing page buka login modal manuk
+
