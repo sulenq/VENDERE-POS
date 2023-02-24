@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 
 import {
@@ -45,26 +45,14 @@ import { textAlign } from '@mui/system';
 export default function LandingPage() {
   const DOMAIN_API = 'http://localhost:8080';
 
-  // to vendere app if still logged in
-  // function checkAuthCookie() {
-  //   // Get all cookies
-  //   const cookies = document.cookie.split(';');
-
-  //   // Check if _auth cookie exists and is not empty
-  //   const authCookie = cookies.find(cookie =>
-  //     cookie.trim().startsWith('_auth=')
-  //   );
-  //   if (authCookie && authCookie.split('=')[1].trim() !== '') {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
-  // useEffect(() => {
-  //   if (checkAuthCookie()) {
-  //     navigate('/vendere-app');
-  //   }
-  // }, []);
+  const [searchParams] = useSearchParams();
+  useEffect(() => {
+    if (searchParams.get('login') === '1') {
+      const signInBtn = document.querySelector('#signInBtn');
+      console.log(signInBtn);
+      signInBtn?.click();
+    }
+  }, []);
 
   const auth = useAuthUser();
   const isAuthenticated = useIsAuthenticated();
@@ -398,7 +386,7 @@ export default function LandingPage() {
 
     return (
       <>
-        <PrimaryButton label={'SIGN IN'} onClick={onOpen} />
+        <PrimaryButton id={'signInBtn'} label={'SIGN IN'} onClick={onOpen} />
 
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
           <ModalOverlay />
@@ -422,11 +410,6 @@ export default function LandingPage() {
                         {roles.map((role, index) => {
                           return (
                             <Text
-                              className={
-                                loginRole === role.toLowerCase()
-                                  ? 'selectedLoginRole'
-                                  : ''
-                              }
                               key={index}
                               style={{
                                 textAlign: 'center',
@@ -438,6 +421,18 @@ export default function LandingPage() {
                                 borderRadius: '8px',
                                 padding: '4px',
                                 cursor: 'pointer',
+                                background:
+                                  loginRole === role.toLowerCase()
+                                    ? colorMode === 'light'
+                                      ? 'var(--p-500)'
+                                      : 'var(--p-50)'
+                                    : null,
+                                color:
+                                  loginRole === role.toLowerCase()
+                                    ? colorMode !== 'light'
+                                      ? 'var(--p-500)'
+                                      : 'var(--p-50)'
+                                    : null,
                               }}
                               onClick={() => {
                                 setLoginRole(role.toLowerCase());
