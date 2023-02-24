@@ -45,8 +45,8 @@ export default function ManageItems() {
       p={screenWidth <= 1000 ? 0 : 4}
       alignItems={'center'}
     >
-      <ResponsiveNav active={'Dashboard'} />
-      <VStack
+      <ResponsiveNav active={'ManageItems'} />
+      <HStack
         id="appContentWrapper"
         h={'100%'}
         w={'100%'}
@@ -58,21 +58,17 @@ export default function ManageItems() {
           borderRadius: screenWidth <= 1000 ? 0 : '12px',
         }}
       >
-        <>
-          <VStack
-            style={{
-              width: '100%',
-              height: '100%',
-              overflowY: 'auto',
-              paddingBottom: screenWidth <= 1000 ? '64px' : '',
-              borderRadius: '12px',
-              background: colorMode === 'light' ? 'white' : 'var(--dark)',
-            }}
-          >
-            
-          </VStack>
-        </>
-      </VStack>
+        <VStack
+          style={{
+            width: '100%',
+            height: '100%',
+            overflowY: 'auto',
+            paddingBottom: screenWidth <= 1000 ? '64px' : '',
+            borderRadius: '12px',
+            background: colorMode === 'light' ? 'white' : 'var(--dark)',
+          }}
+        ></VStack>
+      </HStack>
     </HStack>
   );
 }

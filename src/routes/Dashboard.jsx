@@ -69,6 +69,7 @@ import Debts from './Debts';
 import Reports from './Reports';
 import Profile from './Profile';
 import Employees from './Employees';
+import { ActionTopBar } from '../components/ActionTopBar';
 import { Stat } from '../components/Data';
 import { PrimaryButton } from '../components/Buttons';
 import { ModalContent, ModalFooter, ModalOverlay } from '../components/Modals';
@@ -108,23 +109,6 @@ export default function Dashboard() {
       ],
     },
   });
-
-  const dateOptions = {
-    weekday: 'short',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  };
-  const todayDate = new Date().toLocaleString(undefined, dateOptions);
-
-  const ActionTopBar = () => {
-    return (
-      <HStack w={'100%'} px={2} justifyContent={'space-between'}>
-        <Text color={'var(--p-200)'}>{todayDate}</Text>
-        <ColorModeButton />
-      </HStack>
-    );
-  };
 
   const PriorityDashboard = () => {
     return (

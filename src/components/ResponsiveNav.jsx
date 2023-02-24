@@ -106,7 +106,7 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
       restriction: 'admin',
     },
     {
-      name: 'Manage Items',
+      name: 'ManageItems',
       link: '/vendere-app/manageitems',
       icon: Inventory2OutlinedIcon,
       restriction: 'admin',
@@ -125,9 +125,9 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
     });
 
     const selectNavList = targetId => {
+      // console.log(targetId);
       activeNav.classList.remove('navMobileContentBtnSelect');
       const target = document.querySelector(`#${targetId}`);
-      // console.log(targetId);
       target.classList.add('navMobileContentBtnSelect');
 
       const navLabels = document.querySelectorAll('.navLabel');
@@ -445,7 +445,9 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
                       }}
                     >
                       <Icon as={nav.icon} fontSize={'xl'} />
-                      <Text ml={2}>{nav.name}</Text>
+                      <Text ml={2}>
+                        {nav.name === 'ManageItems' ? 'Manage Items' : nav.name}
+                      </Text>
                     </HStack>
                   );
                 }

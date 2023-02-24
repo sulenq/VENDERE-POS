@@ -84,7 +84,7 @@ export default function App() {
   useEffect(() => {
     if (token) {
       const tokenListener = setInterval(() => {
-        console.log(token || 'no auth token');
+        // console.log(token || 'no auth token');
         const newToken = Cookies.get('_auth');
         if (newToken !== token) {
           console.log('auth token was lost');
