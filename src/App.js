@@ -68,10 +68,10 @@ import { Stat } from './components/Data';
 import { PrimaryButton } from './components/Buttons';
 import { ModalContent, ModalFooter, ModalOverlay } from './components/Modals';
 
-const BadRequest = () => {
+const PageNotFound = () => {
   return (
     <VStack justifyContent={'center'} width={'100%'}>
-      <Text textAlign={'center'} fontSize={'20rem'} fontWeight={'bold'}>
+      <Text textAlign={'center'} fontSize={'10rem'} fontWeight={'bold'}>
         404 TOD
       </Text>
     </VStack>
@@ -95,7 +95,6 @@ export default function App() {
   const signIn = useSignIn();
   const logout = useSignOut();
   const [user, setUser] = useState({});
-  const [isAuthLoading, setIsAuthLoading] = useState(false);
 
   // Dashboar Section
   const Dashboard = () => {
@@ -620,51 +619,6 @@ export default function App() {
     );
   };
 
-  useEffect(() => {
-    console.log('Validating user...');
-    setIsAuthLoading(true);
-
-    //!Simulasi Loading
-    setTimeout(() => {
-      const authValidationAPI = new URL(`${baseURL}/api/v1/users/checker`);
-      const authToken = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('_auth='));
-      const authTokenValue = authToken?.split('=')[1];
-
-      let data = {
-        token_input: authTokenValue,
-      };
-
-      console.log(authTokenValue);
-
-      axios
-        .post(authValidationAPI, data, {
-          headers: { Authorization: `Bearer ${authTokenValue}` },
-        })
-        .then(r => {
-          console.log(r);
-          toast({
-            position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-            title: `Validated as ${r.data.data.role}`,
-            status: 'success',
-            duration: 5000,
-            isClosable: true,
-          });
-          if (r.data.data.role === 'admin') {
-            navigate('/vendere-app');
-          } else if (r.data.data.role) {
-            navigate('/vendere-app/cashier');
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        })
-        .finally(setIsAuthLoading(false));
-    }, 1000);
-    //!Simulasi Loading
-  }, []);
-
   // !!! DEV PURPOSE
 
   const dummyItems = [
@@ -872,92 +826,53 @@ export default function App() {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/vendere-app">
-        {isAuthLoading ? (
-          <>
-            <Route
-              index
-              element={
-                <VStack
-                  h={'100%'}
-                  w={'100%'}
-                  justifyContent={'center'}
-                  pb={screenWidth <= 1000 ? 20 : 0}
-                >
-                  <Icon
-                    as={AdminPanelSettingsOutlinedIcon}
-                    fontSize={'10rem'}
-                    opacity={0.1}
-                  />
-                  <HStack>
-                    <Spinner />
-                    <Text
-                      mt={'0px !important'}
-                      ml={2}
-                      fontSize={'xl'}
-                      fontWeight={'bold'}
-                    >
-                      Validating user...
-                    </Text>
-                  </HStack>
-                  <Text>Tips</Text>
-                </VStack>
-              }
-            />
-          </>
-        ) : (
-          <>
-            <Route
-              index
-              element={
-                <RequireAuth loginPath="/">
-                  <Dashboard
-                    isAuthLoading={isAuthLoading}
-                    setIsAuthLoading={setIsAuthLoading}
-                  />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="cashier"
-              element={
-                <RequireAuth loginPath="/">
-                  <Cashier
-                    items={items}
-                    total={total}
-                    setTotal={setTotal}
-                    cartList={cartList}
-                    setCartList={setCartList}
-                    search={search}
-                    setSearch={setSearch}
-                    addItemToCartList={addItemToCartList}
-                  />
-                </RequireAuth>
-              }
-            />
+        <Route
+          index
+          element={
+            <RequireAuth loginPath="/">
+              <Dashboard />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="cashier"
+          element={
+            <RequireAuth loginPath="/">
+              <Cashier
+                items={items}
+                total={total}
+                setTotal={setTotal}
+                cartList={cartList}
+                setCartList={setCartList}
+                search={search}
+                setSearch={setSearch}
+                addItemToCartList={addItemToCartList}
+              />
+            </RequireAuth>
+          }
+        />
 
-            <Route
-              path="transactions"
-              element={
-                <RequireAuth loginPath="/">
-                  <Transactions />
-                </RequireAuth>
-              }
-            />
-            <Route path="debts" element={<Debts />} />
-            <Route path="reports" element={<Reports />} />
-            <Route path="profile" element={<Profile />} />
-            <Route
-              path="employees"
-              element={
-                <RequireAuth loginPath="/">
-                  <Employees />
-                </RequireAuth>
-              }
-            />
-          </>
-        )}
+        <Route
+          path="transactions"
+          element={
+            <RequireAuth loginPath="/">
+              <Transactions />
+            </RequireAuth>
+          }
+        />
+        <Route path="debts" element={<Debts />} />
+        <Route path="reports" element={<Reports />} />
+        <Route path="profile" element={<Profile />} />
+        <Route
+          path="employees"
+          element={
+            <RequireAuth loginPath="/">
+              <Employees />
+            </RequireAuth>
+          }
+        />
       </Route>
-      <Route path="*" element={<BadRequest />} />
+      <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
 }

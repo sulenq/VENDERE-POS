@@ -227,9 +227,11 @@ const CartList = ({
         h={'100%'}
         justifyContent={'center'}
         pb={24}
-        borderBottom={'1px solid'}
         style={{
-          borderColor: colorMode === 'light' ? '#e1e1e1' : 'var(--dark-dim)',
+          borderBottom:
+            colorMode === 'light'
+              ? '1px solid var(--light-dim)'
+              : '1px solid var(--p-300)',
           color: colorMode === 'light' ? 'var(--p-100)' : 'var(--p-300)',
         }}
       >

@@ -400,7 +400,7 @@ export default function LandingPage() {
       <>
         <PrimaryButton label={'SIGN IN'} onClick={onOpen} />
 
-        <Modal isOpen={true} onClose={onClose} isCentered>
+        <Modal isOpen={isOpen} onClose={onClose} isCentered>
           <ModalOverlay />
 
           <ModalContent
