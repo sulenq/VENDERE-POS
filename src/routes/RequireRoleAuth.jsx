@@ -4,7 +4,14 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 // Chakra UI
-import { VStack, useToast, Icon, Text, Spinner } from '@chakra-ui/react';
+import {
+  VStack,
+  useToast,
+  Icon,
+  Text,
+  Spinner,
+  useColorMode,
+} from '@chakra-ui/react';
 
 // MUI Icons
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
@@ -19,6 +26,8 @@ export default function RequireRoleAuth(props) {
   const [auth, setIsAuth] = useState();
 
   const toast = useToast();
+
+  const { colorMode } = useColorMode();
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -89,6 +98,7 @@ export default function RequireRoleAuth(props) {
     return (
       <VStack
         style={{
+          background: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-450)',
           height: '100%',
           width: '100%',
           justifyContent: 'center',

@@ -4,7 +4,6 @@ import { useSignOut, useAuthUser } from 'react-auth-kit';
 import {
   Text,
   Icon,
-  Box,
   useColorMode,
   Heading,
   HStack,
@@ -158,7 +157,7 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
         style={{
           width: '100%',
           height: '56px',
-          background: colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)',
+          background: 'var(--p-500)',
           // borderRadius: '12px',
           position: 'fixed',
           bottom: '0',

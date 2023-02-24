@@ -283,10 +283,10 @@ export default function App() {
     toast.closeAll();
 
     toast({
+      position: screenWidth <= 1000 ? 'bottom-center' : 'bottom-right',
       title: 'Item added.',
       description: `${itemQty} ${itemName} added, total ${updateTotal.toLocaleString()}`,
       status: 'success',
-      position: 'bottom-right',
       duration: 3000,
       isClosable: true,
       transition: 'none',
