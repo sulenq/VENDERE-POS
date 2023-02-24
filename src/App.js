@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
@@ -58,6 +58,7 @@ import Debts from './routes/Debts';
 import Reports from './routes/Reports';
 import Profile from './routes/Profile';
 import Employees from './routes/Employees';
+import ManageItems from './routes/ManageItems';
 import { Stat } from './components/Data';
 import { PrimaryButton } from './components/Buttons';
 import { ModalContent, ModalFooter, ModalOverlay } from './components/Modals';
@@ -79,7 +80,6 @@ export default function App() {
   const navigate = useNavigate();
 
   const [token, setToken] = useState(Cookies.get('_auth'));
-  const [tokenNeeded, setTokenNeeded] = useState(false);
 
   useEffect(() => {
     if (token) {
@@ -356,14 +356,16 @@ export default function App() {
         <Route
           path="transactions"
           element={
-            <RequireAuth loginPath="/">
-              <Transactions setToken={setToken} />
-            </RequireAuth>
+            <RequireRoleAuth
+              setToken={setToken}
+              loginPath="/?login=1"
+              restriction="cashier"
+              element={<Transactions setToken={setToken} />}
+            />
           }
         />
         <Route path="debts" element={<Debts />} />
-        <Route path="reports" element={<Reports />} />
-        <Route path="profile" element={<Profile />} />
+        <Route path="support" element={''} />
         <Route
           path="employees"
           element={
@@ -372,7 +374,21 @@ export default function App() {
             </RequireAuth>
           }
         />
+        <Route path="reports" element={<Reports />} />
+        <Route
+          path="manageitems"
+          element={
+            <RequireRoleAuth
+              setToken={setToken}
+              loginPath="/?login=1"
+              restriction="admin"
+              element={<ManageItems />}
+            />
+          }
+        />
+        <Route path="profile" element={<Profile />} />
       </Route>
+
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

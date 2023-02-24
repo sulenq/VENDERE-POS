@@ -1,5 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import {
+  Link,
+  Routes,
+  Route,
+  useNavigate,
+  useLocation,
+} from 'react-router-dom';
 import axios from 'axios';
 
 import {
@@ -11,6 +17,7 @@ import {
 } from 'react-auth-kit';
 
 import {
+  Badge,
   useToast,
   HStack,
   useColorMode,
@@ -96,8 +103,8 @@ export default function Dashboard() {
     employees: {
       total: 2,
       list: [
-        { name: 'Jolitos Kurniawan', role: 'Cashier' },
-        { name: 'Sulenq Ndas Nogo', role: 'Cashier' },
+        { name: 'Jolitos Kurniawan', role: 'Cashier', online: true },
+        { name: 'Sulenq Ndas Nogo', role: 'Cashier', online: false },
       ],
     },
   });
@@ -135,9 +142,7 @@ export default function Dashboard() {
             w={'100%'}
             style={{
               background:
-                colorMode === 'light'
-                  ? 'linear-gradient(to left, var(--p-450), var(--p-400))'
-                  : 'linear-gradient(to left, var(--p-100), var(--p-50))',
+                colorMode === 'light' ? 'var(--p-450)' : 'var(--p-50)',
               color: colorMode === 'light' ? 'white' : 'black',
               borderRadius: '12px',
             }}
@@ -459,9 +464,16 @@ export default function Dashboard() {
 
     return (
       <VStack mt={'16px !important'} w={'100%'} alignItems={'flex-start'}>
-        <Text fontWeight={'bold'} color={'var(--p-200)'}>
-          Employees
-        </Text>
+        <HStack style={{ width: '100%', justifyContent: 'space-between' }}>
+          <Text fontWeight={'bold'} color={'var(--p-200)'}>
+            Employees
+          </Text>
+          <Link to={'vendere-app/employees'}>
+            <Text fontSize={'sm'} style={{ color: 'var(--p-200)' }}>
+              See More
+            </Text>
+          </Link>
+        </HStack>
 
         <VStack
           alignItems={'flex-start'}
@@ -488,7 +500,14 @@ export default function Dashboard() {
           <VStack w={'100%'} pb={2}>
             {dashboardData.employees.list.map((emp, index) => {
               return (
-                <HStack key={index} w={'100%'}>
+                <HStack
+                  key={index}
+                  style={{
+                    width: '100%',
+                    alignItems: 'flex-start',
+                    padding: '8px 0',
+                  }}
+                >
                   <Avatar
                     size={'lg'}
                     name={emp.name}
@@ -500,6 +519,11 @@ export default function Dashboard() {
                     }
                   />
                   <VStack alignItems={'flex-start'} pl={1}>
+                    {emp.online ? (
+                      <Badge colorScheme={'green'}>Online</Badge>
+                    ) : (
+                      <Badge>Offline</Badge>
+                    )}
                     <Text mt={'0px !important'}>{emp.name}</Text>
                     <Text style={{ color: 'var(--p-200)', marginTop: '0' }}>
                       {emp.role}

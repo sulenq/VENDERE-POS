@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useSignOut } from 'react-auth-kit';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -33,7 +33,7 @@ export default function RequireRoleAuth(props) {
   const { colorMode } = useColorMode();
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  useEffect(() => {
+  useMemo(() => {
     function handleResize() {
       setScreenWidth(window.innerWidth);
     }
@@ -41,23 +41,20 @@ export default function RequireRoleAuth(props) {
   });
 
   //*Simulasi Loading
-  useEffect(() => {
+  useMemo(() => {
     console.log('Validating user...');
     setTimeout(() => {
       const authValidationAPI = new URL(`${baseURL}/api/v1/users/checker`);
-      const authToken = document.cookie
-        .split('; ')
-        .find(val => val.startsWith('_auth='));
-      const authTokenValue = authToken?.split('=')[1];
+      const authToken = Cookies.get('_auth');
 
       let reqBody = {
-        token_input: authTokenValue,
+        token_input: authToken,
       };
-      // console.log(authTokenValue);
+      // console.log(authToken);
 
       axios
         .post(authValidationAPI, reqBody, {
-          headers: { Authorization: `Bearer ${authTokenValue}` },
+          headers: { Authorization: `Bearer ${authToken}` },
         })
         .then(r => {
           // console.log(r.data.data);
@@ -83,14 +80,18 @@ export default function RequireRoleAuth(props) {
 
   if (auth) {
     if (auth.message === 'token benar') {
-      if (props.restriction === auth.role) {
+      if (props.restriction === auth.role || props.restriction === '') {
         return props.element;
       } else {
+        console.log(props.restriction);
         switch (auth.role) {
           case 'admin':
+            console.log('kontol');
+            //! BUGGY NAVIGATE
             navigate('/vendere-app');
             break;
           case 'cashier':
+            console.log('kontol kasir');
             navigate('/vendere-app/cashier');
             break;
         }

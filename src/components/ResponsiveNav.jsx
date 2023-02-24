@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSignOut, useAuthUser } from 'react-auth-kit';
+import Cookies from 'js-cookie';
+
 import {
   Text,
   Icon,
@@ -104,8 +106,8 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
       restriction: 'admin',
     },
     {
-      name: 'Supply',
-      link: '/vendere-app/supply',
+      name: 'Manage Items',
+      link: '/vendere-app/manageitems',
       icon: Inventory2OutlinedIcon,
       restriction: 'admin',
     },
@@ -264,6 +266,7 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
               duration: 3000,
               isClosable: true,
             });
+            Cookies.set('_auth', 'signedout');
             navigate('/');
           }, 1000);
         }
