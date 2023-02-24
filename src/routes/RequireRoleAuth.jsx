@@ -16,9 +16,7 @@ export default function RequireRoleAuth(props) {
 
   const navigate = useNavigate();
 
-  const [done, setDone] = useState(false);
-  const [isAuth, setIsAuth] = useState(false);
-  const [role, setRole] = useState('');
+  const [auth, setIsAuth] = useState();
 
   const toast = useToast();
 
@@ -30,48 +28,53 @@ export default function RequireRoleAuth(props) {
     window.addEventListener('resize', handleResize);
   });
 
-  console.log('Validating user...');
-
   //*Simulasi Loading
-  setTimeout(() => {
-    const authValidationAPI = new URL(`${baseURL}/api/v1/users/checker`);
-    const authToken = document.cookie
-      .split('; ')
-      .find(val => val.startsWith('_auth='));
-    const authTokenValue = authToken?.split('=')[1];
+  useEffect(() => {
+    console.log('Validating user...');
+    setTimeout(() => {
+      const authValidationAPI = new URL(`${baseURL}/api/v1/users/checker`);
+      const authToken = document.cookie
+        .split('; ')
+        .find(val => val.startsWith('_auth='));
+      const authTokenValue = authToken?.split('=')[1];
 
-    let reqBody = {
-      token_input: authTokenValue,
-    };
-    // console.log(authTokenValue);
+      let reqBody = {
+        token_input: authTokenValue,
+      };
+      // console.log(authTokenValue);
 
-    axios
-      .post(authValidationAPI, reqBody, {
-        headers: { Authorization: `Bearer ${authTokenValue}` },
-      })
-      .then(r => {
-        console.log(r);
-        if (r.status === 200 && r.data.data.message === 'token benar') {
-          console.log(r.data.data.role);
-          setIsAuth(true);
-          setRole(r.data.data.role);
-          setDone(true);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        logout();
-        navigate(props.loginPath);
-      });
-  }, 1000);
+      axios
+        .post(authValidationAPI, reqBody, {
+          headers: { Authorization: `Bearer ${authTokenValue}` },
+        })
+        .then(r => {
+          console.log(r.data.data);
+          if (r.status === 200 && r.data.data.message === 'token benar') {
+            setIsAuth(r.data.data);
+            toast({
+              position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+              title: `Validated as ${r.data.data.role}`,
+              status: 'success',
+              duration: 5000,
+              isClosable: true,
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          logout();
+          navigate(props.loginPath);
+        });
+    }, 1000);
+  }, []);
   //*Simulasi Loading
 
-  if (done) {
-    if (isAuth) {
-      if (props.restriction === role) {
+  if (auth) {
+    if (auth.message === 'token benar') {
+      if (props.restriction === auth.role) {
         return props.element;
       } else {
-        switch (role) {
+        switch (auth.role) {
           case 'admin':
             navigate('/vendere-app');
             break;

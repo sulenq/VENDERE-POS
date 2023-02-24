@@ -49,7 +49,6 @@ export default function LandingPage() {
   useEffect(() => {
     if (searchParams.get('login') === '1') {
       const signInBtn = document.querySelector('#signInBtn');
-      console.log(signInBtn);
       signInBtn?.click();
     }
   }, []);
