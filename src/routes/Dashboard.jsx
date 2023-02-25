@@ -73,6 +73,7 @@ import { ActionTopBar } from '../components/ActionTopBar';
 import { Stat } from '../components/Data';
 import { PrimaryButton } from '../components/Buttons';
 import { ModalContent, ModalFooter, ModalOverlay } from '../components/Modals';
+import { height } from '@mui/system';
 
 export default function Dashboard() {
   const baseURL = 'http://localhost:8080';
@@ -103,6 +104,7 @@ export default function Dashboard() {
     },
     employees: {
       total: 2,
+      totalOnline: 1,
       list: [
         { name: 'Jolitos Kurniawan', role: 'Cashier', online: true },
         { name: 'Sulenq Ndas Nogo', role: 'Cashier', online: false },
@@ -448,17 +450,23 @@ export default function Dashboard() {
 
     return (
       <VStack mt={'16px !important'} w={'100%'} alignItems={'flex-start'}>
+        {/* Heading */}
         <HStack style={{ width: '100%', justifyContent: 'space-between' }}>
           <Text fontWeight={'bold'} color={'var(--p-200)'}>
             Employees
           </Text>
           <Link to={'vendere-app/employees'}>
-            <Text fontSize={'sm'} style={{ color: 'var(--p-200)' }}>
+            <Text
+              fontSize={'sm'}
+              style={{ color: 'var(--p-200)' }}
+              _hover={{ textDecoration: 'underline' }}
+            >
               See More
             </Text>
           </Link>
         </HStack>
 
+        {/* Body */}
         <VStack
           alignItems={'flex-start'}
           py={2}
@@ -472,13 +480,23 @@ export default function Dashboard() {
             borderRadius: '12px',
           }}
         >
-          <HStack w={'100%'}>
-            <Text fontWeight={'bold'}>
-              {dashboardData.employees.total.toLocaleString()}
-            </Text>
-            <Text mt={'0px !important'} color={'var(--p-200)'}>
-              Total Employees
-            </Text>
+          <HStack w={'100%'} justifyContent={'space-between'}>
+            <HStack>
+              <Text fontWeight={'bold'}>
+                {dashboardData.employees.total.toLocaleString()}
+              </Text>
+              <Text mt={'0px !important'} color={'var(--p-200)'}>
+                Total Employees
+              </Text>
+            </HStack>
+            <HStack>
+              <Badge
+                style={{ width: '10px', height: '10px', borderRadius: '50px' }}
+                colorScheme={'green'}
+              ></Badge>
+              <Text>{dashboardData.employees.totalOnline}</Text>
+              <Text opacity={'0.5'}>Online</Text>
+            </HStack>
           </HStack>
 
           <VStack w={'100%'} pb={2}>

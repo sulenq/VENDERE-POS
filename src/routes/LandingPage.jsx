@@ -350,11 +350,10 @@ export default function LandingPage(props) {
           .catch(err => {
             if (err) {
               console.log(err);
-              console.log(data);
               toast({
                 position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
                 title: 'Sorry, fail to sign in ☹️',
-                description: err.response.data.data.error,
+                description: err.response?.data.data.error || 'network error, might be the server or your internet connection.',
                 status: 'error',
                 duration: 3000,
                 isClosable: true,

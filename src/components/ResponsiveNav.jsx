@@ -481,7 +481,7 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
               <Text
                 style={{
                   fontWeight: 'bold',
-                  width: '150px',
+                  width: '100%',
                   textAlign: 'center',
                 }}
               >
