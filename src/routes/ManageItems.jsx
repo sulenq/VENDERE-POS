@@ -42,16 +42,18 @@ export default function ManageItems(props) {
   useEffect(() => {
     const token = Cookies.get('_auth');
 
+    console.log(props.items);
+
     const createItemsAPI = `${baseURL}/api/v1/create`;
     const getItemsAPI = `${baseURL}/api/v1/products`;
     const updateItemsAPI = `${baseURL}/api/v1/products/update`;
     const deleteItemsAPI = `${baseURL}/api/v1/products/delete`;
 
-    if (!props.items) {
+    if (props.items.length === 0) {
       axios
         .get(getItemsAPI, { headers: { Authorization: `Bearer ${token}` } })
         .then(r => {
-          // console.log(r.data.data);
+          console.log(r.data.data);
           props.setItems(r.data.data);
         })
         .catch(err => {

@@ -119,15 +119,17 @@ export default function Dashboard(props) {
     const updateItemsAPI = `${baseURL}/api/v1/products/update`;
     const deleteItemsAPI = `${baseURL}/api/v1/products/delete`;
 
-    axios
-      .get(getItemsAPI, { headers: { Authorization: `Bearer ${token}` } })
-      .then(r => {
-        // console.log(r.data.data);
-        props.setItems(r.data.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    if (props.items.length === 0) {
+      axios
+        .get(getItemsAPI, { headers: { Authorization: `Bearer ${token}` } })
+        .then(r => {
+          // console.log(r.data.data);
+          props.setItems(r.data.data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }, []);
 
   const PriorityDashboard = () => {
