@@ -18,83 +18,12 @@ import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 
 import '../css/vendereApp.css';
 import { PrimaryButton, PrimaryButtonOutline } from './Buttons';
+import { Search } from '@mui/icons-material';
+import { SearchBox } from './Inputs';
 
 export default function Items({ items, search, setSearch, addItemToCartList }) {
   const { colorMode } = useColorMode();
   const searchItem = useRef(null);
-
-  const [itemIndex, setItemIndex] = useState(1);
-  const [itemsLength, setItemLength] = useState(0);
-
-  function selectItem() {
-    const targetItem = document.querySelector(
-      `.items > :nth-child(${itemIndex})`
-    );
-    const items = document.querySelectorAll('.items > div');
-
-    if (targetItem) {
-      const rect = targetItem.getBoundingClientRect();
-      if (
-        !(
-          rect.top >= 200 &&
-          rect.left >= 0 &&
-          rect.bottom <= window.innerHeight - 100 &&
-          rect.right <= window.innerWidth
-        )
-      ) {
-        targetItem.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-        });
-      }
-    }
-
-    setItemLength(items.length);
-
-    items.forEach(item => {
-      item.classList.remove('itemSelected');
-    });
-    if (targetItem) {
-      targetItem.classList.add('itemSelected');
-    }
-    // console.log(itemIndex);
-  }
-
-  useEffect(() => {
-    setItemIndex(1);
-    selectItem();
-  }, [search]);
-
-  useEffect(() => {
-    selectItem();
-  }, [itemIndex]);
-
-  const handleKeyUp = e => {
-    if (e.key === 'Enter') {
-      const btn = document.querySelector(
-        `.items :nth-child(${itemIndex}) .actionBtnSection > button`
-      );
-      if (btn) {
-        btn.click();
-      }
-    }
-  };
-
-  const handleKeyDown = e => {
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      if (itemIndex < itemsLength) {
-        setItemIndex(itemIndex + 1);
-      }
-    }
-
-    if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      if (itemIndex > 1) {
-        setItemIndex(itemIndex - 1);
-      }
-    }
-  };
 
   return (
     <VStack
@@ -114,39 +43,23 @@ export default function Items({ items, search, setSearch, addItemToCartList }) {
       </HStack>
 
       {/* Search Items Section */}
-      <HStack px={4} w={'100%'}>
-        <Input
-          id={'itemSearchBox'}
-          ref={searchItem}
-          className={'inputBox'}
-          onKeyUp={handleKeyUp}
-          onKeyDown={handleKeyDown}
-          tabIndex={0}
-          onFocus={e => e.target.select()}
+      <HStack px={3} w={'100%'} position={'relative'}>
+        <SearchBox
+          refq={searchItem}
+          search={search}
           onChange={e => {
             setSearch(e.target.value);
           }}
-          type={'text'}
-          value={search}
-          placeholder={'Search item by name or code'}
-          w={'100%'}
-          border={'1px solid'}
-          borderRadius={'10px 0 0 10px'}
-          style={{
-            borderColor:
-              colorMode === 'light'
-                ? '2px solid var(--p-500)'
-                : '2px solid var(--p-50)',
-          }}
-          _focusVisible={{
-            border: colorMode === 'light' ? '2px solid ' : '2px solid',
-          }}
         />
-        <PrimaryButton
+        {/* <PrimaryButton
           label={'SCAN'}
-          borderRadius={'0 10px 10px 0 !important'}
           ml={'0px !important'}
-        />
+          borderRadius={'8px !important'}
+          style={{
+            position: 'absolute',
+            right: '0',
+          }}
+        /> */}
       </HStack>
 
       {/* Items Section */}

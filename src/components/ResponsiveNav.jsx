@@ -339,13 +339,13 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
 
     return (
       <>
-        <VStack id="nav" h={'100%'} pr={2}>
+        <VStack id="nav" w={'200px'} h={'100%'} pr={2}>
           {/* Logo */}
           <Heading
             as={'h1'}
             size="lg"
             color={'white'}
-            mb={8}
+            pb={8}
             alignSelf="flex-start"
           >
             <HStack alignItems={'center'}>
@@ -498,7 +498,9 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
                 {auth().userRole}
               </Badge>
               <br />
-              <SecondaryButtonOutlineNav w={'100%'} label={'Manage'} />
+              {auth().userRole === 'admin' && (
+                <SecondaryButtonOutlineNav w={'100%'} label={'Manage'} />
+              )}
               <SignOut />
             </VStack>
           </VStack>

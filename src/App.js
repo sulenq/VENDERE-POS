@@ -258,7 +258,7 @@ export default function App() {
   ];
   //* DUMMY ITEMS SECTION
 
-  const [items, setItems] = useState(dummyItems);
+  const [items, setItems] = useState([]);
 
   const toast = useToast();
 
@@ -326,7 +326,7 @@ export default function App() {
               setToken={setToken}
               loginPath="/?login=1"
               restriction="admin"
-              element={<Dashboard />}
+              element={<Dashboard items={items} setItems={setItems} />}
             />
           }
         />
@@ -382,7 +382,7 @@ export default function App() {
               setToken={setToken}
               loginPath="/?login=1"
               restriction="admin"
-              element={<ManageItems />}
+              element={<ManageItems items={items} setItems={setItems} />}
             />
           }
         />

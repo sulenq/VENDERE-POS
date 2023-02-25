@@ -12,7 +12,7 @@ const ModalOverlay = () => {
   );
 };
 
-const ModalContent = ({ content, id, h }) => {
+const ModalContent = ({ content, id, h, w }) => {
   const { colorMode } = useColorMode();
 
   return (
@@ -20,7 +20,7 @@ const ModalContent = ({ content, id, h }) => {
       id={id}
       h={h}
       borderRadius={12}
-      w={'95%'}
+      w={w || '95%'}
       bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-500a)'}
       backdropFilter="auto"
       backdropBlur="20px"

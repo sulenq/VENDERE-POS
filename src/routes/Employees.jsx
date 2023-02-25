@@ -49,7 +49,7 @@ export default function Employees() {
       <HStack
         id="appContentWrapper"
         h={'100%'}
-        w={'100%'}
+        w={'calc(100% - 200px)'}
         p={2}
         ml={'0px !important'}
         borderRadius={screenWidth <= 1000 ? 0 : '12px'}

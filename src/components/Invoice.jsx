@@ -569,7 +569,7 @@ const Invoice = ({
                     h={'100%'}
                     w={'100%'}
                     alignItems={'flex-start'}
-                    py={2}
+                    py={4}
                     borderRadius={12}
                     style={{
                       background:
@@ -582,7 +582,7 @@ const Invoice = ({
                     </HStack>
 
                     {/* Search Items Section */}
-                    <HStack px={4} w={'100%'}>
+                    <HStack px={3} w={'100%'}>
                       <Input
                         id={'itemSearchBox'}
                         ref={searchItem}

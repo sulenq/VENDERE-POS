@@ -23,15 +23,14 @@ const PrimaryButton = props => {
       mr={props.mr}
       w={props.w}
       isLoading={props.isLoading}
+      color={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-500)'}
+      background={colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)'}
+      style={props.style}
       _hover={{
         background:
           colorMode === 'light'
             ? 'var(--p-300) !important'
             : 'var(--p-100) !important',
-      }}
-      style={{
-        color: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-500)',
-        background: colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)',
       }}
       _active={{
         background: 'var(--accent) !important',

@@ -66,7 +66,7 @@ export default function Cashier({
       <HStack
         id="appContentWrapper"
         h={'100%'}
-        w={'100%'}
+        w={screenWidth <= 1000 ? '100%' : 'calc(100% - 200px)'}
         p={2}
         ml={'0px !important'}
         borderRadius={screenWidth <= 1000 ? 0 : '12px'}

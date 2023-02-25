@@ -57,7 +57,7 @@ export default function RequireRoleAuth(props) {
           headers: { Authorization: `Bearer ${authToken}` },
         })
         .then(r => {
-          // console.log(r.data.data);
+          console.log(r.data.data);
           if (r.status === 200 && r.data.data.message === 'token benar') {
             setIsAuth(r.data.data);
             toast({
@@ -74,7 +74,7 @@ export default function RequireRoleAuth(props) {
           logout();
           navigate(props.loginPath);
         });
-    }, 1000);
+    }, 100);
   }, []);
   //*Simulasi Loading
 

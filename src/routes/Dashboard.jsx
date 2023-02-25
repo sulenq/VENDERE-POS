@@ -7,6 +7,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 import {
   RequireAuth,
@@ -75,7 +76,7 @@ import { PrimaryButton } from '../components/Buttons';
 import { ModalContent, ModalFooter, ModalOverlay } from '../components/Modals';
 import { height } from '@mui/system';
 
-export default function Dashboard() {
+export default function Dashboard(props) {
   const baseURL = 'http://localhost:8080';
 
   const { colorMode } = useColorMode();
@@ -87,8 +88,6 @@ export default function Dashboard() {
     }
     window.addEventListener('resize', handleResize);
   });
-
-  const authHeader = useAuthHeader();
 
   const toast = useToast();
 
@@ -111,6 +110,25 @@ export default function Dashboard() {
       ],
     },
   });
+
+  useEffect(() => {
+    const token = Cookies.get('_auth');
+
+    const createItemsAPI = `${baseURL}/api/v1/create`;
+    const getItemsAPI = `${baseURL}/api/v1/products`;
+    const updateItemsAPI = `${baseURL}/api/v1/products/update`;
+    const deleteItemsAPI = `${baseURL}/api/v1/products/delete`;
+
+    axios
+      .get(getItemsAPI, { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => {
+        console.log(r.data.data);
+        props.setItems(r.data.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
 
   const PriorityDashboard = () => {
     return (
@@ -374,21 +392,6 @@ export default function Dashboard() {
                     </Alert>
 
                     <form id="signUpForm">
-                      {/* <FormControl mt={4} isRequired>
-                        <FormLabel>Role</FormLabel>
-                        <Select
-                          onChange={e => {
-                            setRegisterData({
-                              ...registerData,
-                              role: e.target.value,
-                            });
-                          }}
-                        >
-                          <option value={'Cashier'}>Cashier</option>
-                          <option value={'Storageman'}>Storageman</option>
-                        </Select>
-                      </FormControl> */}
-
                       <FormControl mt={4} isRequired>
                         <FormLabel>Username</FormLabel>
                         <Input
@@ -553,7 +556,7 @@ export default function Dashboard() {
       <VStack
         id="appContentWrapper"
         h={'100%'}
-        w={'100%'}
+        w={'calc(100% - 200px)'}
         p={2}
         ml={'0px !important'}
         style={{
