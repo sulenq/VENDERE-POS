@@ -2,35 +2,12 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-import {
-  VStack,
-  HStack,
-  Text,
-  useColorMode,
-  ButtonGroup,
-  Button,
-  Box,
-  useDisclosure,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Icon,
-  FormControl,
-  Input,
-  FormLabel,
-  Divider,
-  Select,
-  useToast,
-  Avatar,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-} from '@chakra-ui/react';
+import { VStack, HStack, Text, useColorMode, Icon } from '@chakra-ui/react';
 
 // MUI Icons
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 
 import ResponsiveNav from '../components/ResponsiveNav';
 import { SearchBox } from '../components/Inputs';
@@ -39,10 +16,11 @@ import { PrimaryButton, PrimaryButtonOutline } from '../components/Buttons';
 export default function ManageItems(props) {
   const baseURL = 'http://localhost:8080';
 
+  //* get items if refreshed
   useEffect(() => {
     const token = Cookies.get('_auth');
 
-    console.log(props.items);
+    // console.log(props.items);
 
     const createItemsAPI = `${baseURL}/api/v1/create`;
     const getItemsAPI = `${baseURL}/api/v1/products`;
@@ -53,7 +31,7 @@ export default function ManageItems(props) {
       axios
         .get(getItemsAPI, { headers: { Authorization: `Bearer ${token}` } })
         .then(r => {
-          console.log(r.data.data);
+          // console.log(r.data.data);
           props.setItems(r.data.data);
         })
         .catch(err => {
@@ -130,6 +108,17 @@ export default function ManageItems(props) {
 
   const [itemIndex, setItemIndex] = useState(1);
 
+  //* Keydown event (arrow up & down) focus to searchBox
+  document.documentElement.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (!screenWidth <= 1000) {
+        const itemSearchBox = document.querySelector('#itemSearchBox');
+        itemSearchBox.focus();
+      }
+    }
+  });
+
   return (
     <HStack
       className="vendereApp"
@@ -163,9 +152,22 @@ export default function ManageItems(props) {
           }}
           py={3}
         >
-          <HStack alignSelf={'flex-start'} px={3}>
-            <Icon as={Inventory2OutlinedIcon} />
-            <Text fontWeight={'bold'}>All Items</Text>
+          <HStack
+            alignSelf={'flex-start'}
+            px={3}
+            w={'100%'}
+            justifyContent={'space-between'}
+            mb={1}
+          >
+            <HStack opacity={0.5}>
+              <Icon as={Inventory2OutlinedIcon} />
+              <Text fontWeight={'bold'}>All Items</Text>
+            </HStack>
+            <PrimaryButton
+              leftIcon={AddOutlinedIcon}
+              label={'Add New'}
+              size={'sm'}
+            />
           </HStack>
 
           {/* Search Box */}
@@ -256,7 +258,7 @@ export default function ManageItems(props) {
                       alignSelf={'center'}
                     >
                       <PrimaryButtonOutline
-                        label="Detail"
+                        label="Details"
                         size={'sm'}
                         onClick={() => {
                           setItemIndex(index + 1);
@@ -276,60 +278,56 @@ export default function ManageItems(props) {
         {/* Item Details */}
         <VStack
           style={{
-            width: screenWidth >= 1500 ? '30%' : '40%',
+            width: screenWidth >= 1500 ? '70%' : '60%',
             height: '100%',
             overflowY: 'auto',
             paddingBottom: screenWidth <= 1000 ? '64px' : '',
             borderRadius: '12px',
             background: colorMode === 'light' ? 'white' : 'var(--dark)',
-            alignItems: 'flex-start',
           }}
           py={3}
         >
-          <HStack alignSelf={'flex-start'} px={3}>
+          <HStack alignSelf={'flex-start'} px={3} mb={2} opacity={0.5}>
             <Icon as={InfoOutlinedIcon} />
             <Text fontWeight={'bold'}>Item Details</Text>
           </HStack>
 
-          {/* item detail img */}
-          <VStack p={3} w={'100%'}>
-            <VStack
-              style={{
-                width: '100%',
-                justifyContent: 'center',
-                aspectRatio: 1,
-                fontWeight: 'bold',
-                fontSize: '3rem',
-                opacity: 0.2,
-                // borderRadius: '12px',
-                background:
-                  colorMode === 'light' ? 'var(--p-100)' : 'var(--dark)',
-                borderRadius: '8px',
-              }}
-            >
-              <Text>IMG</Text>
-              <Text>Coming</Text>
-              <Text>Soon</Text>
-            </VStack>
-          </VStack>
-
-          {/* Item Detail info */}
           <VStack
-            alignItems={'flex-start'}
-            justifyContent={'space-between'}
-            pt={2}
-            h={'100%'}
+            className="items"
+            h={'calc(100% - 64px)'}
             w={'100%'}
-            borderBottom={'1px solid'}
-            style={{
-              borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
-            }}
+            mt={'0px !important'}
+            fontSize={'sm'}
+            overflowY={'auto'}
+            pb={3}
           >
+            {/* item detail IMG */}
+            <VStack px={3} w={'100%'} mb={2}>
+              <VStack
+                style={{
+                  width: '100%',
+                  justifyContent: 'center',
+                  aspectRatio: 1,
+                  fontWeight: 'bold',
+                  fontSize: '3rem',
+                  opacity: 0.2,
+                  // borderRadius: '12px',
+                  background:
+                    colorMode === 'light' ? 'var(--p-100)' : 'var(--dark)',
+                  borderRadius: '8px',
+                }}
+              >
+                <Text>IMG</Text>
+                <Text>Coming</Text>
+                <Text>Soon</Text>
+              </VStack>
+            </VStack>
+
+            {/* item detail data */}
             <VStack w={'100%'}>
               <HStack
                 px={5}
-                pb={1}
+                pb={2}
                 w={'100%'}
                 alignItems={'flex-start'}
                 borderBottom={'1px solid'}
@@ -344,7 +342,7 @@ export default function ManageItems(props) {
 
               <HStack
                 px={5}
-                pb={1}
+                pb={2}
                 w={'100%'}
                 alignItems={'flex-start'}
                 borderBottom={'1px solid'}
@@ -359,7 +357,7 @@ export default function ManageItems(props) {
 
               <HStack
                 px={5}
-                pb={1}
+                pb={2}
                 w={'100%'}
                 alignItems={'flex-start'}
                 borderBottom={'1px solid'}
@@ -374,7 +372,7 @@ export default function ManageItems(props) {
 
               <HStack
                 px={5}
-                pb={1}
+                pb={2}
                 w={'100%'}
                 alignItems={'flex-start'}
                 borderBottom={'1px solid'}
@@ -389,7 +387,7 @@ export default function ManageItems(props) {
 
               <HStack
                 px={5}
-                pb={1}
+                pb={2}
                 w={'100%'}
                 alignItems={'flex-start'}
                 borderBottom={'1px solid'}
@@ -404,7 +402,7 @@ export default function ManageItems(props) {
 
               <HStack
                 px={5}
-                pb={1}
+                pb={2}
                 w={'100%'}
                 alignItems={'flex-start'}
                 borderBottom={'1px solid'}
@@ -419,7 +417,7 @@ export default function ManageItems(props) {
 
               <HStack
                 px={5}
-                pb={1}
+                pb={2}
                 w={'100%'}
                 alignItems={'flex-start'}
                 borderBottom={'1px solid'}
@@ -434,7 +432,7 @@ export default function ManageItems(props) {
 
               <HStack
                 px={5}
-                pb={1}
+                pb={2}
                 w={'100%'}
                 alignItems={'flex-start'}
                 borderBottom={'1px solid'}
@@ -447,16 +445,27 @@ export default function ManageItems(props) {
                 <Text>{selectedItem?.UpdatedAt}</Text>
               </HStack>
             </VStack>
-
-            {!selectedItem.ID ? (
-              console.log(selectedItem)
-            ) : (
-              <HStack px={5} pb={4} w={'100%'} justifyContent={'flex-end'}>
-                <PrimaryButtonOutline label={'Delete'} />
-                <PrimaryButton label={'Update'} />
-              </HStack>
-            )}
           </VStack>
+
+          {selectedItem.ID && (
+            <HStack
+              h={'64px'}
+              w={'100%'}
+              mt={'0px !important'}
+              fontSize={'sm'}
+              overflowY={'auto'}
+              // borderTop={'1px solid'}
+              // borderBottom={'1px solid'}
+              justifyContent={'center'}
+              style={{
+                borderColor:
+                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+              }}
+            >
+              <PrimaryButtonOutline label={'Delete'} />
+              <PrimaryButton label={'Update'} />
+            </HStack>
+          )}
         </VStack>
       </HStack>
     </HStack>

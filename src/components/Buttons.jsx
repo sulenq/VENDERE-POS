@@ -59,7 +59,7 @@ const PrimaryButtonOutline = props => {
       w={props.w}
       style={{
         color: colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)',
-        border: '2px solid',
+        border: '1px solid',
         borderColor: colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)',
       }}
       _hover={{

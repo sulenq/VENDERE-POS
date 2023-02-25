@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSignOut } from 'react-auth-kit';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -59,7 +59,7 @@ export default function RequireRoleAuth(props) {
           headers: { Authorization: `Bearer ${authToken}` },
         })
         .then(r => {
-          console.log(r.data.data);
+          // console.log(r.data.data);
           if (r.status === 200 && r.data.data.message === 'token benar') {
             setIsAuth(r.data.data);
             toast({

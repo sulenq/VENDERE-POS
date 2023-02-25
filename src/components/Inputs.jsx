@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Input, useColorMode } from '@chakra-ui/react';
+import {
+  Input,
+  useColorMode,
+  Kbd,
+  HStack,
+  InputGroup,
+  InputRightElement,
+} from '@chakra-ui/react';
 import { useLocation } from 'react-router-dom';
 
 const SearchBox = props => {
@@ -90,31 +97,36 @@ const SearchBox = props => {
   };
 
   return (
-    <Input
-      ref={props.refq}
-      onChange={props.onChange}
-      onKeyUp={handleKeyUp}
-      onKeyDown={handleKeyDown}
-      value={props.search}
-      id={'itemSearchBox'}
-      className={'inputBox'}
-      tabIndex={0}
-      onFocus={e => e.target.select()}
-      type={'text'}
-      placeholder={'Search item by name or code'}
-      w={'100%'}
-      border={'1px solid'}
-      borderRadius={'8px'}
-      style={{
-        borderColor:
-          colorMode === 'light'
-            ? '2px solid var(--p-500)'
-            : '2px solid var(--p-50)',
-      }}
-      _focusVisible={{
-        border: colorMode === 'light' ? '2px solid ' : '2px solid',
-      }}
-    />
+    <InputGroup>
+      <Input
+        ref={props.refq}
+        onChange={props.onChange}
+        onKeyUp={handleKeyUp}
+        onKeyDown={handleKeyDown}
+        value={props.search}
+        id={'itemSearchBox'}
+        className={'inputBox'}
+        tabIndex={0}
+        onFocus={e => e.target.select()}
+        type={'text'}
+        placeholder={'Search item by name or code'}
+        w={'100%'}
+        border={'1px solid'}
+        borderRadius={'8px'}
+        _focusVisible={{
+          border: colorMode === 'light' ? '2px solid ' : '2px solid',
+        }}
+      />
+      <InputRightElement
+        children={
+          <HStack mr={'60px !important'}>
+            <Kbd>⬆</Kbd>
+            <p>or</p>
+            <Kbd>⬇</Kbd>
+          </HStack>
+        }
+      />
+    </InputGroup>
   );
 };
 
