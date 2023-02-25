@@ -43,6 +43,8 @@ export default function RequireRoleAuth(props) {
   //*Simulasi Loading
   useMemo(() => {
     console.log('Validating user...');
+    console.log(auth);
+
     setTimeout(() => {
       const authValidationAPI = new URL(`${baseURL}/api/v1/users/checker`);
       const authToken = Cookies.get('_auth');
@@ -84,10 +86,10 @@ export default function RequireRoleAuth(props) {
         return props.element;
       } else {
         console.log(props.restriction);
+        //! BUGGY
         switch (auth.role) {
           case 'admin':
             console.log('kontol');
-            //! BUGGY NAVIGATE
             navigate('/vendere-app');
             break;
           case 'cashier':

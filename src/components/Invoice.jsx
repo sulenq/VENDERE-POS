@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useIsAuthenticated, useAuthUser, useSignOut } from 'react-auth-kit';
 import Cookies from 'js-cookie';
@@ -486,7 +486,7 @@ const Invoice = ({
 }) => {
   // Width Meter
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  useEffect(() => {
+  useMemo(() => {
     function handleResize() {
       setScreenWidth(window.innerWidth);
     }

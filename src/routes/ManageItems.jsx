@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -39,7 +39,7 @@ import { PrimaryButton, PrimaryButtonOutline } from '../components/Buttons';
 export default function ManageItems(props) {
   const baseURL = 'http://localhost:8080';
 
-  useEffect(() => {
+  useMemo(() => {
     const token = Cookies.get('_auth');
 
     const createItemsAPI = `${baseURL}/api/v1/create`;
@@ -74,7 +74,7 @@ export default function ManageItems(props) {
   const [selectedItem, setSelectedItem] = useState({});
 
   function selectItem(itemIndex) {
-    console.log(itemIndex);
+    // console.log(itemIndex);
     const selectedItemCode = document.querySelector(
       `#item${itemIndex} p`
     ).textContent;
@@ -115,11 +115,11 @@ export default function ManageItems(props) {
     setSelectedItem({ ...selectedItemToSet, keys: keys });
     // console.log(keys);
     // console.log(selectedItemCode);
-    console.log({ ...selectedItemToSet, keys: keys });
+    // console.log({ ...selectedItemToSet, keys: keys });
   }
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  useEffect(() => {
+  useMemo(() => {
     function handleResize() {
       setScreenWidth(window.innerWidth);
     }

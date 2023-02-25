@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -50,7 +50,7 @@ export default function LandingPage(props) {
 
   const [searchParams] = useSearchParams();
 
-  useEffect(() => {
+  useMemo(() => {
     if (searchParams.get('login') === '1') {
       const signInBtn = document.querySelector('#signInBtn');
       signInBtn?.click();
@@ -65,7 +65,7 @@ export default function LandingPage(props) {
   const { colorMode } = useColorMode();
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  useEffect(() => {
+  useMemo(() => {
     function handleResize() {
       setScreenWidth(window.innerWidth);
     }
@@ -353,7 +353,9 @@ export default function LandingPage(props) {
               toast({
                 position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
                 title: 'Sorry, fail to sign in ☹️',
-                description: err.response?.data.data.error || 'network error, might be the server or your internet connection.',
+                description:
+                  err.response?.data.data.error ||
+                  'network error, might be the server or your internet connection.',
                 status: 'error',
                 duration: 3000,
                 isClosable: true,

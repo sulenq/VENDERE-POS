@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSignOut, useAuthUser } from 'react-auth-kit';
 import Cookies from 'js-cookie';
@@ -47,7 +47,7 @@ import { fontSize } from '@mui/system';
 const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
   // Width Meter
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  useEffect(() => {
+  useMemo(() => {
     function handleResize() {
       setScreenWidth(window.innerWidth);
     }
@@ -118,7 +118,7 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
     let nav;
     let activeNav;
 
-    useEffect(() => {
+    useMemo(() => {
       nav = document.querySelector('#navMobile');
       activeNav = document.querySelector(`#${active}`);
       activeNav?.classList.add('navMobileContentBtnSelect');
@@ -249,7 +249,7 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
       const { isOpen, onOpen, onClose } = useDisclosure();
       const [isSignOutLoading, setIsSignOutLoading] = useState(false);
 
-      useEffect(() => {
+      useMemo(() => {
         if (isSignOutLoading) {
           setTimeout(() => {
             // if (auth().userRole === 'cashier') {

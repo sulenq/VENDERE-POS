@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import {
   Link,
   Routes,
@@ -82,7 +82,7 @@ export default function Dashboard(props) {
   const { colorMode } = useColorMode();
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  useEffect(() => {
+  useMemo(() => {
     function handleResize() {
       setScreenWidth(window.innerWidth);
     }
@@ -111,7 +111,7 @@ export default function Dashboard(props) {
     },
   });
 
-  useEffect(() => {
+  useMemo(() => {
     const token = Cookies.get('_auth');
 
     const createItemsAPI = `${baseURL}/api/v1/create`;
@@ -122,7 +122,7 @@ export default function Dashboard(props) {
     axios
       .get(getItemsAPI, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => {
-        console.log(r.data.data);
+        // console.log(r.data.data);
         props.setItems(r.data.data);
       })
       .catch(err => {

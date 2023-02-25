@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { Box, useColorMode, HStack } from '@chakra-ui/react';
 
 import '../css/vendereApp.css';
@@ -10,7 +10,7 @@ import Invoice from '../components/Invoice';
 
 export default function Transactions() {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  useEffect(() => {
+  useMemo(() => {
     function handleResize() {
       setScreenWidth(window.innerWidth);
     }

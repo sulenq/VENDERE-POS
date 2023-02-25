@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { useColorMode, HStack } from '@chakra-ui/react';
 
 import { useAuthUser } from 'react-auth-kit';
@@ -16,7 +16,7 @@ export default function Employees() {
   const { colorMode } = useColorMode();
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  useEffect(() => {
+  useMemo(() => {
     function handleResize() {
       setScreenWidth(window.innerWidth);
     }
