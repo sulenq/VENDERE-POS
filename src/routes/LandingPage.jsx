@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -50,7 +50,7 @@ export default function LandingPage(props) {
 
   const [searchParams] = useSearchParams();
 
-  useMemo(() => {
+  useEffect(() => {
     if (searchParams.get('login') === '1') {
       const signInBtn = document.querySelector('#signInBtn');
       signInBtn?.click();
@@ -65,7 +65,7 @@ export default function LandingPage(props) {
   const { colorMode } = useColorMode();
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  useMemo(() => {
+  useEffect(() => {
     function handleResize() {
       setScreenWidth(window.innerWidth);
     }

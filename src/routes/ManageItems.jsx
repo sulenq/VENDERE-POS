@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -39,7 +39,7 @@ import { PrimaryButton, PrimaryButtonOutline } from '../components/Buttons';
 export default function ManageItems(props) {
   const baseURL = 'http://localhost:8080';
 
-  useMemo(() => {
+  useEffect(() => {
     const token = Cookies.get('_auth');
 
     const createItemsAPI = `${baseURL}/api/v1/create`;
@@ -119,7 +119,7 @@ export default function ManageItems(props) {
   }
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  useMemo(() => {
+  useEffect(() => {
     function handleResize() {
       setScreenWidth(window.innerWidth);
     }

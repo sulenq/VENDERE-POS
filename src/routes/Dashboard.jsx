@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Link,
   Routes,
@@ -82,7 +82,7 @@ export default function Dashboard(props) {
   const { colorMode } = useColorMode();
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  useMemo(() => {
+  useEffect(() => {
     function handleResize() {
       setScreenWidth(window.innerWidth);
     }
@@ -111,7 +111,7 @@ export default function Dashboard(props) {
     },
   });
 
-  useMemo(() => {
+  useEffect(() => {
     const token = Cookies.get('_auth');
 
     const createItemsAPI = `${baseURL}/api/v1/create`;

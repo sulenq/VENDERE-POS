@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
@@ -81,7 +81,7 @@ export default function App() {
 
   const [token, setToken] = useState(Cookies.get('_auth'));
 
-  useMemo(() => {
+  useEffect(() => {
     if (token) {
       const tokenListener = setInterval(() => {
         // console.log(token || 'no auth token');
@@ -106,7 +106,7 @@ export default function App() {
   });
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  useMemo(() => {
+  useEffect(() => {
     function handleResize() {
       setScreenWidth(window.innerWidth);
     }

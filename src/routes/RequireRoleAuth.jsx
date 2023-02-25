@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useSignOut } from 'react-auth-kit';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -33,7 +33,7 @@ export default function RequireRoleAuth(props) {
   const { colorMode } = useColorMode();
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  useMemo(() => {
+  useEffect(() => {
     function handleResize() {
       setScreenWidth(window.innerWidth);
     }
@@ -41,7 +41,7 @@ export default function RequireRoleAuth(props) {
   });
 
   //*Simulasi Loading
-  useMemo(() => {
+  useEffect(() => {
     console.log('Validating user...');
     console.log(auth);
 

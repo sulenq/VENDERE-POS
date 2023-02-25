@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useColorMode, HStack } from '@chakra-ui/react';
 
 import { useAuthUser } from 'react-auth-kit';
@@ -23,7 +23,7 @@ export default function Cashier({
   const { colorMode } = useColorMode();
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  useMemo(() => {
+  useEffect(() => {
     function handleResize() {
       setScreenWidth(window.innerWidth);
     }

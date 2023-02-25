@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, useColorMode } from '@chakra-ui/react';
 import { useLocation } from 'react-router-dom';
 
@@ -46,12 +46,12 @@ const SearchBox = props => {
     // console.log(itemIndex);
   }
 
-  useMemo(() => {
+  useEffect(() => {
     props.setItemIndex(1);
     selectItem();
   }, [props.search]);
 
-  useMemo(() => {
+  useEffect(() => {
     selectItem();
   });
 
