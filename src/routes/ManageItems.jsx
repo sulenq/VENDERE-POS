@@ -2,12 +2,20 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-import { VStack, HStack, Text, useColorMode, Icon } from '@chakra-ui/react';
+import {
+  VStack,
+  HStack,
+  Text,
+  useColorMode,
+  Icon,
+  Button,
+} from '@chakra-ui/react';
 
 // MUI Icons
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import ImageNotSupportedOutlinedIcon from '@mui/icons-material/ImageNotSupportedOutlined';
 
 import ResponsiveNav from '../components/ResponsiveNav';
 import { SearchBox } from '../components/Inputs';
@@ -40,6 +48,12 @@ export default function ManageItems(props) {
     }
   }, []);
 
+  useEffect(() => {
+    if (Object.keys(props.items).length !== 0) {
+      selectItem(1);
+    }
+  }, [props.items]);
+
   const dateOptions = {
     weekday: 'short',
     day: 'numeric',
@@ -49,15 +63,23 @@ export default function ManageItems(props) {
 
   const { colorMode } = useColorMode();
 
-  const [search, setSearch] = useState('');
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    function handleResize() {
+      setScreenWidth(window.innerWidth);
+    }
 
-  const [selectedItem, setSelectedItem] = useState({});
+    window.addEventListener('resize', handleResize);
+  });
 
   function selectItem(itemIndex) {
     // console.log(itemIndex);
+
     const selectedItemCode = document.querySelector(
-      `#item${itemIndex} p`
-    ).textContent;
+      `.items > :nth-child(${itemIndex}) p`
+    )?.textContent;
+
+    // console.log(selectedItemCode);
 
     const selectedItem = props.items.find(item => {
       return item.code === selectedItemCode;
@@ -98,15 +120,10 @@ export default function ManageItems(props) {
     // console.log({ ...selectedItemToSet, keys: keys });
   }
 
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  useEffect(() => {
-    function handleResize() {
-      setScreenWidth(window.innerWidth);
-    }
-    window.addEventListener('resize', handleResize);
-  });
-
+  const [search, setSearch] = useState('');
+  const [selectedItem, setSelectedItem] = useState({});
   const [itemIndex, setItemIndex] = useState(1);
+  const [itemsLength, setItemsLength] = useState(0);
 
   //* Keydown event (arrow up & down) focus to searchBox
   document.documentElement.addEventListener('keydown', e => {
@@ -173,6 +190,9 @@ export default function ManageItems(props) {
           {/* Search Box */}
           <HStack px={3} w={'100%'}>
             <SearchBox
+              search={search}
+              itemsLength={itemsLength}
+              setItemsLength={setItemsLength}
               itemIndex={itemIndex}
               setItemIndex={setItemIndex}
               selectItem={selectItem}
@@ -257,14 +277,18 @@ export default function ManageItems(props) {
                       className={'actionBtnSection'}
                       alignSelf={'center'}
                     >
-                      <PrimaryButtonOutline
-                        label="Details"
+                      <Text
+                        opacity={0.5}
                         size={'sm'}
+                        cursor={'pointer'}
+                        _hover={{ textDecoration: 'underline' }}
                         onClick={() => {
                           setItemIndex(index + 1);
-                          selectItem(index);
+                          selectItem(index + 1);
                         }}
-                      />
+                      >
+                        details
+                      </Text>
                     </VStack>
                   </HStack>
                 );
@@ -293,8 +317,7 @@ export default function ManageItems(props) {
           </HStack>
 
           <VStack
-            className="items"
-            h={'calc(100% - 64px)'}
+            h={selectedItem.ID ? 'calc(100% - 64px)' : '100%'}
             w={'100%'}
             mt={'0px !important'}
             fontSize={'sm'}
@@ -307,19 +330,17 @@ export default function ManageItems(props) {
                 style={{
                   width: '100%',
                   justifyContent: 'center',
-                  aspectRatio: 1,
+                  aspectRatio: 3 / 2,
                   fontWeight: 'bold',
-                  fontSize: '3rem',
                   opacity: 0.2,
                   // borderRadius: '12px',
                   background:
-                    colorMode === 'light' ? 'var(--p-100)' : 'var(--dark)',
+                    colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)',
                   borderRadius: '8px',
                 }}
               >
-                <Text>IMG</Text>
-                <Text>Coming</Text>
-                <Text>Soon</Text>
+                <Icon fontSize={'12rem'} as={ImageNotSupportedOutlinedIcon} />
+                <Text fontSize={'xx-large'}>Coming Soon!</Text>
               </VStack>
             </VStack>
 
@@ -336,7 +357,7 @@ export default function ManageItems(props) {
                     colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
                 }}
               >
-                <Text w={'120px'}>Code</Text>
+                <Text w={'150px'}>Code</Text>
                 <Text>{selectedItem?.code}</Text>
               </HStack>
 
@@ -351,7 +372,7 @@ export default function ManageItems(props) {
                     colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
                 }}
               >
-                <Text w={'120px'}>Name</Text>
+                <Text w={'150px'}>Name</Text>
                 <Text>{selectedItem?.name}</Text>
               </HStack>
 
@@ -366,7 +387,7 @@ export default function ManageItems(props) {
                     colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
                 }}
               >
-                <Text w={'120px'}>Buy Price</Text>
+                <Text w={'150px'}>Buy Price</Text>
                 <Text>{selectedItem?.modal}</Text>
               </HStack>
 
@@ -381,7 +402,7 @@ export default function ManageItems(props) {
                     colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
                 }}
               >
-                <Text w={'120px'}>Sell Price</Text>
+                <Text w={'150px'}>Sell Price</Text>
                 <Text>{selectedItem?.price}</Text>
               </HStack>
 
@@ -396,7 +417,7 @@ export default function ManageItems(props) {
                     colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
                 }}
               >
-                <Text w={'120px'}>Supply</Text>
+                <Text w={'150px'}>Supply</Text>
                 <Text>{selectedItem?.stock}</Text>
               </HStack>
 
@@ -411,7 +432,7 @@ export default function ManageItems(props) {
                     colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
                 }}
               >
-                <Text w={'120px'}>Created By (ID)</Text>
+                <Text w={'150px'}>Created By (ID)</Text>
                 <Text>{selectedItem?.user_id}</Text>
               </HStack>
 
@@ -426,7 +447,7 @@ export default function ManageItems(props) {
                     colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
                 }}
               >
-                <Text w={'120px'}>Created At</Text>
+                <Text w={'150px'}>Created At</Text>
                 <Text>{selectedItem?.CreatedAt}</Text>
               </HStack>
 
@@ -441,7 +462,7 @@ export default function ManageItems(props) {
                     colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
                 }}
               >
-                <Text w={'120px'}>Updated At</Text>
+                <Text w={'150px'}>Updated At</Text>
                 <Text>{selectedItem?.UpdatedAt}</Text>
               </HStack>
             </VStack>

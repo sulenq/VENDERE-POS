@@ -6,6 +6,7 @@ import {
   HStack,
   InputGroup,
   InputRightElement,
+  Text,
 } from '@chakra-ui/react';
 import { useLocation } from 'react-router-dom';
 
@@ -14,16 +15,14 @@ const SearchBox = props => {
 
   const { pathname } = useLocation();
 
-  const [itemsLength, setItemLength] = useState(0);
+  const items = document.querySelectorAll('.items > div');
 
-  function selectItem() {
+  function selectItemIndicator() {
     const targetItem = document.querySelector(
       `.items > :nth-child(${props.itemIndex})`
     );
 
     // console.log(targetItem);
-
-    const items = document.querySelectorAll('.items > div');
 
     if (targetItem) {
       const rect = targetItem.getBoundingClientRect();
@@ -42,7 +41,7 @@ const SearchBox = props => {
       }
     }
 
-    setItemLength(items.length);
+    props.setItemsLength(items.length);
 
     items.forEach(item => {
       item.classList.remove('itemSelected');
@@ -55,11 +54,10 @@ const SearchBox = props => {
 
   useEffect(() => {
     props.setItemIndex(1);
-    selectItem();
   }, [props.search]);
 
   useEffect(() => {
-    selectItem();
+    selectItemIndicator();
   });
 
   const handleKeyUp = e => {
@@ -83,7 +81,7 @@ const SearchBox = props => {
   const handleKeyDown = e => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      if (props.itemIndex < itemsLength) {
+      if (props.itemIndex < props.itemsLength - 2) {
         props.setItemIndex(props.itemIndex + 1);
       }
     }
@@ -111,18 +109,28 @@ const SearchBox = props => {
         type={'text'}
         placeholder={'Search item by name or code'}
         w={'100%'}
+        pr={'96px !important'}
         border={'1px solid'}
+        borderColor={colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)'}
         borderRadius={'8px'}
         _focusVisible={{
-          border: colorMode === 'light' ? '2px solid ' : '2px solid',
+          border: colorMode === 'light' ? '2px solid' : '2px solid',
         }}
       />
       <InputRightElement
         children={
           <HStack mr={'60px !important'}>
-            <Kbd>⬆</Kbd>
-            <p>or</p>
-            <Kbd>⬇</Kbd>
+            <Kbd
+              bg={colorMode === 'light' ? 'blackAlpha.100' : 'whiteAlpha.100'}
+            >
+              ⬆
+            </Kbd>
+            <Text opacity={0.5}>or</Text>
+            <Kbd
+              bg={colorMode === 'light' ? 'blackAlpha.100' : 'whiteAlpha.100'}
+            >
+              ⬇
+            </Kbd>
           </HStack>
         }
       />
