@@ -11,14 +11,13 @@ const PrimaryButton = props => {
     <Button
       id={props.id}
       ref={props.refq}
-      className="btn primaryBtn"
       onClick={props.onClick}
       size={props.size}
       form={props.form}
       type={props.type}
       variant={'solid'}
       pb={props.pb}
-      borderRadius={props.borderRadius}
+      borderRadius={props.borderRadius || 12}
       ml={props.ml}
       mr={props.mr}
       w={props.w}
@@ -48,13 +47,13 @@ const PrimaryButtonOutline = props => {
   return (
     <Button
       id={props.id}
-      className="btn primaryBtnOutline"
       onClick={props.onClick}
       type={props.type}
       size={props.size}
       form={props.form}
       variant={'outline'}
       ref={props.refq}
+      borderRadius={props.borderRadius || 12}
       pb={props.pb}
       w={props.w}
       style={{

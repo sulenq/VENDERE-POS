@@ -140,7 +140,7 @@ export default function Dashboard(props) {
         w={'100%'}
         alignItems={'flex-start'}
       >
-        <Text fontWeight={'bold'} color={'var(--p-200)'}>
+        <Text fontWeight={'bold'} opacity={0.5}>
           Today
         </Text>
         <SimpleGrid columns={[1, null, 2]} gap={2} w={'100%'}>
@@ -250,7 +250,7 @@ export default function Dashboard(props) {
   const LDashboard = () => {
     return (
       <VStack mt={'16px !important'} w={'100%'} alignItems={'flex-start'}>
-        <Text fontWeight={'bold'} color={'var(--p-200)'}>
+        <Text fontWeight={'bold'} opacity={0.5}>
           Current Month
         </Text>
 
@@ -457,7 +457,7 @@ export default function Dashboard(props) {
       <VStack mt={'16px !important'} w={'100%'} alignItems={'flex-start'}>
         {/* Heading */}
         <HStack style={{ width: '100%', justifyContent: 'space-between' }}>
-          <Text fontWeight={'bold'} color={'var(--p-200)'}>
+          <Text fontWeight={'bold'} opacity={0.5}>
             Employees
           </Text>
           <Link to={'vendere-app/employees'}>

@@ -9,6 +9,7 @@ import {
   useColorMode,
   Icon,
   Button,
+  ButtonGroup,
 } from '@chakra-ui/react';
 
 // MUI Icons
@@ -309,7 +310,7 @@ export default function ManageItems(props) {
             borderRadius: '12px',
             background: colorMode === 'light' ? 'white' : 'var(--dark)',
           }}
-          py={3}
+          pt={3}
         >
           <HStack alignSelf={'flex-start'} px={3} mb={2} opacity={0.5}>
             <Icon as={InfoOutlinedIcon} />
@@ -317,7 +318,8 @@ export default function ManageItems(props) {
           </HStack>
 
           <VStack
-            h={selectedItem.ID ? 'calc(100% - 64px)' : '100%'}
+            id={'itemDetails'}
+            h={selectedItem.ID ? 'calc(100% - 96px)' : '100%'}
             w={'100%'}
             mt={'0px !important'}
             fontSize={'sm'}
@@ -470,11 +472,13 @@ export default function ManageItems(props) {
 
           {selectedItem.ID && (
             <HStack
-              h={'64px'}
               w={'100%'}
               mt={'0px !important'}
               fontSize={'sm'}
               overflowY={'auto'}
+              // bg={'var(--p-500)'}
+              borderRadius={'0 0 12px 12px'}
+              // py={3}
               // borderTop={'1px solid'}
               // borderBottom={'1px solid'}
               justifyContent={'center'}
@@ -483,8 +487,10 @@ export default function ManageItems(props) {
                   colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
               }}
             >
-              <PrimaryButtonOutline label={'Delete'} />
-              <PrimaryButton label={'Update'} />
+              <ButtonGroup p={3} w={'100%'} isAttached>
+                <PrimaryButton w={'100%'} label="Update Data" />
+                <PrimaryButtonOutline w={'100%'} label={'Delete Item'} />
+              </ButtonGroup>
             </HStack>
           )}
         </VStack>

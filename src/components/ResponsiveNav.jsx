@@ -488,7 +488,6 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
                 {auth().displayName}
               </Text>
               <Badge
-                mt={'4px !important'}
                 style={{
                   background: 'var(--accent)',
                   color: '#00000080',

@@ -29,7 +29,6 @@
   color: black;
 }
 
-
 html,
 body,
 #root {
@@ -75,7 +74,7 @@ body,
 }
 
 .btn {
-  border-radius: 50px !important;
+  border-radius: 12px !important;
 }
 
 /* .inputBox:focus-visible {
