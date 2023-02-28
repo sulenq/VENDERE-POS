@@ -74,6 +74,7 @@ export default function RequireRoleAuth(props) {
         .catch(err => {
           console.log(err);
           logout();
+          props.setItems([])
           navigate(props.loginPath);
         });
     }, 100);

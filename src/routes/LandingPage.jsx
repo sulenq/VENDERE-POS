@@ -15,7 +15,6 @@ import {
   ModalBody,
   Icon,
   FormControl,
-  Input,
   FormLabel,
   useColorMode,
   Divider,
@@ -42,6 +41,9 @@ import { ColorModeIconButton } from '../components/ColorModeSwitcher';
 import { PrimaryButton, PrimaryButtonOutline } from '../components/Buttons';
 import { ModalOverlay, ModalContent, ModalFooter } from '../components/Modals';
 import { textAlign } from '@mui/system';
+
+// My Components
+import { Input } from '../components/Inputs';
 
 export default function LandingPage(props) {
   const DOMAIN_API = 'http://localhost:8080';
@@ -177,15 +179,16 @@ export default function LandingPage(props) {
                     status="info"
                     variant={'left-accent'}
                   >
-                    Here you will register your shop and this registered account
-                    will be admin account of this shop.
+                    <AlertIcon alignSelf={'flex-start'} />
+                    Register your shop! This registered account will be admin
+                    account of the shop.
                   </Alert>
 
                   <form id="signUpForm">
                     <FormControl mt={4} isRequired>
                       <FormLabel>Shop's Name</FormLabel>
                       <Input
-                        placeholder="e.g Kiosk Melati"
+                        placeholder={'e.g Kios Melati'}
                         value={registerData.shop_name}
                         onChange={e => {
                           setRegisterData({
@@ -199,7 +202,7 @@ export default function LandingPage(props) {
                     <FormControl mt={4} isRequired>
                       <FormLabel>E-mail</FormLabel>
                       <Input
-                        placeholder="e.g marcoleo@email.com"
+                        placeholder={'e.g marcoleo@youremail.com'}
                         value={registerData.email}
                         onChange={e => {
                           setRegisterData({

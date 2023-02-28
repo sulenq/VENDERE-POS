@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Input,
+  Input as InputChakra,
   useColorMode,
   Kbd,
   HStack,
   InputGroup,
   InputRightElement,
   Text,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from '@chakra-ui/react';
 import { useLocation } from 'react-router-dom';
 
@@ -46,6 +51,7 @@ const SearchBox = props => {
     items.forEach(item => {
       item.classList.remove('itemSelected');
     });
+
     if (targetItem) {
       targetItem.classList.add('itemSelected');
     }
@@ -73,7 +79,7 @@ const SearchBox = props => {
     } else if (pathname === '/vendere-app/manageitems') {
       //todo handle klik enter pas select item di manage items
       if (e.key === 'Enter') {
-        props.selectItem(props.itemIndex);
+        props.selectItem(null, props.itemIndex);
       }
     }
   };
@@ -81,7 +87,7 @@ const SearchBox = props => {
   const handleKeyDown = e => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      if (props.itemIndex < props.itemsLength - 2) {
+      if (props.itemIndex < props.itemsLength) {
         props.setItemIndex(props.itemIndex + 1);
       }
     }
@@ -96,17 +102,15 @@ const SearchBox = props => {
 
   return (
     <InputGroup>
-      <Input
-        ref={props.refq}
+      <InputChakra
+        id={'itemSearchBox'}
+        className={'inputBox'}
         onChange={props.onChange}
         onKeyUp={handleKeyUp}
         onKeyDown={handleKeyDown}
         value={props.search}
-        id={'itemSearchBox'}
-        className={'inputBox'}
         tabIndex={0}
         onFocus={e => e.target.select()}
-        type={'text'}
         placeholder={'Search item by name or code'}
         w={'100%'}
         pr={'96px !important'}
@@ -138,4 +142,38 @@ const SearchBox = props => {
   );
 };
 
-export { SearchBox };
+const Input = props => {
+  const { colorMode } = useColorMode();
+
+  return (
+    <InputChakra
+      onFocus={props.onFocus}
+      type={props.type}
+      placeholder={props.placeholder}
+      value={props.value}
+      onChange={props.onChange}
+      border={'1px solid'}
+      borderColor={colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)'}
+      borderRadius={'8px'}
+      _focusVisible={{
+        border: colorMode === 'light' ? '2px solid' : '2px solid',
+      }}
+    />
+  );
+};
+
+const InputNumber = props => {
+  const { colorMode } = useColorMode();
+
+  return (
+    <NumberInput defaultValue={1} min={props.min} max={props.max}>
+      <NumberInputField />
+      <NumberInputStepper>
+        <NumberIncrementStepper />
+        <NumberDecrementStepper />
+      </NumberInputStepper>
+    </NumberInput>
+  );
+};
+
+export { SearchBox, Input, InputNumber };

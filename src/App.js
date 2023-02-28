@@ -90,6 +90,7 @@ export default function App() {
           console.log('auth token was lost');
           setToken('');
           logout();
+          setItems([]);
           navigate('/?login=1');
           toast({
             position: screenWidth <= 1000 ? 'bottom-center' : 'bottom-right',
@@ -337,9 +338,11 @@ export default function App() {
               setToken={setToken}
               loginPath="/?login=1"
               restriction="cashier"
+              setItems={setItems}
               element={
                 <Cashier
                   items={items}
+                  setItems={setItems}
                   total={total}
                   setTotal={setTotal}
                   cartList={cartList}

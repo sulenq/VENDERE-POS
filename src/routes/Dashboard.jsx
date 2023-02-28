@@ -1,11 +1,5 @@
 import { useState, useEffect } from 'react';
-import {
-  Link,
-  Routes,
-  Route,
-  useNavigate,
-  useLocation,
-} from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -42,7 +36,6 @@ import {
   ModalBody,
   Icon,
   FormControl,
-  Input,
   FormLabel,
   Divider,
   Select,
@@ -74,7 +67,7 @@ import { ActionTopBar } from '../components/ActionTopBar';
 import { Stat } from '../components/Data';
 import { PrimaryButton } from '../components/Buttons';
 import { ModalContent, ModalFooter, ModalOverlay } from '../components/Modals';
-import { height } from '@mui/system';
+import { Input } from '../components/Inputs';
 
 export default function Dashboard(props) {
   const baseURL = 'http://localhost:8080';
@@ -124,7 +117,11 @@ export default function Dashboard(props) {
         .get(getItemsAPI, { headers: { Authorization: `Bearer ${token}` } })
         .then(r => {
           // console.log(r.data.data);
-          props.setItems(r.data.data);
+          if (r.data.data) {
+            props.setItems(r.data.data);
+          } else {
+            props.setItems([]);
+          }
         })
         .catch(err => {
           console.log(err);
@@ -389,6 +386,7 @@ export default function Dashboard(props) {
                       status="info"
                       variant={'left-accent'}
                     >
+                      <AlertIcon alignSelf={'flex-start'} />
                       This registered account will be your employees account of
                       this shop.
                     </Alert>
@@ -554,7 +552,7 @@ export default function Dashboard(props) {
       p={screenWidth <= 1000 ? 0 : 4}
       alignItems={'center'}
     >
-      <ResponsiveNav active={'Dashboard'} />
+      <ResponsiveNav active={'Dashboard'} setItems={props.setItems} />
       <VStack
         id="appContentWrapper"
         h={'100%'}

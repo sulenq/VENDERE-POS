@@ -44,7 +44,7 @@ import {
 import { ModalContent, ModalBody, ModalFooter, ModalOverlay } from './Modals';
 import { fontSize } from '@mui/system';
 
-const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
+const ResponsiveNav = props => {
   // Width Meter
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -114,13 +114,13 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
   ];
 
   const NavMobile = () => {
-    console.log(active);
+    // console.log(props.active);
     let nav;
     let activeNav;
 
     useEffect(() => {
       nav = document.querySelector('#navMobile');
-      activeNav = document.querySelector(`#${active}`);
+      activeNav = document.querySelector(`#${props.active}`);
       activeNav?.classList.add('navMobileContentBtnSelect');
     });
 
@@ -243,34 +243,31 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
   };
 
   const Nav = () => {
+    // console.log(props.active);
+
     const navigate = useNavigate();
 
     const SignOut = () => {
       const { isOpen, onOpen, onClose } = useDisclosure();
       const [isSignOutLoading, setIsSignOutLoading] = useState(false);
 
-      useEffect(() => {
-        if (isSignOutLoading) {
-          setTimeout(() => {
-            // if (auth().userRole === 'cashier') {
-            //   setTotal(0);
-            //   setCartList([]);
-            //   setSearch('');
-            // }
-            logout();
-            setIsSignOutLoading(false);
-            toast({
-              position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-              title: `Signed Out 🫡`,
-              status: 'success',
-              duration: 3000,
-              isClosable: true,
-            });
-            Cookies.set('_auth', 'signedout');
-            navigate('/');
-          }, 1000);
-        }
-      }, [isSignOutLoading]);
+      function logOut() {
+        setIsSignOutLoading(true);
+        setTimeout(() => {
+          logout();
+          props.setItems([]);
+          Cookies.set('_auth', 'signedout');
+          setIsSignOutLoading(false);
+          toast({
+            position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+            title: `Signed Out 🫡`,
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+          });
+          navigate('/');
+        }, 1000);
+      }
 
       return (
         <>
@@ -309,9 +306,7 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
                         <PrimaryButton
                           label={'Sign Out'}
                           isLoading={isSignOutLoading}
-                          onClick={() => {
-                            setIsSignOutLoading(true);
-                          }}
+                          onClick={logOut}
                         />
                       </ButtonGroup>
                     }
@@ -330,7 +325,7 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
       target.classList.add('navListActive');
     };
     const diselectNav = targetId => {
-      const navActive = document.querySelector(`#${active}Nav`);
+      const navActive = document.querySelector(`#${props.active}Nav`);
       const target = document.querySelector(`#${targetId}`);
       target.classList.remove('navListActive');
       navActive.classList.add('navListActive');
@@ -385,7 +380,7 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
                       key={index}
                       id={nav.name + 'Nav'}
                       className={
-                        active === nav.name
+                        props.active === nav.name
                           ? 'navListActive navLink'
                           : 'navLink'
                       }
@@ -426,7 +421,7 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
                       key={index}
                       id={nav.name + 'Nav'}
                       className={
-                        active === nav.name
+                        props.active === nav.name
                           ? 'navListActive navLink'
                           : 'navLink'
                       }
@@ -508,22 +503,7 @@ const ResponsiveNav = ({ active, setTotal, setCartList, setSearch }) => {
     );
   };
 
-  return (
-    <>
-      {screenWidth <= 1000 ? (
-        <NavMobile active={active} logout={logout} auth={auth} />
-      ) : (
-        <Nav
-          active={active}
-          logout={logout}
-          setTotal={setTotal}
-          setCartList={setCartList}
-          setSearch={setSearch}
-          auth={auth}
-        />
-      )}
-    </>
-  );
+  return <>{screenWidth <= 1000 ? <NavMobile /> : <Nav />}</>;
 };
 
 export default ResponsiveNav;
