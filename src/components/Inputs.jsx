@@ -76,7 +76,10 @@ const SearchBox = props => {
           btn.click();
         }
       }
-    } else if (pathname === '/vendere-app/manageitems') {
+    } else if (
+      pathname === '/vendere-app/manageproducts' ||
+      pathname === '/vendere-app/transactions'
+    ) {
       //todo handle klik enter pas select item di manage items
       if (e.key === 'Enter') {
         props.selectItem(null, props.itemIndex);
@@ -111,7 +114,7 @@ const SearchBox = props => {
         value={props.search}
         tabIndex={0}
         onFocus={e => e.target.select()}
-        placeholder={'Search item by name or code'}
+        placeholder={props.placeholder}
         w={'100%'}
         pr={'96px !important'}
         border={'1px solid'}

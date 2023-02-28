@@ -484,10 +484,10 @@ export default function ManageItems(props) {
                 <ModalHeader>
                   <HStack>
                     <Icon
-                      as={DeleteOutlineOutlinedIcon}
+                      as={DriveFileRenameOutlineOutlinedIcon}
                       fontSize={'xx-large'}
                     />
-                    <Text>Delete Item</Text>
+                    <Text>Update Item</Text>
                   </HStack>
                 </ModalHeader>
 
@@ -753,7 +753,8 @@ export default function ManageItems(props) {
     );
   };
 
-  const itemsSkeleton = ['', '', '', '', '', '', '', ''];
+  const itemsSkeleton = ['', '', '', '', '', '', '', '', '', '', '', ''];
+  const itemDetailsSkeleton = ['', '', '', '', '', '', '', ''];
 
   return (
     <HStack
@@ -808,6 +809,7 @@ export default function ManageItems(props) {
             {/* Search Box */}
             <HStack px={3} w={'100%'}>
               <SearchBox
+                placeholder={'Search product by name or code'}
                 search={search}
                 itemsLength={itemsLength}
                 setItemsLength={setItemsLength}
@@ -1124,7 +1126,7 @@ export default function ManageItems(props) {
                 </VStack>
               ) : (
                 <VStack className="skeleton">
-                  {itemsSkeleton.map(() => {
+                  {itemDetailsSkeleton.map(() => {
                     return (
                       <HStack w={'100%'} py={1}>
                         <Skeleton h={'24px'} />

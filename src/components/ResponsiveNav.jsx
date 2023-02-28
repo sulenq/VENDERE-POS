@@ -107,7 +107,7 @@ const ResponsiveNav = props => {
     },
     {
       name: 'ManageItems',
-      link: '/vendere-app/manageitems',
+      link: '/vendere-app/manageproducts',
       icon: Inventory2OutlinedIcon,
       restriction: 'admin',
     },
@@ -441,7 +441,7 @@ const ResponsiveNav = props => {
                     >
                       <Icon as={nav.icon} fontSize={'xl'} />
                       <Text ml={2}>
-                        {nav.name === 'ManageItems' ? 'Manage Items' : nav.name}
+                        {nav.name === 'ManageItems' ? 'Products' : nav.name}
                       </Text>
                     </HStack>
                   );

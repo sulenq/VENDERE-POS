@@ -362,8 +362,8 @@ export default function App() {
             <RequireRoleAuth
               setToken={setToken}
               loginPath="/?login=1"
-              restriction="cashier"
-              element={<Transactions setToken={setToken} />}
+              restriction=""
+              element={<Transactions items={items} setItems={setItems} />}
             />
           }
         />
@@ -379,7 +379,7 @@ export default function App() {
         />
         <Route path="reports" element={<Reports />} />
         <Route
-          path="manageitems"
+          path="manageproducts"
           element={
             <RequireRoleAuth
               setToken={setToken}
