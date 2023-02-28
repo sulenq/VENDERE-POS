@@ -35,7 +35,7 @@ const ColorModeButton = props => {
 
   return (
     <Button
-      size="md"
+      size={props.size}
       py={'6px'}
       px={'12px'}
       aria-label={`Switch to ${text} mode`}

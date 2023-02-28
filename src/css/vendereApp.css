@@ -72,7 +72,6 @@ body,
   /* border: 2px solid red; */
   height: 100%;
   width: 100%;
-  display: flex;
   position: relative;
   background-image: url('../assets/appBg.png');
   background-size: cover;
@@ -169,4 +168,8 @@ body,
   background: var(--p-500);
   color: var(--p-100);
   font-weight: bold;
+}
+
+.dashboardLabel{
+  padding: 0 4px;
 }

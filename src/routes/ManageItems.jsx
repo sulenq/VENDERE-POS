@@ -418,6 +418,220 @@ export default function ManageItems(props) {
     );
   };
 
+  //* Update Item
+  const UpdateItem = () => {
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const [itemToUpdate, setItemToUpdate] = useState({ ...selectedItem });
+
+    function onUpdate(e) {
+      e.preventDefault();
+
+      const token = Cookies.get('_auth');
+
+      console.log('Updating item...');
+
+      const updateProductAPI = new URL(
+        `${baseURL}/api/v1/products/update?product_id=${itemToUpdate.ID}`
+      );
+
+      function updateSelectedItem() {
+        axios
+          .put(updateProductAPI, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then(r => {
+            console.log(r);
+            onClose();
+            if (r.status === 200) {
+              toast({
+                position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+                title: 'Item Updated',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+              });
+            }
+            window.location.reload();
+          })
+          .catch(err => {
+            console.log(err);
+            if (err) {
+              toast({
+                position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+                title: 'Sorry, fail to update item.',
+                // description: err.response.data.data.error,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+              });
+            }
+          });
+      }
+
+      updateSelectedItem();
+    }
+
+    return (
+      <>
+        <PrimaryButton w={'100%'} label={'Update Item'} onClick={onOpen} />
+        <Modal isOpen={isOpen} onClose={onClose} isCentered>
+          <ModalOverlay />
+
+          <ModalContent
+            content={
+              <>
+                <ModalHeader>
+                  <HStack>
+                    <Icon
+                      as={DeleteOutlineOutlinedIcon}
+                      fontSize={'xx-large'}
+                    />
+                    <Text>Delete Item</Text>
+                  </HStack>
+                </ModalHeader>
+
+                <ModalBody pb={6}>
+                  <Alert
+                    borderRadius={'8px'}
+                    status="info"
+                    variant={'left-accent'}
+                    mb={5}
+                  >
+                    <AlertIcon alignSelf={'flex-start'} />
+                    Page will be refreshed after you update item.
+                  </Alert>
+
+                  <form id="addNewItemForm">
+                    <FormControl mt={4} isRequired>
+                      <FormLabel>Item's Code</FormLabel>
+                      <Input
+                        placeholder="e.g 089696010947 or ndog123"
+                        value={itemToUpdate.code}
+                        onChange={e => {
+                          setItemToUpdate({
+                            ...itemToUpdate,
+                            code: e.target.value,
+                          });
+                        }}
+                      />
+                    </FormControl>
+
+                    <FormControl mt={4} isRequired>
+                      <FormLabel>Item's Name</FormLabel>
+                      <Input
+                        placeholder="e.g Telur 1kg"
+                        value={itemToUpdate.name}
+                        onChange={e => {
+                          setItemToUpdate({
+                            ...itemToUpdate,
+                            name: e.target.value,
+                          });
+                        }}
+                      />
+                    </FormControl>
+
+                    <FormControl mt={4} isRequired>
+                      <FormLabel>Supply</FormLabel>
+                      <Input
+                        onFocus={e => e.target.select()}
+                        placeholder="e.g 24"
+                        type={'number'}
+                        min={1}
+                        value={itemToUpdate.stock}
+                        onChange={e => {
+                          if (parseInt(e.target.value) > 1) {
+                            setItemToUpdate({
+                              ...itemToUpdate,
+                              stock: parseInt(e.target.value),
+                            });
+                          } else {
+                            setItemToUpdate({
+                              ...itemToUpdate,
+                              stock: 1,
+                            });
+                          }
+                        }}
+                      />
+                    </FormControl>
+
+                    <FormControl mt={4} isRequired>
+                      <FormLabel>Buy Price</FormLabel>
+                      <Input
+                        onFocus={e => e.target.select()}
+                        placeholder="e.g 24"
+                        type={'number'}
+                        min={1}
+                        value={itemToUpdate.modal}
+                        onChange={e => {
+                          if (parseInt(e.target.value) > 1) {
+                            setItemToUpdate({
+                              ...itemToUpdate,
+                              modal: parseInt(e.target.value),
+                            });
+                          } else {
+                            setItemToUpdate({
+                              ...itemToUpdate,
+                              modal: 1,
+                            });
+                          }
+                        }}
+                      />
+                    </FormControl>
+
+                    <FormControl mt={4} isRequired>
+                      <FormLabel>Sell Price</FormLabel>
+                      <Input
+                        onFocus={e => e.target.select()}
+                        placeholder="e.g 24"
+                        type={'number'}
+                        min={1}
+                        value={itemToUpdate.price}
+                        onChange={e => {
+                          if (parseInt(e.target.value) > 1) {
+                            setItemToUpdate({
+                              ...itemToUpdate,
+                              price: parseInt(e.target.value),
+                            });
+                          } else {
+                            setItemToUpdate({
+                              ...itemToUpdate,
+                              price: 1,
+                            });
+                          }
+                        }}
+                      />
+                    </FormControl>
+                  </form>
+                </ModalBody>
+
+                <ModalFooter
+                  content={
+                    <>
+                      <ButtonGroup alignSelf={'flex-end'}>
+                        <Button
+                          className="btn"
+                          onClick={onClose}
+                          variant={'ghost'}
+                        >
+                          Close
+                        </Button>
+                        <PrimaryButton
+                          label={'Update Item'}
+                          onClick={onUpdate}
+                        />
+                      </ButtonGroup>
+                    </>
+                  }
+                />
+              </>
+            }
+          />
+        </Modal>
+      </>
+    );
+  };
+
   //* Delete Item
   const DeleteItem = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -504,7 +718,7 @@ export default function ManageItems(props) {
                   >
                     <AlertIcon alignSelf={'flex-start'} />
                     Make sure if you want to delete item, you cannot undo this
-                    action.
+                    action and page will be refreshed.
                   </Alert>
                   <Text>Are you sure to delete the selected item? </Text>
                   <Text fontWeight={'bold'}>
@@ -549,9 +763,10 @@ export default function ManageItems(props) {
     >
       <ResponsiveNav active={'ManageItems'} setItems={props.setItems} />
 
-      <HStack
+      <VStack
         id="appContentWrapper"
         ml={'0px !important'}
+        h={'100%'}
         style={{
           background:
             colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-400)',
@@ -562,385 +777,390 @@ export default function ManageItems(props) {
           alignItems: 'flex-start',
         }}
       >
-        {/* Items Section */}
-        <VStack
-          style={{
-            width: screenWidth >= 1500 ? '70%' : '60%',
-            height: '100%',
-            overflowY: 'auto',
-            paddingBottom: screenWidth <= 1000 ? '64px' : '',
-            borderRadius: '12px',
-            background: colorMode === 'light' ? 'white' : 'var(--dark)',
-          }}
-          py={3}
-        >
-          {/* Title */}
-          <HStack
-            alignSelf={'flex-start'}
-            px={3}
-            w={'100%'}
-            justifyContent={'space-between'}
-            mb={1}
+        <ActionTopBar />
+        <HStack h={'calc(100% - 40px)'} w={'100%'} mt={'4px !important'}>
+          {/* Items Section */}
+          <VStack
+            style={{
+              width: screenWidth >= 1500 ? '70%' : '60%',
+              height: '100%',
+              overflowY: 'auto',
+              paddingBottom: screenWidth <= 1000 ? '64px' : '',
+              borderRadius: '12px',
+              background: colorMode === 'light' ? 'white' : 'var(--dark)',
+            }}
+            py={3}
           >
-            <HStack opacity={0.5}>
-              <Icon as={Inventory2OutlinedIcon} />
-              <Text fontWeight={'bold'}>All Items</Text>
-            </HStack>
-          </HStack>
-
-          {/* Search Box */}
-          <HStack px={3} w={'100%'}>
-            <SearchBox
-              search={search}
-              itemsLength={itemsLength}
-              setItemsLength={setItemsLength}
-              itemIndex={itemIndex}
-              setItemIndex={setItemIndex}
-              selectItem={selectItem}
-              onChange={e => {
-                setSearch(e.target.value);
-              }}
-            />
-          </HStack>
-
-          {/* Heading */}
-          <HStack fontSize={'sm'} w={'100%'} py={2} pl={4} pr={6}>
-            <Text fontWeight={'bold'} w={'30%'}>
-              CODE
-            </Text>
-            <Text fontWeight={'bold'} w={'50%'}>
-              ITEM
-            </Text>
-            <Text
-              fontWeight={'bold'}
-              w={'21%'}
-              textAlign={'center'}
-              ml={'0px !important'}
+            {/* Title */}
+            <HStack
+              alignSelf={'flex-start'}
+              px={3}
+              w={'100%'}
+              justifyContent={'space-between'}
+              mb={1}
             >
-              ACTION
-            </Text>
-          </HStack>
+              <HStack opacity={0.5}>
+                <Icon as={Inventory2OutlinedIcon} />
+                <Text fontWeight={'bold'}>All Items</Text>
+              </HStack>
+            </HStack>
 
-          {/* Items */}
-          {!isItemsLoading ? (
-            isItemsExist ? (
-              <VStack
-                className="items"
-                h={'100%'}
+            {/* Search Box */}
+            <HStack px={3} w={'100%'}>
+              <SearchBox
+                search={search}
+                itemsLength={itemsLength}
+                setItemsLength={setItemsLength}
+                itemIndex={itemIndex}
+                setItemIndex={setItemIndex}
+                selectItem={selectItem}
+                onChange={e => {
+                  setSearch(e.target.value);
+                }}
+              />
+            </HStack>
+
+            {/* Heading */}
+            <HStack fontSize={'sm'} w={'100%'} py={2} pl={4} pr={6}>
+              <Text fontWeight={'bold'} w={'30%'}>
+                CODE
+              </Text>
+              <Text fontWeight={'bold'} w={'50%'}>
+                ITEM
+              </Text>
+              <Text
+                fontWeight={'bold'}
+                w={'21%'}
+                textAlign={'center'}
+                ml={'0px !important'}
+              >
+                ACTION
+              </Text>
+            </HStack>
+
+            {/* Items */}
+            {!isItemsLoading ? (
+              isItemsExist ? (
+                <VStack
+                  className="items"
+                  h={'100%'}
+                  w={'100%'}
+                  mt={'0px !important'}
+                  fontSize={'sm'}
+                  overflowY={'auto'}
+                  borderTop={'1px solid'}
+                  // borderBottom={'1px solid'}
+                  style={{
+                    borderColor:
+                      colorMode === 'light'
+                        ? 'var(--light-dim)'
+                        : 'var(--p-300)',
+                  }}
+                >
+                  {props.items.map((item, index) => {
+                    if (
+                      item.name.toLowerCase().includes(search.toLowerCase()) ||
+                      item.code.includes(search)
+                    ) {
+                      return (
+                        <HStack
+                          id={'item' + index}
+                          pl={4}
+                          pr={6}
+                          mt={'0px !important'}
+                          w={'100%'}
+                          alignItems={'flex-start'}
+                          key={index}
+                          py={2}
+                          position={'relative'}
+                          style={{
+                            background:
+                              index % 2 === 1
+                                ? colorMode === 'light'
+                                  ? 'var(--light)'
+                                  : 'var(--dark)'
+                                : '',
+                          }}
+                        >
+                          {/* Item's Code */}
+                          <Text w={'30%'} p={'4px 8px'}>
+                            {item.code}
+                          </Text>
+
+                          {/* Item's Name */}
+                          <VStack w={'50%'} alignItems={'flex-start'} pr={4}>
+                            <Text fontWeight={'bold'}>{item.name}</Text>
+                            <Text m={'0 !important'}>@ {item.price}</Text>
+                          </VStack>
+
+                          {/* Item Action */}
+                          <VStack
+                            w={'20%'}
+                            className={'actionBtnSection'}
+                            alignSelf={'center'}
+                          >
+                            <Text
+                              opacity={0.5}
+                              size={'sm'}
+                              cursor={'pointer'}
+                              _hover={{ textDecoration: 'underline' }}
+                              onClick={() => {
+                                selectItem(item, index + 1);
+                              }}
+                            >
+                              details
+                            </Text>
+                          </VStack>
+                        </HStack>
+                      );
+                    } else {
+                      return null;
+                    }
+                  })}
+                </VStack>
+              ) : (
+                <VStack h={'100%'} w={'100%'}>
+                  <Text>You have no items</Text>
+                </VStack>
+              )
+            ) : (
+              <VStack className="skeleton">
+                {itemsSkeleton.map(() => {
+                  return <Skeleton h={'50px'} />;
+                })}
+              </VStack>
+            )}
+
+            <HStack w={'100%'} px={3} mt={'0px !important'} pt={3}>
+              <AddItem />
+            </HStack>
+          </VStack>
+
+          {/* Item Details */}
+          <VStack
+            style={{
+              width: screenWidth >= 1500 ? '70%' : '60%',
+              height: '100%',
+              overflowY: 'auto',
+              paddingBottom: screenWidth <= 1000 ? '64px' : '',
+              borderRadius: '12px',
+              background: colorMode === 'light' ? 'white' : 'var(--dark)',
+            }}
+            pt={3}
+          >
+            <HStack alignSelf={'flex-start'} px={3} mb={2} opacity={0.5}>
+              <Icon as={InfoOutlinedIcon} />
+              <Text fontWeight={'bold'}>Item Details</Text>
+            </HStack>
+
+            <VStack
+              id={'itemDetails'}
+              h={selectedItem.ID ? 'calc(100% - 96px)' : '100%'}
+              w={'100%'}
+              mt={'0px !important'}
+              fontSize={'sm'}
+              overflowY={'auto'}
+              pb={3}
+            >
+              {/* item detail IMG */}
+              <VStack px={3} w={'100%'} mb={2}>
+                <VStack
+                  p={4}
+                  style={{
+                    width: '100%',
+                    justifyContent: 'center',
+                    aspectRatio: 3 / 2,
+                    fontWeight: 'bold',
+                    opacity: 0.2,
+                    // borderRadius: '12px',
+                    background:
+                      colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)',
+                    borderRadius: '8px',
+                  }}
+                >
+                  <Icon fontSize={'12rem'} as={ImageNotSupportedOutlinedIcon} />
+                  <Text fontSize={'xx-large'}>Coming Soon!</Text>
+                </VStack>
+              </VStack>
+
+              {/* item detail data */}
+              {!isItemsLoading ? (
+                <VStack w={'100%'}>
+                  <HStack
+                    px={5}
+                    pb={2}
+                    w={'100%'}
+                    alignItems={'flex-start'}
+                    borderBottom={'1px solid'}
+                    style={{
+                      borderColor:
+                        colorMode === 'light'
+                          ? 'var(--light-dim)'
+                          : 'var(--p-300)',
+                    }}
+                  >
+                    <Text w={'150px'}>Code</Text>
+                    <Text>{selectedItem?.code}</Text>
+                  </HStack>
+
+                  <HStack
+                    px={5}
+                    pb={2}
+                    w={'100%'}
+                    alignItems={'flex-start'}
+                    borderBottom={'1px solid'}
+                    style={{
+                      borderColor:
+                        colorMode === 'light'
+                          ? 'var(--light-dim)'
+                          : 'var(--p-300)',
+                    }}
+                  >
+                    <Text w={'150px'}>Name</Text>
+                    <Text>{selectedItem?.name}</Text>
+                  </HStack>
+
+                  <HStack
+                    px={5}
+                    pb={2}
+                    w={'100%'}
+                    alignItems={'flex-start'}
+                    borderBottom={'1px solid'}
+                    style={{
+                      borderColor:
+                        colorMode === 'light'
+                          ? 'var(--light-dim)'
+                          : 'var(--p-300)',
+                    }}
+                  >
+                    <Text w={'150px'}>Buy Price</Text>
+                    <Text>{selectedItem?.modal}</Text>
+                  </HStack>
+
+                  <HStack
+                    px={5}
+                    pb={2}
+                    w={'100%'}
+                    alignItems={'flex-start'}
+                    borderBottom={'1px solid'}
+                    style={{
+                      borderColor:
+                        colorMode === 'light'
+                          ? 'var(--light-dim)'
+                          : 'var(--p-300)',
+                    }}
+                  >
+                    <Text w={'150px'}>Sell Price</Text>
+                    <Text>{selectedItem?.price}</Text>
+                  </HStack>
+
+                  <HStack
+                    px={5}
+                    pb={2}
+                    w={'100%'}
+                    alignItems={'flex-start'}
+                    borderBottom={'1px solid'}
+                    style={{
+                      borderColor:
+                        colorMode === 'light'
+                          ? 'var(--light-dim)'
+                          : 'var(--p-300)',
+                    }}
+                  >
+                    <Text w={'150px'}>Supply</Text>
+                    <Text>{selectedItem?.stock}</Text>
+                  </HStack>
+
+                  <HStack
+                    px={5}
+                    pb={2}
+                    w={'100%'}
+                    alignItems={'flex-start'}
+                    borderBottom={'1px solid'}
+                    style={{
+                      borderColor:
+                        colorMode === 'light'
+                          ? 'var(--light-dim)'
+                          : 'var(--p-300)',
+                    }}
+                  >
+                    <Text w={'150px'}>Created By (ID)</Text>
+                    <Text>{selectedItem?.user_id}</Text>
+                  </HStack>
+
+                  <HStack
+                    px={5}
+                    pb={2}
+                    w={'100%'}
+                    alignItems={'flex-start'}
+                    borderBottom={'1px solid'}
+                    style={{
+                      borderColor:
+                        colorMode === 'light'
+                          ? 'var(--light-dim)'
+                          : 'var(--p-300)',
+                    }}
+                  >
+                    <Text w={'150px'}>Created At</Text>
+                    <Text>{selectedItem?.CreatedAt}</Text>
+                  </HStack>
+
+                  <HStack
+                    px={5}
+                    pb={2}
+                    w={'100%'}
+                    alignItems={'flex-start'}
+                    borderBottom={'1px solid'}
+                    style={{
+                      borderColor:
+                        colorMode === 'light'
+                          ? 'var(--light-dim)'
+                          : 'var(--p-300)',
+                    }}
+                  >
+                    <Text w={'150px'}>Updated At</Text>
+                    <Text>{selectedItem?.UpdatedAt}</Text>
+                  </HStack>
+                </VStack>
+              ) : (
+                <VStack className="skeleton">
+                  {itemsSkeleton.map(() => {
+                    return (
+                      <HStack w={'100%'} py={1}>
+                        <Skeleton h={'24px'} />
+                      </HStack>
+                    );
+                  })}
+                </VStack>
+              )}
+            </VStack>
+
+            {selectedItem.ID && (
+              <HStack
                 w={'100%'}
                 mt={'0px !important'}
                 fontSize={'sm'}
                 overflowY={'auto'}
-                borderTop={'1px solid'}
+                // bg={'var(--p-500)'}
+                borderRadius={'0 0 12px 12px'}
+                // py={3}
+                // borderTop={'1px solid'}
                 // borderBottom={'1px solid'}
+                justifyContent={'center'}
                 style={{
                   borderColor:
                     colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
                 }}
               >
-                {props.items.map((item, index) => {
-                  if (
-                    item.name.toLowerCase().includes(search.toLowerCase()) ||
-                    item.code.includes(search)
-                  ) {
-                    return (
-                      <HStack
-                        id={'item' + index}
-                        pl={4}
-                        pr={6}
-                        mt={'0px !important'}
-                        w={'100%'}
-                        alignItems={'flex-start'}
-                        key={index}
-                        py={2}
-                        position={'relative'}
-                        style={{
-                          background:
-                            index % 2 === 1
-                              ? colorMode === 'light'
-                                ? 'var(--light)'
-                                : 'var(--dark)'
-                              : '',
-                        }}
-                      >
-                        {/* Item's Code */}
-                        <Text w={'30%'} p={'4px 8px'}>
-                          {item.code}
-                        </Text>
-
-                        {/* Item's Name */}
-                        <VStack w={'50%'} alignItems={'flex-start'} pr={4}>
-                          <Text fontWeight={'bold'}>{item.name}</Text>
-                          <Text m={'0 !important'}>@ {item.price}</Text>
-                        </VStack>
-
-                        {/* Item Action */}
-                        <VStack
-                          w={'20%'}
-                          className={'actionBtnSection'}
-                          alignSelf={'center'}
-                        >
-                          <Text
-                            opacity={0.5}
-                            size={'sm'}
-                            cursor={'pointer'}
-                            _hover={{ textDecoration: 'underline' }}
-                            onClick={() => {
-                              selectItem(item, index + 1);
-                            }}
-                          >
-                            details
-                          </Text>
-                        </VStack>
-                      </HStack>
-                    );
-                  } else {
-                    return null;
-                  }
-                })}
-              </VStack>
-            ) : (
-              <VStack h={'100%'} w={'100%'}>
-                <Text>You have no items</Text>
-              </VStack>
-            )
-          ) : (
-            <VStack className="skeleton">
-              {itemsSkeleton.map(() => {
-                return <Skeleton h={'50px'} />;
-              })}
-            </VStack>
-          )}
-
-          <HStack w={'100%'} px={3} mt={'0px !important'} pt={3}>
-            <AddItem />
-          </HStack>
-        </VStack>
-
-        {/* Item Details */}
-        <VStack
-          style={{
-            width: screenWidth >= 1500 ? '70%' : '60%',
-            height: '100%',
-            overflowY: 'auto',
-            paddingBottom: screenWidth <= 1000 ? '64px' : '',
-            borderRadius: '12px',
-            background: colorMode === 'light' ? 'white' : 'var(--dark)',
-          }}
-          pt={3}
-        >
-          <HStack alignSelf={'flex-start'} px={3} mb={2} opacity={0.5}>
-            <Icon as={InfoOutlinedIcon} />
-            <Text fontWeight={'bold'}>Item Details</Text>
-          </HStack>
-
-          <VStack
-            id={'itemDetails'}
-            h={selectedItem.ID ? 'calc(100% - 96px)' : '100%'}
-            w={'100%'}
-            mt={'0px !important'}
-            fontSize={'sm'}
-            overflowY={'auto'}
-            pb={3}
-          >
-            {/* item detail IMG */}
-            <VStack px={3} w={'100%'} mb={2}>
-              <VStack
-                p={4}
-                style={{
-                  width: '100%',
-                  justifyContent: 'center',
-                  aspectRatio: 3 / 2,
-                  fontWeight: 'bold',
-                  opacity: 0.2,
-                  // borderRadius: '12px',
-                  background:
-                    colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)',
-                  borderRadius: '8px',
-                }}
-              >
-                <Icon fontSize={'12rem'} as={ImageNotSupportedOutlinedIcon} />
-                <Text fontSize={'xx-large'}>Coming Soon!</Text>
-              </VStack>
-            </VStack>
-
-            {/* item detail data */}
-            {!isItemsLoading ? (
-              <VStack w={'100%'}>
-                <HStack
-                  px={5}
-                  pb={2}
-                  w={'100%'}
-                  alignItems={'flex-start'}
-                  borderBottom={'1px solid'}
-                  style={{
-                    borderColor:
-                      colorMode === 'light'
-                        ? 'var(--light-dim)'
-                        : 'var(--p-300)',
-                  }}
-                >
-                  <Text w={'150px'}>Code</Text>
-                  <Text>{selectedItem?.code}</Text>
-                </HStack>
-
-                <HStack
-                  px={5}
-                  pb={2}
-                  w={'100%'}
-                  alignItems={'flex-start'}
-                  borderBottom={'1px solid'}
-                  style={{
-                    borderColor:
-                      colorMode === 'light'
-                        ? 'var(--light-dim)'
-                        : 'var(--p-300)',
-                  }}
-                >
-                  <Text w={'150px'}>Name</Text>
-                  <Text>{selectedItem?.name}</Text>
-                </HStack>
-
-                <HStack
-                  px={5}
-                  pb={2}
-                  w={'100%'}
-                  alignItems={'flex-start'}
-                  borderBottom={'1px solid'}
-                  style={{
-                    borderColor:
-                      colorMode === 'light'
-                        ? 'var(--light-dim)'
-                        : 'var(--p-300)',
-                  }}
-                >
-                  <Text w={'150px'}>Buy Price</Text>
-                  <Text>{selectedItem?.modal}</Text>
-                </HStack>
-
-                <HStack
-                  px={5}
-                  pb={2}
-                  w={'100%'}
-                  alignItems={'flex-start'}
-                  borderBottom={'1px solid'}
-                  style={{
-                    borderColor:
-                      colorMode === 'light'
-                        ? 'var(--light-dim)'
-                        : 'var(--p-300)',
-                  }}
-                >
-                  <Text w={'150px'}>Sell Price</Text>
-                  <Text>{selectedItem?.price}</Text>
-                </HStack>
-
-                <HStack
-                  px={5}
-                  pb={2}
-                  w={'100%'}
-                  alignItems={'flex-start'}
-                  borderBottom={'1px solid'}
-                  style={{
-                    borderColor:
-                      colorMode === 'light'
-                        ? 'var(--light-dim)'
-                        : 'var(--p-300)',
-                  }}
-                >
-                  <Text w={'150px'}>Supply</Text>
-                  <Text>{selectedItem?.stock}</Text>
-                </HStack>
-
-                <HStack
-                  px={5}
-                  pb={2}
-                  w={'100%'}
-                  alignItems={'flex-start'}
-                  borderBottom={'1px solid'}
-                  style={{
-                    borderColor:
-                      colorMode === 'light'
-                        ? 'var(--light-dim)'
-                        : 'var(--p-300)',
-                  }}
-                >
-                  <Text w={'150px'}>Created By (ID)</Text>
-                  <Text>{selectedItem?.user_id}</Text>
-                </HStack>
-
-                <HStack
-                  px={5}
-                  pb={2}
-                  w={'100%'}
-                  alignItems={'flex-start'}
-                  borderBottom={'1px solid'}
-                  style={{
-                    borderColor:
-                      colorMode === 'light'
-                        ? 'var(--light-dim)'
-                        : 'var(--p-300)',
-                  }}
-                >
-                  <Text w={'150px'}>Created At</Text>
-                  <Text>{selectedItem?.CreatedAt}</Text>
-                </HStack>
-
-                <HStack
-                  px={5}
-                  pb={2}
-                  w={'100%'}
-                  alignItems={'flex-start'}
-                  borderBottom={'1px solid'}
-                  style={{
-                    borderColor:
-                      colorMode === 'light'
-                        ? 'var(--light-dim)'
-                        : 'var(--p-300)',
-                  }}
-                >
-                  <Text w={'150px'}>Updated At</Text>
-                  <Text>{selectedItem?.UpdatedAt}</Text>
-                </HStack>
-              </VStack>
-            ) : (
-              <VStack className="skeleton">
-                {itemsSkeleton.map(() => {
-                  return (
-                    <HStack w={'100%'} py={1}>
-                      <Skeleton h={'24px'} />
-                    </HStack>
-                  );
-                })}
-              </VStack>
+                <ButtonGroup p={3} w={'100%'} isAttached>
+                  <UpdateItem />
+                  <DeleteItem />
+                </ButtonGroup>
+              </HStack>
             )}
           </VStack>
-
-          {selectedItem.ID && (
-            <HStack
-              w={'100%'}
-              mt={'0px !important'}
-              fontSize={'sm'}
-              overflowY={'auto'}
-              // bg={'var(--p-500)'}
-              borderRadius={'0 0 12px 12px'}
-              // py={3}
-              // borderTop={'1px solid'}
-              // borderBottom={'1px solid'}
-              justifyContent={'center'}
-              style={{
-                borderColor:
-                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
-              }}
-            >
-              <ButtonGroup p={3} w={'100%'} isAttached>
-                <PrimaryButton w={'100%'} label="Update Data" />
-                <DeleteItem />
-              </ButtonGroup>
-            </HStack>
-          )}
-        </VStack>
-      </HStack>
+        </HStack>
+      </VStack>
     </HStack>
   );
 }

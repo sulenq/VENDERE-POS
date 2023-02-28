@@ -125,6 +125,14 @@ export default function Dashboard(props) {
         })
         .catch(err => {
           console.log(err);
+          toast({
+            position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+            title: 'Some error occured',
+            description: 'try to refresh the page',
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+          });
         });
     }
   }, []);
@@ -137,7 +145,7 @@ export default function Dashboard(props) {
         w={'100%'}
         alignItems={'flex-start'}
       >
-        <Text fontWeight={'bold'} opacity={0.5}>
+        <Text className="dashboardLabel" fontWeight={'bold'} opacity={0.5}>
           Today
         </Text>
         <SimpleGrid columns={[1, null, 2]} gap={2} w={'100%'}>
@@ -247,7 +255,7 @@ export default function Dashboard(props) {
   const LDashboard = () => {
     return (
       <VStack mt={'16px !important'} w={'100%'} alignItems={'flex-start'}>
-        <Text fontWeight={'bold'} opacity={0.5}>
+        <Text className="dashboardLabel" fontWeight={'bold'} opacity={0.5}>
           Current Month
         </Text>
 
@@ -454,7 +462,10 @@ export default function Dashboard(props) {
     return (
       <VStack mt={'16px !important'} w={'100%'} alignItems={'flex-start'}>
         {/* Heading */}
-        <HStack style={{ width: '100%', justifyContent: 'space-between' }}>
+        <HStack
+          className="dashboardLabel"
+          style={{ width: '100%', justifyContent: 'space-between' }}
+        >
           <Text fontWeight={'bold'} opacity={0.5}>
             Employees
           </Text>
@@ -556,7 +567,7 @@ export default function Dashboard(props) {
       <VStack
         id="appContentWrapper"
         h={'100%'}
-        w={'calc(100% - 200px)'}
+        w={screenWidth <= 1000 ? '100%' : 'calc(100% - 200px)'}
         p={2}
         ml={'0px !important'}
         style={{
@@ -568,6 +579,7 @@ export default function Dashboard(props) {
         <>
           <ActionTopBar />
           <VStack
+            mt={'4px !important'}
             style={{
               width: '100%',
               height: '100%',

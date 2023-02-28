@@ -15,7 +15,7 @@ export const ActionTopBar = () => {
   return (
     <HStack w={'100%'} px={2} justifyContent={'space-between'}>
       <Text opacity={'0.5'}>{todayDate}</Text>
-      <ColorModeButton />
+      <ColorModeButton size={'sm'} />
     </HStack>
   );
 };
