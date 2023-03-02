@@ -1,0 +1,4 @@
+BUGS
+- 
+NOTES
+- invoice aja yang ada counter tiap produk

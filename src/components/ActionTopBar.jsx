@@ -13,7 +13,7 @@ export const ActionTopBar = () => {
   const todayDate = new Date().toLocaleString(undefined, dateOptions);
 
   return (
-    <HStack w={'100%'} px={2} justifyContent={'space-between'}>
+    <HStack w={'100%'} pb={1} px={2} justifyContent={'space-between'}>
       <Text opacity={'0.5'}>{todayDate}</Text>
       <ColorModeButton size={'sm'} />
     </HStack>

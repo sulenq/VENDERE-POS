@@ -484,6 +484,7 @@ export default function Dashboard(props) {
         <VStack
           alignItems={'flex-start'}
           py={2}
+          pb={3}
           px={4}
           w={'100%'}
           style={{

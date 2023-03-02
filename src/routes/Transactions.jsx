@@ -752,7 +752,7 @@ export default function ManageItems(props) {
     );
   };
 
-  const itemsSkeleton = ['', '', '', '', '', '', '', '','','','',''];
+  const itemsSkeleton = ['', '', '', '', '', '', '', '', '', '', '', ''];
 
   return (
     <HStack
@@ -980,8 +980,8 @@ export default function ManageItems(props) {
                             : 'var(--p-300)',
                       }}
                     >
-                      <Text w={'150px'}>ID</Text>
-                      <Text>{selectedItem?.code}</Text>
+                      <Text w={'25%'}>ID</Text>
+                      <Text w={'75%'}>{selectedItem?.code}</Text>
                     </HStack>
 
                     <HStack
@@ -997,8 +997,8 @@ export default function ManageItems(props) {
                             : 'var(--p-300)',
                       }}
                     >
-                      <Text w={'150px'}>Date</Text>
-                      <Text>{selectedItem?.name}</Text>
+                      <Text w={'25%'}>Cashier ID</Text>
+                      <Text w={'75%'}>{selectedItem?.code}</Text>
                     </HStack>
 
                     <HStack
@@ -1014,8 +1014,8 @@ export default function ManageItems(props) {
                             : 'var(--p-300)',
                       }}
                     >
-                      <Text w={'150px'}>Status</Text>
-                      <Text>{selectedItem?.modal}</Text>
+                      <Text w={'25%'}>Date</Text>
+                      <Text w={'75%'}>{selectedItem?.name}</Text>
                     </HStack>
 
                     <HStack
@@ -1031,8 +1031,8 @@ export default function ManageItems(props) {
                             : 'var(--p-300)',
                       }}
                     >
-                      <Text w={'150px'}>Sell Price</Text>
-                      <Text>{selectedItem?.price}</Text>
+                      <Text w={'25%'}>Status</Text>
+                      <Text w={'75%'}>{selectedItem?.modal}</Text>
                     </HStack>
 
                     <HStack
@@ -1048,8 +1048,8 @@ export default function ManageItems(props) {
                             : 'var(--p-300)',
                       }}
                     >
-                      <Text w={'150px'}>Supply</Text>
-                      <Text>{selectedItem?.stock}</Text>
+                      <Text w={'25%'}>Total</Text>
+                      <Text w={'75%'}>{selectedItem?.price}</Text>
                     </HStack>
 
                     <HStack
@@ -1065,8 +1065,8 @@ export default function ManageItems(props) {
                             : 'var(--p-300)',
                       }}
                     >
-                      <Text w={'150px'}>Created By (ID)</Text>
-                      <Text>{selectedItem?.user_id}</Text>
+                      <Text w={'25%'}>Pay</Text>
+                      <Text w={'75%'}>{selectedItem?.stock}</Text>
                     </HStack>
 
                     <HStack
@@ -1082,8 +1082,8 @@ export default function ManageItems(props) {
                             : 'var(--p-300)',
                       }}
                     >
-                      <Text w={'150px'}>Created At</Text>
-                      <Text>{selectedItem?.CreatedAt}</Text>
+                      <Text w={'25%'}>Change</Text>
+                      <Text w={'75%'}>{selectedItem?.user_id}</Text>
                     </HStack>
 
                     <HStack
@@ -1099,8 +1099,102 @@ export default function ManageItems(props) {
                             : 'var(--p-300)',
                       }}
                     >
-                      <Text w={'150px'}>Updated At</Text>
-                      <Text>{selectedItem?.UpdatedAt}</Text>
+                      <Text w={'25%'}>Cart List</Text>
+                      <VStack w={'75%'}>
+                        {itemsSkeleton.map((item, index) => {
+                          if (index < 5) {
+                            return (
+                              <HStack
+                                pr={2}
+                                w={'100%'}
+                                justifyContent={'space-between'}
+                                alignItems={'flex-start'}
+                              >
+                                <VStack w={'50%'} alignItems={'flex-start'}>
+                                  <Text>Item's name</Text>
+                                  <Text mt={'0px !important'}>3000</Text>
+                                </VStack>
+                                <Text w={'10%'}>x2</Text>
+                                <Text w={'40%'} textAlign={'end'}>
+                                  Total price
+                                </Text>
+                              </HStack>
+                            );
+                          }
+                        })}
+                      </VStack>
+                    </HStack>
+
+                    <HStack
+                      px={5}
+                      pb={2}
+                      w={'100%'}
+                      alignItems={'flex-start'}
+                      borderBottom={'1px solid'}
+                      style={{
+                        borderColor:
+                          colorMode === 'light'
+                            ? 'var(--light-dim)'
+                            : 'var(--p-300)',
+                      }}
+                    >
+                      <Text w={'25%'}>Note</Text>
+                      <Text w={'75%'}>
+                        Lorem Ipsum is simply dummy text of the printing and
+                        typesetting industry. Lorem Ipsum has been the
+                        industry's standard dummy text ever since the 1500s
+                      </Text>
+                    </HStack>
+
+                    <HStack
+                      px={5}
+                      pb={2}
+                      w={'100%'}
+                      alignItems={'flex-start'}
+                      borderBottom={'1px solid'}
+                      style={{
+                        borderColor:
+                          colorMode === 'light'
+                            ? 'var(--light-dim)'
+                            : 'var(--p-300)',
+                      }}
+                    >
+                      <Text w={'25%'}>Profit</Text>
+                      <Text w={'75%'}>{selectedItem?.price}</Text>
+                    </HStack>
+
+                    <HStack
+                      px={5}
+                      pb={2}
+                      w={'100%'}
+                      alignItems={'flex-start'}
+                      borderBottom={'1px solid'}
+                      style={{
+                        borderColor:
+                          colorMode === 'light'
+                            ? 'var(--light-dim)'
+                            : 'var(--p-300)',
+                      }}
+                    >
+                      <Text w={'25%'}>Created At</Text>
+                      <Text w={'75%'}>{selectedItem?.UpdatedAt}</Text>
+                    </HStack>
+
+                    <HStack
+                      px={5}
+                      pb={2}
+                      w={'100%'}
+                      alignItems={'flex-start'}
+                      borderBottom={'1px solid'}
+                      style={{
+                        borderColor:
+                          colorMode === 'light'
+                            ? 'var(--light-dim)'
+                            : 'var(--p-300)',
+                      }}
+                    >
+                      <Text w={'25%'}>Updated At</Text>
+                      <Text w={'75%'}>{selectedItem?.UpdatedAt}</Text>
                     </HStack>
                   </VStack>
                 ) : (

@@ -1,5 +1,0 @@
-
-- profile tembus ke bawah saaat resize vertical
-
-- saat signout manual trus landing page buka login modal manuk
-

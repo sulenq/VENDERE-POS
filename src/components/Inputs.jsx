@@ -59,10 +59,6 @@ const SearchBox = props => {
   }
 
   useEffect(() => {
-    props.setItemIndex(1);
-  }, [props.search]);
-
-  useEffect(() => {
     selectItemIndicator();
   });
 
@@ -76,14 +72,6 @@ const SearchBox = props => {
           btn.click();
         }
       }
-    } else if (
-      pathname === '/vendere-app/manageproducts' ||
-      pathname === '/vendere-app/transactions'
-    ) {
-      //todo handle klik enter pas select item di manage items
-      if (e.key === 'Enter') {
-        props.selectItem(null, props.itemIndex);
-      }
     }
   };
 
@@ -92,6 +80,7 @@ const SearchBox = props => {
       e.preventDefault();
       if (props.itemIndex < props.itemsLength) {
         props.setItemIndex(props.itemIndex + 1);
+        props.selectItem({ index: props.itemIndex + 1 });
       }
     }
 
@@ -99,6 +88,7 @@ const SearchBox = props => {
       e.preventDefault();
       if (props.itemIndex > 1) {
         props.setItemIndex(props.itemIndex - 1);
+        props.selectItem({ index: props.itemIndex - 1 });
       }
     }
   };

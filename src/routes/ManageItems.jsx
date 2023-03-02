@@ -38,54 +38,12 @@ import { Stat } from '../components/Data';
 import { ModalContent, ModalFooter, ModalOverlay } from '../components/Modals';
 import { Input, InputNumber } from '../components/Inputs';
 import { Skeleton } from '../components/Skeleton';
+import { ItemsList } from '../components/Items';
 
 export default function ManageItems(props) {
   const baseURL = 'http://localhost:8080';
 
   const toast = useToast();
-
-  const isItemsExist = props.items.length !== 0;
-
-  const [isItemsLoading, setIsItemsLoading] = useState(false);
-
-  //* get items if refreshed
-  useEffect(() => {
-    const token = Cookies.get('_auth');
-
-    // console.log(props.items);
-
-    const createItemsAPI = `${baseURL}/api/v1/create`;
-    const getItemsAPI = `${baseURL}/api/v1/products`;
-    const updateItemsAPI = `${baseURL}/api/v1/products/update`;
-    const deleteItemsAPI = `${baseURL}/api/v1/products/delete`;
-
-    if (props.items.length === 0) {
-      setIsItemsLoading(true);
-      setTimeout(() => {
-        axios
-          .get(getItemsAPI, { headers: { Authorization: `Bearer ${token}` } })
-          .then(r => {
-            // console.log(r.data.data);
-            if (r.data.data) {
-              props.setItems(r.data.data);
-            } else {
-              props.setItems([]);
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          })
-          .finally(setIsItemsLoading(false));
-      }, 1000);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (props.items.length !== 0) {
-      // console.log(props.items);
-      selectItem(null, 1);
-    }
-  }, [props.items]);
 
   const dateOptions = {
     weekday: 'short',
@@ -105,6 +63,8 @@ export default function ManageItems(props) {
     window.addEventListener('resize', handleResize);
   });
 
+  const [data, setData] = useState([]);
+
   const [search, setSearch] = useState('');
 
   const [itemIndex, setItemIndex] = useState(1);
@@ -113,7 +73,9 @@ export default function ManageItems(props) {
 
   const [selectedItem, setSelectedItem] = useState({});
 
-  function selectItem(item, index) {
+  const [refresh, setRefresh] = useState(true);
+
+  function selectItem({ item, index }) {
     let selectedItem;
 
     if (item) {
@@ -123,12 +85,10 @@ export default function ManageItems(props) {
         `.items > :nth-child(${index}) p`
       )?.textContent;
 
-      selectedItem = props.items.find(item => {
+      selectedItem = data.find(item => {
         return item.code === selectedItemCode;
       });
     }
-
-    // console.log(selectedItem);
 
     if (selectedItem) {
       const itemCodesElm = document.querySelectorAll('.items > div > p');
@@ -214,45 +174,49 @@ export default function ManageItems(props) {
 
       const createProductAPI = new URL(`${baseURL}/api/v1/products/create`);
 
-      axios
-        .post(createProductAPI, registerData, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then(r => {
-          console.log(r);
-          setRegisterData({
-            ucode: '',
-            name: '',
-            stock: 1,
-            modal: 1,
-            price: 1,
-          });
-          onClose();
-          if (r.status === 201) {
-            toast({
-              position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-              title: 'New item(s) registered',
-              status: 'success',
-              duration: 3000,
-              isClosable: true,
+      function createProduct() {
+        axios
+          .post(createProductAPI, registerData, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then(r => {
+            console.log(r);
+            setRegisterData({
+              ucode: '',
+              name: '',
+              stock: 1,
+              modal: 1,
+              price: 1,
             });
-          }
-          window.location.reload();
-        })
-        .catch(err => {
-          console.log(err);
-          if (err) {
-            toast({
-              position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-              title: 'Sorry, fail add new item.',
-              description: err.response.data.data.error,
-              status: 'error',
-              duration: 3000,
-              isClosable: true,
-            });
-          }
-        })
-        .finally(setIsLoading(false));
+            onClose();
+            if (r.status === 201) {
+              toast({
+                position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+                title: 'New item(s) registered',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+              });
+            }
+            setRefresh(!refresh);
+          })
+          .catch(err => {
+            console.log(err);
+            if (err) {
+              toast({
+                position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+                title: 'Sorry, fail add new item.',
+                description: err.response.data.data.error,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+              });
+            }
+          })
+          .finally(setIsLoading(false));
+      }
+
+      createProduct();
     }
 
     return (
@@ -436,8 +400,9 @@ export default function ManageItems(props) {
       );
 
       function updateSelectedItem() {
+        console.log(itemToUpdate);
         axios
-          .put(updateProductAPI, {
+          .put(updateProductAPI, itemToUpdate, {
             headers: { Authorization: `Bearer ${token}` },
           })
           .then(r => {
@@ -452,7 +417,7 @@ export default function ManageItems(props) {
                 isClosable: true,
               });
             }
-            window.location.reload();
+            setRefresh(!refresh);
           })
           .catch(err => {
             console.log(err);
@@ -658,6 +623,7 @@ export default function ManageItems(props) {
             console.log(r);
             onClose();
             if (r.status === 200) {
+              console.log(r);
               toast({
                 position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
                 title: 'Item Deleted',
@@ -666,7 +632,7 @@ export default function ManageItems(props) {
                 isClosable: true,
               });
             }
-            window.location.reload();
+            setRefresh(!refresh);
           })
           .catch(err => {
             console.log(err);
@@ -721,9 +687,14 @@ export default function ManageItems(props) {
                     action and page will be refreshed.
                   </Alert>
                   <Text>Are you sure to delete the selected item? </Text>
-                  <Text fontWeight={'bold'}>
-                    {selectedItem.code} {selectedItem.name}
-                  </Text>
+                  <HStack w={'100%'}>
+                    <Text w={'50px'}>Code</Text>
+                    <Text fontWeight={'bold'}>{selectedItem.code}</Text>
+                  </HStack>
+                  <HStack w={'100%'}>
+                    <Text w={'50px'}>Name</Text>
+                    <Text fontWeight={'bold'}>{selectedItem.name}</Text>
+                  </HStack>
                 </ModalBody>
 
                 <ModalFooter
@@ -773,12 +744,14 @@ export default function ManageItems(props) {
             colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-400)',
           borderRadius: screenWidth <= 1000 ? 0 : '12px',
           width: screenWidth <= 1000 ? '100%' : 'calc(100% - 200px)',
+          paddingTop: 6,
           padding: 8,
           height: '100%',
           alignItems: 'flex-start',
         }}
       >
         <ActionTopBar />
+
         <HStack h={'calc(100% - 40px)'} w={'100%'} mt={'4px !important'}>
           {/* Items Section */}
           <VStack
@@ -802,13 +775,14 @@ export default function ManageItems(props) {
             >
               <HStack opacity={0.5}>
                 <Icon as={Inventory2OutlinedIcon} />
-                <Text fontWeight={'bold'}>All Items</Text>
+                <Text fontWeight={'bold'}>All Products</Text>
               </HStack>
             </HStack>
 
             {/* Search Box */}
             <HStack px={3} w={'100%'}>
               <SearchBox
+                data={data}
                 placeholder={'Search product by name or code'}
                 search={search}
                 itemsLength={itemsLength}
@@ -841,97 +815,15 @@ export default function ManageItems(props) {
             </HStack>
 
             {/* Items */}
-            {!isItemsLoading ? (
-              isItemsExist ? (
-                <VStack
-                  className="items"
-                  h={'100%'}
-                  w={'100%'}
-                  mt={'0px !important'}
-                  fontSize={'sm'}
-                  overflowY={'auto'}
-                  borderTop={'1px solid'}
-                  // borderBottom={'1px solid'}
-                  style={{
-                    borderColor:
-                      colorMode === 'light'
-                        ? 'var(--light-dim)'
-                        : 'var(--p-300)',
-                  }}
-                >
-                  {props.items.map((item, index) => {
-                    if (
-                      item.name.toLowerCase().includes(search.toLowerCase()) ||
-                      item.code.includes(search)
-                    ) {
-                      return (
-                        <HStack
-                          id={'item' + index}
-                          pl={4}
-                          pr={6}
-                          mt={'0px !important'}
-                          w={'100%'}
-                          alignItems={'flex-start'}
-                          key={index}
-                          py={2}
-                          position={'relative'}
-                          style={{
-                            background:
-                              index % 2 === 1
-                                ? colorMode === 'light'
-                                  ? 'var(--light)'
-                                  : 'var(--dark)'
-                                : '',
-                          }}
-                        >
-                          {/* Item's Code */}
-                          <Text w={'30%'} p={'4px 8px'}>
-                            {item.code}
-                          </Text>
-
-                          {/* Item's Name */}
-                          <VStack w={'50%'} alignItems={'flex-start'} pr={4}>
-                            <Text fontWeight={'bold'}>{item.name}</Text>
-                            <Text m={'0 !important'}>@ {item.price}</Text>
-                          </VStack>
-
-                          {/* Item Action */}
-                          <VStack
-                            w={'20%'}
-                            className={'actionBtnSection'}
-                            alignSelf={'center'}
-                          >
-                            <Text
-                              opacity={0.5}
-                              size={'sm'}
-                              cursor={'pointer'}
-                              _hover={{ textDecoration: 'underline' }}
-                              onClick={() => {
-                                selectItem(item, index + 1);
-                              }}
-                            >
-                              details
-                            </Text>
-                          </VStack>
-                        </HStack>
-                      );
-                    } else {
-                      return null;
-                    }
-                  })}
-                </VStack>
-              ) : (
-                <VStack h={'100%'} w={'100%'}>
-                  <Text>You have no items</Text>
-                </VStack>
-              )
-            ) : (
-              <VStack className="skeleton">
-                {itemsSkeleton.map(() => {
-                  return <Skeleton h={'50px'} />;
-                })}
-              </VStack>
-            )}
+            <ItemsList
+              data={data}
+              setData={setData}
+              setItemIndex={setItemIndex}
+              selectItem={selectItem}
+              setSelectedItem={setSelectedItem}
+              search={search}
+              refresh={refresh}
+            />
 
             <HStack w={'100%'} px={3} mt={'0px !important'} pt={3}>
               <AddItem />
@@ -952,7 +844,7 @@ export default function ManageItems(props) {
           >
             <HStack alignSelf={'flex-start'} px={3} mb={2} opacity={0.5}>
               <Icon as={InfoOutlinedIcon} />
-              <Text fontWeight={'bold'}>Item Details</Text>
+              <Text fontWeight={'bold'}>Product Details</Text>
             </HStack>
 
             <VStack
@@ -986,155 +878,143 @@ export default function ManageItems(props) {
               </VStack>
 
               {/* item detail data */}
-              {!isItemsLoading ? (
-                <VStack w={'100%'}>
-                  <HStack
-                    px={5}
-                    pb={2}
-                    w={'100%'}
-                    alignItems={'flex-start'}
-                    borderBottom={'1px solid'}
-                    style={{
-                      borderColor:
-                        colorMode === 'light'
-                          ? 'var(--light-dim)'
-                          : 'var(--p-300)',
-                    }}
-                  >
-                    <Text w={'150px'}>Code</Text>
-                    <Text>{selectedItem?.code}</Text>
-                  </HStack>
+              <VStack w={'100%'}>
+                <HStack
+                  px={5}
+                  pb={2}
+                  w={'100%'}
+                  alignItems={'flex-start'}
+                  borderBottom={'1px solid'}
+                  style={{
+                    borderColor:
+                      colorMode === 'light'
+                        ? 'var(--light-dim)'
+                        : 'var(--p-300)',
+                  }}
+                >
+                  <Text w={'150px'}>Code</Text>
+                  <Text>{selectedItem?.code}</Text>
+                </HStack>
 
-                  <HStack
-                    px={5}
-                    pb={2}
-                    w={'100%'}
-                    alignItems={'flex-start'}
-                    borderBottom={'1px solid'}
-                    style={{
-                      borderColor:
-                        colorMode === 'light'
-                          ? 'var(--light-dim)'
-                          : 'var(--p-300)',
-                    }}
-                  >
-                    <Text w={'150px'}>Name</Text>
-                    <Text>{selectedItem?.name}</Text>
-                  </HStack>
+                <HStack
+                  px={5}
+                  pb={2}
+                  w={'100%'}
+                  alignItems={'flex-start'}
+                  borderBottom={'1px solid'}
+                  style={{
+                    borderColor:
+                      colorMode === 'light'
+                        ? 'var(--light-dim)'
+                        : 'var(--p-300)',
+                  }}
+                >
+                  <Text w={'150px'}>Name</Text>
+                  <Text>{selectedItem?.name}</Text>
+                </HStack>
 
-                  <HStack
-                    px={5}
-                    pb={2}
-                    w={'100%'}
-                    alignItems={'flex-start'}
-                    borderBottom={'1px solid'}
-                    style={{
-                      borderColor:
-                        colorMode === 'light'
-                          ? 'var(--light-dim)'
-                          : 'var(--p-300)',
-                    }}
-                  >
-                    <Text w={'150px'}>Buy Price</Text>
-                    <Text>{selectedItem?.modal}</Text>
-                  </HStack>
+                <HStack
+                  px={5}
+                  pb={2}
+                  w={'100%'}
+                  alignItems={'flex-start'}
+                  borderBottom={'1px solid'}
+                  style={{
+                    borderColor:
+                      colorMode === 'light'
+                        ? 'var(--light-dim)'
+                        : 'var(--p-300)',
+                  }}
+                >
+                  <Text w={'150px'}>Buy Price</Text>
+                  <Text>{selectedItem?.modal?.toLocaleString()}</Text>
+                </HStack>
 
-                  <HStack
-                    px={5}
-                    pb={2}
-                    w={'100%'}
-                    alignItems={'flex-start'}
-                    borderBottom={'1px solid'}
-                    style={{
-                      borderColor:
-                        colorMode === 'light'
-                          ? 'var(--light-dim)'
-                          : 'var(--p-300)',
-                    }}
-                  >
-                    <Text w={'150px'}>Sell Price</Text>
-                    <Text>{selectedItem?.price}</Text>
-                  </HStack>
+                <HStack
+                  px={5}
+                  pb={2}
+                  w={'100%'}
+                  alignItems={'flex-start'}
+                  borderBottom={'1px solid'}
+                  style={{
+                    borderColor:
+                      colorMode === 'light'
+                        ? 'var(--light-dim)'
+                        : 'var(--p-300)',
+                  }}
+                >
+                  <Text w={'150px'}>Sell Price</Text>
+                  <Text>{selectedItem?.price?.toLocaleString()}</Text>
+                </HStack>
 
-                  <HStack
-                    px={5}
-                    pb={2}
-                    w={'100%'}
-                    alignItems={'flex-start'}
-                    borderBottom={'1px solid'}
-                    style={{
-                      borderColor:
-                        colorMode === 'light'
-                          ? 'var(--light-dim)'
-                          : 'var(--p-300)',
-                    }}
-                  >
-                    <Text w={'150px'}>Supply</Text>
-                    <Text>{selectedItem?.stock}</Text>
-                  </HStack>
+                <HStack
+                  px={5}
+                  pb={2}
+                  w={'100%'}
+                  alignItems={'flex-start'}
+                  borderBottom={'1px solid'}
+                  style={{
+                    borderColor:
+                      colorMode === 'light'
+                        ? 'var(--light-dim)'
+                        : 'var(--p-300)',
+                  }}
+                >
+                  <Text w={'150px'}>Supply</Text>
+                  <Text>{selectedItem?.stock?.toLocaleString()}</Text>
+                </HStack>
 
-                  <HStack
-                    px={5}
-                    pb={2}
-                    w={'100%'}
-                    alignItems={'flex-start'}
-                    borderBottom={'1px solid'}
-                    style={{
-                      borderColor:
-                        colorMode === 'light'
-                          ? 'var(--light-dim)'
-                          : 'var(--p-300)',
-                    }}
-                  >
-                    <Text w={'150px'}>Created By (ID)</Text>
-                    <Text>{selectedItem?.user_id}</Text>
-                  </HStack>
+                <HStack
+                  px={5}
+                  pb={2}
+                  w={'100%'}
+                  alignItems={'flex-start'}
+                  borderBottom={'1px solid'}
+                  style={{
+                    borderColor:
+                      colorMode === 'light'
+                        ? 'var(--light-dim)'
+                        : 'var(--p-300)',
+                  }}
+                >
+                  <Text w={'150px'}>Created By (ID)</Text>
+                  <Text>{selectedItem?.user_id}</Text>
+                </HStack>
 
-                  <HStack
-                    px={5}
-                    pb={2}
-                    w={'100%'}
-                    alignItems={'flex-start'}
-                    borderBottom={'1px solid'}
-                    style={{
-                      borderColor:
-                        colorMode === 'light'
-                          ? 'var(--light-dim)'
-                          : 'var(--p-300)',
-                    }}
-                  >
-                    <Text w={'150px'}>Created At</Text>
-                    <Text>{selectedItem?.CreatedAt}</Text>
-                  </HStack>
+                <HStack
+                  px={5}
+                  pb={2}
+                  w={'100%'}
+                  alignItems={'flex-start'}
+                  borderBottom={'1px solid'}
+                  style={{
+                    borderColor:
+                      colorMode === 'light'
+                        ? 'var(--light-dim)'
+                        : 'var(--p-300)',
+                  }}
+                >
+                  <Text w={'150px'}>Created At</Text>
+                  <Text>{selectedItem?.CreatedAt}</Text>
+                </HStack>
 
-                  <HStack
-                    px={5}
-                    pb={2}
-                    w={'100%'}
-                    alignItems={'flex-start'}
-                    borderBottom={'1px solid'}
-                    style={{
-                      borderColor:
-                        colorMode === 'light'
-                          ? 'var(--light-dim)'
-                          : 'var(--p-300)',
-                    }}
-                  >
-                    <Text w={'150px'}>Updated At</Text>
-                    <Text>{selectedItem?.UpdatedAt}</Text>
-                  </HStack>
-                </VStack>
-              ) : (
-                <VStack className="skeleton">
-                  {itemDetailsSkeleton.map(() => {
-                    return (
-                      <HStack w={'100%'} py={1}>
-                        <Skeleton h={'24px'} />
-                      </HStack>
-                    );
-                  })}
-                </VStack>
-              )}
+                <HStack
+                  px={5}
+                  pb={2}
+                  w={'100%'}
+                  alignItems={'flex-start'}
+                  borderBottom={'1px solid'}
+                  style={{
+                    borderColor:
+                      colorMode === 'light'
+                        ? 'var(--light-dim)'
+                        : 'var(--p-300)',
+                  }}
+                >
+                  <Text w={'150px'}>Updated At</Text>
+                  <Text>{selectedItem?.UpdatedAt}</Text>
+                </HStack>
+              </VStack>
             </VStack>
 
             {selectedItem.ID && (
