@@ -71,9 +71,9 @@ import { Input } from '../components/Inputs';
 
 export default function Dashboard(props) {
   const baseURL = 'http://localhost:8080';
-
+  const token = Cookies.get('_auth');
   const { colorMode } = useColorMode();
-
+  const toast = useToast();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
     function handleResize() {
@@ -81,8 +81,6 @@ export default function Dashboard(props) {
     }
     window.addEventListener('resize', handleResize);
   });
-
-  const toast = useToast();
 
   const [dashboardData, setDashboardData] = useState({
     today: {
@@ -104,37 +102,61 @@ export default function Dashboard(props) {
     },
   });
 
-  useEffect(() => {
-    const token = Cookies.get('_auth');
-
-    const createItemsAPI = `${baseURL}/api/v1/create`;
+  function getProducts() {
     const getItemsAPI = `${baseURL}/api/v1/products`;
-    const updateItemsAPI = `${baseURL}/api/v1/products/update`;
-    const deleteItemsAPI = `${baseURL}/api/v1/products/delete`;
 
-    if (props.items.length === 0) {
-      axios
-        .get(getItemsAPI, { headers: { Authorization: `Bearer ${token}` } })
-        .then(r => {
-          // console.log(r.data.data);
-          if (r.data.data) {
-            props.setItems(r.data.data);
-          } else {
-            props.setItems([]);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-          toast({
-            position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-            title: 'Some error occured',
-            description: 'try to refresh the page',
-            status: 'error',
-            duration: 3000,
-            isClosable: true,
-          });
+    axios
+      .get(getItemsAPI, { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => {
+        // console.log(r.data.data);
+        if (r.data.data) {
+          props.setItems(r.data.data);
+        } else {
+          props.setItems([]);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        toast({
+          position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+          title: 'Some error occured',
+          description: 'try to refresh the page',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
         });
-    }
+      });
+  }
+
+  function getReportDay() {
+    const getReportDayAPI = `${baseURL}/api/v1/rekap/days`;
+
+    axios
+      .get(getReportDayAPI, { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => {
+        // console.log(r.data.data);
+        if (r.data.data) {
+          console.log(r);
+        } else {
+          console.log('gagal get data');
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        toast({
+          position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+          title: 'Some error occured',
+          description: 'try to refresh the page',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      });
+  }
+
+  useEffect(() => {
+    // getProducts();
+    getReportDay();
   }, []);
 
   const PriorityDashboard = () => {
@@ -469,7 +491,7 @@ export default function Dashboard(props) {
           <Text fontWeight={'bold'} opacity={0.5}>
             Employees
           </Text>
-          <Link to={'vendere-app/employees'}>
+          <Link to={'/vendere-app/employees'}>
             <Text
               fontSize={'sm'}
               style={{ color: 'var(--p-200)' }}

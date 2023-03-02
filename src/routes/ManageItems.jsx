@@ -223,7 +223,7 @@ export default function ManageItems(props) {
       <>
         <PrimaryButton
           w={'100%'}
-          label={'Add New Item'}
+          label={'Add New Product'}
           onClick={onOpen}
           // mr={'-8px !important'}
         />
@@ -439,7 +439,8 @@ export default function ManageItems(props) {
 
     return (
       <>
-        <PrimaryButton w={'100%'} label={'Update Item'} onClick={onOpen} />
+        <PrimaryButton w={'100%'} label={'Update Product'} onClick={onOpen} />
+
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
           <ModalOverlay />
 
@@ -656,7 +657,7 @@ export default function ManageItems(props) {
       <>
         <PrimaryButtonOutline
           w={'100%'}
-          label={'Delete Item'}
+          label={'Delete Product'}
           onClick={onOpen}
         />
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -893,7 +894,7 @@ export default function ManageItems(props) {
                   }}
                 >
                   <Text w={'150px'}>Code</Text>
-                  <Text>{selectedItem?.code}</Text>
+                  <Text w={'calc(100% - 150px)'}>{selectedItem?.code}</Text>
                 </HStack>
 
                 <HStack
@@ -910,7 +911,7 @@ export default function ManageItems(props) {
                   }}
                 >
                   <Text w={'150px'}>Name</Text>
-                  <Text>{selectedItem?.name}</Text>
+                  <Text w={'calc(100% - 150px)'}>{selectedItem?.name}</Text>
                 </HStack>
 
                 <HStack
@@ -927,7 +928,9 @@ export default function ManageItems(props) {
                   }}
                 >
                   <Text w={'150px'}>Buy Price</Text>
-                  <Text>{selectedItem?.modal?.toLocaleString()}</Text>
+                  <Text w={'calc(100% - 150px)'}>
+                    {selectedItem?.modal?.toLocaleString()}
+                  </Text>
                 </HStack>
 
                 <HStack
@@ -944,7 +947,9 @@ export default function ManageItems(props) {
                   }}
                 >
                   <Text w={'150px'}>Sell Price</Text>
-                  <Text>{selectedItem?.price?.toLocaleString()}</Text>
+                  <Text w={'calc(100% - 150px)'}>
+                    {selectedItem?.price?.toLocaleString()}
+                  </Text>
                 </HStack>
 
                 <HStack
@@ -961,7 +966,9 @@ export default function ManageItems(props) {
                   }}
                 >
                   <Text w={'150px'}>Supply</Text>
-                  <Text>{selectedItem?.stock?.toLocaleString()}</Text>
+                  <Text w={'calc(100% - 150px)'}>
+                    {selectedItem?.stock?.toLocaleString()}
+                  </Text>
                 </HStack>
 
                 <HStack
@@ -978,7 +985,7 @@ export default function ManageItems(props) {
                   }}
                 >
                   <Text w={'150px'}>Created By (ID)</Text>
-                  <Text>{selectedItem?.user_id}</Text>
+                  <Text w={'calc(100% - 150px)'}>{selectedItem?.user_id}</Text>
                 </HStack>
 
                 <HStack
@@ -995,7 +1002,9 @@ export default function ManageItems(props) {
                   }}
                 >
                   <Text w={'150px'}>Created At</Text>
-                  <Text>{selectedItem?.CreatedAt}</Text>
+                  <Text w={'calc(100% - 150px)'}>
+                    {selectedItem?.CreatedAt}
+                  </Text>
                 </HStack>
 
                 <HStack
@@ -1012,7 +1021,9 @@ export default function ManageItems(props) {
                   }}
                 >
                   <Text w={'150px'}>Updated At</Text>
-                  <Text>{selectedItem?.UpdatedAt}</Text>
+                  <Text w={'calc(100% - 150px)'}>
+                    {selectedItem?.UpdatedAt}
+                  </Text>
                 </HStack>
               </VStack>
             </VStack>
