@@ -366,6 +366,7 @@ export default function Dashboard(props) {
                 duration: 3000,
                 isClosable: true,
               });
+              onClose();
             }
           })
           .catch(err => {
