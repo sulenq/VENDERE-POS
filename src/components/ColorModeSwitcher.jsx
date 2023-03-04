@@ -40,7 +40,7 @@ const ColorModeButton = props => {
       px={'12px'}
       aria-label={`Switch to ${text} mode`}
       variant="ghost"
-      borderRadius={50}
+      borderRadius={12}
       color="current"
       onClick={toggleColorMode}
       leftIcon={<SwitchIcon />}

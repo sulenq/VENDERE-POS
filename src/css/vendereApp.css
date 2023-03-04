@@ -53,12 +53,14 @@ body,
   background-color: var(--p-100);
 }
 
+#content::-webkit-scrollbar,
 #navOptions::-webkit-scrollbar {
   width: 8px;
   border-radius: 16px;
   background-color: var(--p-100);
 }
 
+#content::-webkit-scrollbar-thumb,
 #navOptions::-webkit-scrollbar-thumb {
   border-radius: 20px;
 }
@@ -170,6 +172,6 @@ body,
   font-weight: bold;
 }
 
-.dashboardLabel{
+.dashboardLabel {
   padding: 0 4px;
 }

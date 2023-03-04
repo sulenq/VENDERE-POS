@@ -768,7 +768,7 @@ export default function ManageItems(props) {
         h={'100%'}
         style={{
           background:
-            colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-400)',
+            colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
           borderRadius: screenWidth <= 1000 ? 0 : '12px',
           width: screenWidth <= 1000 ? '100%' : 'calc(100% - 200px)',
           padding: 8,
@@ -777,6 +777,7 @@ export default function ManageItems(props) {
         }}
       >
         <ActionTopBar />
+        
         <HStack h={'calc(100% - 40px)'} w={'100%'} mt={'4px !important'}>
           {/* Trans Section */}
           <VStack
@@ -786,7 +787,7 @@ export default function ManageItems(props) {
               overflowY: 'auto',
               paddingBottom: screenWidth <= 1000 ? '64px' : '',
               borderRadius: '12px',
-              background: colorMode === 'light' ? 'white' : 'var(--dark)',
+              background: colorMode === 'light' ? 'white' : 'var(--p-400)',
             }}
             py={3}
           >
@@ -945,7 +946,7 @@ export default function ManageItems(props) {
                 overflowY: 'auto',
                 paddingBottom: screenWidth <= 1000 ? '64px' : '',
                 borderRadius: '12px',
-                background: colorMode === 'light' ? 'white' : 'var(--dark)',
+                background: colorMode === 'light' ? 'white' : 'var(--p-400)',
               }}
               pt={3}
             >

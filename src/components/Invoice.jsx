@@ -229,12 +229,12 @@ const CartList = ({
         h={'100%'}
         justifyContent={'center'}
         pb={24}
+        opacity={0.2}
         style={{
           borderBottom:
             colorMode === 'light'
               ? '1px solid var(--light-dim)'
               : '1px solid var(--p-300)',
-          color: colorMode === 'light' ? 'var(--p-100)' : 'var(--p-300)',
         }}
       >
         <Icon as={RemoveShoppingCartRoundedIcon} fontSize={'10rem'} />
@@ -243,7 +243,7 @@ const CartList = ({
           textAlign={'center'}
           w={'100%'}
           fontWeight={'bold'}
-          fontSize="xx-large"
+          fontSize="x-large"
         >
           Cart is Empty!
         </Text>
@@ -262,10 +262,6 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
   const [pay, setPay] = useState(0);
 
   const [note, setNote] = useState('');
-
-  const logout = useSignOut();
-
-  const navigate = useNavigate();
 
   const [isCheckoutLLoading, setIsCheckoutLoading] = useState(false);
 
@@ -332,7 +328,6 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
             onOpen();
           }
         }}
-        borderRadius={'50px'}
         colorScheme={'yellow'}
         size={'sm'}
         pb={screenWidth <= 1000 ? '1px' : null}
@@ -807,8 +802,6 @@ const Invoice = ({
             clearInvoice={clearInvoice}
             screenWidth={screenWidth}
           />
-
-          <ColorModeIconButton size={'sm'} />
         </ButtonGroup>
       </HStack>
 

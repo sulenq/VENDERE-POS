@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useLocation } from 'react-router-dom';
+
+// Chakra UI
 import {
   IconButton,
   useColorMode,
@@ -229,9 +232,10 @@ export default function Items({ items, search, setSearch, addItemToCartList }) {
 const ItemsList = props => {
   const baseURL = 'http://localhost:8080';
   const { colorMode } = useColorMode();
+  const location = useLocation();
 
   const [loading, setLoading] = useState(false);
-  const skeletonLength = ['', '', '', '', '', '', '', '', '', ''];
+  const skeletonLength = ['', '', '', '', '', '', '', '', '', '', '', ''];
   const [itemFound, setItemFound] = useState(true);
 
   //* GET DATA
@@ -248,7 +252,6 @@ const ItemsList = props => {
         .then(r => {
           // console.log(r.data.data);
           if (r.data.data) {
-            console.log(r.data.data);
             props.setData(r.data.data);
           } else {
             props.setData([]);
@@ -301,6 +304,18 @@ const ItemsList = props => {
       </VStack>
     );
   };
+
+  function onAdd(item) {
+    props.selectItem({ item: item });
+    // console.log(item);
+    props.addItemToCartList({
+      itemId: item.ID,
+      itemCode: item.code,
+      itemName: item.name,
+      itemPrice: item.price,
+      itemQty: 1,
+    });
+  }
 
   if (!loading) {
     if (itemFound) {
@@ -363,6 +378,15 @@ const ItemsList = props => {
                     className={'actionBtnSection'}
                     alignSelf={'center'}
                   >
+                    {location.pathname === '/vendere-app/cashier' && (
+                      <PrimaryButtonOutline
+                        label={'ADD'}
+                        size={'sm'}
+                        onClick={() => {
+                          onAdd(item);
+                        }}
+                      />
+                    )}
                     <Text
                       opacity={0.5}
                       size={'sm'}

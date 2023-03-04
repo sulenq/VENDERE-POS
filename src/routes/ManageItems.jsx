@@ -45,13 +45,6 @@ export default function ManageItems(props) {
 
   const toast = useToast();
 
-  const dateOptions = {
-    weekday: 'short',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  };
-
   const { colorMode } = useColorMode();
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -74,6 +67,13 @@ export default function ManageItems(props) {
   const [selectedItem, setSelectedItem] = useState({});
 
   const [refresh, setRefresh] = useState(true);
+
+  const dateOptions = {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  };
 
   function selectItem({ item, index }) {
     let selectedItem;
@@ -725,16 +725,13 @@ export default function ManageItems(props) {
     );
   };
 
-  const itemsSkeleton = ['', '', '', '', '', '', '', '', '', '', '', ''];
-  const itemDetailsSkeleton = ['', '', '', '', '', '', '', ''];
-
   return (
     <HStack
       className="vendereApp"
       p={screenWidth <= 1000 ? 0 : 4}
       alignItems={'center'}
     >
-      <ResponsiveNav active={'ManageItems'} setItems={props.setItems} />
+      <ResponsiveNav active={'ManageItems'}  />
 
       <VStack
         id="appContentWrapper"

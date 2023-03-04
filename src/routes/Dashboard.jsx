@@ -68,12 +68,15 @@ import { Stat } from '../components/Data';
 import { PrimaryButton } from '../components/Buttons';
 import { ModalContent, ModalFooter, ModalOverlay } from '../components/Modals';
 import { Input } from '../components/Inputs';
+import { Skeleton } from '../components/Skeleton';
+import { RDashboard, LDashboard } from '../components/DashboardComponents';
 
 export default function Dashboard(props) {
   const baseURL = 'http://localhost:8080';
   const token = Cookies.get('_auth');
   const { colorMode } = useColorMode();
   const toast = useToast();
+  const [refresh, setRefresh] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
     function handleResize() {
@@ -102,62 +105,7 @@ export default function Dashboard(props) {
     },
   });
 
-  function getProducts() {
-    const getItemsAPI = `${baseURL}/api/v1/products`;
-
-    axios
-      .get(getItemsAPI, { headers: { Authorization: `Bearer ${token}` } })
-      .then(r => {
-        // console.log(r.data.data);
-        if (r.data.data) {
-          props.setItems(r.data.data);
-        } else {
-          props.setItems([]);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        toast({
-          position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-          title: 'Some error occured',
-          description: 'try to refresh the page',
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-        });
-      });
-  }
-
-  function getReportDay() {
-    const getReportDayAPI = `${baseURL}/api/v1/rekap/days`;
-
-    axios
-      .get(getReportDayAPI, { headers: { Authorization: `Bearer ${token}` } })
-      .then(r => {
-        // console.log(r.data.data);
-        if (r.data.data) {
-          console.log(r);
-        } else {
-          console.log('gagal get data');
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        toast({
-          position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-          title: 'Some error occured',
-          description: 'try to refresh the page',
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-        });
-      });
-  }
-
-  useEffect(() => {
-    // getProducts();
-    getReportDay();
-  }, []);
+  const [data, setData] = useState(null);
 
   const PriorityDashboard = () => {
     return (
@@ -274,312 +222,6 @@ export default function Dashboard(props) {
     );
   };
 
-  const LDashboard = () => {
-    return (
-      <VStack mt={'16px !important'} w={'100%'} alignItems={'flex-start'}>
-        <Text className="dashboardLabel" fontWeight={'bold'} opacity={0.5}>
-          Current Month
-        </Text>
-
-        <VStack
-          alignItems={'flex-start'}
-          py={2}
-          px={4}
-          w={'100%'}
-          style={{
-            border:
-              colorMode === 'light'
-                ? '2px solid var(--p-75)'
-                : '2px solid var(--p-350)',
-            borderRadius: '12px',
-          }}
-        >
-          <VStack alignItems={'flex-start'}>
-            <HStack alignItems={'flex-start'}>
-              <Text fontWeight={'bold'}>Rp.</Text>
-              <Text fontSize={'xx-large'} fontWeight={'bold'}>
-                {dashboardData.currentMonth.totalRevenue.toLocaleString()}
-              </Text>
-            </HStack>
-            <Text mt={'0px !important'} color={'var(--p-200)'}>
-              Total Revenue
-            </Text>
-          </VStack>
-
-          <VStack alignItems={'flex-start'}>
-            <HStack alignItems={'flex-start'}>
-              <Text fontWeight={'bold'}>Rp.</Text>
-              <Text fontSize={'xx-large'} fontWeight={'bold'}>
-                {dashboardData.currentMonth.totalExpenses.toLocaleString()}
-              </Text>
-            </HStack>
-            <Text mt={'0px !important'} color={'var(--p-200)'}>
-              Total Expenses
-            </Text>
-          </VStack>
-        </VStack>
-      </VStack>
-    );
-  };
-
-  const RDashboard = () => {
-    const RegisterEmployee = () => {
-      const { isOpen, onOpen, onClose } = useDisclosure();
-      const [registerData, setRegisterData] = useState({
-        username: '',
-        password: '',
-      });
-      const [isCreatingAcount, setIsCreatingCashierAccount] = useState(false);
-
-      function signUp(e) {
-        e.preventDefault();
-
-        const authToken = document.cookie
-          .split('; ')
-          .find(row => row.startsWith('_auth='));
-        const authTokenValue = authToken?.split('=')[1];
-
-        console.log('Creating Employee Account...');
-        // console.log(registerData);
-        // console.log(authTokenValue);
-        setIsCreatingCashierAccount(true);
-
-        const cashierRegisterAPI = new URL(
-          `${baseURL}/api/v1/users/cashier/register`
-        );
-
-        axios
-          .post(cashierRegisterAPI, registerData, {
-            headers: { Authorization: `Bearer ${authTokenValue}` },
-          })
-          .then(r => {
-            console.log(r);
-            setRegisterData({
-              username: '',
-              password: '',
-            });
-            if (r.status === 201) {
-              toast({
-                position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-                title: 'Cashier account registered',
-                status: 'success',
-                duration: 3000,
-                isClosable: true,
-              });
-              onClose();
-            }
-          })
-          .catch(err => {
-            console.log(err);
-            if (err) {
-              toast({
-                position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-                title: 'Sorry, fail to create account.',
-                description: err.response.data.data.error,
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-              });
-            }
-          })
-          .finally(setIsCreatingCashierAccount(false));
-      }
-
-      return (
-        <>
-          <PrimaryButton
-            w={'100%'}
-            label={'Sign Up Employee Account'}
-            // size={'sm'}
-            onClick={onOpen}
-            // mr={'-8px !important'}
-          />
-
-          <Modal isOpen={isOpen} onClose={onClose} isCentered>
-            <ModalOverlay />
-
-            <ModalContent
-              content={
-                <>
-                  <ModalHeader>
-                    <HStack>
-                      <Icon
-                        as={AccountCircleOutlinedIcon}
-                        fontSize={'xx-large'}
-                      />
-                      <Text>Create Employee's Account</Text>
-                    </HStack>
-                  </ModalHeader>
-
-                  <ModalBody pb={6}>
-                    <Alert
-                      borderRadius={'8px'}
-                      status="info"
-                      variant={'left-accent'}
-                    >
-                      <AlertIcon alignSelf={'flex-start'} />
-                      This registered account will be your employees account of
-                      this shop.
-                    </Alert>
-
-                    <form id="signUpForm">
-                      <FormControl mt={4} isRequired>
-                        <FormLabel>Username</FormLabel>
-                        <Input
-                          placeholder="e.g jolitoskurniawan"
-                          value={registerData.username}
-                          onChange={e => {
-                            setRegisterData({
-                              ...registerData,
-                              username: e.target.value,
-                            });
-                          }}
-                        />
-                      </FormControl>
-
-                      <FormControl mt={4} isRequired>
-                        <FormLabel>Password</FormLabel>
-                        <Input
-                          type={'password'}
-                          placeholder="Type strong password"
-                          value={registerData.password}
-                          onChange={e => {
-                            setRegisterData({
-                              ...registerData,
-                              password: e.target.value,
-                            });
-                          }}
-                        />
-                      </FormControl>
-                    </form>
-                  </ModalBody>
-
-                  <ModalFooter
-                    content={
-                      <>
-                        <ButtonGroup alignSelf={'flex-end'}>
-                          <Button
-                            className="btn"
-                            onClick={onClose}
-                            variant={'ghost'}
-                          >
-                            Close
-                          </Button>
-                          <PrimaryButton
-                            label={'Create Account'}
-                            onClick={signUp}
-                            isLoading={isCreatingAcount}
-                          />
-                        </ButtonGroup>
-                      </>
-                    }
-                  />
-                </>
-              }
-            />
-          </Modal>
-        </>
-      );
-    };
-
-    return (
-      <VStack mt={'16px !important'} w={'100%'} alignItems={'flex-start'}>
-        {/* Heading */}
-        <HStack
-          className="dashboardLabel"
-          style={{ width: '100%', justifyContent: 'space-between' }}
-        >
-          <Text fontWeight={'bold'} opacity={0.5}>
-            Employees
-          </Text>
-          <Link to={'/vendere-app/employees'}>
-            <Text
-              fontSize={'sm'}
-              style={{ color: 'var(--p-200)' }}
-              _hover={{ textDecoration: 'underline' }}
-            >
-              See More
-            </Text>
-          </Link>
-        </HStack>
-
-        {/* Body */}
-        <VStack
-          alignItems={'flex-start'}
-          py={2}
-          pb={3}
-          px={4}
-          w={'100%'}
-          style={{
-            border:
-              colorMode === 'light'
-                ? '2px solid var(--p-75)'
-                : '2px solid var(--p-350)',
-            borderRadius: '12px',
-          }}
-        >
-          <HStack w={'100%'} justifyContent={'space-between'}>
-            <HStack>
-              <Text fontWeight={'bold'}>
-                {dashboardData.employees.total.toLocaleString()}
-              </Text>
-              <Text mt={'0px !important'} color={'var(--p-200)'}>
-                Total Employees
-              </Text>
-            </HStack>
-            <HStack>
-              <Badge
-                style={{ width: '10px', height: '10px', borderRadius: '50px' }}
-                colorScheme={'green'}
-              ></Badge>
-              <Text>{dashboardData.employees.totalOnline}</Text>
-              <Text opacity={'0.5'}>Online</Text>
-            </HStack>
-          </HStack>
-
-          <VStack w={'100%'} pb={2}>
-            {dashboardData.employees.list.map((emp, index) => {
-              return (
-                <HStack
-                  key={index}
-                  style={{
-                    width: '100%',
-                    alignItems: 'flex-start',
-                    padding: '8px 0',
-                  }}
-                >
-                  <Avatar
-                    size={'lg'}
-                    name={emp.name}
-                    background={
-                      colorMode == 'light' ? 'var(--p-75)' : 'var(--p-350)'
-                    }
-                    color={
-                      colorMode == 'light' ? 'var(--p-350)' : 'var(--p-75)'
-                    }
-                  />
-                  <VStack alignItems={'flex-start'} pl={1}>
-                    {emp.online ? (
-                      <Badge colorScheme={'green'}>Online</Badge>
-                    ) : (
-                      <Badge>Offline</Badge>
-                    )}
-                    <Text mt={'0px !important'}>{emp.name}</Text>
-                    <Text style={{ color: 'var(--p-200)', marginTop: '0' }}>
-                      {emp.role}
-                    </Text>
-                  </VStack>
-                </HStack>
-              );
-            })}
-          </VStack>
-
-          <RegisterEmployee />
-        </VStack>
-      </VStack>
-    );
-  };
-
   // Dashboard Main Section
   return (
     <HStack
@@ -603,6 +245,7 @@ export default function Dashboard(props) {
         <>
           <ActionTopBar />
           <VStack
+            id={'content'}
             mt={'4px !important'}
             style={{
               width: '100%',
@@ -621,9 +264,19 @@ export default function Dashboard(props) {
               columns={[1, 2, 2]}
               gap={2}
             >
-              <LDashboard />
+              <LDashboard
+                data={data}
+                setData={setData}
+                refresh={refresh}
+                setRefresh={setRefresh}
+              />
 
-              <RDashboard />
+              <RDashboard
+                data={data}
+                setData={setData}
+                refresh={refresh}
+                setRefresh={setRefresh}
+              />
             </SimpleGrid>
           </VStack>
         </>
