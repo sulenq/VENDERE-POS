@@ -287,6 +287,10 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
         if (change * -1 > 0) {
           status = 'hutang';
         }
+        let totalProfit = 0;
+        cartList.forEach(item => {
+          totalProfit += (item.price - item.modal) * item.qty;
+        });
         const invoice = {
           date: new Date(),
           cashierId: auth().userId,
@@ -296,17 +300,19 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
           cartList: cartList,
           status: status,
           note: note,
+          totalProfit: totalProfit,
         };
 
         toast({
           position: 'bottom-right',
           title: 'Transaction added.',
-          description: `This invoice has been added to Transactions`,
+          description: `This invoice has been added to Transactions Page`,
           status: 'success',
           duration: 3000,
           isClosable: true,
         });
         console.log(invoice);
+        console.log(cartList);
         console.log('checkout success');
       }
       onClose();
@@ -371,6 +377,7 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
                     <HStack m={'0 !important'} w={'100%'} gap={2}>
                       <VStack w={'100%'} alignItems={'flex-start'}>
                         <Text>Pay</Text>
+
                         <Input
                           px={2}
                           mt={'4px !important'}
@@ -399,6 +406,7 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
                         ml={'0 !important'}
                       >
                         <Text>Change</Text>
+
                         <Box
                           w={'100%'}
                           p={'7px'}

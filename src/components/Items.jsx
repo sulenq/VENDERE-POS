@@ -314,6 +314,7 @@ const ItemsList = props => {
       itemName: item.name,
       itemPrice: item.price,
       itemQty: 1,
+      itemModal: item.modal,
     });
   }
 
