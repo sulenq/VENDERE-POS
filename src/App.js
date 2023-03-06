@@ -181,7 +181,7 @@ export default function App() {
               setToken={setToken}
               loginPath="/?login=1"
               restriction="admin"
-              element={<Dashboard items={items} setItems={setItems} />}
+              element={<Dashboard />}
             />
           }
         />

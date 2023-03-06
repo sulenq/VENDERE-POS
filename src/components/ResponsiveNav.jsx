@@ -255,7 +255,6 @@ const ResponsiveNav = props => {
         setIsSignOutLoading(true);
         setTimeout(() => {
           logout();
-          props.setItems([]);
           Cookies.set('_auth', 'signedout');
           setIsSignOutLoading(false);
           toast({
@@ -372,7 +371,7 @@ const ResponsiveNav = props => {
             >
               {navs.map((nav, index) => {
                 if (
-                  auth().userRole === nav.restriction ||
+                  auth()?.userRole === nav.restriction ||
                   nav.restriction === ''
                 ) {
                   return (

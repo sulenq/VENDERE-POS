@@ -31,10 +31,16 @@ const ModalContent = ({ content, id, h, w }) => {
   );
 };
 
-const ModalBody = ({ content, id }) => {
+const ModalBody = props => {
   return (
-    <Modalbody id={id} pb={4}>
-      {content}
+    <Modalbody
+      h={props.h}
+      px={props.px}
+      py={props.py}
+      pb={props.pb || 4}
+      id={props.id}
+    >
+      {props.content}
     </Modalbody>
   );
 };

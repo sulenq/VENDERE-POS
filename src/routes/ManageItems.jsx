@@ -23,8 +23,8 @@ import {
 
 // MUI Icons
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ImageNotSupportedOutlinedIcon from '@mui/icons-material/ImageNotSupportedOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
@@ -38,7 +38,7 @@ import { Stat } from '../components/Data';
 import { ModalContent, ModalFooter, ModalOverlay } from '../components/Modals';
 import { Input, InputNumber } from '../components/Inputs';
 import { Skeleton } from '../components/Skeleton';
-import { ItemsList } from '../components/Items';
+import { ItemsList, ItemDetails } from '../components/Items';
 
 export default function ManageItems(props) {
   const baseURL = 'http://localhost:8080';
@@ -242,14 +242,14 @@ export default function ManageItems(props) {
                 </ModalHeader>
 
                 <ModalBody pb={6}>
-                  <Alert
+                  {/* <Alert
                     borderRadius={'8px'}
                     status="info"
                     variant={'left-accent'}
                   >
                     <AlertIcon alignSelf={'flex-start'} />
                     Page will be refreshed after you add new item.
-                  </Alert>
+                  </Alert> */}
 
                   <form id="addNewItemForm">
                     <FormControl mt={4} isRequired>
@@ -382,356 +382,13 @@ export default function ManageItems(props) {
     );
   };
 
-  //* Update Item
-  const UpdateItem = () => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
-
-    const [itemToUpdate, setItemToUpdate] = useState({ ...selectedItem });
-
-    function onUpdate(e) {
-      e.preventDefault();
-
-      const token = Cookies.get('_auth');
-
-      console.log('Updating item...');
-
-      const updateProductAPI = new URL(
-        `${baseURL}/api/v1/products/update?product_id=${itemToUpdate.ID}`
-      );
-
-      function updateSelectedItem() {
-        console.log(itemToUpdate);
-        axios
-          .put(updateProductAPI, itemToUpdate, {
-            headers: { Authorization: `Bearer ${token}` },
-          })
-          .then(r => {
-            console.log(r);
-            onClose();
-            if (r.status === 200) {
-              toast({
-                position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-                title: 'Item Updated',
-                status: 'success',
-                duration: 3000,
-                isClosable: true,
-              });
-            }
-            setRefresh(!refresh);
-          })
-          .catch(err => {
-            console.log(err);
-            if (err) {
-              toast({
-                position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-                title: 'Sorry, fail to update item.',
-                // description: err.response.data.data.error,
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-              });
-            }
-          });
-      }
-
-      updateSelectedItem();
-    }
-
-    return (
-      <>
-        <PrimaryButton w={'100%'} label={'Update Product'} onClick={onOpen} />
-
-        <Modal isOpen={isOpen} onClose={onClose} isCentered>
-          <ModalOverlay />
-
-          <ModalContent
-            content={
-              <>
-                <ModalHeader>
-                  <HStack>
-                    <Icon
-                      as={DriveFileRenameOutlineOutlinedIcon}
-                      fontSize={'xx-large'}
-                    />
-                    <Text>Update Item</Text>
-                  </HStack>
-                </ModalHeader>
-
-                <ModalBody pb={6}>
-                  <Alert
-                    borderRadius={'8px'}
-                    status="info"
-                    variant={'left-accent'}
-                    mb={5}
-                  >
-                    <AlertIcon alignSelf={'flex-start'} />
-                    Page will be refreshed after you update item.
-                  </Alert>
-
-                  <form id="addNewItemForm">
-                    <FormControl mt={4} isRequired>
-                      <FormLabel>Item's Code</FormLabel>
-                      <Input
-                        placeholder="e.g 089696010947 or ndog123"
-                        value={itemToUpdate.code}
-                        onChange={e => {
-                          setItemToUpdate({
-                            ...itemToUpdate,
-                            code: e.target.value,
-                          });
-                        }}
-                      />
-                    </FormControl>
-
-                    <FormControl mt={4} isRequired>
-                      <FormLabel>Item's Name</FormLabel>
-                      <Input
-                        placeholder="e.g Telur 1kg"
-                        value={itemToUpdate.name}
-                        onChange={e => {
-                          setItemToUpdate({
-                            ...itemToUpdate,
-                            name: e.target.value,
-                          });
-                        }}
-                      />
-                    </FormControl>
-
-                    <FormControl mt={4} isRequired>
-                      <FormLabel>Supply</FormLabel>
-                      <Input
-                        onFocus={e => e.target.select()}
-                        placeholder="e.g 24"
-                        type={'number'}
-                        min={1}
-                        value={itemToUpdate.stock}
-                        onChange={e => {
-                          if (parseInt(e.target.value) > 1) {
-                            setItemToUpdate({
-                              ...itemToUpdate,
-                              stock: parseInt(e.target.value),
-                            });
-                          } else {
-                            setItemToUpdate({
-                              ...itemToUpdate,
-                              stock: 1,
-                            });
-                          }
-                        }}
-                      />
-                    </FormControl>
-
-                    <FormControl mt={4} isRequired>
-                      <FormLabel>Buy Price</FormLabel>
-                      <Input
-                        onFocus={e => e.target.select()}
-                        placeholder="e.g 24"
-                        type={'number'}
-                        min={1}
-                        value={itemToUpdate.modal}
-                        onChange={e => {
-                          if (parseInt(e.target.value) > 1) {
-                            setItemToUpdate({
-                              ...itemToUpdate,
-                              modal: parseInt(e.target.value),
-                            });
-                          } else {
-                            setItemToUpdate({
-                              ...itemToUpdate,
-                              modal: 1,
-                            });
-                          }
-                        }}
-                      />
-                    </FormControl>
-
-                    <FormControl mt={4} isRequired>
-                      <FormLabel>Sell Price</FormLabel>
-                      <Input
-                        onFocus={e => e.target.select()}
-                        placeholder="e.g 24"
-                        type={'number'}
-                        min={1}
-                        value={itemToUpdate.price}
-                        onChange={e => {
-                          if (parseInt(e.target.value) > 1) {
-                            setItemToUpdate({
-                              ...itemToUpdate,
-                              price: parseInt(e.target.value),
-                            });
-                          } else {
-                            setItemToUpdate({
-                              ...itemToUpdate,
-                              price: 1,
-                            });
-                          }
-                        }}
-                      />
-                    </FormControl>
-                  </form>
-                </ModalBody>
-
-                <ModalFooter
-                  content={
-                    <>
-                      <ButtonGroup alignSelf={'flex-end'}>
-                        <Button
-                          className="btn"
-                          onClick={onClose}
-                          variant={'ghost'}
-                        >
-                          Close
-                        </Button>
-                        <PrimaryButton
-                          label={'Update Item'}
-                          onClick={onUpdate}
-                        />
-                      </ButtonGroup>
-                    </>
-                  }
-                />
-              </>
-            }
-          />
-        </Modal>
-      </>
-    );
-  };
-
-  //* Delete Item
-  const DeleteItem = () => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
-
-    function onDelete(e) {
-      e.preventDefault();
-
-      const token = Cookies.get('_auth');
-
-      console.log('Deleting item...');
-      // console.log(registerData);
-      // console.log(token);
-
-      const deleteProductAPI = new URL(
-        `${baseURL}/api/v1/products/delete?product_id=${selectedItem.ID}`
-      );
-
-      function deleteSelectedItem() {
-        axios
-          .delete(deleteProductAPI, {
-            headers: { Authorization: `Bearer ${token}` },
-          })
-          .then(r => {
-            console.log(r);
-            onClose();
-            if (r.status === 200) {
-              console.log(r);
-              toast({
-                position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-                title: 'Item Deleted',
-                status: 'success',
-                duration: 3000,
-                isClosable: true,
-              });
-            }
-            setRefresh(!refresh);
-          })
-          .catch(err => {
-            console.log(err);
-            if (err) {
-              toast({
-                position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-                title: 'Sorry, fail to delete item.',
-                // description: err.response.data.data.error,
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-              });
-            }
-          });
-      }
-
-      deleteSelectedItem();
-    }
-
-    return (
-      <>
-        <PrimaryButtonOutline
-          w={'100%'}
-          label={'Delete Product'}
-          onClick={onOpen}
-        />
-        <Modal isOpen={isOpen} onClose={onClose} isCentered>
-          <ModalOverlay />
-
-          <ModalContent
-            content={
-              <>
-                <ModalHeader>
-                  <HStack>
-                    <Icon
-                      as={DeleteOutlineOutlinedIcon}
-                      fontSize={'xx-large'}
-                    />
-                    <Text>Delete Item</Text>
-                  </HStack>
-                </ModalHeader>
-
-                <ModalBody pb={6}>
-                  <Alert
-                    borderRadius={'8px'}
-                    status="error"
-                    variant={'left-accent'}
-                    mb={5}
-                  >
-                    <AlertIcon alignSelf={'flex-start'} />
-                    Make sure if you want to delete item, you cannot undo this
-                    action and page will be refreshed.
-                  </Alert>
-                  <Text>Are you sure to delete the selected item? </Text>
-                  <HStack w={'100%'}>
-                    <Text w={'50px'}>Code</Text>
-                    <Text fontWeight={'bold'}>{selectedItem.code}</Text>
-                  </HStack>
-                  <HStack w={'100%'}>
-                    <Text w={'50px'}>Name</Text>
-                    <Text fontWeight={'bold'}>{selectedItem.name}</Text>
-                  </HStack>
-                </ModalBody>
-
-                <ModalFooter
-                  content={
-                    <>
-                      <ButtonGroup alignSelf={'flex-end'}>
-                        <Button
-                          className="btn"
-                          onClick={onClose}
-                          variant={'ghost'}
-                        >
-                          Close
-                        </Button>
-                        <PrimaryButton
-                          label={'Delete Item'}
-                          onClick={onDelete}
-                        />
-                      </ButtonGroup>
-                    </>
-                  }
-                />
-              </>
-            }
-          />
-        </Modal>
-      </>
-    );
-  };
-
   return (
     <HStack
       className="vendereApp"
       p={screenWidth <= 1000 ? 0 : 4}
       alignItems={'center'}
     >
-      <ResponsiveNav active={'ManageItems'}  />
+      <ResponsiveNav active={'ManageItems'} setItems={props.setItems} />
 
       <VStack
         id="appContentWrapper"
@@ -754,7 +411,7 @@ export default function ManageItems(props) {
           {/* Items Section */}
           <VStack
             style={{
-              width: screenWidth >= 1500 ? '70%' : '60%',
+              width: screenWidth <= 1000 ? '100%' : '50%',
               height: '100%',
               overflowY: 'auto',
               paddingBottom: screenWidth <= 1000 ? '64px' : '',
@@ -818,9 +475,11 @@ export default function ManageItems(props) {
               setData={setData}
               setItemIndex={setItemIndex}
               selectItem={selectItem}
+              selectedItem={selectedItem}
               setSelectedItem={setSelectedItem}
               search={search}
               refresh={refresh}
+              setRefresh={setRefresh}
             />
 
             <HStack w={'100%'} px={3} mt={'0px !important'} pt={3}>
@@ -829,226 +488,13 @@ export default function ManageItems(props) {
           </VStack>
 
           {/* Item Details */}
-          <VStack
-            style={{
-              width: screenWidth >= 1500 ? '70%' : '60%',
-              height: '100%',
-              overflowY: 'auto',
-              paddingBottom: screenWidth <= 1000 ? '64px' : '',
-              borderRadius: '12px',
-              background: colorMode === 'light' ? 'white' : 'var(--dark)',
-            }}
-            pt={3}
-          >
-            <HStack alignSelf={'flex-start'} px={3} mb={2} opacity={0.5}>
-              <Icon as={InfoOutlinedIcon} />
-              <Text fontWeight={'bold'}>Product Details</Text>
-            </HStack>
-
-            <VStack
-              id={'itemDetails'}
-              h={selectedItem.ID ? 'calc(100% - 96px)' : '100%'}
-              w={'100%'}
-              mt={'0px !important'}
-              fontSize={'sm'}
-              overflowY={'auto'}
-              pb={3}
-            >
-              {/* item detail IMG */}
-              <VStack px={3} w={'100%'} mb={2}>
-                <VStack
-                  p={4}
-                  style={{
-                    width: '100%',
-                    justifyContent: 'center',
-                    aspectRatio: 3 / 2,
-                    fontWeight: 'bold',
-                    opacity: 0.2,
-                    // borderRadius: '12px',
-                    background:
-                      colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)',
-                    borderRadius: '8px',
-                  }}
-                >
-                  <Icon fontSize={'12rem'} as={ImageNotSupportedOutlinedIcon} />
-                  <Text fontSize={'xx-large'}>Coming Soon!</Text>
-                </VStack>
-              </VStack>
-
-              {/* item detail data */}
-              <VStack w={'100%'}>
-                <HStack
-                  px={5}
-                  pb={2}
-                  w={'100%'}
-                  alignItems={'flex-start'}
-                  borderBottom={'1px solid'}
-                  style={{
-                    borderColor:
-                      colorMode === 'light'
-                        ? 'var(--light-dim)'
-                        : 'var(--p-300)',
-                  }}
-                >
-                  <Text w={'150px'}>Code</Text>
-                  <Text w={'calc(100% - 150px)'}>{selectedItem?.code}</Text>
-                </HStack>
-
-                <HStack
-                  px={5}
-                  pb={2}
-                  w={'100%'}
-                  alignItems={'flex-start'}
-                  borderBottom={'1px solid'}
-                  style={{
-                    borderColor:
-                      colorMode === 'light'
-                        ? 'var(--light-dim)'
-                        : 'var(--p-300)',
-                  }}
-                >
-                  <Text w={'150px'}>Name</Text>
-                  <Text w={'calc(100% - 150px)'}>{selectedItem?.name}</Text>
-                </HStack>
-
-                <HStack
-                  px={5}
-                  pb={2}
-                  w={'100%'}
-                  alignItems={'flex-start'}
-                  borderBottom={'1px solid'}
-                  style={{
-                    borderColor:
-                      colorMode === 'light'
-                        ? 'var(--light-dim)'
-                        : 'var(--p-300)',
-                  }}
-                >
-                  <Text w={'150px'}>Buy Price</Text>
-                  <Text w={'calc(100% - 150px)'}>
-                    {selectedItem?.modal?.toLocaleString()}
-                  </Text>
-                </HStack>
-
-                <HStack
-                  px={5}
-                  pb={2}
-                  w={'100%'}
-                  alignItems={'flex-start'}
-                  borderBottom={'1px solid'}
-                  style={{
-                    borderColor:
-                      colorMode === 'light'
-                        ? 'var(--light-dim)'
-                        : 'var(--p-300)',
-                  }}
-                >
-                  <Text w={'150px'}>Sell Price</Text>
-                  <Text w={'calc(100% - 150px)'}>
-                    {selectedItem?.price?.toLocaleString()}
-                  </Text>
-                </HStack>
-
-                <HStack
-                  px={5}
-                  pb={2}
-                  w={'100%'}
-                  alignItems={'flex-start'}
-                  borderBottom={'1px solid'}
-                  style={{
-                    borderColor:
-                      colorMode === 'light'
-                        ? 'var(--light-dim)'
-                        : 'var(--p-300)',
-                  }}
-                >
-                  <Text w={'150px'}>Supply</Text>
-                  <Text w={'calc(100% - 150px)'}>
-                    {selectedItem?.stock?.toLocaleString()}
-                  </Text>
-                </HStack>
-
-                <HStack
-                  px={5}
-                  pb={2}
-                  w={'100%'}
-                  alignItems={'flex-start'}
-                  borderBottom={'1px solid'}
-                  style={{
-                    borderColor:
-                      colorMode === 'light'
-                        ? 'var(--light-dim)'
-                        : 'var(--p-300)',
-                  }}
-                >
-                  <Text w={'150px'}>Created By (ID)</Text>
-                  <Text w={'calc(100% - 150px)'}>{selectedItem?.user_id}</Text>
-                </HStack>
-
-                <HStack
-                  px={5}
-                  pb={2}
-                  w={'100%'}
-                  alignItems={'flex-start'}
-                  borderBottom={'1px solid'}
-                  style={{
-                    borderColor:
-                      colorMode === 'light'
-                        ? 'var(--light-dim)'
-                        : 'var(--p-300)',
-                  }}
-                >
-                  <Text w={'150px'}>Created At</Text>
-                  <Text w={'calc(100% - 150px)'}>
-                    {selectedItem?.CreatedAt}
-                  </Text>
-                </HStack>
-
-                <HStack
-                  px={5}
-                  pb={2}
-                  w={'100%'}
-                  alignItems={'flex-start'}
-                  borderBottom={'1px solid'}
-                  style={{
-                    borderColor:
-                      colorMode === 'light'
-                        ? 'var(--light-dim)'
-                        : 'var(--p-300)',
-                  }}
-                >
-                  <Text w={'150px'}>Updated At</Text>
-                  <Text w={'calc(100% - 150px)'}>
-                    {selectedItem?.UpdatedAt}
-                  </Text>
-                </HStack>
-              </VStack>
-            </VStack>
-
-            {selectedItem.ID && (
-              <HStack
-                w={'100%'}
-                mt={'0px !important'}
-                fontSize={'sm'}
-                overflowY={'auto'}
-                // bg={'var(--p-500)'}
-                borderRadius={'0 0 12px 12px'}
-                // py={3}
-                // borderTop={'1px solid'}
-                // borderBottom={'1px solid'}
-                justifyContent={'center'}
-                style={{
-                  borderColor:
-                    colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
-                }}
-              >
-                <ButtonGroup p={3} w={'100%'} isAttached>
-                  <UpdateItem />
-                  <DeleteItem />
-                </ButtonGroup>
-              </HStack>
-            )}
-          </VStack>
+          {screenWidth <= 1000 ? null : (
+            <ItemDetails
+              selectedItem={selectedItem}
+              refresh={refresh}
+              setRefresh={setRefresh}
+            />
+          )}
         </HStack>
       </VStack>
     </HStack>
