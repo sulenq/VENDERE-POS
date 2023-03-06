@@ -740,8 +740,8 @@ const ItemsList = props => {
                       index % 2 === 1
                         ? colorMode === 'light'
                           ? 'var(--light)'
-                          : 'var(--dark)'
-                        : '',
+                          : 'var(--p-400)'
+                        : null,
                   }}
                 >
                   {/* Item's Code */}
