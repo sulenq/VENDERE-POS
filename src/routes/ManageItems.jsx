@@ -57,15 +57,10 @@ export default function ManageItems(props) {
   });
 
   const [data, setData] = useState([]);
-
   const [search, setSearch] = useState('');
-
   const [itemIndex, setItemIndex] = useState(1);
-
   const [itemsLength, setItemsLength] = useState(0);
-
   const [selectedItem, setSelectedItem] = useState({});
-
   const [refresh, setRefresh] = useState(true);
 
   const dateOptions = {

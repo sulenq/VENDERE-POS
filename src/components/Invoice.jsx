@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useIsAuthenticated, useAuthUser, useSignOut } from 'react-auth-kit';
 import Cookies from 'js-cookie';
@@ -253,6 +254,7 @@ const CartList = ({
 };
 
 const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
+  const baseUrl = 'http://localhost:8080';
   const { colorMode } = useColorMode();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -292,7 +294,6 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
           totalProfit += (item.price - item.modal) * item.qty;
         });
         const invoice = {
-          date: new Date(),
           cashierId: auth().userId,
           total: total,
           pay: pay,
@@ -303,23 +304,47 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
           totalProfit: totalProfit,
         };
 
-        toast({
-          position: 'bottom-right',
-          title: 'Transaction added.',
-          description: `This invoice has been added to Transactions Page`,
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-        });
+        function checkout() {
+          const createTransactionAPI = `${baseUrl}/api/v1/transactions/create`;
+          const token = Cookies.get('_auth');
+
+          axios
+            .post(createTransactionAPI, invoice, {
+              headers: { Authorization: `Bearer ${token}` },
+            })
+            .then(r => {
+              console.log(r);
+              toast({
+                position: 'bottom-right',
+                title: 'Transaction added.',
+                description: `This invoice has been added to Transactions Page`,
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+              });
+              onClose();
+              clearInvoice();
+              setPay(0);
+              setNote('');
+              setIsCheckoutLoading(false);
+            })
+            .catch(err => {
+              console.log(err);
+              toast({
+                position: 'bottom-right',
+                title: 'Fail to create transaction.',
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+              });
+              setIsCheckoutLoading(false);
+            });
+        }
+
+        checkout();
         console.log(invoice);
-        console.log(cartList);
-        console.log('checkout success');
       }
-      onClose();
-      clearInvoice();
-      setPay(0);
-      setNote('');
-      setIsCheckoutLoading(false);
+
       return;
     }, 500);
   }

@@ -1103,4 +1103,192 @@ const ItemDetailsModal = props => {
   );
 };
 
+const TransactionDetails = props => {
+  const baseURL = 'http://localhost:8080';
+  const { colorMode } = useColorMode();
+  const location = useLocation();
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    function handleResize() {
+      setScreenWidth(window.innerWidth);
+    }
+    window.addEventListener('resize', handleResize);
+  });
+
+  const [loading, setLoading] = useState(false);
+  const skeletonLength = ['', '', '', '', '', '', '', '', '', '', '', ''];
+  const [itemFound, setItemFound] = useState(true);
+
+  //* GET DATA
+  useEffect(() => {
+    const token = Cookies.get('_auth');
+
+    const getItemsAPI = `${baseURL}/api/v1/products`;
+
+    setLoading(true);
+
+    setTimeout(() => {
+      axios
+        .get(getItemsAPI, { headers: { Authorization: `Bearer ${token}` } })
+        .then(r => {
+          // console.log(r.data.data);
+          if (r.data.data) {
+            props.setData(r.data.data);
+          } else {
+            props.setData([]);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(setLoading(false));
+    }, 1000);
+  }, [props.refresh]);
+
+  useEffect(() => {
+    if (props.data.length > 0) {
+      props.selectItem({ index: 1, data: props.data });
+    }
+  }, [props.data]);
+
+  useEffect(() => {
+    let isItemFound = true;
+    if (props.data.length !== 0) {
+      isItemFound = props.data.some(item => {
+        return (
+          item.name.toLowerCase().includes(props.search.toLowerCase()) ||
+          item.code.includes(props.search)
+        );
+      });
+    }
+
+    if (isItemFound) {
+      setItemFound(true);
+    } else {
+      setItemFound(false);
+      props.setSelectedItem({});
+    }
+  }, [props.search]);
+
+  useEffect(() => {
+    props.setItemIndex(1);
+    props.selectItem({ index: 1 });
+  }, [props.search, itemFound]);
+
+  const ItemNotFound = () => {
+    return (
+      <VStack h={'100%'} justifyContent={'center'} opacity={0.2}>
+        <Icon as={SearchOffOutlinedIcon} fontSize={'10rem'} />
+        <Text fontSize={'x-large'} fontWeight={'bold'}>
+          Item Not Found
+        </Text>
+      </VStack>
+    );
+  };
+
+  if (!loading) {
+    if (itemFound) {
+      return (
+        <VStack
+          className="items"
+          h={'100%'}
+          w={'100%'}
+          mt={'0px !important'}
+          fontSize={'sm'}
+          overflowY={'auto'}
+          borderTop={'1px solid'}
+          // borderBottom={'1px solid'}
+          style={{
+            borderColor:
+              colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+          }}
+        >
+          {props.data.map((item, index) => {
+            if (
+              item.name.toLowerCase().includes(props.search.toLowerCase()) ||
+              item.code.includes(props.search)
+            ) {
+              return (
+                <HStack
+                  id={'item' + index}
+                  pl={4}
+                  pr={6}
+                  mt={'0px !important'}
+                  w={'100%'}
+                  alignItems={'flex-start'}
+                  key={index}
+                  py={2}
+                  position={'relative'}
+                  style={{
+                    background:
+                      index % 2 === 1
+                        ? colorMode === 'light'
+                          ? 'var(--light)'
+                          : 'var(--dark)'
+                        : '',
+                  }}
+                >
+                  {/* Item's Code */}
+                  <Text w={'30%'} p={'4px 8px'}>
+                    {item.code}
+                  </Text>
+
+                  {/* Item's Name */}
+                  <VStack w={'50%'} alignItems={'flex-start'} pr={4}>
+                    <Text fontWeight={'bold'}>{item.name}</Text>
+                    <Text mt={'4px !important'}>
+                      {item.price.toLocaleString()}
+                    </Text>
+                  </VStack>
+
+                  {/* Item Action */}
+                  <VStack
+                    w={'20%'}
+                    className={'actionBtnSection'}
+                    alignSelf={'center'}
+                  >
+                    {location.pathname === '/vendere-app/manageproducts' ? (
+                      screenWidth <= 1000 ? (
+                        <ItemDetailsModal
+                          selectItem={props.selectItem}
+                          item={item}
+                          selectedItem={props.selectedItem}
+                          refresh={props.refresh}
+                          setRefresh={props.setRefresh}
+                        />
+                      ) : (
+                        <Text
+                          opacity={0.5}
+                          size={'sm'}
+                          cursor={'pointer'}
+                          _hover={{ textDecoration: 'underline' }}
+                          onClick={() => {
+                            props.selectItem({ item: item });
+                          }}
+                        >
+                          details
+                        </Text>
+                      )
+                    ) : null}
+                  </VStack>
+                </HStack>
+              );
+            }
+          })}
+        </VStack>
+      );
+    } else {
+      return <ItemNotFound />;
+    }
+  } else {
+    return (
+      <VStack className="skeleton">
+        {skeletonLength.map((val, index) => {
+          return <Skeleton key={index} h={'50px'} />;
+        })}
+      </VStack>
+    );
+  }
+};
+
 export { ItemsList, ItemDetails };
