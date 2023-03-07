@@ -10,10 +10,11 @@
   --p-75: #dedede;
   --p-100: #bebebe;
   --p-200: #888888;
+  --p-200a: #88888830;
   --p-250: #606060;
   --p-300: #303030;
   --p-350: #252525;
-  --p-400: #1f1f1f;
+  --p-400: #181818;
   --p-450: #161616;
   --p-500: #000000;
   --p-500a: #09090980;
@@ -158,8 +159,14 @@ body,
   height: 100%;
 }
 
-.itemSelected {
-  border-left: 8px solid var(--accent) !important;
+.itemSelected::before {
+  content: '';
+  width: 6px;
+  height: 100%;
+  background-color: var(--accent);
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
 .itemTd {
@@ -174,4 +181,8 @@ body,
 
 .dashboardLabel {
   padding: 0 4px;
+}
+
+.detailsLabels{
+  opacity: 0.5;
 }

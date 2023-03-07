@@ -23,6 +23,7 @@ import {
   FormLabel,
   FormControl,
   Button,
+  Badge,
 } from '@chakra-ui/react';
 
 // MUI Icons
@@ -726,13 +727,13 @@ const ItemsList = props => {
             ) {
               return (
                 <HStack
+                  key={index}
                   id={'item' + index}
                   pl={4}
                   pr={6}
                   mt={'0px !important'}
                   w={'100%'}
                   alignItems={'flex-start'}
-                  key={index}
                   py={2}
                   position={'relative'}
                   style={{
@@ -753,7 +754,7 @@ const ItemsList = props => {
                   <VStack w={'50%'} alignItems={'flex-start'} pr={4}>
                     <Text fontWeight={'bold'}>{item.name}</Text>
                     <Text mt={'4px !important'}>
-                      {item.price.toLocaleString()}
+                      {'@ ' + item.price.toLocaleString()}
                     </Text>
                   </VStack>
 
@@ -901,7 +902,9 @@ const ItemDetails = props => {
                 colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
             }}
           >
-            <Text w={'150px'}>Code</Text>
+            <Text className="detailsLabels" w={'150px'}>
+              Code
+            </Text>
             <Text w={'calc(100% - 150px)'}>{selectedItem?.code}</Text>
           </HStack>
 
@@ -916,7 +919,9 @@ const ItemDetails = props => {
                 colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
             }}
           >
-            <Text w={'150px'}>Name</Text>
+            <Text className="detailsLabels" w={'150px'}>
+              Name
+            </Text>
             <Text w={'calc(100% - 150px)'}>{selectedItem?.name}</Text>
           </HStack>
 
@@ -931,7 +936,9 @@ const ItemDetails = props => {
                 colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
             }}
           >
-            <Text w={'150px'}>Buy Price</Text>
+            <Text className="detailsLabels" w={'150px'}>
+              Buy Price
+            </Text>
             <Text w={'calc(100% - 150px)'}>
               {selectedItem?.modal?.toLocaleString()}
             </Text>
@@ -948,7 +955,9 @@ const ItemDetails = props => {
                 colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
             }}
           >
-            <Text w={'150px'}>Sell Price</Text>
+            <Text className="detailsLabels" w={'150px'}>
+              Sell Price
+            </Text>
             <Text w={'calc(100% - 150px)'}>
               {selectedItem?.price?.toLocaleString()}
             </Text>
@@ -965,7 +974,9 @@ const ItemDetails = props => {
                 colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
             }}
           >
-            <Text w={'150px'}>Supply</Text>
+            <Text className="detailsLabels" w={'150px'}>
+              Supply
+            </Text>
             <Text w={'calc(100% - 150px)'}>
               {selectedItem?.stock?.toLocaleString()}
             </Text>
@@ -982,7 +993,9 @@ const ItemDetails = props => {
                 colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
             }}
           >
-            <Text w={'150px'}>Created By (ID)</Text>
+            <Text className="detailsLabels" w={'150px'}>
+              Created By (ID)
+            </Text>
             <Text w={'calc(100% - 150px)'}>{selectedItem?.user_id}</Text>
           </HStack>
 
@@ -997,7 +1010,9 @@ const ItemDetails = props => {
                 colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
             }}
           >
-            <Text w={'150px'}>Created At</Text>
+            <Text className="detailsLabels" w={'150px'}>
+              Created At
+            </Text>
             <Text w={'calc(100% - 150px)'}>{selectedItem?.CreatedAt}</Text>
           </HStack>
 
@@ -1012,7 +1027,9 @@ const ItemDetails = props => {
                 colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
             }}
           >
-            <Text w={'150px'}>Updated At</Text>
+            <Text className="detailsLabels" w={'150px'}>
+              Updated At
+            </Text>
             <Text w={'calc(100% - 150px)'}>{selectedItem?.UpdatedAt}</Text>
           </HStack>
         </VStack>
@@ -1103,10 +1120,9 @@ const ItemDetailsModal = props => {
   );
 };
 
-const TransactionDetails = props => {
+const TransactionsList = props => {
   const baseURL = 'http://localhost:8080';
   const { colorMode } = useColorMode();
-  const location = useLocation();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
     function handleResize() {
@@ -1123,13 +1139,15 @@ const TransactionDetails = props => {
   useEffect(() => {
     const token = Cookies.get('_auth');
 
-    const getItemsAPI = `${baseURL}/api/v1/products`;
+    const getTransactionsAdmin = `${baseURL}/api/v1/transactions/admin`;
 
     setLoading(true);
 
     setTimeout(() => {
       axios
-        .get(getItemsAPI, { headers: { Authorization: `Bearer ${token}` } })
+        .get(getTransactionsAdmin, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
         .then(r => {
           // console.log(r.data.data);
           if (r.data.data) {
@@ -1146,19 +1164,17 @@ const TransactionDetails = props => {
   }, [props.refresh]);
 
   useEffect(() => {
-    if (props.data.length > 0) {
-      props.selectItem({ index: 1, data: props.data });
+    if (props.data?.length > 0) {
+      props.selectItem({ index: 1 });
     }
   }, [props.data]);
 
   useEffect(() => {
     let isItemFound = true;
-    if (props.data.length !== 0) {
-      isItemFound = props.data.some(item => {
-        return (
-          item.name.toLowerCase().includes(props.search.toLowerCase()) ||
-          item.code.includes(props.search)
-        );
+    if (props.data?.length !== 0) {
+      isItemFound = props.data?.some(item => {
+        //todo ganti cashierId dengan trans id
+        return item.cashierId.toString()?.includes(props.search);
       });
     }
 
@@ -1197,17 +1213,14 @@ const TransactionDetails = props => {
           fontSize={'sm'}
           overflowY={'auto'}
           borderTop={'1px solid'}
-          // borderBottom={'1px solid'}
           style={{
             borderColor:
               colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
           }}
         >
-          {props.data.map((item, index) => {
-            if (
-              item.name.toLowerCase().includes(props.search.toLowerCase()) ||
-              item.code.includes(props.search)
-            ) {
+          {props.data?.map((item, index) => {
+            // console.log(item);
+            if (true) {
               return (
                 <HStack
                   id={'item' + index}
@@ -1224,21 +1237,26 @@ const TransactionDetails = props => {
                       index % 2 === 1
                         ? colorMode === 'light'
                           ? 'var(--light)'
-                          : 'var(--dark)'
+                          : 'var(--p-450)'
                         : '',
                   }}
                 >
-                  {/* Item's Code */}
-                  <Text w={'30%'} p={'4px 8px'}>
-                    {item.code}
+                  {/* Item's ID */}
+                  <Text w={'25%'} p={'4px 8px'}>
+                    {item.cashierId}
                   </Text>
 
                   {/* Item's Name */}
-                  <VStack w={'50%'} alignItems={'flex-start'} pr={4}>
-                    <Text fontWeight={'bold'}>{item.name}</Text>
+                  <VStack w={'58%'} alignItems={'flex-start'} pr={4}>
                     <Text mt={'4px !important'}>
-                      {item.price.toLocaleString()}
+                      {'Sat, February 25, 2023'}
                     </Text>
+                    <Badge
+                      fontWeight={'bold'}
+                      colorScheme={item.status === 'lunas' ? 'green' : 'red'}
+                    >
+                      {item.status}
+                    </Badge>
                   </VStack>
 
                   {/* Item Action */}
@@ -1247,29 +1265,27 @@ const TransactionDetails = props => {
                     className={'actionBtnSection'}
                     alignSelf={'center'}
                   >
-                    {location.pathname === '/vendere-app/manageproducts' ? (
-                      screenWidth <= 1000 ? (
-                        <ItemDetailsModal
-                          selectItem={props.selectItem}
-                          item={item}
-                          selectedItem={props.selectedItem}
-                          refresh={props.refresh}
-                          setRefresh={props.setRefresh}
-                        />
-                      ) : (
-                        <Text
-                          opacity={0.5}
-                          size={'sm'}
-                          cursor={'pointer'}
-                          _hover={{ textDecoration: 'underline' }}
-                          onClick={() => {
-                            props.selectItem({ item: item });
-                          }}
-                        >
-                          details
-                        </Text>
-                      )
-                    ) : null}
+                    {screenWidth <= 1000 ? (
+                      <TransactionDetailsModal
+                        selectItem={props.selectItem}
+                        item={item}
+                        selectedItem={props.selectedItem}
+                        refresh={props.refresh}
+                        setRefresh={props.setRefresh}
+                      />
+                    ) : (
+                      <Text
+                        opacity={0.5}
+                        size={'sm'}
+                        cursor={'pointer'}
+                        _hover={{ textDecoration: 'underline' }}
+                        onClick={() => {
+                          props.selectItem({ item: item });
+                        }}
+                      >
+                        details
+                      </Text>
+                    )}
                   </VStack>
                 </HStack>
               );
@@ -1291,4 +1307,329 @@ const TransactionDetails = props => {
   }
 };
 
-export { ItemsList, ItemDetails };
+const TransactionDetails = props => {
+  const { colorMode } = useColorMode();
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    function handleResize() {
+      setScreenWidth(window.innerWidth);
+    }
+    window.addEventListener('resize', handleResize);
+  });
+
+  return (
+    <VStack
+      style={{
+        width: '50%',
+        height: '100%',
+        overflowY: 'auto',
+        paddingBottom: screenWidth <= 1000 ? '64px' : '',
+        borderRadius: '12px',
+        background: colorMode === 'light' ? 'white' : 'var(--p-400)',
+      }}
+      pt={3}
+    >
+      <HStack alignSelf={'flex-start'} px={3} mb={2} opacity={0.5}>
+        <Icon as={InfoOutlinedIcon} />
+        <Text fontWeight={'bold'}>Transaction Details</Text>
+      </HStack>
+
+      <VStack
+        id={'itemDetails'}
+        h={'100%'}
+        w={'100%'}
+        mt={'0px !important'}
+        fontSize={'sm'}
+        overflowY={'auto'}
+        pb={3}
+      >
+        <VStack w={'100%'}>
+          <HStack
+            pt={3}
+            px={5}
+            pb={2}
+            w={'100%'}
+            alignItems={'flex-start'}
+            borderBottom={'1px solid'}
+            style={{
+              borderColor:
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+            }}
+          >
+            <Text className="detailsLabels" w={'25%'}>
+              ID
+            </Text>
+            <Text w={'75%'}>{props?.selectedItem?.id || 'empty'}</Text>
+          </HStack>
+
+          <HStack
+            px={5}
+            pb={2}
+            w={'100%'}
+            alignItems={'flex-start'}
+            borderBottom={'1px solid'}
+            style={{
+              borderColor:
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+            }}
+          >
+            <Text className="detailsLabels" w={'25%'}>
+              Cashier ID
+            </Text>
+            <Text w={'75%'}>{props?.selectedItem?.cashierId || 'empty'}</Text>
+          </HStack>
+
+          <HStack
+            px={5}
+            pb={2}
+            w={'100%'}
+            alignItems={'flex-start'}
+            borderBottom={'1px solid'}
+            style={{
+              borderColor:
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+            }}
+          >
+            <Text className="detailsLabels" w={'25%'}>
+              Date
+            </Text>
+            <Text w={'75%'}>{props?.selectedItem?.CreatedAt || 'empty'}</Text>
+          </HStack>
+
+          <HStack
+            px={5}
+            pb={2}
+            w={'100%'}
+            alignItems={'flex-start'}
+            borderBottom={'1px solid'}
+            style={{
+              borderColor:
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+            }}
+          >
+            <Text className="detailsLabels" w={'25%'}>
+              Status
+            </Text>
+            <Text w={'75%'}>
+              <Badge
+                colorScheme={
+                  props?.selectedItem?.status === 'lunas' ? 'green' : 'red'
+                }
+              >
+                {props?.selectedItem?.status || 'empty'}
+              </Badge>
+            </Text>
+          </HStack>
+
+          <HStack
+            px={5}
+            pb={2}
+            w={'100%'}
+            alignItems={'flex-start'}
+            borderBottom={'1px solid'}
+            style={{
+              borderColor:
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+            }}
+          >
+            <Text className="detailsLabels" w={'25%'}>
+              Total
+            </Text>
+            <Text w={'75%'}>
+              {props?.selectedItem?.total?.toLocaleString() || 'empty'}
+            </Text>
+          </HStack>
+
+          <HStack
+            px={5}
+            pb={2}
+            w={'100%'}
+            alignItems={'flex-start'}
+            borderBottom={'1px solid'}
+            style={{
+              borderColor:
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+            }}
+          >
+            <Text className="detailsLabels" w={'25%'}>
+              Pay
+            </Text>
+            <Text w={'75%'}>
+              {props?.selectedItem?.pay?.toLocaleString() || 'empty'}
+            </Text>
+          </HStack>
+
+          <HStack
+            px={5}
+            pb={2}
+            w={'100%'}
+            alignItems={'flex-start'}
+            borderBottom={'1px solid'}
+            style={{
+              borderColor:
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+            }}
+          >
+            <Text className="detailsLabels" w={'25%'}>
+              Change
+            </Text>
+            <Text w={'75%'}>
+              {props?.selectedItem?.change?.toLocaleString() || 'empty'}
+            </Text>
+          </HStack>
+
+          <HStack
+            px={5}
+            pb={2}
+            w={'100%'}
+            alignItems={'flex-start'}
+            borderBottom={'1px solid'}
+            style={{
+              borderColor:
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+            }}
+          >
+            <Text className="detailsLabels" w={'25%'}>
+              Cart List
+            </Text>
+            <VStack w={'75%'}>
+              {props.selectedItem.cartList?.map((item, index) => {
+                console.log(item);
+                return (
+                  <HStack
+                    py={1}
+                    mt={'0px !important'}
+                    w={'100%'}
+                    justifyContent={'space-between'}
+                    alignItems={'flex-start'}
+                    borderBottom={
+                      index !== props.selectedItem.cartList.length - 1
+                        ? '1px solid var(--p-200a)'
+                        : ''
+                    }
+                  >
+                    <VStack w={'70%'} alignItems={'flex-start'}>
+                      <Text>{item.name}</Text>
+                      <Text mt={'0px !important'}>
+                        {'@ ' + item.price?.toLocaleString()}
+                      </Text>
+                    </VStack>
+                    <Text w={'10%'}>x2</Text>
+                    <Text w={'20%'} textAlign={'end'}>
+                      {item.totalPrice?.toLocaleString()}
+                    </Text>
+                  </HStack>
+                );
+              })}
+            </VStack>
+          </HStack>
+
+          <HStack
+            px={5}
+            pb={2}
+            w={'100%'}
+            alignItems={'flex-start'}
+            borderBottom={'1px solid'}
+            style={{
+              borderColor:
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+            }}
+          >
+            <Text className="detailsLabels" w={'25%'}>
+              Note
+            </Text>
+            <Text w={'75%'}>{props?.selectedItem?.note || 'empty'}</Text>
+          </HStack>
+
+          <HStack
+            px={5}
+            pb={2}
+            w={'100%'}
+            alignItems={'flex-start'}
+            borderBottom={'1px solid'}
+            style={{
+              borderColor:
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+            }}
+          >
+            <Text className="detailsLabels" w={'25%'}>
+              Profit
+            </Text>
+            <Text w={'75%'}>
+              {props?.selectedItem?.totalProfit?.toLocaleString() || 'empty'}
+            </Text>
+          </HStack>
+
+          <HStack
+            px={5}
+            pb={2}
+            w={'100%'}
+            alignItems={'flex-start'}
+            borderBottom={'1px solid'}
+            style={{
+              borderColor:
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+            }}
+          >
+            <Text className="detailsLabels" w={'25%'}>
+              Updated At
+            </Text>
+            <Text w={'75%'}>{props?.selectedItem?.UpdatedAt || 'empty'}</Text>
+          </HStack>
+        </VStack>
+      </VStack>
+    </VStack>
+  );
+};
+
+const TransactionDetailsModal = props => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  return (
+    <>
+      <Text
+        opacity={0.5}
+        size={'sm'}
+        cursor={'pointer'}
+        _hover={{ textDecoration: 'underline' }}
+        onClick={() => {
+          props.selectItem({ item: props.item });
+          onOpen();
+        }}
+      >
+        details
+      </Text>
+
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+
+        <ModalContent
+          h={'95%'}
+          content={
+            <>
+              <ModalCloseButton borderRadius={50} />
+
+              <ModalBody
+                content={
+                  <>
+                    <TransactionDetails
+                      selectedItem={props.selectedItem}
+                      refresh={props.refresh}
+                      setRefresh={props.setRefresh}
+                    />
+                  </>
+                }
+                px={0}
+                py={0}
+                pb={'0px'}
+                h={'100%'}
+              />
+            </>
+          }
+        />
+      </Modal>
+    </>
+  );
+};
+
+export { ItemsList, ItemDetails, TransactionsList, TransactionDetails };

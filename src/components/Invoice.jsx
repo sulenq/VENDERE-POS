@@ -287,7 +287,7 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
         let status = 'lunas';
         let change = pay - total;
         if (change * -1 > 0) {
-          status = 'hutang';
+          status = 'utang';
         }
         let totalProfit = 0;
         cartList.forEach(item => {
