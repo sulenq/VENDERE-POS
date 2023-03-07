@@ -1359,7 +1359,7 @@ const TransactionDetails = props => {
             <Text className="detailsLabels" w={'25%'}>
               ID
             </Text>
-            <Text w={'75%'}>{props?.selectedItem?.id || 'empty'}</Text>
+            <Text w={'75%'}>{props?.selectedItem?.id}</Text>
           </HStack>
 
           <HStack
@@ -1376,7 +1376,7 @@ const TransactionDetails = props => {
             <Text className="detailsLabels" w={'25%'}>
               Cashier ID
             </Text>
-            <Text w={'75%'}>{props?.selectedItem?.cashierId || 'empty'}</Text>
+            <Text w={'75%'}>{props?.selectedItem?.cashierId}</Text>
           </HStack>
 
           <HStack
@@ -1393,7 +1393,7 @@ const TransactionDetails = props => {
             <Text className="detailsLabels" w={'25%'}>
               Date
             </Text>
-            <Text w={'75%'}>{props?.selectedItem?.CreatedAt || 'empty'}</Text>
+            <Text w={'75%'}>{props?.selectedItem?.CreatedAt}</Text>
           </HStack>
 
           <HStack
@@ -1416,7 +1416,7 @@ const TransactionDetails = props => {
                   props?.selectedItem?.status === 'lunas' ? 'green' : 'red'
                 }
               >
-                {props?.selectedItem?.status || 'empty'}
+                {props?.selectedItem?.status}
               </Badge>
             </Text>
           </HStack>
@@ -1436,7 +1436,7 @@ const TransactionDetails = props => {
               Total
             </Text>
             <Text w={'75%'}>
-              {props?.selectedItem?.total?.toLocaleString() || 'empty'}
+              {props?.selectedItem?.total?.toLocaleString()}
             </Text>
           </HStack>
 
@@ -1454,9 +1454,7 @@ const TransactionDetails = props => {
             <Text className="detailsLabels" w={'25%'}>
               Pay
             </Text>
-            <Text w={'75%'}>
-              {props?.selectedItem?.pay?.toLocaleString() || 'empty'}
-            </Text>
+            <Text w={'75%'}>{props?.selectedItem?.pay?.toLocaleString()}</Text>
           </HStack>
 
           <HStack
@@ -1474,7 +1472,7 @@ const TransactionDetails = props => {
               Change
             </Text>
             <Text w={'75%'}>
-              {props?.selectedItem?.change?.toLocaleString() || 'empty'}
+              {props?.selectedItem?.change?.toLocaleString()}
             </Text>
           </HStack>
 
@@ -1497,7 +1495,8 @@ const TransactionDetails = props => {
                 console.log(item);
                 return (
                   <HStack
-                    py={1}
+                    py={index !== 0 ? 1 : null}
+                    pb={index === 0 ? 1 : null}
                     mt={'0px !important'}
                     w={'100%'}
                     justifyContent={'space-between'}
@@ -1538,7 +1537,7 @@ const TransactionDetails = props => {
             <Text className="detailsLabels" w={'25%'}>
               Note
             </Text>
-            <Text w={'75%'}>{props?.selectedItem?.note || 'empty'}</Text>
+            <Text w={'75%'}>{props?.selectedItem?.note}</Text>
           </HStack>
 
           <HStack
@@ -1556,7 +1555,7 @@ const TransactionDetails = props => {
               Profit
             </Text>
             <Text w={'75%'}>
-              {props?.selectedItem?.totalProfit?.toLocaleString() || 'empty'}
+              {props?.selectedItem?.totalProfit?.toLocaleString()}
             </Text>
           </HStack>
 
@@ -1574,7 +1573,7 @@ const TransactionDetails = props => {
             <Text className="detailsLabels" w={'25%'}>
               Updated At
             </Text>
-            <Text w={'75%'}>{props?.selectedItem?.UpdatedAt || 'empty'}</Text>
+            <Text w={'75%'}>{props?.selectedItem?.UpdatedAt}</Text>
           </HStack>
         </VStack>
       </VStack>

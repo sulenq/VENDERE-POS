@@ -91,11 +91,12 @@ const RDashboard = props => {
               list: r.data.data,
             },
           });
+          setLoading(false);
         })
         .catch(err => {
           console.log(err);
-        })
-        .finally(setLoading(false));
+          setLoading(false);
+        });
     }, 1000);
   }, [props.refresh]);
 
@@ -395,19 +396,22 @@ const LDashboard = props => {
   const employeesSkeletonLength = ['', '', ''];
 
   useEffect(() => {
-    const getMonthReportAPI = `${baseURL}/api/v1/rekap/months`;
+    const getMonthReportAPI = `${baseURL}/api/v1/rekap/days`;
     setLoading(true);
 
     function getMonthReport() {
       axios
-        .get(getMonthReport, { headers: { Authorization: `Bearer ${token}` } })
+        .get(getMonthReportAPI, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
         .then(r => {
           console.log(r);
+          setLoading(false);
         })
         .catch(err => {
           console.log(err);
-        })
-        .finally(setLoading(false));
+          setLoading(false);
+        });
     }
 
     setTimeout(() => {
