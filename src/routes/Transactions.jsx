@@ -41,7 +41,7 @@ import { Input, InputNumber } from '../components/Inputs';
 import { Skeleton } from '../components/Skeleton';
 import { TransactionDetails, TransactionsList } from '../components/Items';
 
-export default function ManageItems(props) {
+export default function TRansactions(props) {
   const { colorMode } = useColorMode();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {

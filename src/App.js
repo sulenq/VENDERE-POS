@@ -217,11 +217,21 @@ export default function App() {
               setToken={setToken}
               loginPath="/?login=1"
               restriction=""
-              element={<Transactions items={items} setItems={setItems} />}
+              element={<Transactions />}
             />
           }
         />
-        <Route path="debts" element={<Debts />} />
+        <Route
+          path="debts"
+          element={
+            <RequireRoleAuth
+              setToken={setToken}
+              loginPath="/?login=1"
+              restriction=""
+              element={<Debts />}
+            />
+          }
+        />
         <Route path="support" element={''} />
         <Route
           path="employees"

@@ -1492,7 +1492,7 @@ const TransactionDetails = props => {
             </Text>
             <VStack w={'75%'}>
               {props.selectedItem.cartList?.map((item, index) => {
-                console.log(item);
+                // console.log(item);
                 return (
                   <HStack
                     py={index !== 0 ? 1 : null}
