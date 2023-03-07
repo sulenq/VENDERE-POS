@@ -120,7 +120,15 @@ const ResponsiveNav = props => {
 
     useEffect(() => {
       nav = document.querySelector('#navMobile');
-      activeNav = document.querySelector(`#${props.active}`);
+      let active = props.active;
+      if (
+        props.active === 'ManageItems' ||
+        props.active === 'Employees' ||
+        props.active === 'Reports'
+      ) {
+        active = 'Profile';
+      }
+      activeNav = document.querySelector(`#${active}`);
       activeNav?.classList.add('navMobileContentBtnSelect');
     });
 

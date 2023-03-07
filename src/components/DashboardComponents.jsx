@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import Chart from 'chart.js/auto';
+import { Line as LineChart } from 'react-chartjs-2';
 
 import {
   Badge,
@@ -49,8 +51,7 @@ import { ModalContent, ModalFooter, ModalOverlay } from '../components/Modals';
 import { Input } from '../components/Inputs';
 import { Skeleton } from '../components/Skeleton';
 
-const RDashboard = props => {
-  const [loading, setLoading] = useState(false);
+const RDashboard = () => {
   const baseURL = 'http://localhost:8080';
   const token = Cookies.get('_auth');
   const { colorMode } = useColorMode();
@@ -63,6 +64,10 @@ const RDashboard = props => {
     window.addEventListener('resize', handleResize);
   });
   const employeesSkeletonLength = ['', '', ''];
+
+  const [data, setData] = useState();
+  const [loading, setLoading] = useState(false);
+  const [refresh, setRefresh] = useState();
 
   useEffect(() => {
     const getEmployeesAPI = `${baseURL}/api/v1/cashiers`;
@@ -83,13 +88,10 @@ const RDashboard = props => {
             }
           });
           // console.log(totalOnline);
-          props.setData({
-            ...props.data,
-            employees: {
-              total: r.data.data?.length || 0,
-              totalOnline: totalOnline,
-              list: r.data.data,
-            },
+          setData({
+            total: r.data.data?.length || 0,
+            totalOnline: totalOnline,
+            list: r.data.data,
           });
           setLoading(false);
         })
@@ -98,7 +100,7 @@ const RDashboard = props => {
           setLoading(false);
         });
     }, 1000);
-  }, [props.refresh]);
+  }, [refresh]);
 
   const RegisterEmployee = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -139,7 +141,7 @@ const RDashboard = props => {
               isClosable: true,
             });
             onClose();
-            props.setRefresh(!props.refresh);
+            setRefresh(!refresh);
           }
         })
         .catch(err => {
@@ -279,9 +281,8 @@ const RDashboard = props => {
       {/* Body */}
       <VStack
         alignItems={'flex-start'}
-        py={2}
+        p={2}
         pb={3}
-        px={4}
         w={'100%'}
         style={{
           border:
@@ -293,10 +294,8 @@ const RDashboard = props => {
       >
         <HStack w={'100%'} justifyContent={'space-between'}>
           {!loading ? (
-            <HStack>
-              <Text fontWeight={'bold'}>
-                {props.data?.employees?.total?.toLocaleString()}
-              </Text>
+            <HStack px={2}>
+              <Text fontWeight={'bold'}>{data?.total?.toLocaleString()}</Text>
               <Text mt={'0px !important'} color={'var(--p-200)'}>
                 Total Employees
               </Text>
@@ -308,7 +307,7 @@ const RDashboard = props => {
           )}
 
           {!loading ? (
-            <HStack>
+            <HStack px={2}>
               <Badge
                 style={{
                   width: '10px',
@@ -317,7 +316,7 @@ const RDashboard = props => {
                 }}
                 colorScheme={'green'}
               ></Badge>
-              <Text>{props.data?.employees.totalOnline}</Text>
+              <Text>{data?.totalOnline}</Text>
               <Text opacity={'0.5'}>Online</Text>
             </HStack>
           ) : (
@@ -329,23 +328,25 @@ const RDashboard = props => {
 
         <VStack w={'100%'}>
           {!loading
-            ? props.data?.employees?.list?.map((emp, index) => {
+            ? data?.list?.map((emp, index) => {
                 return (
                   <HStack
                     key={index}
+                    px={2}
+                    py={1}
                     style={{
                       width: '100%',
                       alignItems: 'flex-start',
-                      padding: '8px 0',
                     }}
                   >
                     <Avatar
                       size={'lg'}
+                      name={emp.username}
                       background={
                         colorMode == 'light' ? 'var(--p-75)' : 'var(--p-350)'
                       }
                       color={
-                        colorMode == 'light' ? 'var(--p-350)' : 'var(--p-75)'
+                        colorMode == 'light' ? 'var(--p-200)' : 'var(--p-200)'
                       }
                     />
                     <VStack alignItems={'flex-start'} pl={1}>
@@ -380,12 +381,10 @@ const RDashboard = props => {
   );
 };
 
-const LDashboard = props => {
-  const [loading, setLoading] = useState(false);
+const LDashboard = () => {
   const baseURL = 'http://localhost:8080';
   const token = Cookies.get('_auth');
   const { colorMode } = useColorMode();
-  const toast = useToast();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
     function handleResize() {
@@ -393,8 +392,39 @@ const LDashboard = props => {
     }
     window.addEventListener('resize', handleResize);
   });
-  const employeesSkeletonLength = ['', '', ''];
 
+  const [data, setData] = useState({
+    totalRevenue: 0,
+    totalExpenses: 0,
+    data: [],
+    revenueData: [],
+    dateData: [],
+  });
+  const [loading, setLoading] = useState(false);
+  const [refresh, setRefresh] = useState();
+  console.log(data?.revenueData);
+  const labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const chartData = {
+    labels: labels,
+    datasets: [
+      {
+        label: 'Dialy Revenue',
+        data: data?.revenueData,
+        fill: false,
+        borderColor: '#fdd100',
+        tension: 0.1,
+      },
+      // {
+      //   label: 'Dialy Expenses',
+      //   data: [3900, 2900, 5000, 11000, 1600, 2500, 20000, 2300, 12000, 8000],
+      //   fill: false,
+      //   borderColor: colorMode === 'light' ? 'black' : 'white',
+      //   tension: 0.1,
+      // },
+    ],
+  };
+
+  //* Get Report Data Days
   useEffect(() => {
     const getMonthReportAPI = `${baseURL}/api/v1/rekap/days`;
     setLoading(true);
@@ -406,6 +436,25 @@ const LDashboard = props => {
         })
         .then(r => {
           console.log(r);
+          const data = r.data.data;
+          let totalRevenue = 0;
+          data.forEach(item => {
+            totalRevenue += item.total_price;
+          });
+          const revenueData = data.map(item => {
+            return item.total_price;
+          });
+          const dateData = data.map(item => {
+            //todo ambil tanggal dari response data
+            return 'tanggalan';
+          });
+          setData({
+            totalRevenue: totalRevenue,
+            totalExpenses: 0,
+            data: data,
+            revenueData: revenueData,
+            dateData: dateData,
+          });
           setLoading(false);
         })
         .catch(err => {
@@ -417,7 +466,7 @@ const LDashboard = props => {
     setTimeout(() => {
       getMonthReport();
     }, 1000);
-  }, [props.refresh]);
+  }, [refresh]);
 
   return (
     <VStack mt={'16px !important'} w={'100%'} alignItems={'flex-start'}>
@@ -427,8 +476,7 @@ const LDashboard = props => {
 
       <VStack
         alignItems={'flex-start'}
-        py={2}
-        px={4}
+        p={2}
         w={'100%'}
         style={{
           border:
@@ -438,31 +486,52 @@ const LDashboard = props => {
           borderRadius: '12px',
         }}
       >
-        <VStack alignItems={'flex-start'}>
-          <HStack alignItems={'flex-start'}>
-            <Text fontWeight={'bold'}>Rp.</Text>
-            <Text fontSize={'xx-large'} fontWeight={'bold'}>
-              {props?.data?.currentMonth?.totalRevenue?.toLocaleString() ||
-                'Null'}
-            </Text>
-          </HStack>
-          <Text mt={'0px !important'} color={'var(--p-200)'}>
-            Total Revenue
-          </Text>
-        </VStack>
+        {!loading ? (
+          <>
+            <VStack alignItems={'flex-start'} px={2}>
+              <HStack alignItems={'flex-start'}>
+                <Text fontWeight={'bold'}>Rp.</Text>
+                <Text fontSize={'xx-large'} fontWeight={'bold'}>
+                  {data?.totalRevenue?.toLocaleString() || 'Null'}
+                </Text>
+              </HStack>
+              <Text mt={'0px !important'} color={'var(--p-200)'}>
+                Total Revenue
+              </Text>
+            </VStack>
 
-        <VStack alignItems={'flex-start'}>
-          <HStack alignItems={'flex-start'}>
-            <Text fontWeight={'bold'}>Rp.</Text>
-            <Text fontSize={'xx-large'} fontWeight={'bold'}>
-              {props?.data?.currentMonth?.totalExpenses?.toLocaleString() ||
-                'Null'}
-            </Text>
-          </HStack>
-          <Text mt={'0px !important'} color={'var(--p-200)'}>
-            Total Expenses
-          </Text>
-        </VStack>
+            <VStack alignItems={'flex-start'} px={2}>
+              <HStack alignItems={'flex-start'}>
+                <Text fontWeight={'bold'}>Rp.</Text>
+                <Text fontSize={'xx-large'} fontWeight={'bold'}>
+                  Coming Soon!
+                  {/* {data?.totalExpenses?.toLocaleString() || 'Null'} */}
+                </Text>
+              </HStack>
+              <Text mt={'0px !important'} color={'var(--p-200)'}>
+                Total Expenses
+              </Text>
+            </VStack>
+
+            <VStack
+              w={'100%'}
+              h={'300px'}
+              pt={4}
+              alignItems={'flex-start'}
+            >
+              <LineChart
+                data={chartData}
+                options={{ responsive: true, maintainAspectRatio: false }}
+              />
+            </VStack>
+          </>
+        ) : (
+          <>
+            <Skeleton h={'70px'} />
+            <Skeleton h={'70px'} />
+            <Skeleton h={'200px'} />
+          </>
+        )}
       </VStack>
     </VStack>
   );

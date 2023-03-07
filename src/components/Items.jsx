@@ -261,6 +261,7 @@ const UpdateItem = props => {
   const [itemToUpdate, setItemToUpdate] = useState(
     JSON.parse(JSON.stringify(props.selectedItem))
   );
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     setItemToUpdate(JSON.parse(JSON.stringify(props.selectedItem)));
   }, [props.selectedItem]);
@@ -295,6 +296,7 @@ const UpdateItem = props => {
             });
           }
           props.setRefresh(!props.refresh);
+          setLoading(false);
         })
         .catch(err => {
           console.log(err);
@@ -307,11 +309,15 @@ const UpdateItem = props => {
               duration: 3000,
               isClosable: true,
             });
+            setLoading(false);
           }
         });
     }
 
-    updateSelectedItem();
+    setLoading(true);
+    setTimeout(() => {
+      updateSelectedItem();
+    }, 1000);
   }
 
   return (
@@ -462,7 +468,11 @@ const UpdateItem = props => {
                       >
                         Close
                       </Button>
-                      <PrimaryButton label={'Update Item'} onClick={onUpdate} />
+                      <PrimaryButton
+                        label={'Update Item'}
+                        isLoading={loading}
+                        onClick={onUpdate}
+                      />
                     </ButtonGroup>
                   </>
                 }
@@ -481,6 +491,14 @@ const DeleteItem = props => {
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    function handleResize() {
+      setScreenWidth(window.innerWidth);
+    }
+    window.addEventListener('resize', handleResize);
+  });
+
+  const [loading, setLoading] = useState();
 
   function onDelete(e) {
     e.preventDefault();
@@ -514,6 +532,7 @@ const DeleteItem = props => {
             });
           }
           props.setRefresh(!props.refresh);
+          setLoading(false);
         })
         .catch(err => {
           console.log(err);
@@ -527,10 +546,14 @@ const DeleteItem = props => {
               isClosable: true,
             });
           }
+          setLoading(false);
         });
     }
 
-    deleteSelectedItem();
+    setLoading(true);
+    setTimeout(() => {
+      deleteSelectedItem();
+    }, 1000);
   }
 
   return (
@@ -594,7 +617,11 @@ const DeleteItem = props => {
                       >
                         Close
                       </Button>
-                      <PrimaryButton label={'Delete Item'} onClick={onDelete} />
+                      <PrimaryButton
+                        label={'Delete Item'}
+                        isLoading={loading}
+                        onClick={onDelete}
+                      />
                     </ButtonGroup>
                   </>
                 }
@@ -1092,7 +1119,6 @@ const ItemDetailsModal = props => {
         <ModalOverlay />
 
         <ModalContent
-          h={'95%'}
           content={
             <>
               <ModalCloseButton borderRadius={50} />
@@ -1320,10 +1346,9 @@ const TransactionDetails = props => {
   return (
     <VStack
       style={{
-        width: '50%',
+        width: screenWidth <= 1000 ? '100%' : '50%',
         height: '100%',
         overflowY: 'auto',
-        paddingBottom: screenWidth <= 1000 ? '64px' : '',
         borderRadius: '12px',
         background: colorMode === 'light' ? 'white' : 'var(--p-400)',
       }}
@@ -1577,6 +1602,27 @@ const TransactionDetails = props => {
           </HStack>
         </VStack>
       </VStack>
+
+      {screenWidth <= 1000 && (
+        <HStack
+          w={'100%'}
+          mt={'0px !important'}
+          p={3}
+          overflowY={'auto'}
+          borderRadius={'0 0 12px 12px'}
+          justifyContent={'center'}
+          style={{
+            borderColor:
+              colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+          }}
+          // bg={'var(--p-500)'}
+          // py={3}
+          // borderTop={'1px solid'}
+          // borderBottom={'1px solid'}
+        >
+          <PrimaryButton label="Got It" w={'100%'} onClick={props.onClose} />
+        </HStack>
+      )}
     </VStack>
   );
 };
@@ -1603,7 +1649,6 @@ const TransactionDetailsModal = props => {
         <ModalOverlay />
 
         <ModalContent
-          h={'95%'}
           content={
             <>
               <ModalCloseButton borderRadius={50} />
@@ -1615,6 +1660,7 @@ const TransactionDetailsModal = props => {
                       selectedItem={props.selectedItem}
                       refresh={props.refresh}
                       setRefresh={props.setRefresh}
+                      onClose={onClose}
                     />
                   </>
                 }

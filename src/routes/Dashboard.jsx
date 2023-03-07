@@ -105,8 +105,6 @@ export default function Dashboard(props) {
     },
   });
 
-  const [data, setData] = useState(null);
-
   const PriorityDashboard = () => {
     return (
       <VStack
@@ -264,19 +262,9 @@ export default function Dashboard(props) {
               columns={[1, 2, 2]}
               gap={2}
             >
-              <LDashboard
-                data={data}
-                setData={setData}
-                refresh={refresh}
-                setRefresh={setRefresh}
-              />
+              <LDashboard />
 
-              <RDashboard
-                data={data}
-                setData={setData}
-                refresh={refresh}
-                setRefresh={setRefresh}
-              />
+              <RDashboard />
             </SimpleGrid>
           </VStack>
         </>

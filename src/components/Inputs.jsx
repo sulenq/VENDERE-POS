@@ -17,10 +17,15 @@ import { useLocation } from 'react-router-dom';
 
 const SearchBox = props => {
   const { colorMode } = useColorMode();
-
   const { pathname } = useLocation();
-
   const items = document.querySelectorAll('.items > div');
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    function handleResize() {
+      setScreenWidth(window.innerWidth);
+    }
+    window.addEventListener('resize', handleResize);
+  });
 
   function selectItemIndicator() {
     const targetItem = document.querySelector(
@@ -114,23 +119,29 @@ const SearchBox = props => {
           border: colorMode === 'light' ? '2px solid' : '2px solid',
         }}
       />
-      <InputRightElement
-        children={
-          <HStack mr={'60px !important'}>
-            <Kbd
-              bg={colorMode === 'light' ? 'blackAlpha.100' : 'whiteAlpha.100'}
-            >
-              ⬆
-            </Kbd>
-            <Text opacity={0.5}>or</Text>
-            <Kbd
-              bg={colorMode === 'light' ? 'blackAlpha.100' : 'whiteAlpha.100'}
-            >
-              ⬇
-            </Kbd>
-          </HStack>
-        }
-      />
+      {screenWidth > 1000 ? (
+        <InputRightElement
+          children={
+            <HStack mr={'60px !important'}>
+              <Kbd
+                bg={colorMode === 'light' ? 'blackAlpha.100' : 'whiteAlpha.100'}
+              >
+                ⬆
+              </Kbd>
+
+              <Text opacity={0.5}>or</Text>
+
+              <Kbd
+                bg={colorMode === 'light' ? 'blackAlpha.100' : 'whiteAlpha.100'}
+              >
+                ⬇
+              </Kbd>
+            </HStack>
+          }
+        />
+      ) : (
+        ''
+      )}
     </InputGroup>
   );
 };
