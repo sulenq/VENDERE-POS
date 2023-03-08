@@ -846,7 +846,7 @@ const ItemsList = props => {
     return (
       <VStack className="skeleton">
         {skeletonLength.map((val, index) => {
-          return <Skeleton key={index} h={'50px'} />;
+          return <Skeleton key={index} h={'100px'} />;
         })}
       </VStack>
     );
@@ -1336,7 +1336,7 @@ const TransactionsList = props => {
     return (
       <VStack className="skeleton">
         {skeletonLength.map((val, index) => {
-          return <Skeleton key={index} h={'50px'} />;
+          return <Skeleton key={index} h={'100px'} />;
         })}
       </VStack>
     );
@@ -1889,7 +1889,7 @@ const DebtsList = props => {
     return (
       <VStack className="skeleton">
         {skeletonLength.map((val, index) => {
-          return <Skeleton key={index} h={'50px'} />;
+          return <Skeleton key={index} h={'100px'} />;
         })}
       </VStack>
     );
