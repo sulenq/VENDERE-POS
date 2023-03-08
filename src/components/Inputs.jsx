@@ -102,6 +102,7 @@ const SearchBox = props => {
     <InputGroup>
       <InputChakra
         id={'itemSearchBox'}
+        px={3}
         className={'inputBox'}
         onChange={props.onChange}
         onKeyUp={handleKeyUp}
@@ -152,6 +153,7 @@ const Input = props => {
   return (
     <InputChakra
       onFocus={props.onFocus}
+      px={3}
       type={props.type}
       placeholder={props.placeholder}
       value={props.value}

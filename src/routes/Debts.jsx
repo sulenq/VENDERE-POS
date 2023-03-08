@@ -8,11 +8,28 @@ import {
   useColorMode,
   VStack,
   Text,
+  useDisclosure,
+  ButtonGroup,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
   Icon,
+  FormControl,
+  FormLabel,
+  Alert,
+  AlertIcon,
 } from '@chakra-ui/react';
 
 // MUI Icons
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import ImageNotSupportedOutlinedIcon from '@mui/icons-material/ImageNotSupportedOutlined';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import MoneyOffIcon from '@mui/icons-material/MoneyOff';
+import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
 
 // My Component
 import ResponsiveNav from '../components/ResponsiveNav';
@@ -23,9 +40,9 @@ import { Stat } from '../components/Data';
 import { ModalContent, ModalFooter, ModalOverlay } from '../components/Modals';
 import { Input, InputNumber } from '../components/Inputs';
 import { Skeleton } from '../components/Skeleton';
-import { TransactionDetails, TransactionsList } from '../components/Items';
+import { DebtDetails, DebtsList } from '../components/Items';
 
-export default function Debts(props) {
+export default function TRansactions(props) {
   const { colorMode } = useColorMode();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -59,17 +76,18 @@ export default function Debts(props) {
       const selectedItemId = document.querySelector(
         `.items > :nth-child(${index}) p`
       )?.textContent;
+      // console.log(selectedItemId);
 
       selectedItem = data.find(item => {
-        return item.id === selectedItemId;
+        // console.log(item.ID);
+        return item.ID == selectedItemId;
       });
     }
 
-    // console.log(selectedItem);
-
     if (selectedItem) {
-      data.forEach((trans, index) => {
-        if (trans.total === selectedItem.total) {
+      const transListElm = document.querySelectorAll('.items > div > p');
+      transListElm.forEach((transID, index) => {
+        if (transID.textContent == selectedItem.ID) {
           setItemIndex(index + 1);
         }
       });
@@ -212,7 +230,7 @@ export default function Debts(props) {
             </HStack>
 
             {/* Trans */}
-            <TransactionsList
+            <DebtsList
               data={data}
               setData={setData}
               setItemIndex={setItemIndex}
@@ -227,7 +245,7 @@ export default function Debts(props) {
 
           {/* Trans Details Section*/}
           {screenWidth <= 1000 ? null : (
-            <TransactionDetails
+            <DebtDetails
               selectedItem={selectedItem}
               refresh={refresh}
               setRefresh={setRefresh}
