@@ -1228,6 +1228,13 @@ const TransactionsList = props => {
     );
   };
 
+  const dateOptions = {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  };
+
   if (!loading) {
     if (itemFound) {
       return (
@@ -1246,6 +1253,12 @@ const TransactionsList = props => {
         >
           {props.data?.map((item, index) => {
             // console.log(item);
+            const date = new Date(item.CreatedAt);
+            const formattedDate = date.toLocaleDateString(
+              undefined,
+              dateOptions
+            );
+
             if (item.ID.toString().includes(props.search)) {
               return (
                 <HStack
@@ -1274,7 +1287,7 @@ const TransactionsList = props => {
 
                   {/* Item's Status */}
                   <VStack w={'58%'} alignItems={'flex-start'} pr={4}>
-                    <Text mt={'4px !important'}>{item?.CreatedAt}</Text>
+                    <Text mt={'4px !important'}>{formattedDate}</Text>
                     <Badge
                       fontWeight={'bold'}
                       colorScheme={item.status === 'lunas' ? 'green' : 'red'}
