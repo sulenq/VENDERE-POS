@@ -259,7 +259,7 @@ export default function Dashboard(props) {
             <SimpleGrid
               w={'100%'}
               px={screenWidth <= 1000 ? 2 : 4}
-              columns={[1, 2, 2]}
+              columns={[1, null, 2]}
               gap={2}
             >
               <LDashboard />
