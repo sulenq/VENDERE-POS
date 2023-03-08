@@ -1181,11 +1181,12 @@ const TransactionsList = props => {
           } else {
             props.setData([]);
           }
+          setLoading(false);
         })
         .catch(err => {
           console.log(err);
-        })
-        .finally(setLoading(false));
+          setLoading(false);
+        });
     }, 1000);
   }, [props.refresh]);
 
@@ -1199,8 +1200,7 @@ const TransactionsList = props => {
     let isItemFound = true;
     if (props.data?.length !== 0) {
       isItemFound = props.data?.some(item => {
-        //todo ganti cashierId dengan trans id
-        return item.cashierId.toString()?.includes(props.search);
+        return item.ID.toString()?.includes(props.search);
       });
     }
 
@@ -1222,7 +1222,7 @@ const TransactionsList = props => {
       <VStack h={'100%'} justifyContent={'center'} opacity={0.2}>
         <Icon as={SearchOffOutlinedIcon} fontSize={'10rem'} />
         <Text fontSize={'x-large'} fontWeight={'bold'}>
-          Item Not Found
+          Transaction Not Found
         </Text>
       </VStack>
     );
@@ -1246,16 +1246,16 @@ const TransactionsList = props => {
         >
           {props.data?.map((item, index) => {
             // console.log(item);
-            if (true) {
+            if (item.ID.toString().includes(props.search)) {
               return (
                 <HStack
+                  key={index}
                   id={'item' + index}
                   pl={4}
                   pr={6}
                   mt={'0px !important'}
                   w={'100%'}
                   alignItems={'flex-start'}
-                  key={index}
                   py={2}
                   position={'relative'}
                   style={{
@@ -1269,19 +1269,17 @@ const TransactionsList = props => {
                 >
                   {/* Item's ID */}
                   <Text w={'25%'} p={'4px 8px'}>
-                    {item.cashierId}
+                    {item?.ID}
                   </Text>
 
-                  {/* Item's Name */}
+                  {/* Item's Status */}
                   <VStack w={'58%'} alignItems={'flex-start'} pr={4}>
-                    <Text mt={'4px !important'}>
-                      {'Sat, February 25, 2023'}
-                    </Text>
+                    <Text mt={'4px !important'}>{item?.CreatedAt}</Text>
                     <Badge
                       fontWeight={'bold'}
                       colorScheme={item.status === 'lunas' ? 'green' : 'red'}
                     >
-                      {item.status}
+                      {item?.status}
                     </Badge>
                   </VStack>
 
@@ -1370,6 +1368,7 @@ const TransactionDetails = props => {
       >
         <VStack w={'100%'}>
           <HStack
+            key={0}
             pt={3}
             px={5}
             pb={2}
@@ -1384,10 +1383,11 @@ const TransactionDetails = props => {
             <Text className="detailsLabels" w={'25%'}>
               ID
             </Text>
-            <Text w={'75%'}>{props?.selectedItem?.id}</Text>
+            <Text w={'75%'}>{props?.selectedItem?.ID}</Text>
           </HStack>
 
           <HStack
+            key={1}
             px={5}
             pb={2}
             w={'100%'}
@@ -1405,6 +1405,7 @@ const TransactionDetails = props => {
           </HStack>
 
           <HStack
+            key={2}
             px={5}
             pb={2}
             w={'100%'}
@@ -1422,6 +1423,7 @@ const TransactionDetails = props => {
           </HStack>
 
           <HStack
+            key={3}
             px={5}
             pb={2}
             w={'100%'}
@@ -1447,6 +1449,7 @@ const TransactionDetails = props => {
           </HStack>
 
           <HStack
+            key={4}
             px={5}
             pb={2}
             w={'100%'}
@@ -1466,6 +1469,7 @@ const TransactionDetails = props => {
           </HStack>
 
           <HStack
+            key={5}
             px={5}
             pb={2}
             w={'100%'}
@@ -1483,6 +1487,7 @@ const TransactionDetails = props => {
           </HStack>
 
           <HStack
+            key={6}
             px={5}
             pb={2}
             w={'100%'}
@@ -1502,6 +1507,7 @@ const TransactionDetails = props => {
           </HStack>
 
           <HStack
+            key={7}
             px={5}
             pb={2}
             w={'100%'}
@@ -1549,6 +1555,7 @@ const TransactionDetails = props => {
           </HStack>
 
           <HStack
+            key={8}
             px={5}
             pb={2}
             w={'100%'}
@@ -1566,6 +1573,7 @@ const TransactionDetails = props => {
           </HStack>
 
           <HStack
+            key={9}
             px={5}
             pb={2}
             w={'100%'}
@@ -1585,6 +1593,7 @@ const TransactionDetails = props => {
           </HStack>
 
           <HStack
+            key={10}
             px={5}
             pb={2}
             w={'100%'}

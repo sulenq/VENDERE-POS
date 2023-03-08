@@ -32,7 +32,7 @@ const SearchBox = props => {
       `.items > :nth-child(${props.itemIndex})`
     );
 
-    // console.log(targetItem);
+    // console.log(props.itemIndex);
 
     if (targetItem) {
       const rect = targetItem.getBoundingClientRect();

@@ -402,7 +402,7 @@ const LDashboard = () => {
   });
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState();
-  console.log(data?.revenueData);
+  // console.log(data?.revenueData);
   const labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const chartData = {
     labels: labels,
@@ -516,8 +516,10 @@ const LDashboard = () => {
             <VStack
               w={'100%'}
               h={'300px'}
-              pt={4}
+              mt={'16px !important'}
+              p={1}
               alignItems={'flex-start'}
+              borderRadius={8}
             >
               <LineChart
                 data={chartData}

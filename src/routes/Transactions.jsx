@@ -75,17 +75,18 @@ export default function TRansactions(props) {
       const selectedItemId = document.querySelector(
         `.items > :nth-child(${index}) p`
       )?.textContent;
+      // console.log(selectedItemId);
 
       selectedItem = data.find(item => {
-        return item.id === selectedItemId;
+        // console.log(item.ID);
+        return item.ID == selectedItemId;
       });
     }
 
-    // console.log(selectedItem);
-
     if (selectedItem) {
-      data.forEach((trans, index) => {
-        if (trans.total === selectedItem.total) {
+      const transListElm = document.querySelectorAll('.items > div > p');
+      transListElm.forEach((transID, index) => {
+        if (transID.textContent == selectedItem.ID) {
           setItemIndex(index + 1);
         }
       });
