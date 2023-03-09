@@ -71,13 +71,13 @@ export default function RequireRoleAuth(props) {
             });
           }
         })
-        .catch(err => {
+        .catch(err => { 
           console.log(err);
           logout();
           props.setItems([])
           navigate(props.loginPath);
         });
-    }, 100);
+    }, 1000);
   }, []);
   //*Simulasi Loading
 

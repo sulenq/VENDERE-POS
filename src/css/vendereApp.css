@@ -16,7 +16,7 @@
   --p-350: #252525;
   --p-350a: #20202080;
   --p-400: #181818;
-  --p-400a: #18181880;
+  --p-400a: #18181890;
   --p-450: #161616;
   --p-500: #000000;
   --p-500a: #09090980;
@@ -45,6 +45,7 @@ body,
   width: 100%;
   height: 100%;
   position: fixed;
+  z-index: -1;
   top: 0;
   left: 0;
   background-image: url('../assets/appBg.png');

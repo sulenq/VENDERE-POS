@@ -1111,7 +1111,7 @@ const ItemDetails = props => {
 };
 
 const ItemDetailsModal = props => {
-  console.log(props);
+  // console.log(props);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (

@@ -416,6 +416,7 @@ const ResponsiveNav = props => {
                         padding: '8px 16px',
                         borderRadius: '8px',
                         cursor: 'pointer',
+                        margin: '6px 0',
                       }}
                     >
                       <Icon as={nav.icon} fontSize={'xl'} />
@@ -457,6 +458,8 @@ const ResponsiveNav = props => {
                         padding: '8px 16px',
                         borderRadius: '8px',
                         cursor: 'pointer',
+                        margin: '6px 0',
+                        marginTop: index === 0 ? '12px' : '',
                       }}
                     >
                       <Icon as={nav.icon} fontSize={'xl'} />
