@@ -230,9 +230,12 @@ export default function App() {
         <Route
           path="employees"
           element={
-            <RequireAuth loginPath="/">
-              <Employees />
-            </RequireAuth>
+            <RequireRoleAuth
+              setToken={setToken}
+              loginPath="/?login=1"
+              restriction="admin"
+              element={<Employees />}
+            />
           }
         />
         <Route path="reports" element={<Reports />} />
