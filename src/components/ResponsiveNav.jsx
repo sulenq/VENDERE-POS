@@ -285,7 +285,7 @@ const ResponsiveNav = props => {
             <ModalContent
               content={
                 <>
-                  <ModalHeader>
+                  <ModalHeader px={4}>
                     <HStack>
                       <Icon as={LogoutOutlinedIcon} />
                       <Text>Signing Out?</Text>

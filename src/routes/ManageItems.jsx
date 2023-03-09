@@ -229,7 +229,7 @@ export default function ManageItems(props) {
           <ModalContent
             content={
               <>
-                <ModalHeader>
+                <ModalHeader px={4}>
                   <HStack>
                     <Icon as={Inventory2OutlinedIcon} fontSize={'xx-large'} />
                     <Text>Add New Item</Text>

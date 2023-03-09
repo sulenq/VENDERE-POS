@@ -111,7 +111,7 @@ body,
 }
 .navListSelected {
   background: linear-gradient(to right, var(--p-200), var(--p-200));
-  color: var(--p-500);
+  color: var(--p-50);
   position: relative;
 }
 

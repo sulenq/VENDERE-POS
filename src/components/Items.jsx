@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useLocation } from 'react-router-dom';
+import { useAuthUser } from 'react-auth-kit';
 
 // Chakra UI
 import {
@@ -329,7 +330,7 @@ const UpdateItem = props => {
         <ModalContent
           content={
             <>
-              <ModalHeader>
+              <ModalHeader px={4}>
                 <HStack>
                   <Icon
                     as={DriveFileRenameOutlineOutlinedIcon}
@@ -568,7 +569,7 @@ const DeleteItem = props => {
         <ModalContent
           content={
             <>
-              <ModalHeader>
+              <ModalHeader px={4}>
                 <HStack>
                   <Icon as={DeleteOutlineOutlinedIcon} fontSize={'xx-large'} />
                   <Text>Delete Item</Text>
@@ -855,6 +856,7 @@ const ItemsList = props => {
 
 const ItemDetails = props => {
   const selectedItem = props.selectedItem;
+  const auth = useAuthUser();
   const { colorMode } = useColorMode();
   const location = useLocation();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -1061,24 +1063,21 @@ const ItemDetails = props => {
         </VStack>
       </VStack>
 
-      {selectedItem.ID && (
-        <HStack
-          w={'100%'}
-          mt={'0px !important'}
-          fontSize={'sm'}
-          overflowY={'auto'}
-          borderRadius={'0 0 12px 12px'}
-          justifyContent={'center'}
-          style={{
-            borderColor:
-              colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
-          }}
-          // bg={'var(--p-500)'}
-          // py={3}
-          // borderTop={'1px solid'}
-          // borderBottom={'1px solid'}
-        >
-          <ButtonGroup p={3} w={'100%'} isAttached>
+      <HStack
+        w={'100%'}
+        mt={'0px !important'}
+        p={3}
+        fontSize={'sm'}
+        overflowY={'auto'}
+        borderRadius={'0 0 12px 12px'}
+        justifyContent={'center'}
+        style={{
+          borderColor:
+            colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+        }}
+      >
+        {selectedItem.ID && auth().userRole === 'admin' ? (
+          <ButtonGroup w={'100%'} isAttached>
             <UpdateItem
               selectedItem={selectedItem}
               refresh={props.refresh}
@@ -1090,8 +1089,10 @@ const ItemDetails = props => {
               setRefresh={props.setRefresh}
             />
           </ButtonGroup>
-        </HStack>
-      )}
+        ) : (
+          <PrimaryButton label={'Got It'} w={'100%'} onClick={props.onClose} />
+        )}
+      </HStack>
     </VStack>
   );
 };
@@ -1129,6 +1130,7 @@ const ItemDetailsModal = props => {
                       selectedItem={props.selectedItem}
                       refresh={props.refresh}
                       setRefresh={props.setRefresh}
+                      onClose={onClose}
                     />
                   </>
                 }
