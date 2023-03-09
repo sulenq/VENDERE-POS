@@ -2337,7 +2337,7 @@ const DebtDetails = props => {
         // borderTop={'1px solid'}
         // borderBottom={'1px solid'}
       >
-        <PayDebt />
+        {props.selectedItem.ID && <PayDebt />}
       </HStack>
     </VStack>
   );
