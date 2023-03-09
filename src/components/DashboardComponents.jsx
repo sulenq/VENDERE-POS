@@ -315,6 +315,7 @@ const RDashboard = () => {
                   borderRadius: '50px',
                 }}
                 colorScheme={'green'}
+                variant={'solid'}
               ></Badge>
               <Text>{data?.totalOnline}</Text>
               <Text opacity={'0.5'}>Online</Text>
@@ -403,7 +404,7 @@ const LDashboard = () => {
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState();
   // console.log(data?.revenueData);
-  const labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const labels = data?.dateData;
   const chartData = {
     labels: labels,
     datasets: [
@@ -424,9 +425,70 @@ const LDashboard = () => {
     ],
   };
 
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1;
+
+  function getTotalRevenue(data) {
+    let totalRevenue = 0;
+    data?.forEach(item => {
+      totalRevenue += item.total;
+    });
+    return totalRevenue;
+  }
+
+  function getTotalProfit(data) {
+    let totalProfit = 0;
+    data?.forEach(item => {
+      totalProfit += item.totalProfit;
+    });
+    return totalProfit;
+  }
+
+  function getRevenueData(data) {
+    const rawRevenueData = {};
+
+    for (let item of data) {
+      const date = new Date(item.CreatedAt);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+
+      if (year === currentYear && month === currentMonth) {
+        if (!rawRevenueData[day]) {
+          rawRevenueData[day] = item.totalProfit;
+        } else {
+          rawRevenueData[day] += item.totalProfit;
+        }
+      }
+    }
+
+    const revenueData = [];
+    for (let key in rawRevenueData) {
+      revenueData.push(rawRevenueData[key]);
+    }
+    return revenueData;
+  }
+
+  function getDateData(data) {
+    const dateData = {};
+
+    for (let item of data) {
+      const date = new Date(item.CreatedAt);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+
+      if (year === currentYear && month === currentMonth) {
+        dateData[day] = '';
+      }
+    }
+    return Object.keys(dateData);
+  }
+
   //* Get Report Data Days
   useEffect(() => {
-    const getMonthReportAPI = `${baseURL}/api/v1/rekap/days`;
+    const getMonthReportAPI = `${baseURL}/api/v1/transactions/admin`;
     setLoading(true);
 
     function getMonthReport() {
@@ -435,25 +497,14 @@ const LDashboard = () => {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then(r => {
-          console.log(r);
-          const data = r.data.data;
-          let totalRevenue = 0;
-          data.forEach(item => {
-            totalRevenue += item.total_price;
-          });
-          const revenueData = data.map(item => {
-            return item.total_price;
-          });
-          const dateData = data.map(item => {
-            //todo ambil tanggal dari response data
-            return 'tanggalan';
-          });
+          // console.log(r.data.data);
           setData({
-            totalRevenue: totalRevenue,
+            totalRevenue: getTotalRevenue(r.data.data),
+            totalProfit: getTotalProfit(r.data.data),
             totalExpenses: 0,
             data: data,
-            revenueData: revenueData,
-            dateData: dateData,
+            revenueData: getRevenueData(r.data.data),
+            dateData: getDateData(r.data.data),
           });
           setLoading(false);
         })
@@ -490,7 +541,7 @@ const LDashboard = () => {
           <>
             <VStack alignItems={'flex-start'} px={2}>
               <HStack alignItems={'flex-start'}>
-                <Text fontWeight={'bold'}>Rp.</Text>
+                <Text>Rp.</Text>
                 <Text fontSize={'xx-large'} fontWeight={'bold'}>
                   {data?.totalRevenue?.toLocaleString() || 'Null'}
                 </Text>
@@ -502,7 +553,19 @@ const LDashboard = () => {
 
             <VStack alignItems={'flex-start'} px={2}>
               <HStack alignItems={'flex-start'}>
-                <Text fontWeight={'bold'}>Rp.</Text>
+                <Text>Rp.</Text>
+                <Text fontSize={'xx-large'} fontWeight={'bold'}>
+                  {data?.totalProfit?.toLocaleString() || 'Null'}
+                </Text>
+              </HStack>
+              <Text mt={'0px !important'} color={'var(--p-200)'}>
+                Total Profit
+              </Text>
+            </VStack>
+
+            <VStack alignItems={'flex-start'} px={2}>
+              <HStack alignItems={'flex-start'}>
+                <Text>Rp.</Text>
                 <Text fontSize={'xx-large'} fontWeight={'bold'}>
                   Coming Soon!
                   {/* {data?.totalExpenses?.toLocaleString() || 'Null'} */}
@@ -529,6 +592,7 @@ const LDashboard = () => {
           </>
         ) : (
           <>
+            <Skeleton h={'70px'} />
             <Skeleton h={'70px'} />
             <Skeleton h={'70px'} />
             <Skeleton h={'200px'} />

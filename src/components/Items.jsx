@@ -1870,7 +1870,9 @@ const DebtsList = props => {
                     <Text mt={'4px !important'} fontWeight={'bold'}>
                       {formattedDate}
                     </Text>
-                    <Text mt={'2px !important'}>{item.notes}</Text>
+                    <Text mt={'2px !important'} opacity={item.notes ? 1 : 0.5}>
+                      {item.notes || 'no notes'}
+                    </Text>
                   </VStack>
 
                   {/* Item Action */}

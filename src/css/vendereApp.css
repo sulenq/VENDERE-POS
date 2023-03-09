@@ -52,7 +52,7 @@ body,
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
-  animation: zoom 16s infinite;
+  animation: zoom 60s infinite;
 }
 @keyframes zoom {
   0% {
