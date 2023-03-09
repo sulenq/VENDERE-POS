@@ -40,6 +40,7 @@ import { ModalContent, ModalFooter, ModalOverlay } from '../components/Modals';
 import { Input, InputNumber } from '../components/Inputs';
 import { Skeleton } from '../components/Skeleton';
 import { TransactionDetails, TransactionsList } from '../components/Items';
+import { useAuthUser } from 'react-auth-kit';
 
 export default function TRansactions(props) {
   const { colorMode } = useColorMode();
@@ -65,6 +66,7 @@ export default function TRansactions(props) {
   const [itemsLength, setItemsLength] = useState(0);
   const [selectedItem, setSelectedItem] = useState({});
   const [refresh, setRefresh] = useState(true);
+  const auth = useAuthUser();
 
   function selectItem({ item, index }) {
     let selectedItem;
@@ -190,7 +192,12 @@ export default function TRansactions(props) {
             >
               <HStack opacity={0.5}>
                 <Icon as={ReceiptLongOutlinedIcon} />
-                <Text fontWeight={'bold'}>All Transactions</Text>
+                <Text fontWeight={'bold'}>
+                  All Transactions{' '}
+                  {auth().userRole === 'cashier'
+                    ? `(Cashier ID: ${auth().userId})`
+                    : ''}
+                </Text>
               </HStack>
             </HStack>
 

@@ -302,7 +302,7 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
           change: change,
           cartList: cartList,
           status: status,
-          note: note,
+          notes: note,
           totalProfit: totalProfit,
         };
 

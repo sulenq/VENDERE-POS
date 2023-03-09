@@ -161,7 +161,7 @@ const RDashboard = () => {
     }
 
     return (
-      <>
+      <HStack px={1} w={'100%'}>
         <PrimaryButton
           w={'100%'}
           label={'Sign Up Employee Account'}
@@ -253,7 +253,7 @@ const RDashboard = () => {
             }
           />
         </Modal>
-      </>
+      </HStack>
     );
   };
 

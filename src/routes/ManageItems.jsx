@@ -392,7 +392,7 @@ export default function ManageItems(props) {
         h={'100%'}
         style={{
           background:
-            colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-4                                            00a)',
+            colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-400a)',
           borderRadius: screenWidth <= 1000 ? 0 : '12px',
           width: screenWidth <= 1000 ? '100%' : 'calc(100% - 200px)',
           paddingTop: 6,

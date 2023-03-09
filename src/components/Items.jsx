@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useLocation } from 'react-router-dom';
-import { useAuthUser } from 'react-auth-kit';
+import { useAuthUser, useSignOut } from 'react-auth-kit';
 
 // Chakra UI
 import {
@@ -488,7 +488,7 @@ const UpdateItem = props => {
 
 //* Delete Item
 const DeleteItem = props => {
-  console.log(props.setSelectedItem);
+  // console.log(props.setSelectedItem);
   const baseURL = 'http://localhost:8080';
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -1173,6 +1173,7 @@ const TransactionsList = props => {
     window.addEventListener('resize', handleResize);
   });
 
+  const auth = useAuthUser();
   const [loading, setLoading] = useState(false);
   const skeletonLength = ['', '', '', '', '', '', '', '', '', '', '', ''];
   const [itemFound, setItemFound] = useState(true);
@@ -1181,17 +1182,21 @@ const TransactionsList = props => {
   useEffect(() => {
     const token = Cookies.get('_auth');
 
-    const getTransactionsAdmin = `${baseURL}/api/v1/transactions/admin`;
-
+    let getTransactionsAPI;
+    if (auth().userRole === 'admin') {
+      getTransactionsAPI = `${baseURL}/api/v1/transactions/admin`;
+    } else if (auth().userRole === 'cashier') {
+      getTransactionsAPI = `${baseURL}/api/v1/transactions/cashier`;
+    }
     setLoading(true);
 
     setTimeout(() => {
       axios
-        .get(getTransactionsAdmin, {
+        .get(getTransactionsAPI, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then(r => {
-          // console.log(r.data.data);
+          console.log(r.data.data);
           if (r.data.data) {
             props.setData(r.data.data);
           } else {
@@ -1275,7 +1280,7 @@ const TransactionsList = props => {
               dateOptions
             );
 
-            if (item.ID.toString().includes(props.search)) {
+            if (item?.ID?.toString().includes(props.search)) {
               return (
                 <HStack
                   key={index}
@@ -1361,6 +1366,7 @@ const TransactionsList = props => {
 };
 
 const TransactionDetails = props => {
+  // console.log(props.selectedItem);
   const { colorMode } = useColorMode();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -1598,7 +1604,7 @@ const TransactionDetails = props => {
             <Text className="detailsLabels" w={'25%'}>
               Note
             </Text>
-            <Text w={'75%'}>{props?.selectedItem?.note}</Text>
+            <Text w={'75%'}>{props?.selectedItem?.notes}</Text>
           </HStack>
 
           <HStack
@@ -1769,7 +1775,10 @@ const DebtsList = props => {
     let isItemFound = true;
     if (props.data?.length !== 0) {
       isItemFound = props.data?.some(item => {
-        return item.ID.toString()?.includes(props.search);
+        return (
+          item.ID.toString()?.includes(props.search) ||
+          item.notes.toString()?.toLowerCase().includes(props.search)
+        );
       });
     }
 
@@ -1821,14 +1830,16 @@ const DebtsList = props => {
           }}
         >
           {props.data?.map((item, index) => {
-            // console.log(item);
             const date = new Date(item.CreatedAt);
             const formattedDate = date.toLocaleDateString(
               undefined,
               dateOptions
             );
 
-            if (item.ID.toString().includes(props.search)) {
+            if (
+              item.ID.toString().includes(props.search) ||
+              item.notes.toString()?.toLowerCase().includes(props.search)
+            ) {
               return (
                 <HStack
                   key={index}
@@ -1856,13 +1867,10 @@ const DebtsList = props => {
 
                   {/* Item's Status */}
                   <VStack w={'58%'} alignItems={'flex-start'} pr={4}>
-                    <Text mt={'4px !important'}>{formattedDate}</Text>
-                    <Badge
-                      fontWeight={'bold'}
-                      colorScheme={item.status === 'lunas' ? 'green' : 'red'}
-                    >
-                      {item?.status}
-                    </Badge>
+                    <Text mt={'4px !important'} fontWeight={'bold'}>
+                      {formattedDate}
+                    </Text>
+                    <Text mt={'2px !important'}>{item.notes}</Text>
                   </VStack>
 
                   {/* Item Action */}
@@ -2005,35 +2013,39 @@ const DebtDetails = props => {
                           </Badge>
                         )}
                       </HStack>
-                      <form>
-                        <FormControl mt={4} isRequired>
-                          <FormLabel>Pay</FormLabel>
-                          <HStack w={'100%'}>
-                            <Input
-                              value={data.pay || ''}
-                              type={'number'}
-                              onChange={e => {
-                                let status = 'hutang';
-                                if (
-                                  e.target.value >
-                                  props.selectedItem.change * -1
-                                ) {
-                                  status = 'lunas';
-                                } else {
-                                  status = 'hutang';
-                                }
-                                setData({
-                                  pay: parseInt(e.target.value),
-                                  change:
-                                    parseInt(e.target.value || '0') +
-                                    props.selectedItem.change,
-                                  status: status,
-                                });
-                              }}
-                            />
-                          </HStack>
-                        </FormControl>
-                      </form>
+
+                      <FormControl mt={4} isRequired>
+                        <FormLabel>Pay</FormLabel>
+                        <HStack w={'100%'}>
+                          <Input
+                            value={data.pay || ''}
+                            type={'number'}
+                            onKeyUp={e => {
+                              if (e.key === 'Enter') {
+                                document.querySelector('#payDebtBtn').click();
+                              }
+                            }}
+                            onChange={e => {
+                              let status = 'hutang';
+                              if (
+                                e.target.value >=
+                                props.selectedItem.change * -1
+                              ) {
+                                status = 'lunas';
+                              } else {
+                                status = 'hutang';
+                              }
+                              setData({
+                                pay: parseInt(e.target.value),
+                                change:
+                                  parseInt(e.target.value || '0') +
+                                  props.selectedItem.change,
+                                status: status,
+                              });
+                            }}
+                          />
+                        </HStack>
+                      </FormControl>
                     </>
                   }
                 />
@@ -2049,6 +2061,7 @@ const DebtDetails = props => {
                           Close
                         </Button>
                         <PrimaryButton
+                          id={'payDebtBtn'}
                           label={'Pay Debt'}
                           isLoading={loading}
                           onClick={onPayDebt}
@@ -2296,7 +2309,7 @@ const DebtDetails = props => {
               <Text className="detailsLabels" w={'25%'}>
                 Note
               </Text>
-              <Text w={'75%'}>{props?.selectedItem?.note}</Text>
+              <Text w={'75%'}>{props?.selectedItem?.notes}</Text>
             </HStack>
 
             <HStack

@@ -152,6 +152,7 @@ const Input = props => {
 
   return (
     <InputChakra
+      {...props}
       onFocus={props.onFocus}
       px={3}
       type={props.type}

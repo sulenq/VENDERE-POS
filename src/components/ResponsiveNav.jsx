@@ -346,13 +346,10 @@ const ResponsiveNav = props => {
       <>
         <VStack
           id="nav"
-          w={'240px'}
+          w={'200px'}
           h={'100%'}
           py={3}
-          px={4}
-          pr={'24px'}
-          mr={'-12px'}
-          border={colorMode === 'light' ? '2px solid var(--p-300)' : ''}
+          pr={4}
           borderRadius={'12px 0 0 12px'}
         >
           {/* Logo */}
