@@ -32,6 +32,9 @@ export const ActionTopBar = () => {
           _active={{
             background: colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
           }}
+          onClick={() => {
+            window.location.reload();
+          }}
         />
       </HStack>
     </HStack>
