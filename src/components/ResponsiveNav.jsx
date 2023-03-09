@@ -328,13 +328,16 @@ const ResponsiveNav = props => {
 
     // Selecting Nav List
     const selectNav = targetId => {
+      const navActive = document.querySelector(`#${props.active}Nav`);
       const target = document.querySelector(`#${targetId}`);
-      target.classList.add('navListActive');
+      if (target != navActive) {
+        target.classList.add('navListSelected');
+      }
     };
     const diselectNav = targetId => {
       const navActive = document.querySelector(`#${props.active}Nav`);
       const target = document.querySelector(`#${targetId}`);
-      target.classList.remove('navListActive');
+      target.classList.remove('navListSelected');
       navActive.classList.add('navListActive');
       // console.log(navActive);
     };

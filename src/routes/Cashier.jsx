@@ -26,16 +26,12 @@ import { ModalContent, ModalOverlay } from '../components/Modals';
 import { ActionTopBar } from '../components/ActionTopBar';
 
 export default function Cashier({
-  items,
-  setItems,
   total,
   setTotal,
   cartList,
   setCartList,
   addItemToCartList,
 }) {
-  const [invoice, setInvoice] = useState({});
-
   const { colorMode } = useColorMode();
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -181,7 +177,7 @@ export default function Cashier({
       // backgroundImage={colorMode === 'light' ? `url(${bgDark})` : ''}
       // backgroundImage={`url(${bgDark})`}
     >
-      <ResponsiveNav active={'Cashier'} w={'15%'} setItems={setItems} />
+      <ResponsiveNav active={'Cashier'} w={'15%'} />
       <VStack
         id="appContentWrapper"
         ml={'0px !important'}
@@ -281,15 +277,24 @@ export default function Cashier({
             </VStack>
           )}
           <Invoice
-            items={items}
+            data={data}
+            setData={setData}
+            selectedItem={selectedItem}
+            itemsLength={itemsLength}
+            setItemsLength={setItemsLength}
+            itemIndex={itemIndex}
+            setItemIndex={setItemIndex}
+            selectItem={selectItem}
+            setSelectedItem={setSelectedItem}
+            search={search}
+            refresh={refresh}
             total={total}
             setTotal={setTotal}
             cartList={cartList}
             setCartList={setCartList}
-            search={search}
             setSearch={setSearch}
-            setInvoice={setInvoice}
             addItemToCartList={addItemToCartList}
+            ScanItem={<ScanItem />}
           />
         </HStack>
       </VStack>

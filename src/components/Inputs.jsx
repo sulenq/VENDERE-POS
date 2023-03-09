@@ -29,7 +29,7 @@ const SearchBox = props => {
 
   function selectItemIndicator() {
     const targetItem = document.querySelector(
-      `.items > :nth-child(${props.itemIndex})`
+      `.items > :nth-child(${props?.itemIndex || 1})`
     );
 
     // console.log(props.itemIndex);
