@@ -90,11 +90,9 @@ export default function RequireRoleAuth(props) {
         //! BUGGY
         switch (auth.role) {
           case 'admin':
-            console.log('kontol');
             navigate('/vendere-app');
             break;
           case 'cashier':
-            console.log('kontol kasir');
             navigate('/vendere-app/cashier');
             break;
         }

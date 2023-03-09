@@ -676,7 +676,7 @@ const ItemsList = props => {
           console.log(err);
         })
         .finally(setLoading(false));
-    }, 1000);
+    }, 300);
   }, [props.refresh]);
 
   useEffect(() => {
@@ -771,7 +771,7 @@ const ItemsList = props => {
                       index % 2 === 1
                         ? colorMode === 'light'
                           ? 'var(--light)'
-                          : 'var(--p-400)'
+                          : 'var(--dark)'
                         : null,
                   }}
                 >
@@ -932,7 +932,7 @@ const ItemDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
             }}
           >
             <Text className="detailsLabels" w={'150px'}>
@@ -949,7 +949,7 @@ const ItemDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
             }}
           >
             <Text className="detailsLabels" w={'150px'}>
@@ -966,7 +966,7 @@ const ItemDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
             }}
           >
             <Text className="detailsLabels" w={'150px'}>
@@ -985,7 +985,7 @@ const ItemDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
             }}
           >
             <Text className="detailsLabels" w={'150px'}>
@@ -1004,7 +1004,7 @@ const ItemDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
             }}
           >
             <Text className="detailsLabels" w={'150px'}>
@@ -1023,7 +1023,7 @@ const ItemDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
             }}
           >
             <Text className="detailsLabels" w={'150px'}>
@@ -1040,7 +1040,7 @@ const ItemDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
             }}
           >
             <Text className="detailsLabels" w={'150px'}>
@@ -1057,7 +1057,7 @@ const ItemDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
             }}
           >
             <Text className="detailsLabels" w={'150px'}>
@@ -1078,7 +1078,7 @@ const ItemDetails = props => {
         justifyContent={'center'}
         style={{
           borderColor:
-            colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+            colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
         }}
       >
         {selectedItem.ID && auth().userRole === 'admin' ? (
@@ -1208,7 +1208,7 @@ const TransactionsList = props => {
           console.log(err);
           setLoading(false);
         });
-    }, 1000);
+    }, 300);
   }, [props.refresh]);
 
   useEffect(() => {
@@ -1269,7 +1269,7 @@ const TransactionsList = props => {
           borderTop={'1px solid'}
           style={{
             borderColor:
-              colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+              colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
           }}
         >
           {props.data?.map((item, index) => {
@@ -1297,8 +1297,8 @@ const TransactionsList = props => {
                       index % 2 === 1
                         ? colorMode === 'light'
                           ? 'var(--light)'
-                          : 'var(--p-450)'
-                        : '',
+                          : 'var(--dark)'
+                        : null,
                   }}
                 >
                   {/* Item's ID */}
@@ -1412,7 +1412,7 @@ const TransactionDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
             }}
           >
             <Text className="detailsLabels" w={'25%'}>
@@ -1430,7 +1430,7 @@ const TransactionDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
             }}
           >
             <Text className="detailsLabels" w={'25%'}>
@@ -1448,7 +1448,7 @@ const TransactionDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
             }}
           >
             <Text className="detailsLabels" w={'25%'}>
@@ -1466,7 +1466,7 @@ const TransactionDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
             }}
           >
             <Text className="detailsLabels" w={'25%'}>
@@ -1492,7 +1492,7 @@ const TransactionDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
             }}
           >
             <Text className="detailsLabels" w={'25%'}>
@@ -1512,7 +1512,7 @@ const TransactionDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
             }}
           >
             <Text className="detailsLabels" w={'25%'}>
@@ -1530,7 +1530,7 @@ const TransactionDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
             }}
           >
             <Text className="detailsLabels" w={'25%'}>
@@ -1550,7 +1550,7 @@ const TransactionDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
             }}
           >
             <Text className="detailsLabels" w={'25%'}>
@@ -1598,7 +1598,7 @@ const TransactionDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
             }}
           >
             <Text className="detailsLabels" w={'25%'}>
@@ -1616,7 +1616,7 @@ const TransactionDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
             }}
           >
             <Text className="detailsLabels" w={'25%'}>
@@ -1636,7 +1636,7 @@ const TransactionDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
             }}
           >
             <Text className="detailsLabels" w={'25%'}>
@@ -1657,7 +1657,7 @@ const TransactionDetails = props => {
           justifyContent={'center'}
           style={{
             borderColor:
-              colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+              colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
           }}
           // bg={'var(--p-500)'}
           // py={3}
@@ -1762,7 +1762,7 @@ const DebtsList = props => {
           console.log(err);
           setLoading(false);
         });
-    }, 1000);
+    }, 300);
   }, [props.refresh]);
 
   useEffect(() => {
@@ -1856,7 +1856,7 @@ const DebtsList = props => {
                       index % 2 === 1
                         ? colorMode === 'light'
                           ? 'var(--light)'
-                          : 'var(--p-450)'
+                          : 'var(--dark)'
                         : '',
                   }}
                 >
@@ -1867,9 +1867,7 @@ const DebtsList = props => {
 
                   {/* Item's Status */}
                   <VStack w={'58%'} alignItems={'flex-start'} pr={4}>
-                    <Text mt={'4px !important'} fontWeight={'bold'}>
-                      {formattedDate}
-                    </Text>
+                    <Text mt={'4px !important'}>{formattedDate}</Text>
                     <Text mt={'2px !important'} opacity={item.notes ? 1 : 0.5}>
                       {item.notes || 'no notes'}
                     </Text>

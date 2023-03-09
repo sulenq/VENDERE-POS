@@ -82,7 +82,7 @@ const ResponsiveNav = props => {
       name: 'Debts',
       link: '/vendere-app/debts',
       icon: MoneyOffIcon,
-      restriction: '',
+      restriction: 'admin',
     },
     {
       name: 'Support',
@@ -348,7 +348,7 @@ const ResponsiveNav = props => {
           id="nav"
           w={'200px'}
           h={'100%'}
-          py={3}
+          py={2}
           pr={4}
           borderRadius={'12px 0 0 12px'}
         >

@@ -221,7 +221,7 @@ export default function App() {
             <RequireRoleAuth
               setToken={setToken}
               loginPath="/?login=1"
-              restriction=""
+              restriction="admin"
               element={<Debts />}
             />
           }

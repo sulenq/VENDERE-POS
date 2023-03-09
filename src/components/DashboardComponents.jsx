@@ -46,7 +46,7 @@ import PersonOffOutlinedIcon from '@mui/icons-material/PersonOffOutlined';
 
 import '../css/vendereApp.css';
 
-import { PrimaryButton } from '../components/Buttons';
+import { PrimaryButton, PrimaryButtonOutline } from '../components/Buttons';
 import { ModalContent, ModalFooter, ModalOverlay } from '../components/Modals';
 import { Input } from '../components/Inputs';
 import { Skeleton } from '../components/Skeleton';
@@ -56,6 +56,7 @@ const RDashboard = () => {
   const token = Cookies.get('_auth');
   const { colorMode } = useColorMode();
   const toast = useToast();
+  const navigate = useNavigate();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
     function handleResize() {
@@ -69,6 +70,7 @@ const RDashboard = () => {
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState();
 
+  //* Get Data
   useEffect(() => {
     const getEmployeesAPI = `${baseURL}/api/v1/cashiers`;
 
@@ -99,7 +101,7 @@ const RDashboard = () => {
           console.log(err);
           setLoading(false);
         });
-    }, 1000);
+    }, 300);
   }, [refresh]);
 
   const RegisterEmployee = () => {
@@ -267,22 +269,21 @@ const RDashboard = () => {
         <Text fontWeight={'bold'} opacity={0.5}>
           Employees
         </Text>
-        <Link to={'/vendere-app/employees'}>
+        {/* <Link to={'/vendere-app/employees'}>
           <Text
             fontSize={'sm'}
             style={{ color: 'var(--p-200)' }}
             _hover={{ textDecoration: 'underline' }}
           >
-            See More
+            Manage
           </Text>
-        </Link>
+        </Link> */}
       </HStack>
 
       {/* Body */}
       <VStack
         alignItems={'flex-start'}
         p={2}
-        pb={3}
         w={'100%'}
         style={{
           border:
@@ -376,7 +377,13 @@ const RDashboard = () => {
               })}
         </VStack>
 
-        <RegisterEmployee />
+        <PrimaryButton
+          label="Manage Employees"
+          w={'100%'}
+          onClick={() => {
+            navigate('/vendere-app/employees');
+          }}
+        />
       </VStack>
     </VStack>
   );
@@ -386,6 +393,7 @@ const LDashboard = () => {
   const baseURL = 'http://localhost:8080';
   const token = Cookies.get('_auth');
   const { colorMode } = useColorMode();
+  const navigate = useNavigate();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
     function handleResize() {
@@ -516,7 +524,7 @@ const LDashboard = () => {
 
     setTimeout(() => {
       getMonthReport();
-    }, 1000);
+    }, 300);
   }, [refresh]);
 
   return (
@@ -589,6 +597,14 @@ const LDashboard = () => {
                 options={{ responsive: true, maintainAspectRatio: false }}
               />
             </VStack>
+
+            <PrimaryButton
+              label="See Full Reports"
+              w={'100%'}
+              onClick={() => {
+                navigate('/vendere-app/reports');
+              }}
+            />
           </>
         ) : (
           <>
