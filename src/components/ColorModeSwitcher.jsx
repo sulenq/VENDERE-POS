@@ -29,7 +29,7 @@ const ColorModeIconButton = props => {
 };
 
 const ColorModeButton = props => {
-  const { toggleColorMode } = useColorMode();
+  const { toggleColorMode, colorMode } = useColorMode();
   const text = useColorModeValue('dark', 'light');
   const SwitchIcon = useColorModeValue(FaMoon, FaSun);
 
@@ -44,6 +44,7 @@ const ColorModeButton = props => {
       color="current"
       onClick={toggleColorMode}
       leftIcon={<SwitchIcon />}
+      _hover={colorMode === 'light' ? '' : ''}
       {...props}
     >
       Theme

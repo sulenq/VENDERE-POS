@@ -295,6 +295,7 @@ const UpdateItem = props => {
               isClosable: true,
             });
           }
+          props.setSelectedItem({});
           props.setRefresh(!props.refresh);
           setLoading(false);
         })
@@ -487,6 +488,7 @@ const UpdateItem = props => {
 
 //* Delete Item
 const DeleteItem = props => {
+  console.log(props.setSelectedItem);
   const baseURL = 'http://localhost:8080';
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -531,11 +533,12 @@ const DeleteItem = props => {
               isClosable: true,
             });
           }
+          props.setSelectedItem({});
           props.setRefresh(!props.refresh);
           setLoading(false);
         })
         .catch(err => {
-          console.log(err);
+          console.error(err);
           if (err) {
             toast({
               position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
@@ -804,6 +807,7 @@ const ItemsList = props => {
                           selectItem={props.selectItem}
                           item={item}
                           selectedItem={props.selectedItem}
+                          setSelectedItem={props.setSelectedItem}
                           refresh={props.refresh}
                           setRefresh={props.setRefresh}
                         />
@@ -816,6 +820,7 @@ const ItemsList = props => {
                           selectItem={props.selectItem}
                           item={item}
                           selectedItem={props.selectedItem}
+                          setSelectedItem={props.setSelectedItem}
                           refresh={props.refresh}
                           setRefresh={props.setRefresh}
                         />
@@ -1080,17 +1085,25 @@ const ItemDetails = props => {
           <ButtonGroup w={'100%'} isAttached>
             <UpdateItem
               selectedItem={selectedItem}
+              setSelectedItem={props.setSelectedItem}
               refresh={props.refresh}
               setRefresh={props.setRefresh}
             />
             <DeleteItem
               selectedItem={selectedItem}
+              setSelectedItem={props.setSelectedItem}
               refresh={props.refresh}
               setRefresh={props.setRefresh}
             />
           </ButtonGroup>
         ) : (
-          <PrimaryButton label={'Got It'} w={'100%'} onClick={props.onClose} />
+          selectedItem.ID && (
+            <PrimaryButton
+              label={'Got It'}
+              w={'100%'}
+              onClick={props.onClose}
+            />
+          )
         )}
       </HStack>
     </VStack>
@@ -1098,6 +1111,7 @@ const ItemDetails = props => {
 };
 
 const ItemDetailsModal = props => {
+  console.log(props);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -1127,6 +1141,7 @@ const ItemDetailsModal = props => {
                 content={
                   <>
                     <ItemDetails
+                      setSelectedItem={props.setSelectedItem}
                       selectedItem={props.selectedItem}
                       refresh={props.refresh}
                       setRefresh={props.setRefresh}
@@ -1861,6 +1876,7 @@ const DebtsList = props => {
                         selectItem={props.selectItem}
                         item={item}
                         selectedItem={props.selectedItem}
+                        setSelectedItem={props.setSelectedItem}
                         refresh={props.refresh}
                         setRefresh={props.setRefresh}
                       />
@@ -1938,8 +1954,9 @@ const DebtDetails = props => {
           })
           .then(r => {
             console.log(r);
-            setLoading(false);
+            props.setSelectedItem({});
             props.setRefresh(!props.refresh);
+            setLoading(false);
           })
           .catch(err => {
             console.log(err);
@@ -1959,7 +1976,7 @@ const DebtDetails = props => {
           <ModalContent
             content={
               <>
-                <ModalHeader>
+                <ModalHeader px={4}>
                   <HStack>
                     <Icon as={MoneyOff} fontSize={'xx-large'} />
                     <Text>Pay Debt</Text>
@@ -1976,6 +1993,17 @@ const DebtDetails = props => {
                       >
                         <Text fontSize={'x-large'}>Rp.</Text>
                         <Text fontSize={'xxx-large'}>{data.change}</Text>
+                      </HStack>
+                      <HStack w={'100%'} justifyContent={'flex-end'}>
+                        {data.status === 'lunas' ? (
+                          <Badge fontSize={'16px'} colorScheme={'green'}>
+                            lunas
+                          </Badge>
+                        ) : (
+                          <Badge fontSize={'16px'} colorScheme={'red'}>
+                            hutang
+                          </Badge>
+                        )}
                       </HStack>
                       <form>
                         <FormControl mt={4} isRequired>
@@ -2003,15 +2031,6 @@ const DebtDetails = props => {
                                 });
                               }}
                             />
-                            {data.status === 'lunas' ? (
-                              <Badge fontSize={'x-large'} colorScheme={'green'}>
-                                lunas
-                              </Badge>
-                            ) : (
-                              <Badge fontSize={'x-large'} colorScheme={'red'}>
-                                hutang
-                              </Badge>
-                            )}
                           </HStack>
                         </FormControl>
                       </form>
@@ -2337,7 +2356,9 @@ const DebtDetails = props => {
         // borderTop={'1px solid'}
         // borderBottom={'1px solid'}
       >
-        {props.selectedItem.ID && <PayDebt />}
+        {props.selectedItem.ID && (
+          <PayDebt setSelectedItem={props.setSelectedItem} />
+        )}
       </HStack>
     </VStack>
   );
@@ -2374,6 +2395,7 @@ const DebtDetailsModal = props => {
                   <>
                     <DebtDetails
                       selectedItem={props.selectedItem}
+                      setSelectedItem={props.setSelectedItem}
                       refresh={props.refresh}
                       setRefresh={props.setRefresh}
                       onClose={onClose}

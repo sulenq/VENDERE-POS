@@ -246,6 +246,7 @@ export default function TRansactions(props) {
           {/* Trans Details Section*/}
           {screenWidth <= 1000 ? null : (
             <DebtDetails
+              setSelectedItem={setSelectedItem}
               selectedItem={selectedItem}
               refresh={refresh}
               setRefresh={setRefresh}

@@ -175,7 +175,7 @@ export default function ManageItems(props) {
             headers: { Authorization: `Bearer ${token}` },
           })
           .then(r => {
-            console.log(r);
+            // console.log(r);
             setRegisterData({
               ucode: '',
               name: '',
@@ -193,6 +193,7 @@ export default function ManageItems(props) {
                 isClosable: true,
               });
             }
+            setSelectedItem({});
             setRefresh(!refresh);
           })
           .catch(err => {
@@ -485,6 +486,7 @@ export default function ManageItems(props) {
           {/* Item Details */}
           {screenWidth <= 1000 ? null : (
             <ItemDetails
+              setSelectedItem={setSelectedItem}
               selectedItem={selectedItem}
               refresh={refresh}
               setRefresh={setRefresh}
