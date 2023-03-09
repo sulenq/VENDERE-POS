@@ -184,7 +184,7 @@ export default function Cashier({
         h={'100%'}
         style={{
           background:
-            colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
+            colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-400a)',
           borderRadius: screenWidth <= 1000 ? 0 : '12px',
           width: screenWidth <= 1000 ? '100%' : 'calc(100% - 200px)',
           padding: 8,
@@ -205,7 +205,7 @@ export default function Cashier({
                 overflowY: 'auto',
                 paddingBottom: screenWidth <= 1000 ? '64px' : '',
                 borderRadius: '12px',
-                background: colorMode === 'light' ? 'white' : 'var(--p-400)',
+                background: colorMode === 'light' ? 'white' : 'var(--p-400a)',
               }}
               py={3}
             >

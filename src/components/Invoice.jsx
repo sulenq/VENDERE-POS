@@ -552,7 +552,7 @@ const Invoice = ({
       alignItems={'flex-start'}
       py={2}
       style={{
-        background: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400)',
+        background: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)',
       }}
     >
       {/* HEADER, ADD & CHECKOUT */}

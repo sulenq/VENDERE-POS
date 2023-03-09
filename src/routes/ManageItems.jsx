@@ -392,7 +392,7 @@ export default function ManageItems(props) {
         h={'100%'}
         style={{
           background:
-            colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-400)',
+            colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-4                                            00a)',
           borderRadius: screenWidth <= 1000 ? 0 : '12px',
           width: screenWidth <= 1000 ? '100%' : 'calc(100% - 200px)',
           paddingTop: 6,
@@ -412,7 +412,7 @@ export default function ManageItems(props) {
               overflowY: 'auto',
               paddingBottom: screenWidth <= 1000 ? '64px' : '',
               borderRadius: '12px',
-              background: colorMode === 'light' ? 'white' : 'var(--dark)',
+              background: colorMode === 'light' ? 'white' : 'var(--p-400a)',
             }}
             py={3}
           >

@@ -143,9 +143,35 @@ const SecondaryButtonOutlineNav = props => {
   );
 };
 
+const PrimaryButtonGhost = props => {
+  const { colorMode } = useColorMode();
+
+  return (
+    <Button
+      {...props}
+      className="btn primaryBtn"
+      variant={'ghost'}
+      style={{
+        color: 'var(--p-500)',
+        background: 'var(--p-50)',
+      }}
+      _hover={{
+        background: colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+      }}
+      _active={{
+        background: colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
+      }}
+    >
+      {props.leftIcon && <Icon as={props.leftIcon} w={5} pr={'2px'} />}
+      {props.label}
+    </Button>
+  );
+};
+
 export {
   PrimaryButton,
   PrimaryButtonOutline,
   PrimaryButtonNav,
   SecondaryButtonOutlineNav,
+  PrimaryButtonGhost,
 };

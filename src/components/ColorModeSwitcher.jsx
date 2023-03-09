@@ -44,7 +44,12 @@ const ColorModeButton = props => {
       color="current"
       onClick={toggleColorMode}
       leftIcon={<SwitchIcon />}
-      _hover={colorMode === 'light' ? '' : ''}
+      _hover={{
+        background: colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+      }}
+      _active={{
+        background: colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
+      }}
       {...props}
     >
       Theme

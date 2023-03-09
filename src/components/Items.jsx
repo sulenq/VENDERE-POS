@@ -884,7 +884,7 @@ const ItemDetails = props => {
         height: '100%',
         overflowY: 'auto',
         borderRadius: '12px',
-        background: colorMode === 'light' ? 'white' : 'var(--dark)',
+        background: colorMode === 'light' ? 'white' : 'var(--p-400a)',
       }}
       pt={3}
     >
@@ -1377,7 +1377,7 @@ const TransactionDetails = props => {
         height: '100%',
         overflowY: 'auto',
         borderRadius: '12px',
-        background: colorMode === 'light' ? 'white' : 'var(--p-400)',
+        background: colorMode === 'light' ? 'white' : 'var(--p-400a)',
       }}
       pt={3}
     >
@@ -2072,7 +2072,7 @@ const DebtDetails = props => {
         height: '100%',
         overflowY: 'auto',
         borderRadius: '12px',
-        background: colorMode === 'light' ? 'white' : 'var(--p-400)',
+        background: colorMode === 'light' ? 'white' : 'var(--p-400a)',
       }}
       pt={3}
       justifyContent={'space-between'}

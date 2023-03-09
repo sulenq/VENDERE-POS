@@ -344,7 +344,17 @@ const ResponsiveNav = props => {
 
     return (
       <>
-        <VStack id="nav" w={'200px'} h={'100%'} pr={2}>
+        <VStack
+          id="nav"
+          w={'240px'}
+          h={'100%'}
+          py={3}
+          px={4}
+          pr={'24px'}
+          mr={'-12px'}
+          border={colorMode === 'light' ? '2px solid var(--p-300)' : ''}
+          borderRadius={'12px 0 0 12px'}
+        >
           {/* Logo */}
           <Heading
             as={'h1'}
@@ -361,7 +371,7 @@ const ResponsiveNav = props => {
 
           {/* Nav Body */}
           <VStack
-            pr={2}
+            // pr={2}
             id={'navOptions'}
             justifyContent={'space-between !important'}
             h={'100%'}
