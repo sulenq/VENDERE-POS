@@ -347,6 +347,7 @@ export default function LandingPage(props) {
                 } else if (r.data.data.role) {
                   navigate('/vendere-app/cashier');
                 }
+                setIsSignInLoading(false);
               }
             }
           })
@@ -364,8 +365,8 @@ export default function LandingPage(props) {
                 isClosable: true,
               });
             }
-          })
-          .finally(setIsSignInLoading(false));
+            setIsSignInLoading(false);
+          });
       }, 1000);
       //!Simulasi Loading
     }
