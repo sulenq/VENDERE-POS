@@ -103,6 +103,7 @@ const SearchBox = props => {
       <InputChakra
         id={'itemSearchBox'}
         px={3}
+        autoComplete={'off'}
         className={'inputBox'}
         onChange={props.onChange}
         onKeyUp={handleKeyUp}
@@ -117,7 +118,7 @@ const SearchBox = props => {
         borderColor={colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)'}
         borderRadius={'8px'}
         _focusVisible={{
-          border: colorMode === 'light' ? '2px solid' : '2px solid',
+          border: '1px solid',
         }}
       />
       {screenWidth > 1000 ? (
@@ -163,7 +164,7 @@ const Input = props => {
       borderColor={colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)'}
       borderRadius={'8px'}
       _focusVisible={{
-        border: colorMode === 'light' ? '2px solid' : '2px solid',
+        border: '1px solid',
       }}
     />
   );

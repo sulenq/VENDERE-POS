@@ -1134,11 +1134,11 @@ const ItemDetailsModal = props => {
         <ModalContent
           content={
             <>
-              <ModalCloseButton borderRadius={50} />
-
               <ModalBody
                 content={
                   <>
+                    <ModalCloseButton borderRadius={50} />
+
                     <ItemDetails
                       setSelectedItem={props.setSelectedItem}
                       selectedItem={props.selectedItem}
@@ -1694,11 +1694,11 @@ const TransactionDetailsModal = props => {
         <ModalContent
           content={
             <>
-              <ModalCloseButton borderRadius={50} />
-
               <ModalBody
                 content={
                   <>
+                    <ModalCloseButton borderRadius={50} />
+
                     <TransactionDetails
                       selectedItem={props.selectedItem}
                       refresh={props.refresh}
@@ -2263,7 +2263,7 @@ const DebtDetails = props => {
               <Text className="detailsLabels" w={'25%'}>
                 Cart List
               </Text>
-              <VStack w={'75%'}>
+              <VStack w={'75%'} pr={2}>
                 {props.selectedItem.cartList?.map((item, index) => {
                   // console.log(item);
                   return (
@@ -2458,7 +2458,7 @@ const EmployeesList = props => {
       axios
         .get(getItemsAPI, { headers: { Authorization: `Bearer ${token}` } })
         .then(r => {
-          console.log(r.data.data);
+          // console.log(r.data.data);
           if (r.data.data) {
             props.setData(r.data.data);
           } else {
@@ -2565,7 +2565,10 @@ const EmployeesList = props => {
                   {/* Emp Username */}
                   <VStack w={'50%'} alignItems={'flex-start'} pr={4}>
                     <Text fontWeight={'bold'}>{item?.username}</Text>
-                    <Text mt={'4px !important'}>{item?.role}</Text>
+                    <Text mt={'4px !important'}>
+                      {item?.role?.charAt(0).toUpperCase() +
+                        item?.role?.slice(1)}
+                    </Text>
                   </VStack>
 
                   {/* Emp Action */}
@@ -2747,7 +2750,10 @@ const EmployeeDetails = props => {
             <Text className="detailsLabels" w={'150px'}>
               Role (Job)
             </Text>
-            <Text w={'calc(100% - 150px)'}>{selectedItem?.role}</Text>
+            <Text w={'calc(100% - 150px)'}>
+              {selectedItem?.role?.charAt(0)?.toUpperCase() +
+                selectedItem?.role?.slice(1) || ''}
+            </Text>
           </HStack>
 
           <HStack
@@ -2765,23 +2771,6 @@ const EmployeeDetails = props => {
               Created At
             </Text>
             <Text w={'calc(100% - 150px)'}>{selectedItem?.CreatedAt}</Text>
-          </HStack>
-
-          <HStack
-            px={5}
-            pb={2}
-            w={'100%'}
-            alignItems={'flex-start'}
-            borderBottom={'1px solid'}
-            style={{
-              borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
-            }}
-          >
-            <Text className="detailsLabels" w={'150px'}>
-              Updated At
-            </Text>
-            <Text w={'calc(100% - 150px)'}>{selectedItem?.UpdatedAt}</Text>
           </HStack>
         </VStack>
       </VStack>
@@ -2847,11 +2836,11 @@ const EmployeeDetailsModal = props => {
         <ModalContent
           content={
             <>
-              <ModalCloseButton borderRadius={50} />
-
               <ModalBody
                 content={
                   <>
+                    <ModalCloseButton borderRadius={50} />
+
                     <EmployeeDetails
                       setSelectedItem={props.setSelectedItem}
                       selectedItem={props.selectedItem}
@@ -2950,7 +2939,7 @@ const DeleteEmployee = props => {
     <>
       <PrimaryButtonOutline
         w={'100%'}
-        label={'Delete Product'}
+        label={'Delete Employee Account'}
         onClick={onOpen}
       />
       <Modal isOpen={isOpen} onClose={onClose} isCentered>

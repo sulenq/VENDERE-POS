@@ -254,6 +254,7 @@ const LDashboard = () => {
     revenueData: [],
     dateData: [],
   });
+
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState();
   // console.log(data?.revenueData);
@@ -264,18 +265,47 @@ const LDashboard = () => {
       {
         label: 'Dialy Revenue',
         data: data?.revenueData,
-        fill: false,
+        fill: true,
         borderColor: '#fdd100',
-        tension: 0.1,
+        backgroundColor: '#fdd10030',
       },
       // {
       //   label: 'Dialy Expenses',
-      //   data: [3900, 2900, 5000, 11000, 1600, 2500, 20000, 2300, 12000, 8000],
-      //   fill: false,
+      //   data: [
+      //     190000, 290000, 200000, 110000, 160000, 150000, 200000, 2300, 12000,
+      //     8000,
+      //   ],
+      //   fill: true,
       //   borderColor: colorMode === 'light' ? 'black' : 'white',
-      //   tension: 0.1,
+      //   backgroundColor: colorMode === 'light' ? '#00000015' : '#ffffff15',
       // },
     ],
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        align: 'end',
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Day (date)',
+        },
+        grid: {
+          color: '#88888830',
+        },
+      },
+      y: {
+        grid: {
+          color: '#88888830',
+        },
+      },
+    },
   };
 
   const currentDate = new Date();
@@ -435,12 +465,9 @@ const LDashboard = () => {
               mt={'16px !important'}
               p={1}
               alignItems={'flex-start'}
-              borderRadius={8}
+              borderRadius={12}
             >
-              <LineChart
-                data={chartData}
-                options={{ responsive: true, maintainAspectRatio: false }}
-              />
+              <LineChart data={chartData} options={options} />
             </VStack>
 
             <PrimaryButton

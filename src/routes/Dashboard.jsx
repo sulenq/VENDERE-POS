@@ -29,7 +29,6 @@ import {
   Avatar,
   useDisclosure,
   ButtonGroup,
-  Button,
   Box,
   Modal,
   ModalHeader,
@@ -57,12 +56,6 @@ import GoogleIcon from '@mui/icons-material/Google';
 import '../css/vendereApp.css';
 
 import ResponsiveNav from '../components/ResponsiveNav';
-import Cashier from './Cashier';
-import Transactions from './Transactions';
-import Debts from './Debts';
-import Reports from './Reports';
-import Profile from './Profile';
-import Employees from './Employees';
 import { ActionTopBar } from '../components/ActionTopBar';
 import { Stat } from '../components/Data';
 import { PrimaryButton } from '../components/Buttons';

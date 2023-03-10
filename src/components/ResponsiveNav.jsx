@@ -473,7 +473,7 @@ const ResponsiveNav = props => {
             <VStack
               mt={'64px !important'}
               style={{
-                border: '2px solid var(--p-300)',
+                border: '3px solid var(--p-350a)',
                 borderRadius: '12px',
                 width: '100%',
                 padding: '12px',
@@ -481,6 +481,8 @@ const ResponsiveNav = props => {
                 color: 'white',
                 position: 'relative',
                 bottom: '0',
+                background:
+                  'linear-gradient(to bottom, var(--p-400a), var(--p-350a))',
               }}
             >
               <Avatar
@@ -493,6 +495,7 @@ const ResponsiveNav = props => {
                   color: 'var(--p-200)',
                 }}
               />
+
               <Text
                 style={{
                   fontWeight: 'bold',
@@ -502,6 +505,7 @@ const ResponsiveNav = props => {
               >
                 {auth().displayName}
               </Text>
+
               <Badge
                 style={{
                   background: 'var(--accent)',
@@ -513,7 +517,7 @@ const ResponsiveNav = props => {
               </Badge>
               <br />
               {auth().userRole === 'admin' && (
-                <SecondaryButtonOutlineNav w={'100%'} label={'Manage'} />
+                <SecondaryButtonOutlineNav w={'100%'} label={'Profile'} />
               )}
               <SignOut />
             </VStack>

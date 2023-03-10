@@ -20,8 +20,6 @@ import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettin
 export default function RequireRoleAuth(props) {
   const baseURL = 'http://localhost:8080';
 
-  props.setToken(Cookies.get('_auth'));
-
   const logout = useSignOut();
 
   const navigate = useNavigate();
@@ -42,6 +40,7 @@ export default function RequireRoleAuth(props) {
 
   //*Simulasi Loading
   useEffect(() => {
+    props.setToken(Cookies.get('_auth'));
     console.log('Validating user...');
     console.log(auth);
 
@@ -71,10 +70,9 @@ export default function RequireRoleAuth(props) {
             });
           }
         })
-        .catch(err => { 
+        .catch(err => {
           console.log(err);
           logout();
-          props.setItems([])
           navigate(props.loginPath);
         });
     }, 1000);
