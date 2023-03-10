@@ -125,11 +125,7 @@ const ResponsiveNav = props => {
     useEffect(() => {
       nav = document.querySelector('#navMobile');
       let active = props.active;
-      if (
-        props.active === 'ManageItems' ||
-        props.active === 'Employees' ||
-        props.active === 'Reports'
-      ) {
+      if (props.active === 'Employees' || props.active === 'Reports') {
         active = 'Profile';
       }
       activeNav = document.querySelector(`#${active}`);

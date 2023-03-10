@@ -73,8 +73,10 @@ const SearchBox = props => {
         const btn = document.querySelector(
           `.items :nth-child(${props.itemIndex}) .actionBtnSection > button`
         );
+        const searchBox = document.querySelector('#itemSearchBox');
         if (btn) {
           btn.click();
+          searchBox.select();
         }
       }
     }

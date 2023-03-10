@@ -336,7 +336,8 @@ export default function Profile() {
       <VStack
         id="appContentWrapper"
         // h={screenWidth <= 1000 ? '100%' : '800px'}
-        h={screenWidth <= 1000 ? '100%' : ''}
+        h={screenWidth <= 1000 ? '100%' : '96%'}
+        // maxh={screenWidth <= 1000 ? '100%' : '90%'}
         w={screenWidth <= 1000 ? '100%' : '500px'}
         style={{
           background:
