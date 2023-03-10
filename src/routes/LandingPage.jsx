@@ -338,6 +338,7 @@ export default function LandingPage(props) {
                   authState: {
                     userId: r.data.data.user_id,
                     displayName: r.data.data.nama,
+                    email: r.data.data.email,
                     userRole: r.data.data.role,
                   },
                 });

@@ -12,21 +12,20 @@ const ModalOverlay = () => {
   );
 };
 
-const ModalContent = ({ content, id, h, w }) => {
+const ModalContent = props => {
   const { colorMode } = useColorMode();
 
   return (
     <Modalcontent
-      id={id}
-      h={h}
       borderRadius={12}
-      w={w || '95%'}
+      w={props.w || '95%'}
       bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)'}
       backdropFilter="auto"
       backdropBlur="20px"
       m={'0px !important'}
+      {...props}
     >
-      {content}
+      {props.content}
     </Modalcontent>
   );
 };

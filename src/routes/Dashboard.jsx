@@ -243,7 +243,7 @@ export default function Dashboard(props) {
               width: '100%',
               height: '100%',
               overflowY: 'auto',
-              paddingBottom: screenWidth <= 1000 ? '64px' : '',
+              paddingBottom: screenWidth <= 1000 ? '64px' : '16px',
               borderRadius: '12px',
               background: colorMode === 'light' ? 'white' : 'var(--p-400a)',
             }}

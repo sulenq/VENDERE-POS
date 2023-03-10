@@ -16,10 +16,14 @@ import {
   Modal,
   ModalHeader,
   ModalCloseButton,
+  Alert,
+  AlertIcon,
   ButtonGroup,
   Badge,
   Avatar,
   useToast,
+  FormControl,
+  FormLabel,
 } from '@chakra-ui/react';
 
 // MUI
@@ -42,7 +46,7 @@ import {
   SecondaryButtonOutlineNav,
 } from './Buttons';
 import { ModalContent, ModalBody, ModalFooter, ModalOverlay } from './Modals';
-import { fontSize } from '@mui/system';
+import { Input } from '../components/Inputs';
 
 const ResponsiveNav = props => {
   // Width Meter
@@ -73,6 +77,12 @@ const ResponsiveNav = props => {
       restriction: 'cashier',
     },
     {
+      name: 'ManageItems',
+      link: '/vendere-app/manageproducts',
+      icon: Inventory2OutlinedIcon,
+      restriction: 'admin',
+    },
+    {
       name: 'Transactions',
       link: '/vendere-app/transactions',
       icon: ReceiptLongOutlinedIcon,
@@ -83,12 +93,6 @@ const ResponsiveNav = props => {
       link: '/vendere-app/debts',
       icon: MoneyOffIcon,
       restriction: 'admin',
-    },
-    {
-      name: 'Support',
-      link: '/vendere-app/support',
-      icon: HelpOutlineOutlinedIcon,
-      restriction: '',
     },
   ];
 
@@ -106,10 +110,10 @@ const ResponsiveNav = props => {
       restriction: 'admin',
     },
     {
-      name: 'ManageItems',
-      link: '/vendere-app/manageproducts',
-      icon: Inventory2OutlinedIcon,
-      restriction: 'admin',
+      name: 'Support',
+      link: '/vendere-app/support',
+      icon: HelpOutlineOutlinedIcon,
+      restriction: '',
     },
   ];
 
@@ -215,6 +219,7 @@ const ResponsiveNav = props => {
             );
           }
         })}
+
         <VStack
           id={'Profile'}
           className={'navMobileContentBtn'}
@@ -225,7 +230,7 @@ const ResponsiveNav = props => {
             width: '100%',
           }}
           onClick={() => {
-            navigate('vendere-app/profile');
+            navigate('/vendere-app/profile');
           }}
           onMouseEnter={() => {
             selectNavList('Profile');
@@ -517,7 +522,13 @@ const ResponsiveNav = props => {
               </Badge>
               <br />
               {auth().userRole === 'admin' && (
-                <SecondaryButtonOutlineNav w={'100%'} label={'Profile'} />
+                <SecondaryButtonOutlineNav
+                  w={'100%'}
+                  label={'Profile'}
+                  onClick={() => {
+                    navigate('/vendere-app/profile');
+                  }}
+                />
               )}
               <SignOut />
             </VStack>
