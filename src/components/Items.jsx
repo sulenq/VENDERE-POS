@@ -1111,6 +1111,13 @@ const ItemDetails = props => {
 
 const ItemDetailsModal = props => {
   // console.log(props);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    function handleResize() {
+      setScreenWidth(window.innerWidth);
+    }
+    window.addEventListener('resize', handleResize);
+  });
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -1132,6 +1139,7 @@ const ItemDetailsModal = props => {
         <ModalOverlay />
 
         <ModalContent
+          h={screenWidth <= 1000 ? '95%' : ''}
           content={
             <>
               <ModalBody
@@ -1220,7 +1228,11 @@ const TransactionsList = props => {
     let isItemFound = true;
     if (props.data?.length !== 0) {
       isItemFound = props.data?.some(item => {
-        return item.ID.toString()?.includes(props.search);
+        return (
+          item.ID.toString()?.includes(props.search) ||
+          item.notes.toString()?.toLowerCase().includes(props.search) ||
+          item.total.toString()?.toLowerCase().includes(props.search)
+        );
       });
     }
 
@@ -1279,7 +1291,11 @@ const TransactionsList = props => {
               dateOptions
             );
 
-            if (item?.ID?.toString().includes(props.search)) {
+            if (
+              item?.ID?.toString().includes(props.search) ||
+              item.notes.toString()?.toLowerCase().includes(props.search) ||
+              item.total.toString()?.toLowerCase().includes(props.search)
+            ) {
               return (
                 <HStack
                   key={index}
@@ -1385,268 +1401,278 @@ const TransactionDetails = props => {
         background: colorMode === 'light' ? 'white' : 'var(--p-400a)',
       }}
       pt={3}
+      justifyContent={'space-between'}
     >
-      <HStack alignSelf={'flex-start'} px={3} mb={2} opacity={0.5}>
-        <Icon as={InfoOutlinedIcon} />
-        <Text fontWeight={'bold'}>Transaction Details</Text>
-      </HStack>
-
       <VStack
-        id={'itemDetails'}
-        h={'100%'}
         w={'100%'}
-        mt={'0px !important'}
-        fontSize={'sm'}
-        overflowY={'auto'}
+        h={screenWidth <= 1000 ? 'calc(100% - 64px)' : '100%'}
         pb={3}
       >
-        <VStack w={'100%'}>
-          <HStack
-            key={0}
-            pt={3}
-            px={5}
-            pb={2}
-            w={'100%'}
-            alignItems={'flex-start'}
-            borderBottom={'1px solid'}
-            style={{
-              borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
-            }}
-          >
-            <Text className="detailsLabels" w={'25%'}>
-              ID
-            </Text>
-            <Text w={'75%'}>{props?.selectedItem?.ID}</Text>
-          </HStack>
+        <HStack alignSelf={'flex-start'} px={3} mb={2} opacity={0.5}>
+          <Icon as={InfoOutlinedIcon} />
+          <Text fontWeight={'bold'}>Transaction Details</Text>
+        </HStack>
 
-          <HStack
-            key={1}
-            px={5}
-            pb={2}
-            w={'100%'}
-            alignItems={'flex-start'}
-            borderBottom={'1px solid'}
-            style={{
-              borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
-            }}
-          >
-            <Text className="detailsLabels" w={'25%'}>
-              Cashier ID
-            </Text>
-            <Text w={'75%'}>{props?.selectedItem?.cashierId}</Text>
-          </HStack>
+        <VStack
+          id={'itemDetails'}
+          w={'100%'}
+          mt={'0px !important'}
+          fontSize={'sm'}
+          overflowY={'auto'}
+          pb={3}
+        >
+          <VStack w={'100%'}>
+            <HStack
+              key={0}
+              pt={3}
+              px={5}
+              pb={2}
+              w={'100%'}
+              alignItems={'flex-start'}
+              borderBottom={'1px solid'}
+              style={{
+                borderColor:
+                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+              }}
+            >
+              <Text className="detailsLabels" w={'25%'}>
+                ID
+              </Text>
+              <Text w={'75%'}>{props?.selectedItem?.ID}</Text>
+            </HStack>
 
-          <HStack
-            key={2}
-            px={5}
-            pb={2}
-            w={'100%'}
-            alignItems={'flex-start'}
-            borderBottom={'1px solid'}
-            style={{
-              borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
-            }}
-          >
-            <Text className="detailsLabels" w={'25%'}>
-              Date
-            </Text>
-            <Text w={'75%'}>{props?.selectedItem?.CreatedAt}</Text>
-          </HStack>
+            <HStack
+              key={1}
+              px={5}
+              pb={2}
+              w={'100%'}
+              alignItems={'flex-start'}
+              borderBottom={'1px solid'}
+              style={{
+                borderColor:
+                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+              }}
+            >
+              <Text className="detailsLabels" w={'25%'}>
+                Cashier ID
+              </Text>
+              <Text w={'75%'}>{props?.selectedItem?.cashierId}</Text>
+            </HStack>
 
-          <HStack
-            key={3}
-            px={5}
-            pb={2}
-            w={'100%'}
-            alignItems={'flex-start'}
-            borderBottom={'1px solid'}
-            style={{
-              borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
-            }}
-          >
-            <Text className="detailsLabels" w={'25%'}>
-              Status
-            </Text>
-            <Text w={'75%'}>
-              <Badge
-                colorScheme={
-                  props?.selectedItem?.status === 'lunas' ? 'green' : 'red'
-                }
-              >
-                {props?.selectedItem?.status}
-              </Badge>
-            </Text>
-          </HStack>
+            <HStack
+              key={2}
+              px={5}
+              pb={2}
+              w={'100%'}
+              alignItems={'flex-start'}
+              borderBottom={'1px solid'}
+              style={{
+                borderColor:
+                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+              }}
+            >
+              <Text className="detailsLabels" w={'25%'}>
+                Date
+              </Text>
+              <Text w={'75%'}>{props?.selectedItem?.CreatedAt}</Text>
+            </HStack>
 
-          <HStack
-            key={4}
-            px={5}
-            pb={2}
-            w={'100%'}
-            alignItems={'flex-start'}
-            borderBottom={'1px solid'}
-            style={{
-              borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
-            }}
-          >
-            <Text className="detailsLabels" w={'25%'}>
-              Total
-            </Text>
-            <Text w={'75%'}>
-              {props?.selectedItem?.total?.toLocaleString()}
-            </Text>
-          </HStack>
+            <HStack
+              key={3}
+              px={5}
+              pb={2}
+              w={'100%'}
+              alignItems={'flex-start'}
+              borderBottom={'1px solid'}
+              style={{
+                borderColor:
+                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+              }}
+            >
+              <Text className="detailsLabels" w={'25%'}>
+                Status
+              </Text>
+              <Text w={'75%'}>
+                <Badge
+                  colorScheme={
+                    props?.selectedItem?.status === 'lunas' ? 'green' : 'red'
+                  }
+                >
+                  {props?.selectedItem?.status}
+                </Badge>
+              </Text>
+            </HStack>
 
-          <HStack
-            key={5}
-            px={5}
-            pb={2}
-            w={'100%'}
-            alignItems={'flex-start'}
-            borderBottom={'1px solid'}
-            style={{
-              borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
-            }}
-          >
-            <Text className="detailsLabels" w={'25%'}>
-              Pay
-            </Text>
-            <Text w={'75%'}>{props?.selectedItem?.pay?.toLocaleString()}</Text>
-          </HStack>
+            <HStack
+              key={4}
+              px={5}
+              pb={2}
+              w={'100%'}
+              alignItems={'flex-start'}
+              borderBottom={'1px solid'}
+              style={{
+                borderColor:
+                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+              }}
+            >
+              <Text className="detailsLabels" w={'25%'}>
+                Total
+              </Text>
+              <Text w={'75%'}>
+                {props?.selectedItem?.total?.toLocaleString()}
+              </Text>
+            </HStack>
 
-          <HStack
-            key={6}
-            px={5}
-            pb={2}
-            w={'100%'}
-            alignItems={'flex-start'}
-            borderBottom={'1px solid'}
-            style={{
-              borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
-            }}
-          >
-            <Text className="detailsLabels" w={'25%'}>
-              Change
-            </Text>
-            <Text w={'75%'}>
-              {props?.selectedItem?.change?.toLocaleString()}
-            </Text>
-          </HStack>
+            <HStack
+              key={5}
+              px={5}
+              pb={2}
+              w={'100%'}
+              alignItems={'flex-start'}
+              borderBottom={'1px solid'}
+              style={{
+                borderColor:
+                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+              }}
+            >
+              <Text className="detailsLabels" w={'25%'}>
+                Pay
+              </Text>
+              <Text w={'75%'}>
+                {props?.selectedItem?.pay?.toLocaleString()}
+              </Text>
+            </HStack>
 
-          <HStack
-            key={7}
-            px={5}
-            pb={2}
-            w={'100%'}
-            alignItems={'flex-start'}
-            borderBottom={'1px solid'}
-            style={{
-              borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
-            }}
-          >
-            <Text className="detailsLabels" w={'25%'}>
-              Cart List
-            </Text>
-            <VStack w={'75%'}>
-              {props.selectedItem.cartList?.map((item, index) => {
-                // console.log(item);
-                return (
-                  <HStack
-                    py={index !== 0 ? 1 : null}
-                    pb={index === 0 ? 1 : null}
-                    mt={'0px !important'}
-                    w={'100%'}
-                    justifyContent={'space-between'}
-                    alignItems={'flex-start'}
-                    borderBottom={
-                      index !== props.selectedItem.cartList.length - 1
-                        ? '1px solid var(--p-200a)'
-                        : ''
-                    }
-                  >
-                    <VStack w={'70%'} alignItems={'flex-start'}>
-                      <Text>{item.name}</Text>
-                      <Text mt={'0px !important'}>
-                        {'@ ' + item.price?.toLocaleString()}
+            <HStack
+              key={6}
+              px={5}
+              pb={2}
+              w={'100%'}
+              alignItems={'flex-start'}
+              borderBottom={'1px solid'}
+              style={{
+                borderColor:
+                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+              }}
+            >
+              <Text className="detailsLabels" w={'25%'}>
+                Change
+              </Text>
+              <Text w={'75%'}>
+                {props?.selectedItem?.change?.toLocaleString()}
+              </Text>
+            </HStack>
+
+            <HStack
+              key={7}
+              px={5}
+              pb={2}
+              w={'100%'}
+              alignItems={'flex-start'}
+              borderBottom={'1px solid'}
+              style={{
+                borderColor:
+                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+              }}
+            >
+              <Text className="detailsLabels" w={'25%'}>
+                Cart List
+              </Text>
+              <VStack w={'75%'} pr={2}>
+                {props.selectedItem.cartList?.map((item, index) => {
+                  // console.log(item);
+                  return (
+                    <HStack
+                      py={index !== 0 ? 1 : null}
+                      pb={index === 0 ? 1 : null}
+                      mt={'0px !important'}
+                      w={'100%'}
+                      justifyContent={'space-between'}
+                      alignItems={'flex-start'}
+                      borderBottom={
+                        index !== props.selectedItem.cartList.length - 1
+                          ? '1px solid var(--p-200a)'
+                          : ''
+                      }
+                    >
+                      <VStack w={'70%'} alignItems={'flex-start'}>
+                        <Text>{item.name}</Text>
+                        <Text mt={'0px !important'}>
+                          {'@ ' + item.price?.toLocaleString()}
+                        </Text>
+                      </VStack>
+                      <Text w={'10%'}>{'×' + item.qty}</Text>
+                      <Text w={'20%'} textAlign={'end'}>
+                        {item.totalPrice?.toLocaleString()}
                       </Text>
-                    </VStack>
-                    <Text w={'10%'}>x2</Text>
-                    <Text w={'20%'} textAlign={'end'}>
-                      {item.totalPrice?.toLocaleString()}
-                    </Text>
-                  </HStack>
-                );
-              })}
-            </VStack>
-          </HStack>
+                    </HStack>
+                  );
+                })}
+              </VStack>
+            </HStack>
 
-          <HStack
-            key={8}
-            px={5}
-            pb={2}
-            w={'100%'}
-            alignItems={'flex-start'}
-            borderBottom={'1px solid'}
-            style={{
-              borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
-            }}
-          >
-            <Text className="detailsLabels" w={'25%'}>
-              Note
-            </Text>
-            <Text w={'75%'}>{props?.selectedItem?.notes}</Text>
-          </HStack>
+            <HStack
+              key={8}
+              px={5}
+              pb={2}
+              w={'100%'}
+              alignItems={'flex-start'}
+              borderBottom={'1px solid'}
+              style={{
+                borderColor:
+                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+              }}
+            >
+              <Text className="detailsLabels" w={'25%'}>
+                Note
+              </Text>
+              <Text w={'75%'} opacity={props?.selectedItem?.notes ? 1 : 0.5}>
+                {props?.selectedItem?.notes || 'no notes'}
+              </Text>
+            </HStack>
 
-          <HStack
-            key={9}
-            px={5}
-            pb={2}
-            w={'100%'}
-            alignItems={'flex-start'}
-            borderBottom={'1px solid'}
-            style={{
-              borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
-            }}
-          >
-            <Text className="detailsLabels" w={'25%'}>
-              Profit
-            </Text>
-            <Text w={'75%'}>
-              {props?.selectedItem?.totalProfit?.toLocaleString()}
-            </Text>
-          </HStack>
+            <HStack
+              key={9}
+              px={5}
+              pb={2}
+              w={'100%'}
+              alignItems={'flex-start'}
+              borderBottom={'1px solid'}
+              style={{
+                borderColor:
+                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+              }}
+            >
+              <Text className="detailsLabels" w={'25%'}>
+                Profit
+              </Text>
+              <Text w={'75%'}>
+                {props?.selectedItem?.totalProfit?.toLocaleString()}
+              </Text>
+            </HStack>
 
-          <HStack
-            key={10}
-            px={5}
-            pb={2}
-            w={'100%'}
-            alignItems={'flex-start'}
-            borderBottom={'1px solid'}
-            style={{
-              borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
-            }}
-          >
-            <Text className="detailsLabels" w={'25%'}>
-              Updated At
-            </Text>
-            <Text w={'75%'}>{props?.selectedItem?.UpdatedAt}</Text>
-          </HStack>
+            <HStack
+              key={10}
+              px={5}
+              pb={2}
+              w={'100%'}
+              alignItems={'flex-start'}
+              borderBottom={'1px solid'}
+              style={{
+                borderColor:
+                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+              }}
+            >
+              <Text className="detailsLabels" w={'25%'}>
+                Updated At
+              </Text>
+              <Text w={'75%'}>{props?.selectedItem?.UpdatedAt}</Text>
+            </HStack>
+          </VStack>
         </VStack>
       </VStack>
 
-      {screenWidth <= 1000 && (
+      {props.selectedItem.ID && screenWidth <= 1000 && (
         <HStack
           w={'100%'}
           mt={'0px !important'}
@@ -1656,14 +1682,10 @@ const TransactionDetails = props => {
           justifyContent={'center'}
           style={{
             borderColor:
-              colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
+              colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
           }}
-          // bg={'var(--p-500)'}
-          // py={3}
-          // borderTop={'1px solid'}
-          // borderBottom={'1px solid'}
         >
-          <PrimaryButton label="Got It" w={'100%'} onClick={props.onClose} />
+          <PrimaryButton label={'Got It'} w={'100%'} onClick={props.onClose} />
         </HStack>
       )}
     </VStack>
@@ -1672,6 +1694,13 @@ const TransactionDetails = props => {
 
 const TransactionDetailsModal = props => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    function handleResize() {
+      setScreenWidth(window.innerWidth);
+    }
+    window.addEventListener('resize', handleResize);
+  });
 
   return (
     <>
@@ -1692,9 +1721,11 @@ const TransactionDetailsModal = props => {
         <ModalOverlay />
 
         <ModalContent
+          h={screenWidth <= 1000 ? '95%' : ''}
           content={
             <>
               <ModalBody
+                overflowY={'auto'}
                 content={
                   <>
                     <ModalCloseButton borderRadius={50} />
@@ -1704,12 +1735,13 @@ const TransactionDetailsModal = props => {
                       refresh={props.refresh}
                       setRefresh={props.setRefresh}
                       onClose={onClose}
+                      pb={'0px !important'}
                     />
                   </>
                 }
                 px={0}
                 py={0}
-                pb={'0px'}
+                pb={'0px !important'}
                 h={'100%'}
               />
             </>
@@ -1776,7 +1808,8 @@ const DebtsList = props => {
       isItemFound = props.data?.some(item => {
         return (
           item.ID.toString()?.includes(props.search) ||
-          item.notes.toString()?.toLowerCase().includes(props.search)
+          item.notes.toString()?.toLowerCase().includes(props.search) ||
+          item.total.toString()?.toLowerCase().includes(props.search)
         );
       });
     }
@@ -1829,15 +1862,10 @@ const DebtsList = props => {
           }}
         >
           {props.data?.map((item, index) => {
-            const date = new Date(item.CreatedAt);
-            const formattedDate = date.toLocaleDateString(
-              undefined,
-              dateOptions
-            );
-
             if (
               item.ID.toString().includes(props.search) ||
-              item.notes.toString()?.toLowerCase().includes(props.search)
+              item.notes.toString()?.toLowerCase().includes(props.search) ||
+              item.total.toString()?.toLowerCase().includes(props.search)
             ) {
               return (
                 <HStack
@@ -1866,7 +1894,9 @@ const DebtsList = props => {
 
                   {/* Item's Status */}
                   <VStack w={'58%'} alignItems={'flex-start'} pr={4}>
-                    <Text mt={'4px !important'}>{formattedDate}</Text>
+                    <Text fontWeight={'bold'} mt={'4px !important'}>
+                      {item?.total?.toLocaleString()}
+                    </Text>
                     <Text mt={'2px !important'} opacity={item.notes ? 1 : 0.5}>
                       {item.notes || 'no notes'}
                     </Text>
@@ -1993,13 +2023,16 @@ const DebtDetails = props => {
                 <ModalBody
                   content={
                     <>
+                      <Text>Change</Text>
                       <HStack
                         fontWeight={'bold'}
                         alignItems={'flex-start'}
                         justifyContent={'space-between'}
                       >
                         <Text fontSize={'x-large'}>Rp.</Text>
-                        <Text fontSize={'xxx-large'}>{data.change}</Text>
+                        <Text fontSize={'xxx-large'}>
+                          {data.change?.toLocaleString()}
+                        </Text>
                       </HStack>
                       <HStack w={'100%'} justifyContent={'flex-end'}>
                         {data.status === 'lunas' ? (
@@ -2286,7 +2319,7 @@ const DebtDetails = props => {
                           {'@ ' + item.price?.toLocaleString()}
                         </Text>
                       </VStack>
-                      <Text w={'10%'}>x2</Text>
+                      <Text w={'10%'}>{'×' + item.qty}</Text>
                       <Text w={'20%'} textAlign={'end'}>
                         {item.totalPrice?.toLocaleString()}
                       </Text>
@@ -2311,7 +2344,9 @@ const DebtDetails = props => {
               <Text className="detailsLabels" w={'25%'}>
                 Note
               </Text>
-              <Text w={'75%'}>{props?.selectedItem?.notes}</Text>
+              <Text w={'75%'} opacity={props?.selectedItem?.notes ? 1 : 0.5}>
+                {props?.selectedItem?.notes || 'no notes'}
+              </Text>
             </HStack>
 
             <HStack
@@ -2381,6 +2416,13 @@ const DebtDetails = props => {
 
 const DebtDetailsModal = props => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    function handleResize() {
+      setScreenWidth(window.innerWidth);
+    }
+    window.addEventListener('resize', handleResize);
+  });
 
   return (
     <>
@@ -2401,6 +2443,7 @@ const DebtDetailsModal = props => {
         <ModalOverlay />
 
         <ModalContent
+          h={screenWidth <= 1000 ? '95%' : ''}
           content={
             <>
               <ModalCloseButton borderRadius={50} />
@@ -2814,6 +2857,13 @@ const EmployeeDetails = props => {
 const EmployeeDetailsModal = props => {
   // console.log(props);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    function handleResize() {
+      setScreenWidth(window.innerWidth);
+    }
+    window.addEventListener('resize', handleResize);
+  });
 
   return (
     <>
@@ -2834,6 +2884,7 @@ const EmployeeDetailsModal = props => {
         <ModalOverlay />
 
         <ModalContent
+          h={screenWidth <= 1000 ? '95%' : ''}
           content={
             <>
               <ModalBody

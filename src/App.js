@@ -250,7 +250,17 @@ export default function App() {
             />
           }
         />
-        <Route path="profile" element={<Profile />} />
+        <Route
+          path="profile"
+          element={
+            <RequireRoleAuth
+              setToken={setToken}
+              loginPath="/?login=1"
+              restriction=""
+              element={<Profile />}
+            />
+          }
+        />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

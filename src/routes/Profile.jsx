@@ -200,7 +200,18 @@ export default function Profile() {
                 <ModalBody
                   content={
                     <>
-                      <FormControl>
+                      <Alert
+                        borderRadius={'8px'}
+                        status="warning"
+                        variant={'left-accent'}
+                        mb={2}
+                      >
+                        <AlertIcon alignSelf={'flex-start'} />
+                        Make sure to remember the new password because you
+                        cannot undo the action.
+                      </Alert>
+
+                      <FormControl isRequired>
                         <FormLabel>Old Password</FormLabel>
                         <Input
                           type={'password'}
@@ -212,7 +223,7 @@ export default function Profile() {
                         />
                       </FormControl>
 
-                      <FormControl mt={2}>
+                      <FormControl mt={2} isRequired>
                         <FormLabel>New Password</FormLabel>
                         <Input
                           type={'password'}
@@ -405,17 +416,6 @@ export default function Profile() {
 
             {auth().userRole === 'admin' && (
               <>
-                <Alert
-                  borderRadius={'8px'}
-                  status="info"
-                  variant={'left-accent'}
-                  mb={2}
-                >
-                  <AlertIcon alignSelf={'flex-start'} />
-                  You can change the password, be sure to remember the new
-                  password because you cannot undo the action.
-                </Alert>
-
                 <ChangePassword />
               </>
             )}

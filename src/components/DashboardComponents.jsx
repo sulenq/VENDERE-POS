@@ -288,6 +288,7 @@ const LDashboard = () => {
     plugins: {
       legend: {
         align: 'end',
+        display: false,
       },
     },
     scales: {
@@ -464,9 +465,24 @@ const LDashboard = () => {
               h={'300px'}
               mt={'16px !important'}
               p={1}
+              pb={5}
               alignItems={'flex-start'}
               borderRadius={12}
             >
+              <HStack w={'100%'} justifyContent={'flex-end'} px={3}>
+                <HStack>
+                  <Badge
+                    variant={'solid'}
+                    bg={'#fdd100'}
+                    w={'12px'}
+                    h={'8px'}
+                  ></Badge>
+                  <Text fontSize={'sm'} opacity={0.5}>
+                    Dialy Revenue
+                  </Text>
+                </HStack>
+              </HStack>
+
               <LineChart data={chartData} options={options} />
             </VStack>
 

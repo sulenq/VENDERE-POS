@@ -42,7 +42,7 @@ import { Input, InputNumber } from '../components/Inputs';
 import { Skeleton } from '../components/Skeleton';
 import { DebtDetails, DebtsList } from '../components/Items';
 
-export default function TRansactions(props) {
+export default function Debts(props) {
   const { colorMode } = useColorMode();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -198,7 +198,7 @@ export default function TRansactions(props) {
             {/* Search Box */}
             <HStack px={3} w={'100%'}>
               <SearchBox
-                placeholder={'Search debt by id or notes'}
+                placeholder={'Search debt by id, total or notes'}
                 search={search}
                 itemsLength={itemsLength}
                 setItemsLength={setItemsLength}

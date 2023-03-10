@@ -144,6 +144,7 @@ const ResponsiveNav = props => {
       });
       nav.style.height = '80px';
     };
+
     const diselectNavList = targetId => {
       activeNav.classList.remove('navMobileContentBtnSelect');
       const target = document.querySelector(`#${targetId}`);
@@ -167,15 +168,15 @@ const ResponsiveNav = props => {
         style={{
           width: '100%',
           height: '56px',
-          background: 'var(--p-500)',
-          // borderRadius: '12px',
+          background: 'var(--p-500a)',
           position: 'fixed',
           bottom: '0',
-          // marginLeft: '8px',
           zIndex: 99,
-          // transition: '0.3s',
           cursor: 'pointer',
+          // transition: '0.3s',
         }}
+        backdropFilter="auto"
+        backdropBlur="5px"
       >
         {navs.map((nav, index) => {
           if (auth().userRole === nav.restriction || nav.restriction === '') {
@@ -350,7 +351,7 @@ const ResponsiveNav = props => {
           w={'200px'}
           h={'100%'}
           py={2}
-          pr={4}
+          pr={2}
           borderRadius={'12px 0 0 12px'}
         >
           {/* Logo */}
@@ -380,6 +381,7 @@ const ResponsiveNav = props => {
             {/* the Nav List */}
             <VStack
               id="navList"
+              pr={4}
               className="navListWrapper"
               style={{
                 fontWeight: 'bold',
@@ -418,7 +420,9 @@ const ResponsiveNav = props => {
                       }}
                     >
                       <Icon as={nav.icon} fontSize={'xl'} />
-                      <Text ml={2}>{nav.name}</Text>
+                      <Text ml={2}>
+                        {nav.name === 'ManageItems' ? 'Products' : nav.name}
+                      </Text>
                     </HStack>
                   );
                 }

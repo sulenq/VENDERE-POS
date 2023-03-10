@@ -13,13 +13,14 @@
   --p-200a: #88888830;
   --p-250: #606060;
   --p-300: #303030;
+  --p-300a: #30303080;
   --p-350: #252525;
   --p-350a: #20202080;
   --p-400: #181818;
   --p-400a: #18181880;
   --p-450: #161616;
   --p-500: #000000;
-  --p-500a: #09090980;
+  --p-500a: #0e0e0ed2;
   --p-450a: #1e1e1e70;
 }
 
@@ -86,32 +87,6 @@ body,
   padding: 0 12px;
 }
 
-.skeleton::-webkit-scrollbar,
-#itemDetails::-webkit-scrollbar,
-.items::-webkit-scrollbar,
-.cartList::-webkit-scrollbar {
-  width: 8px;
-  /* border-radius: 16px; */
-  background-color: var(--p-100);
-}
-
-/* #content::-webkit-scrollbar, */
-#navOptions::-webkit-scrollbar {
-  width: 8px;
-  border-radius: 16px;
-  background-color: var(--p-100);
-}
-
-/* #content::-webkit-scrollbar-thumb, */
-#navOptions::-webkit-scrollbar-thumb {
-  border-radius: 20px;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: var(--p-250);
-  /* border-radius: 16px; */
-}
-
 .vendereApp {
   /* border: 2px solid red; */
   height: 100%;
@@ -148,7 +123,7 @@ body,
   border-radius: 100px 0 0 100px;
 }
 .navListSelected {
-  background: linear-gradient(to right, var(--p-300), var(--p-300));
+  background: var(--p-300a);
   color: var(--p-50);
   position: relative;
 }
@@ -228,4 +203,19 @@ body,
 
 .detailsLabels {
   opacity: 0.5;
+}
+
+@media only screen and (min-width: 1001px) {
+  #navOptions::-webkit-scrollbar,
+  .skeleton::-webkit-scrollbar,
+  #itemDetails::-webkit-scrollbar,
+  .items::-webkit-scrollbar,
+  .cartList::-webkit-scrollbar {
+    width: 8px;
+    background-color: var(--p-100);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--p-250);
+  }
 }

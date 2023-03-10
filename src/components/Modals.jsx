@@ -17,6 +17,7 @@ const ModalContent = props => {
 
   return (
     <Modalcontent
+      ref={props.refq}
       borderRadius={12}
       w={props.w || '95%'}
       bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)'}
