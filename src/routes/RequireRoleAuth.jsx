@@ -84,7 +84,7 @@ export default function RequireRoleAuth(props) {
           logout();
           navigate(props.loginPath);
         });
-    }, 1000);
+    }, 1);
   }, []);
   //*Simulasi Loading
 

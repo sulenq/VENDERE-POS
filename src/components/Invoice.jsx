@@ -348,7 +348,7 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
       }
 
       return;
-    }, 500);
+    }, 1);
   }
 
   return (

@@ -143,7 +143,7 @@ export default function LandingPage(props) {
             });
           })
           .finally(setIsCreateAccountLoading(false));
-      }, 1000);
+      }, 1);
       //! Simulasi loading
     }
 
@@ -366,7 +366,7 @@ export default function LandingPage(props) {
             }
             setIsSignInLoading(false);
           });
-      }, 1000);
+      }, 1);
       //!Simulasi Loading
     }
 

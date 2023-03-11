@@ -284,7 +284,7 @@ export default function Profile() {
           isClosable: true,
         });
         navigate('/');
-      }, 1000);
+      }, 1);
     }
 
     return (

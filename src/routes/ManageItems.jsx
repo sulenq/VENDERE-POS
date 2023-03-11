@@ -159,7 +159,7 @@ export default function ManageItems(props) {
           console.log(err);
         })
         .finally(setLoading(false));
-    }, 300);
+    }, 1);
   }, [refresh]);
 
   //* Keydown event (arrow up & down) focus to searchBox

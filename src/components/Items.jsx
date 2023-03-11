@@ -318,7 +318,7 @@ const UpdateItem = props => {
     setLoading(true);
     setTimeout(() => {
       updateSelectedItem();
-    }, 1000);
+    }, 1);
   }
 
   return (
@@ -555,7 +555,7 @@ const DeleteItem = props => {
     setLoading(true);
     setTimeout(() => {
       deleteSelectedItem();
-    }, 1000);
+    }, 1);
   }
 
   return (
@@ -1189,7 +1189,7 @@ const TransactionsList = props => {
           console.log(err);
           setLoading(false);
         });
-    }, 300);
+    }, 1);
   }, [props.refresh]);
 
   useEffect(() => {
@@ -1767,7 +1767,7 @@ const DebtsList = props => {
           console.log(err);
           setLoading(false);
         });
-    }, 300);
+    }, 1);
   }, [props.refresh]);
 
   useEffect(() => {
@@ -2486,7 +2486,7 @@ const EmployeesList = props => {
           console.log(err);
         })
         .finally(setLoading(false));
-    }, 300);
+    }, 1);
   }, [props.refresh]);
 
   useEffect(() => {
@@ -2957,7 +2957,7 @@ const DeleteEmployee = props => {
     setLoading(true);
     setTimeout(() => {
       deleteSelectedItem();
-    }, 1000);
+    }, 1);
   }
 
   return (

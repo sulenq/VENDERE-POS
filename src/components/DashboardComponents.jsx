@@ -101,7 +101,7 @@ const RDashboard = () => {
           console.log(err);
           setLoading(false);
         });
-    }, 300);
+    }, 1);
   }, [refresh]);
 
   return (
@@ -419,7 +419,7 @@ const LDashboard = () => {
 
     setTimeout(() => {
       getMonthReport();
-    }, 300);
+    }, 1);
   }, [refresh]);
 
   return (

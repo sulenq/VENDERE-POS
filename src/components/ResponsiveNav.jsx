@@ -275,7 +275,7 @@ const ResponsiveNav = props => {
             isClosable: true,
           });
           navigate('/');
-        }, 1000);
+        }, 1);
       }
 
       return (

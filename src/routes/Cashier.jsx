@@ -102,7 +102,7 @@ export default function Cashier({
           console.log(err);
         })
         .finally(setLoading(false));
-    }, 300);
+    }, 1);
   }, [refresh]);
 
   function selectItem({ item, index }) {
