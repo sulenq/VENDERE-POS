@@ -648,35 +648,9 @@ const ItemsList = props => {
     window.addEventListener('resize', handleResize);
   });
 
-  const [loading, setLoading] = useState(false);
+  const loading = props.loading;
   const skeletonLength = ['', '', '', '', '', '', '', '', '', '', '', ''];
   const [itemFound, setItemFound] = useState(true);
-
-  //* GET DATA
-  useEffect(() => {
-    const token = Cookies.get('_auth');
-
-    const getItemsAPI = `${baseURL}/api/v1/products`;
-
-    setLoading(true);
-
-    setTimeout(() => {
-      axios
-        .get(getItemsAPI, { headers: { Authorization: `Bearer ${token}` } })
-        .then(r => {
-          // console.log(r.data.data);
-          if (r.data.data) {
-            props.setData(r.data.data);
-          } else {
-            props.setData([]);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        })
-        .finally(setLoading(false));
-    }, 300);
-  }, [props.refresh]);
 
   useEffect(() => {
     if (props.data.length > 0) {
@@ -1460,24 +1434,6 @@ const TransactionDetails = props => {
             </HStack>
 
             <HStack
-              key={2}
-              px={5}
-              pb={2}
-              w={'100%'}
-              alignItems={'flex-start'}
-              borderBottom={'1px solid'}
-              style={{
-                borderColor:
-                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
-              }}
-            >
-              <Text className="detailsLabels" w={'25%'}>
-                Date
-              </Text>
-              <Text w={'75%'}>{props?.selectedItem?.CreatedAt}</Text>
-            </HStack>
-
-            <HStack
               key={3}
               px={5}
               pb={2}
@@ -1649,6 +1605,24 @@ const TransactionDetails = props => {
               <Text w={'75%'}>
                 {props?.selectedItem?.totalProfit?.toLocaleString()}
               </Text>
+            </HStack>
+
+            <HStack
+              key={2}
+              px={5}
+              pb={2}
+              w={'100%'}
+              alignItems={'flex-start'}
+              borderBottom={'1px solid'}
+              style={{
+                borderColor:
+                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+              }}
+            >
+              <Text className="detailsLabels" w={'25%'}>
+                Created At
+              </Text>
+              <Text w={'75%'}>{props?.selectedItem?.CreatedAt}</Text>
             </HStack>
 
             <HStack
@@ -2178,24 +2152,6 @@ const DebtDetails = props => {
             </HStack>
 
             <HStack
-              key={2}
-              px={5}
-              pb={2}
-              w={'100%'}
-              alignItems={'flex-start'}
-              borderBottom={'1px solid'}
-              style={{
-                borderColor:
-                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
-              }}
-            >
-              <Text className="detailsLabels" w={'25%'}>
-                Date
-              </Text>
-              <Text w={'75%'}>{props?.selectedItem?.CreatedAt}</Text>
-            </HStack>
-
-            <HStack
               key={3}
               px={5}
               pb={2}
@@ -2367,6 +2323,24 @@ const DebtDetails = props => {
               <Text w={'75%'}>
                 {props?.selectedItem?.totalProfit?.toLocaleString()}
               </Text>
+            </HStack>
+
+            <HStack
+              key={2}
+              px={5}
+              pb={2}
+              w={'100%'}
+              alignItems={'flex-start'}
+              borderBottom={'1px solid'}
+              style={{
+                borderColor:
+                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+              }}
+            >
+              <Text className="detailsLabels" w={'25%'}>
+                Created At
+              </Text>
+              <Text w={'75%'}>{props?.selectedItem?.CreatedAt}</Text>
             </HStack>
 
             <HStack

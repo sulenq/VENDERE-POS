@@ -40,7 +40,6 @@ export default function RequireRoleAuth(props) {
 
   //*Simulasi Loading
   useEffect(() => {
-    props.setToken(Cookies.get('_auth'));
     console.log('Validating user...');
     console.log(auth);
 
@@ -61,13 +60,23 @@ export default function RequireRoleAuth(props) {
           // console.log(r.data.data);
           if (r.status === 200 && r.data.data.message === 'token benar') {
             setIsAuth(r.data.data);
-            toast({
-              position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-              title: `Validated as ${r.data.data.role}`,
-              status: 'success',
-              duration: 3000,
-              isClosable: true,
-            });
+            const id = 'validationToast';
+            if (!toast.isActive(id)) {
+              toast({
+                position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+                title: `Validated as ${r.data.data.role}`,
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+              });
+            }
+            // toast({
+            //   position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+            //   title: `Validated as ${r.data.data.role}`,
+            //   status: 'success',
+            //   duration: 3000,
+            //   isClosable: true,
+            // });
           }
         })
         .catch(err => {

@@ -75,7 +75,6 @@ const PageNotFound = () => {
 };
 
 export default function App() {
-  const [token, setToken] = useState(Cookies.get('_auth'));
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
     function handleResize() {
@@ -87,13 +86,13 @@ export default function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const token = Cookies.get('_auth');
     if (token) {
       const tokenListener = setInterval(() => {
         // console.log(token || 'no auth token');
         const newToken = Cookies.get('_auth');
         if (newToken !== token) {
           console.log('auth token was lost');
-          setToken('');
           logout();
           navigate('/?login=1');
           toast({
@@ -154,10 +153,11 @@ export default function App() {
     setTotal(total + updateTotal);
     // setChange(pay - (total + updateTotal));
     // console.log(cartList);
+
     toast.closeAll();
 
     toast({
-      position: screenWidth <= 1000 ? 'bottom-center' : 'bottom-right',
+      position: screenWidth <= 1000 ? 'bottom' : 'bottom-right',
       title: 'Item added.',
       description: `${itemQty} ${itemName} added, total ${updateTotal.toLocaleString()}`,
       status: 'success',
@@ -169,13 +169,12 @@ export default function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<LandingPage setToken={setToken} />} />
+      <Route path="/" element={<LandingPage />} />
       <Route path="/vendere-app">
         <Route
           index
           element={
             <RequireRoleAuth
-              setToken={setToken}
               loginPath="/?login=1"
               restriction="admin"
               element={<Dashboard />}
@@ -186,7 +185,6 @@ export default function App() {
           path="cashier"
           element={
             <RequireRoleAuth
-              setToken={setToken}
               loginPath="/?login=1"
               restriction="cashier"
               element={
@@ -208,7 +206,6 @@ export default function App() {
           path="transactions"
           element={
             <RequireRoleAuth
-              setToken={setToken}
               loginPath="/?login=1"
               restriction=""
               element={<Transactions />}
@@ -219,7 +216,6 @@ export default function App() {
           path="debts"
           element={
             <RequireRoleAuth
-              setToken={setToken}
               loginPath="/?login=1"
               restriction="admin"
               element={<Debts />}
@@ -231,7 +227,6 @@ export default function App() {
           path="employees"
           element={
             <RequireRoleAuth
-              setToken={setToken}
               loginPath="/?login=1"
               restriction="admin"
               element={<Employees />}
@@ -243,7 +238,6 @@ export default function App() {
           path="manageproducts"
           element={
             <RequireRoleAuth
-              setToken={setToken}
               loginPath="/?login=1"
               restriction="admin"
               element={<ManageItems />}
@@ -254,7 +248,6 @@ export default function App() {
           path="profile"
           element={
             <RequireRoleAuth
-              setToken={setToken}
               loginPath="/?login=1"
               restriction=""
               element={<Profile />}

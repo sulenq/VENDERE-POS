@@ -48,8 +48,6 @@ import { Input } from '../components/Inputs';
 export default function LandingPage(props) {
   const DOMAIN_API = 'http://localhost:8080';
 
-  props.setToken(Cookies.get('_auth'));
-
   const [searchParams] = useSearchParams();
 
   useEffect(() => {

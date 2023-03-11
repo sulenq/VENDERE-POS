@@ -371,7 +371,6 @@ export default function Profile() {
           // border={'1px solid red'}
           bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)'}
           position={'relative'}
-          justifyContent={'space-between'}
           overflowY={'auto'}
         >
           <IconButton
@@ -386,101 +385,111 @@ export default function Profile() {
             }}
           ></IconButton>
 
-          <VStack w={'100%'}>
-            <Avatar
-              size={'xl'}
-              name={auth().displayName}
-              style={{
-                background: 'var(--p-300)',
-                color: 'var(--p-200)',
-              }}
-            />
+          <VStack
+            w={screenWidth <= 500 ? '100%' : '350px'}
+            h={'100%'}
+            justifyContent={'space-between'}
+          >
+            <VStack w={'100%'}>
+              <Avatar
+                size={'xl'}
+                name={auth().displayName}
+                style={{
+                  background: 'var(--p-300)',
+                  color: 'var(--p-200)',
+                }}
+              />
 
-            <Text fontWeight={'bold'} fontSize={'x-large'}>
-              {auth().displayName}
-            </Text>
+              <Text fontWeight={'bold'} fontSize={'x-large'}>
+                {auth().displayName}
+              </Text>
 
-            <Text mt={'2px !important'}>{auth().email}</Text>
+              <Text mt={'2px !important'}>{auth().email}</Text>
 
-            <Badge
-              style={{
-                background: 'var(--accent)',
-                color: '#00000080',
-                borderRadius: '12px',
-              }}
-            >
-              {auth().userRole}
-            </Badge>
+              <Badge
+                style={{
+                  background: 'var(--accent)',
+                  color: '#00000080',
+                  borderRadius: '12px',
+                }}
+              >
+                {auth().userRole}
+              </Badge>
+
+              <br />
+
+              {auth().userRole === 'admin' && (
+                <>
+                  <ChangePassword />
+                </>
+              )}
+
+              <SignOut />
+            </VStack>
 
             <br />
 
-            {auth().userRole === 'admin' && (
-              <>
-                <ChangePassword />
-              </>
-            )}
+            <VStack
+              w={'100%'}
+              borderRadius={12}
+              justifyContent={'space-between'}
+            >
+              <VStack w={'100%'}>
+                <Text fontWeight={'bold'} alignSelf={'flex-start'}>
+                  Navigate
+                </Text>
 
-            <SignOut />
-          </VStack>
-
-          <br />
-
-          <VStack w={'100%'} borderRadius={12} justifyContent={'space-between'}>
-            <VStack w={'100%'}>
-              <Text fontWeight={'bold'} alignSelf={'flex-start'}>
-                Navigate
-              </Text>
-
-              {navs.map((nav, index) => {
-                if (
-                  auth().userRole === nav.restriction ||
-                  nav.restriction === ''
-                ) {
-                  return (
-                    <HStack
-                      key={index}
-                      cursor={'pointer'}
-                      w={'100%'}
-                      h={'45px'}
-                      justifyContent={'space-between'}
-                      px={4}
-                      borderRadius={12}
-                      border={'1px solid'}
-                      borderColor={
-                        colorMode === 'light' ? 'var(--p-400)' : 'var(--p-50)'
-                      }
-                      color={
-                        colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)'
-                      }
-                      _hover={{
-                        background:
-                          colorMode === 'light'
-                            ? 'var(--light) !important'
-                            : 'var(--p-350) !important',
-                      }}
-                      _active={{
-                        background:
-                          colorMode === 'light'
-                            ? 'var(--p-75) !important'
-                            : 'var(--p-300) !important',
-                      }}
-                      onClick={() => {
-                        navigate(nav.link);
-                      }}
-                    >
-                      <HStack>
-                        <Icon as={nav.icon} fontSize={'16px'} mt={'1px'} />
-                        <Text>
-                          {nav.name === 'ManageItems'
-                            ? 'Manage Items'
-                            : nav.name}
-                        </Text>
+                {navs.map((nav, index) => {
+                  if (
+                    auth().userRole === nav.restriction ||
+                    nav.restriction === ''
+                  ) {
+                    return (
+                      <HStack
+                        key={index}
+                        cursor={'pointer'}
+                        w={'100%'}
+                        h={'45px'}
+                        justifyContent={'space-between'}
+                        px={4}
+                        borderRadius={12}
+                        border={'1px solid'}
+                        borderColor={
+                          colorMode === 'light' ? 'var(--p-400)' : 'var(--p-50)'
+                        }
+                        color={
+                          colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)'
+                        }
+                        _hover={{
+                          background:
+                            colorMode === 'light'
+                              ? 'var(--light) !important'
+                              : 'var(--p-350) !important',
+                        }}
+                        _active={{
+                          background:
+                            colorMode === 'light'
+                              ? 'var(--p-75) !important'
+                              : 'var(--p-300) !important',
+                        }}
+                        onClick={() => {
+                          navigate(nav.link);
+                        }}
+                      >
+                        <HStack>
+                          <Icon as={nav.icon} fontSize={'16px'} mt={'1px'} />
+                          <Text>
+                            {nav.name === 'ManageItems'
+                              ? 'Manage Items'
+                              : nav.name}
+                          </Text>
+                        </HStack>
+                        <Icon as={ArrowOutwardOutlinedIcon} fontSize={'md'} />
                       </HStack>
-                      <Icon as={ArrowOutwardOutlinedIcon} fontSize={'md'} />
-                    </HStack>
-                  );
-                }
-              })}
+                    );
+                  }
+                })}
+              </VStack>
             </VStack>
           </VStack>
         </VStack>

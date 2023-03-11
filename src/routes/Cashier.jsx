@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuthUser } from 'react-auth-kit';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 // Chakra UI
 import {
@@ -74,6 +76,34 @@ export default function Cashier({
     month: 'long',
     year: 'numeric',
   };
+
+  const baseURL = 'http://localhost:8080';
+  const [loading, setLoading] = useState(false);
+  //* GET DATA
+  useEffect(() => {
+    const token = Cookies.get('_auth');
+
+    const getItemsAPI = `${baseURL}/api/v1/products`;
+
+    setLoading(true);
+
+    setTimeout(() => {
+      axios
+        .get(getItemsAPI, { headers: { Authorization: `Bearer ${token}` } })
+        .then(r => {
+          // console.log(r.data.data);
+          if (r.data.data) {
+            setData(r.data.data);
+          } else {
+            setData([]);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(setLoading(false));
+    }, 300);
+  }, [refresh]);
 
   function selectItem({ item, index }) {
     let selectedItem;
@@ -226,7 +256,6 @@ export default function Cashier({
               {/* Search Box */}
               <HStack px={3} w={'100%'}>
                 <SearchBox
-                  data={data}
                   placeholder={'Search product by name or code'}
                   search={search}
                   itemsLength={itemsLength}
@@ -261,6 +290,7 @@ export default function Cashier({
               {/* Items */}
               <ItemsList
                 data={data}
+                loading={loading}
                 setData={setData}
                 selectedItem={selectedItem}
                 setItemIndex={setItemIndex}

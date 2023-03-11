@@ -287,8 +287,11 @@ const LDashboard = () => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        align: 'end',
-        display: false,
+        align: 'start',
+        display: true,
+        title: {
+          padding: 100,
+        },
       },
     },
     scales: {
@@ -308,6 +311,22 @@ const LDashboard = () => {
       },
     },
   };
+
+  const plugins = [
+    {
+      id: 'increase-legend-spacing',
+      beforeInit(chart) {
+        // Get reference to the original fit function
+        const originalFit = chart.legend.fit;
+        // Override the fit function
+        chart.legend.fit = function fit() {
+          // Call original function and bind scope in order to use `this` correctly inside it
+          originalFit.bind(chart.legend)();
+          this.height += 20;
+        };
+      },
+    },
+  ];
 
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
@@ -469,7 +488,7 @@ const LDashboard = () => {
               alignItems={'flex-start'}
               borderRadius={12}
             >
-              <HStack w={'100%'} justifyContent={'flex-end'} px={3}>
+              {/* <HStack w={'100%'} justifyContent={'flex-end'} px={3}>
                 <HStack>
                   <Badge
                     variant={'solid'}
@@ -481,9 +500,9 @@ const LDashboard = () => {
                     Dialy Revenue
                   </Text>
                 </HStack>
-              </HStack>
+              </HStack> */}
 
-              <LineChart data={chartData} options={options} />
+              <LineChart data={chartData} options={options} plugins={plugins} />
             </VStack>
 
             <PrimaryButton

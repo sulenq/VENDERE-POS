@@ -135,6 +135,33 @@ export default function ManageItems(props) {
     }
   }
 
+  const [loading, setLoading] = useState(false);
+  //* GET DATA
+  useEffect(() => {
+    const token = Cookies.get('_auth');
+
+    const getItemsAPI = `${baseURL}/api/v1/products`;
+
+    setLoading(true);
+
+    setTimeout(() => {
+      axios
+        .get(getItemsAPI, { headers: { Authorization: `Bearer ${token}` } })
+        .then(r => {
+          // console.log(r.data.data);
+          if (r.data.data) {
+            setData(r.data.data);
+          } else {
+            setData([]);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(setLoading(false));
+    }, 300);
+  }, [refresh]);
+
   //* Keydown event (arrow up & down) focus to searchBox
   document.documentElement.addEventListener('keydown', e => {
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
@@ -468,6 +495,7 @@ export default function ManageItems(props) {
             {/* Items */}
             <ItemsList
               data={data}
+              loading={loading}
               setData={setData}
               setItemIndex={setItemIndex}
               selectItem={selectItem}
