@@ -51,7 +51,7 @@ import {
 import { ActionTopBar } from '../components/ActionTopBar';
 import { useNavigate } from 'react-router-dom';
 
-export default function Profile() {
+export default function Profile(props) {
   const { colorMode } = useColorMode();
   const auth = useAuthUser();
   const logout = useSignOut();
@@ -274,7 +274,7 @@ export default function Profile() {
       setIsSignOutLoading(true);
       setTimeout(() => {
         logout();
-        Cookies.set('_auth', 'signedout');
+        Cookies.set('isSignedOut', 'yes');
         setIsSignOutLoading(false);
         toast({
           position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',

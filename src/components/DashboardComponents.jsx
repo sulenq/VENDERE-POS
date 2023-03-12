@@ -425,7 +425,7 @@ const LDashboard = () => {
   return (
     <VStack mt={'16px !important'} w={'100%'} alignItems={'flex-start'}>
       <Text className="dashboardLabel" fontWeight={'bold'} opacity={0.5}>
-        Current Month
+        Current Month (Debt included)
       </Text>
 
       <VStack

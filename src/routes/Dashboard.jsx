@@ -221,7 +221,7 @@ export default function Dashboard(props) {
       alignItems={'center'}
       finisher-header
     >
-      <ResponsiveNav active={'Dashboard'} setItems={props.setItems} />
+      <ResponsiveNav active={'Dashboard'} />
       <VStack
         id="appContentWrapper"
         h={'100%'}

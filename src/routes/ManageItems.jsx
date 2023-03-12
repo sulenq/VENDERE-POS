@@ -148,17 +148,18 @@ export default function ManageItems(props) {
       axios
         .get(getItemsAPI, { headers: { Authorization: `Bearer ${token}` } })
         .then(r => {
-          // console.log(r.data.data);
+          console.log(r.data.data);
           if (r.data.data) {
             setData(r.data.data);
           } else {
             setData([]);
           }
+          setLoading(false);
         })
         .catch(err => {
           console.log(err);
-        })
-        .finally(setLoading(false));
+          setLoading(false);
+        });
     }, 1);
   }, [refresh]);
 
@@ -411,7 +412,7 @@ export default function ManageItems(props) {
       p={screenWidth <= 1000 ? 0 : 4}
       alignItems={'center'}
     >
-      <ResponsiveNav active={'ManageItems'} setItems={props.setItems} />
+      <ResponsiveNav active={'ManageItems'} />
 
       <VStack
         id="appContentWrapper"

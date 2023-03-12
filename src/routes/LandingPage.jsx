@@ -130,19 +130,33 @@ export default function LandingPage(props) {
               isClosable: true,
             });
             onClose();
+            setIsCreateAccountLoading(false);
           })
           .catch(err => {
             console.log(err);
-            toast({
-              position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-              title: 'Sorry, fail to create account.',
-              description: err.response.data.data.error,
-              status: 'error',
-              duration: 3000,
-              isClosable: true,
-            });
-          })
-          .finally(setIsCreateAccountLoading(false));
+            setIsCreateAccountLoading(false);
+            if (err.code === 'ERR_NETWORK') {
+              toast({
+                position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+                title: 'Sorry, fail create account ☹️.',
+                description:
+                  err.response?.data.data.error ||
+                  'network error, might be the server or your internet connection.',
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+              });
+            } else {
+              toast({
+                position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+                title: 'Sorry, fail to create account ☹️.',
+                description: err.response.data.data.error,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+              });
+            }
+          });
       }, 1);
       //! Simulasi loading
     }
@@ -340,6 +354,7 @@ export default function LandingPage(props) {
                     userRole: r.data.data.role,
                   },
                 });
+                props.setToken(r.data.data.tokenCookie);
                 console.log('User logged in');
                 if (r.data.data.role === 'admin') {
                   navigate('/vendere-app');
@@ -357,8 +372,9 @@ export default function LandingPage(props) {
                 position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
                 title: 'Sorry, fail to sign in ☹️',
                 description:
-                  err.response?.data.data.error ||
-                  'network error, might be the server or your internet connection.',
+                  err.code === 'ERR_NETWORK'
+                    ? 'network error, might be the server or your internet connection.'
+                    : err.response?.data.data.error,
                 status: 'error',
                 duration: 3000,
                 isClosable: true,

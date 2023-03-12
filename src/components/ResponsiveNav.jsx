@@ -123,6 +123,7 @@ const ResponsiveNav = props => {
     let activeNav;
 
     useEffect(() => {
+      console.log(props.active);
       nav = document.querySelector('#navMobile');
       let active = props.active;
       if (props.active === 'Employees' || props.active === 'Reports') {
@@ -265,7 +266,7 @@ const ResponsiveNav = props => {
         setIsSignOutLoading(true);
         setTimeout(() => {
           logout();
-          Cookies.set('_auth', 'signedout');
+          Cookies.set('isSignedOut', 'yes');
           setIsSignOutLoading(false);
           toast({
             position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
@@ -427,7 +428,7 @@ const ResponsiveNav = props => {
                 }
               })}
 
-              {auth().userRole === 'admin' ? (
+              {auth()?.userRole === 'admin' ? (
                 <Divider borderColor={'var(--p-200)'} />
               ) : (
                 ''
@@ -435,7 +436,7 @@ const ResponsiveNav = props => {
 
               {navs2.map((nav, index) => {
                 if (
-                  auth().userRole === nav.restriction ||
+                  auth()?.userRole === nav.restriction ||
                   nav.restriction === ''
                 ) {
                   return (
@@ -491,7 +492,7 @@ const ResponsiveNav = props => {
             >
               <Avatar
                 size={'xl'}
-                name={auth().displayName}
+                name={auth()?.displayName}
                 style={{
                   position: 'absolute',
                   top: '-50px',
@@ -507,7 +508,7 @@ const ResponsiveNav = props => {
                   textAlign: 'center',
                 }}
               >
-                {auth().displayName}
+                {auth()?.displayName}
               </Text>
 
               <Badge
@@ -517,10 +518,10 @@ const ResponsiveNav = props => {
                   borderRadius: '12px',
                 }}
               >
-                {auth().userRole}
+                {auth()?.userRole}
               </Badge>
               <br />
-              {auth().userRole === 'admin' && (
+              {auth()?.userRole === 'admin' && (
                 <SecondaryButtonOutlineNav
                   w={'100%'}
                   label={'Profile'}

@@ -1869,7 +1869,7 @@ const DebtsList = props => {
                   {/* Item's Status */}
                   <VStack w={'58%'} alignItems={'flex-start'} pr={4}>
                     <Text fontWeight={'bold'} mt={'4px !important'}>
-                      {item?.total?.toLocaleString()}
+                      {item?.change?.toLocaleString()}
                     </Text>
                     <Text mt={'2px !important'} opacity={item.notes ? 1 : 0.5}>
                       {item.notes || 'no notes'}
@@ -2997,11 +2997,11 @@ const DeleteEmployee = props => {
                       Are you sure to delete the selected employee account?{' '}
                     </Text>
                     <HStack w={'100%'}>
-                      <Text w={'50px'}>Code</Text>
+                      <Text w={'80px'}>ID</Text>
                       <Text fontWeight={'bold'}>{props?.selectedItem?.ID}</Text>
                     </HStack>
                     <HStack w={'100%'}>
-                      <Text w={'50px'}>Name</Text>
+                      <Text w={'80px'}>Username</Text>
                       <Text fontWeight={'bold'}>
                         {props?.selectedItem?.username}
                       </Text>

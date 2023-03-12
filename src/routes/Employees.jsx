@@ -242,7 +242,7 @@ export default function ManageItems(props) {
                     <FormControl mt={4} isRequired>
                       <FormLabel>Username</FormLabel>
                       <Input
-                        placeholder="e.g jolitoskurniawan"
+                        placeholder="e.g Jolitos Kurniawan"
                         value={registerData.username}
                         onChange={e => {
                           setRegisterData({
@@ -304,7 +304,7 @@ export default function ManageItems(props) {
       p={screenWidth <= 1000 ? 0 : 4}
       alignItems={'center'}
     >
-      <ResponsiveNav active={'Employees'} setItems={props.setItems} />
+      <ResponsiveNav active={'Employees'} />
 
       <VStack
         id="appContentWrapper"

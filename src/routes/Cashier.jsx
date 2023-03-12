@@ -79,6 +79,7 @@ export default function Cashier({
 
   const baseURL = 'http://localhost:8080';
   const [loading, setLoading] = useState(false);
+
   //* GET DATA
   useEffect(() => {
     const token = Cookies.get('_auth');
@@ -207,7 +208,7 @@ export default function Cashier({
       // backgroundImage={colorMode === 'light' ? `url(${bgDark})` : ''}
       // backgroundImage={`url(${bgDark})`}
     >
-      <ResponsiveNav active={'Cashier'} w={'15%'} />
+      <ResponsiveNav active={'Cashier'} />
       <VStack
         id="appContentWrapper"
         ml={'0px !important'}

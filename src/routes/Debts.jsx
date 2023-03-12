@@ -150,7 +150,7 @@ export default function Debts(props) {
       p={screenWidth <= 1000 ? 0 : 4}
       alignItems={'center'}
     >
-      <ResponsiveNav active={'Debts'} setItems={props.setItems} />
+      <ResponsiveNav active={'Debts'} />
 
       <VStack
         id="appContentWrapper"

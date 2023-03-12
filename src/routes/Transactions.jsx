@@ -151,7 +151,7 @@ export default function TRansactions(props) {
       p={screenWidth <= 1000 ? 0 : 4}
       alignItems={'center'}
     >
-      <ResponsiveNav active={'Transactions'} setItems={props.setItems} />
+      <ResponsiveNav active={'Transactions'}   />
 
       <VStack
         id="appContentWrapper"

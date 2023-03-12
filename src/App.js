@@ -82,31 +82,50 @@ export default function App() {
     }
     window.addEventListener('resize', handleResize);
   });
+
+  const [signedOut, setSignedOut] = useState(false);
+  const [token, setToken] = useState();
   const logout = useSignOut();
   const navigate = useNavigate();
 
+  // setToken if rendered
   useEffect(() => {
-    const token = Cookies.get('_auth');
-    if (token) {
-      const tokenListener = setInterval(() => {
-        // console.log(token || 'no auth token');
-        const newToken = Cookies.get('_auth');
-        if (newToken !== token) {
-          console.log('auth token was lost');
-          logout();
-          navigate('/?login=1');
-          toast({
-            position: screenWidth <= 1000 ? 'bottom-center' : 'bottom-right',
-            title: 'Sign In needed',
-            description: 'please sign in to get authorization.',
-            status: 'info',
-            duration: 5000,
-            isClosable: true,
-          });
-        }
-      }, 1000);
-      return () => clearInterval(tokenListener);
+    if (Cookies.get('_auth')) {
+      setToken(Cookies.get('_auth'));
     }
+  }, []);
+
+  useEffect(() => {
+    const isSignedOut = Cookies.get('isSignedOut');
+    const tokenListener = setInterval(() => {
+      const newToken = Cookies.get('_auth');
+      // console.log(token);
+      // console.log('new Token ' + newToken);
+      if (isSignedOut == 'yes') {
+        setToken();
+        Cookies.set('isSignedOut', 'no');
+        navigate('/');
+      } else {
+        if (token) {
+          if (newToken !== token) {
+            setToken();
+            console.log('auth token was lost');
+            logout();
+            navigate('/');
+            toast({
+              position: screenWidth <= 1000 ? 'bottom-center' : 'bottom-right',
+              title: "You've been signed out",
+              description: 'please sign in to use the application.',
+              status: 'info',
+              duration: 5000,
+              isClosable: true,
+            });
+          }
+        }
+      }
+    }, 1000);
+
+    return () => clearInterval(tokenListener);
   });
 
   const toast = useToast();
@@ -169,7 +188,7 @@ export default function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<LandingPage />} />
+      <Route path="/" element={<LandingPage setToken={setToken} />} />
       <Route path="/vendere-app">
         <Route
           index
