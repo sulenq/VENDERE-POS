@@ -252,7 +252,16 @@ export default function App() {
             />
           }
         />
-        <Route path="reports" element={<Reports />} />
+        <Route
+          path="reports"
+          element={
+            <RequireRoleAuth
+              loginPath="/?login=1"
+              restriction="admin"
+              element={<Reports />}
+            />
+          }
+        />
         <Route
           path="manageproducts"
           element={

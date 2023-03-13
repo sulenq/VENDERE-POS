@@ -1291,12 +1291,12 @@ const TransactionsList = props => {
                   }}
                 >
                   {/* Item's ID */}
-                  <Text w={'25%'} p={'4px 8px'}>
+                  <Text w={'30%'} p={'4px 8px'}>
                     {item?.ID}
                   </Text>
 
                   {/* Item's Status */}
-                  <VStack w={'58%'} alignItems={'flex-start'} pr={4}>
+                  <VStack w={'50%'} alignItems={'flex-start'} pr={4}>
                     <Text mt={'4px !important'}>{formattedDate}</Text>
                     <Badge
                       fontWeight={'bold'}
@@ -1862,12 +1862,12 @@ const DebtsList = props => {
                   }}
                 >
                   {/* Item's ID */}
-                  <Text w={'25%'} p={'4px 8px'}>
+                  <Text w={'30%'} p={'4px 8px'}>
                     {item?.ID}
                   </Text>
 
                   {/* Item's Status */}
-                  <VStack w={'58%'} alignItems={'flex-start'} pr={4}>
+                  <VStack w={'50%'} alignItems={'flex-start'} pr={4}>
                     <Text fontWeight={'bold'} mt={'4px !important'}>
                       {item?.change?.toLocaleString()}
                     </Text>

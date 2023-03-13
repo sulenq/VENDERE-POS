@@ -213,10 +213,10 @@ export default function Debts(props) {
 
             {/* Heading */}
             <HStack fontSize={'sm'} w={'100%'} py={2} pl={4} pr={6}>
-              <Text fontWeight={'bold'} w={'25%'}>
+              <Text fontWeight={'bold'} w={'30%'}>
                 ID
               </Text>
-              <Text fontWeight={'bold'} w={'55%'}>
+              <Text fontWeight={'bold'} w={'50%'}>
                 STATUS
               </Text>
               <Text
