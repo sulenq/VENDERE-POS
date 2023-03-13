@@ -57,7 +57,10 @@ const ReportsList = props => {
   });
 
   const auth = useAuthUser();
-  const [rawData, setRawData] = useState();
+  const [rawData, setRawData] = useState(false);
+  const [transData, setTransData] = useState();
+  const [debtsData, setDebtsData] = useState();
+  const [expensesData, setExpensesData] = useState();
   const [loading, setLoading] = useState(false);
   const skeletonLength = ['', '', '', '', '', '', '', '', '', '', '', ''];
   const [itemFound, setItemFound] = useState(true);
@@ -66,12 +69,8 @@ const ReportsList = props => {
   useEffect(() => {
     const token = Cookies.get('_auth');
 
-    let getTransactionsAPI;
-    if (auth().userRole === 'admin') {
-      getTransactionsAPI = `${baseURL}/api/v1/transactions/admin`;
-    } else if (auth().userRole === 'cashier') {
-      getTransactionsAPI = `${baseURL}/api/v1/transactions/cashier`;
-    }
+    let getTransactionsAPI = `${baseURL}/api/v1/transactions/admin`;
+
     setLoading(true);
 
     setTimeout(() => {
@@ -82,28 +81,280 @@ const ReportsList = props => {
         .then(r => {
           // console.log(r.data.data);
           if (r.data.data) {
-            setRawData(r.data.data);
+            setTransData(r.data.data);
           } else {
-            setRawData([]);
+            setTransData([]);
           }
-          setLoading(false);
         })
         .catch(err => {
           console.log(err);
-          setLoading(false);
+        });
+    }, 1);
+
+    let getExpensesAPI = `${baseURL}/api/v1/transactions/admin`;
+
+    setTimeout(() => {
+      axios
+        .get(getExpensesAPI, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then(r => {
+          // console.log(r.data.data);
+          if (r.data.data) {
+            setExpensesData(r.data.data);
+          } else {
+            setExpensesData([]);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }, 1);
+
+    let getDebtsAPI = `${baseURL}/api/v1/transactions/admin/debt`;
+
+    setTimeout(() => {
+      axios
+        .get(getDebtsAPI, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then(r => {
+          // console.log(r.data.data);
+          if (r.data.data) {
+            setDebtsData(r.data.data);
+          } else {
+            setDebtsData([]);
+          }
+        })
+        .catch(err => {
+          console.log(err);
         });
     }, 1);
   }, [props.refresh]);
 
+  useEffect(() => {
+    if (transData && expensesData && debtsData) {
+      setRawData(true);
+      setLoading(false);
+    }
+  }, [transData, expensesData, debtsData]);
+
   //* OLAH DATA
   useEffect(() => {
-    let data = [];
-    const dataFormat = {
-      period: '',
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
+
+    let data = [
+      {
+        period: 'March 2023',
+        status: 'profit',
+        revenue: { penjualan: 12213123, grossRevenue: 12213123 },
+        debt: {
+          piutang: -613123,
+          bebanUtang: 0,
+          totalRevenue: 11600000,
+        },
+        cos: {
+          pembelian: -6213123,
+          bebanAngkut: 0,
+          totalCos: -6213123,
+          grossProfit: 6000000,
+        },
+        expenses: {
+          bebanOperasional: {
+            bebanListrik: -613123,
+            bebanSewa: 0,
+            bebanTelepon: -12412,
+          },
+          bebanLain: {
+            penyesuaianPersediaan: -121412,
+            lainLain: -32112,
+          },
+          prive: {
+            totalPrive: -231412,
+          },
+          totalExpenses: -1010471,
+        },
+        totalProfit: 4376406,
+      },
+      {
+        period: 'April 2023',
+        status: 'loss',
+        revenue: { penjualan: 15213123, grossRevenue: 15213123 },
+        debt: {
+          piutang: -10013123,
+          bebanUtang: 0,
+          totalRevenue: 15600000,
+        },
+        cos: {
+          pembelian: -8213123,
+          bebanAngkut: 0,
+          totalCos: -8213123,
+          grossProfit: 3502500,
+        },
+        expenses: {
+          bebanOperasional: {
+            bebanListrik: -813123,
+            bebanSewa: 0,
+            bebanTelepon: -72412,
+          },
+          bebanLain: {
+            penyesuaianPersediaan: -221412,
+            lainLain: -32112,
+          },
+          prive: {
+            totalPrive: -2431412,
+          },
+          totalExpenses: -2010570,
+        },
+        totalProfit: -1376406,
+      },
+    ];
+
+    let dataSet = [];
+
+    function getRevenue(data, period) {
+      let revenue = { penjualan: 0, grossRevenue: 0 };
+      data?.forEach(item => {
+        const date = new Date(item.CreatedAt);
+        const month = date.toLocaleString(undefined, { month: 'long' });
+        const year = date.getFullYear();
+        if (period == `${month} ${year}`) {
+          revenue.penjualan += item.total;
+        }
+      });
+      revenue.grossRevenue = revenue.penjualan;
+      return revenue;
+    }
+
+    function getDebt(data, period) {
+      const debt = { piutang: 0, bebanUtang: 0 };
+
+      data.forEach((item, index) => {
+        const date = new Date(item.CreatedAt);
+        const month = date.toLocaleString(undefined, { month: 'long' });
+        const year = date.getFullYear();
+        // console.log(`${period} == ${month} ${year}`);
+        if (period == `${month} ${year}`) {
+          // console.log('titit')
+          debt.piutang += item.change;
+        }
+      });
+
+      return debt;
+    }
+
+    function getCos(data, period) {}
+
+    function getExpenses(data, period) {}
+
+    let dataFormat = {
+      period: 'Maret 2023',
+      status: '',
+      revenue: { penjualan: 0, grossRevenue: 0 },
+      debt: {
+        piutang: 0,
+        bebanUtang: 0,
+      },
+      totalRevenue: 0,
+      cos: {
+        pembelian: 0,
+        bebanAngkut: 0,
+        totalCos: 0,
+        grossProfit: 0,
+      },
+      expenses: {
+        bebanOperasional: {
+          bebanListrik: 0,
+          bebanSewa: 0,
+          bebanTelepon: 0,
+        },
+        bebanLain: {
+          penyesuaianPersediaan: 0,
+          lainLain: 0,
+        },
+        prive: {
+          totalPrive: 0,
+        },
+        totalExpenses: 0,
+      },
+      totalProfit: 0,
     };
 
-    if (rawData) {
-      props.setData(rawData);
+    if (transData) {
+      const periods = [];
+      transData.forEach((rData, index) => {
+        const date = new Date(rData.CreatedAt);
+        const month = date.toLocaleString(undefined, { month: 'long' });
+        const year = date.getFullYear();
+        if (!periods.includes(`${month} ${year}`)) {
+          periods.push(`${month} ${year}`);
+        }
+      });
+
+      // console.log(periods);
+      periods.forEach((period, index) => {
+        const revenue = getRevenue(transData, period);
+        const debt = getDebt(debtsData, period);
+        const totalRevenue =
+          revenue?.grossRevenue + debt?.piutang + debt?.bebanUtang;
+        const cos = {
+          pembelian: 0,
+          bebanAngkut: 0,
+          totalCos: 0,
+        };
+        const grossProfit = totalRevenue + cos.totalCos;
+        const expenses = {
+          bebanOperasional: {
+            bebanListrik: 0,
+            bebanSewa: 0,
+            bebanTelepon: 0,
+          },
+          bebanLain: {
+            penyesuaianPersediaan: 0,
+            lainLain: 0,
+          },
+          prive: {
+            totalPrive: 0,
+          },
+          totalExpenses: 0,
+        };
+        const totalProfit = grossProfit + expenses.totalExpenses;
+
+        let dataFormat = {
+          period: period,
+          status: 'profit',
+          revenue: revenue,
+          debt: debt,
+          totalRevenue: totalRevenue,
+          cos: {
+            pembelian: 0,
+            bebanAngkut: 0,
+            totalCos: 0,
+            grossProfit: grossProfit,
+          },
+          expenses: {
+            bebanOperasional: {
+              bebanListrik: 0,
+              bebanSewa: 0,
+              bebanTelepon: 0,
+            },
+            bebanLain: {
+              penyesuaianPersediaan: 0,
+              lainLain: 0,
+            },
+            prive: {
+              totalPrive: 0,
+            },
+            totalExpenses: 0,
+          },
+          totalProfit: totalProfit,
+        };
+
+        dataSet.push(dataFormat);
+      });
+      props.setData(dataSet);
     }
   }, [rawData]);
 
@@ -117,11 +368,7 @@ const ReportsList = props => {
     let isItemFound = true;
     if (props.data?.length !== 0) {
       isItemFound = props.data?.some(item => {
-        return (
-          item.ID.toString()?.includes(props.search) ||
-          item.notes.toString()?.toLowerCase().includes(props.search) ||
-          item.total.toString()?.toLowerCase().includes(props.search)
-        );
+        return item.period?.toLowerCase()?.includes(props.search);
       });
     }
 
@@ -143,7 +390,7 @@ const ReportsList = props => {
       <VStack h={'100%'} justifyContent={'center'} opacity={0.2}>
         <Icon as={SearchOffOutlinedIcon} fontSize={'10rem'} />
         <Text fontSize={'x-large'} fontWeight={'bold'}>
-          Transaction Not Found
+          Report Not Found
         </Text>
       </VStack>
     );
@@ -172,73 +419,79 @@ const ReportsList = props => {
               colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
           }}
         >
-          
-          <HStack
-            // key={index}
-            // id={'item' + index}
-            pl={4}
-            pr={6}
-            mt={'0px !important'}
-            w={'100%'}
-            alignItems={'flex-start'}
-            py={2}
-            position={'relative'}
-            // style={{
-            //   background:
-            //     index % 2 === 1
-            //       ? colorMode === 'light'
-            //         ? 'var(--light)'
-            //         : 'var(--dark)'
-            //       : null,
-            // }}
-          >
-            {/* Item's ID */}
-            <Text w={'30%'} p={'4px 8px'}>
-              Maret 2023
-            </Text>
-
-            {/* Item's Status */}
-            <VStack w={'50%'} alignItems={'flex-start'} pr={4}>
-              <Text mt={'4px !important'}>{(13880091).toLocaleString()}</Text>
-              <Badge
-                fontWeight={'bold'}
-                colorScheme={'green'}
-                // colorScheme={item.status === 'lunas' ? 'green' : 'red'}
-              >
-                PROFIT
-              </Badge>
-            </VStack>
-
-            {/* Item Action */}
-            <VStack
-              w={'20%'}
-              className={'actionBtnSection'}
-              alignSelf={'center'}
-            >
-              {screenWidth <= 1000 ? (
-                <ReportDetailsModal
-                  reportType={props.reportType}
-                  selectItem={props.selectItem}
-                  // item={item}
-                  selectedItem={props.selectedItem}
-                  refresh={props.refresh}
-                  setRefresh={props.setRefresh}
-                />
-              ) : (
-                <Text
-                  opacity={0.5}
-                  size={'sm'}
-                  cursor={'pointer'}
-                  _hover={{ textDecoration: 'underline' }}
-                  onClick={() => {
-                    // props.selectItem({ item: item });
+          {props.data?.map((item, index) => {
+            if (item?.period?.toLowerCase()?.includes(props.search)) {
+              return (
+                <HStack
+                  key={index}
+                  id={'item' + index}
+                  pl={4}
+                  pr={6}
+                  mt={'0px !important'}
+                  w={'100%'}
+                  alignItems={'flex-start'}
+                  py={2}
+                  position={'relative'}
+                  style={{
+                    background:
+                      index % 2 === 1
+                        ? colorMode === 'light'
+                          ? 'var(--light)'
+                          : 'var(--dark)'
+                        : null,
                   }}
                 >
-                  details
-                </Text>
-              )}
-            </VStack>
-          </HStack>
+                  {/* Item's Period */}
+                  <Text w={'30%'} p={'4px 8px'}>
+                    {item?.period}
+                  </Text>
+
+                  {/* Item's Status */}
+                  <VStack w={'50%'} alignItems={'flex-start'} pr={4}>
+                    <Text mt={'4px !important'}>
+                      {item?.totalRevenue?.toLocaleString()}
+                    </Text>
+                    <Badge
+                      fontWeight={'bold'}
+                      mt={'4px !important'}
+                      colorScheme={item.status === 'profit' ? 'green' : 'red'}
+                    >
+                      {item?.totalProfit?.toLocaleString()}
+                    </Badge>
+                  </VStack>
+
+                  {/* Item Action */}
+                  <VStack
+                    w={'20%'}
+                    className={'actionBtnSection'}
+                    alignSelf={'center'}
+                  >
+                    {screenWidth <= 1000 ? (
+                      <ReportDetailsModal
+                        reportType={props.reportType}
+                        selectItem={props.selectItem}
+                        selectedItem={props.selectedItem}
+                        refresh={props.refresh}
+                        setRefresh={props.setRefresh}
+                      />
+                    ) : (
+                      <Text
+                        opacity={0.5}
+                        size={'sm'}
+                        cursor={'pointer'}
+                        _hover={{ textDecoration: 'underline' }}
+                        onClick={() => {
+                          props.selectItem({ item: item });
+                        }}
+                      >
+                        details
+                      </Text>
+                    )}
+                  </VStack>
+                </HStack>
+              );
+            }
+          })}
         </VStack>
       );
     } else {
@@ -267,6 +520,11 @@ const ReportDetails = props => {
     window.addEventListener('resize', handleResize);
   });
 
+  const currentDate = new Date();
+  const currentMonth = currentDate.toLocaleString(undefined, { month: 'long' });
+  const currentYear = currentDate.getFullYear();
+  const currentPeriod = `${currentMonth} ${currentYear}`;
+
   return (
     <VStack
       style={{
@@ -282,7 +540,7 @@ const ReportDetails = props => {
       <VStack
         w={'100%'}
         h={screenWidth <= 1000 ? 'calc(100% - 64px)' : '100%'}
-        pb={3}
+        pb={screenWidth <= 1000 ? 0 : 3}
       >
         <HStack alignSelf={'flex-start'} px={3} mb={2} opacity={0.5}>
           <Icon as={InfoOutlinedIcon} />
@@ -295,7 +553,6 @@ const ReportDetails = props => {
           mt={'0px !important'}
           fontSize={'sm'}
           overflowY={'auto'}
-          pb={3}
           px={2}
         >
           <VStack
@@ -311,8 +568,13 @@ const ReportDetails = props => {
               w={'100%'}
             >
               <Text>{auth().displayName}</Text>
-              <Badge colorScheme={'green'} mt={'0 !important'}>
-                PROFIT
+              <Badge
+                colorScheme={
+                  props?.selectedItem?.status === 'profit' ? 'green' : 'red'
+                }
+                mt={'0 !important'}
+              >
+                {props?.selectedItem?.status}
               </Badge>
             </HStack>
 
@@ -321,8 +583,27 @@ const ReportDetails = props => {
               justifyContent={'space-between'}
               w={'100%'}
             >
-              <Text mt={'0 !important'}>{props?.reportType + ' Report'}</Text>
-              <Text mt={'0 !important'}>Maret 2023</Text>
+              {props?.selectedItem?.period == currentPeriod ? (
+                <>
+                  <HStack>
+                    <Text mt={'0 !important'}>
+                      {props?.reportType + ' Report'}
+                    </Text>
+                    <Badge
+                      variant={'solid'}
+                      colorScheme={'red'}
+                      borderRadius={50}
+                      w={'10px'}
+                      h={'10px'}
+                    ></Badge>
+                    <Text>Unfinished</Text>
+                  </HStack>
+                </>
+              ) : (
+                <Text mt={'0 !important'}>{props?.reportType + ' Report'}</Text>
+              )}
+
+              <Text mt={'0 !important'}>{props?.selectedItem?.period}</Text>
             </HStack>
           </VStack>
 
@@ -342,7 +623,9 @@ const ReportDetails = props => {
               }}
             >
               <Text className="label">Penjualan</Text>
-              <Text>{(12213123).toLocaleString()}</Text>
+              <Text>
+                {props?.selectedItem?.revenue?.penjualan?.toLocaleString()}
+              </Text>
             </HStack>
 
             <HStack
@@ -355,7 +638,9 @@ const ReportDetails = props => {
               }}
             >
               <Text className="label">Gross Revenue</Text>
-              <Text>{(12213123).toLocaleString()}</Text>
+              <Text>
+                {props?.selectedItem?.revenue?.grossRevenue?.toLocaleString()}
+              </Text>
             </HStack>
           </VStack>
 
@@ -376,7 +661,9 @@ const ReportDetails = props => {
               }}
             >
               <Text className="label">Piutang</Text>
-              <Text>{(-613123).toLocaleString()}</Text>
+              <Text>
+                {props?.selectedItem?.debt?.piutang?.toLocaleString()}
+              </Text>
             </HStack>
 
             <HStack
@@ -387,7 +674,9 @@ const ReportDetails = props => {
               }}
             >
               <Text className="label">Beban Utang</Text>
-              <Text>{(0).toLocaleString()}</Text>
+              <Text>
+                {props?.selectedItem?.debt?.bebanUtang?.toLocaleString()}
+              </Text>
             </HStack>
 
             <HStack
@@ -400,7 +689,7 @@ const ReportDetails = props => {
               }}
             >
               <Text className="label">Total Revenue</Text>
-              <Text>{(11600000).toLocaleString()}</Text>
+              <Text>{props?.selectedItem?.totalRevenue?.toLocaleString()}</Text>
             </HStack>
 
             {/* <HStack
@@ -434,7 +723,9 @@ const ReportDetails = props => {
               }}
             >
               <Text className="label">Pembelian</Text>
-              <Text>{(-6213123).toLocaleString()}</Text>
+              <Text>
+                {props?.selectedItem?.cos?.pembelian?.toLocaleString()}
+              </Text>
             </HStack>
 
             <HStack
@@ -445,7 +736,9 @@ const ReportDetails = props => {
               }}
             >
               <Text className="label">Beban Angkut</Text>
-              <Text>{(0).toLocaleString()}</Text>
+              <Text>
+                {props?.selectedItem?.cos?.bebanAngkut?.toLocaleString()}
+              </Text>
             </HStack>
 
             <HStack
@@ -458,7 +751,9 @@ const ReportDetails = props => {
               }}
             >
               <Text className="label">Total Cost of Sales</Text>
-              <Text>{(-6213123).toLocaleString()}</Text>
+              <Text>
+                {props?.selectedItem?.cos?.totalCos?.toLocaleString()}
+              </Text>
             </HStack>
 
             <HStack
@@ -470,7 +765,9 @@ const ReportDetails = props => {
               }}
             >
               <Text className="label">Gross Profit</Text>
-              <Text>{(6000000).toLocaleString()}</Text>
+              <Text>
+                {props?.selectedItem?.cos?.grossProfit?.toLocaleString()}
+              </Text>
             </HStack>
           </VStack>
 
@@ -498,7 +795,9 @@ const ReportDetails = props => {
                 <Text className="label" pl={4}>
                   Beban Listrik
                 </Text>
-                <Text>{(-613123).toLocaleString()}</Text>
+                <Text>
+                  {props?.selectedItem?.expenses?.bebanOperasional?.bebanListrik?.toLocaleString()}
+                </Text>
               </HStack>
 
               <HStack
@@ -511,7 +810,9 @@ const ReportDetails = props => {
                 <Text className="label" pl={4}>
                   Beban Sewa
                 </Text>
-                <Text>{(0).toLocaleString()}</Text>
+                <Text>
+                  {props?.selectedItem?.expenses?.bebanOperasional?.bebanSewa?.toLocaleString()}
+                </Text>
               </HStack>
 
               <HStack
@@ -524,7 +825,9 @@ const ReportDetails = props => {
                 <Text className="label" pl={4}>
                   Beban Telepon
                 </Text>
-                <Text>{(-12412).toLocaleString()}</Text>
+                <Text>
+                  {props?.selectedItem?.expenses?.bebanOperasional?.bebanTelepon?.toLocaleString()}
+                </Text>
               </HStack>
             </VStack>
 
@@ -543,7 +846,9 @@ const ReportDetails = props => {
                 <Text className="label" pl={4}>
                   Penyesuaian Persediaan
                 </Text>
-                <Text>{(-121412).toLocaleString()}</Text>
+                <Text>
+                  {props?.selectedItem?.expenses?.bebanLain?.penyesuaianPersediaan?.toLocaleString()}
+                </Text>
               </HStack>
 
               <HStack
@@ -556,7 +861,9 @@ const ReportDetails = props => {
                 <Text className="label" pl={4}>
                   Lain-lain
                 </Text>
-                <Text>{(-32112).toLocaleString()}</Text>
+                <Text>
+                  {props?.selectedItem?.expenses?.bebanLain?.lainLain.toLocaleString()}
+                </Text>
               </HStack>
             </VStack>
 
@@ -575,7 +882,9 @@ const ReportDetails = props => {
                 <Text className="label" pl={4}>
                   Total Prive
                 </Text>
-                <Text>{(-231412).toLocaleString()}</Text>
+                <Text>
+                  {props?.selectedItem?.expenses?.prive?.totalPrive?.toLocaleString()}
+                </Text>
               </HStack>
             </VStack>
 
@@ -589,7 +898,9 @@ const ReportDetails = props => {
               }}
             >
               <Text className="label">Total Expenses</Text>
-              <Text>{(-1010471).toLocaleString()}</Text>
+              <Text>
+                {props?.selectedItem?.expenses?.totalExpenses?.toLocaleString()}
+              </Text>
             </HStack>
           </VStack>
 
@@ -604,7 +915,7 @@ const ReportDetails = props => {
             borderRadius={4}
           >
             <Text className="label">Total Profit / Loss(-)</Text>
-            <Text>{(4376406).toLocaleString()}</Text>
+            <Text>{props?.selectedItem?.totalProfit?.toLocaleString()}</Text>
           </HStack>
         </VStack>
       </VStack>
@@ -647,7 +958,7 @@ const ReportDetailsModal = props => {
         cursor={'pointer'}
         _hover={{ textDecoration: 'underline' }}
         onClick={() => {
-          // props.selectItem({ item: props.item });
+          props.selectItem({ item: props.selectedItem });
           onOpen();
         }}
       >

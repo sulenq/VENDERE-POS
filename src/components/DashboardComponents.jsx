@@ -173,14 +173,14 @@ const RDashboard = () => {
           )}
         </HStack>
 
-        <VStack w={'100%'}>
+        <VStack w={'100%'} pb={2}>
           {!loading
             ? data?.list?.map((emp, index) => {
                 return (
                   <HStack
                     key={index}
                     px={2}
-                    py={1}
+                    py={2}
                     style={{
                       width: '100%',
                       alignItems: 'flex-start',
@@ -425,7 +425,7 @@ const LDashboard = () => {
   return (
     <VStack mt={'16px !important'} w={'100%'} alignItems={'flex-start'}>
       <Text className="dashboardLabel" fontWeight={'bold'} opacity={0.5}>
-        Current Month (Debt included)
+        Current Month (Gross)
       </Text>
 
       <VStack
@@ -450,7 +450,7 @@ const LDashboard = () => {
                 </Text>
               </HStack>
               <Text mt={'0px !important'} color={'var(--p-200)'}>
-                Total Revenue
+                Total Gross Revenue
               </Text>
             </VStack>
 
@@ -462,7 +462,7 @@ const LDashboard = () => {
                 </Text>
               </HStack>
               <Text mt={'0px !important'} color={'var(--p-200)'}>
-                Total Profit
+                Total Gross Profit
               </Text>
             </VStack>
 
@@ -484,7 +484,7 @@ const LDashboard = () => {
               h={'300px'}
               mt={'16px !important'}
               p={1}
-              pb={5}
+              pb={2}
               alignItems={'flex-start'}
               borderRadius={12}
             >

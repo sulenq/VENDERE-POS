@@ -243,6 +243,7 @@ bg={colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)'} */
 }
 
 @media only screen and (min-width: 1001px) {
+  #content::-webkit-scrollbar,
   #navOptions::-webkit-scrollbar,
   .skeleton::-webkit-scrollbar,
   #itemDetails::-webkit-scrollbar,

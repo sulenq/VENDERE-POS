@@ -76,21 +76,21 @@ export default function Reports(props) {
     if (item) {
       selectedItem = item;
     } else {
-      const selectedItemId = document.querySelector(
+      const selectedItemPeriod = document.querySelector(
         `.items > :nth-child(${index}) p`
       )?.textContent;
-      // console.log(selectedItemId);
+      // console.log(selectedItemPeriod);
 
       selectedItem = data.find(item => {
-        // console.log(item.ID);
-        return item.ID == selectedItemId;
+        // console.log(item.period, selectedItemPeriod);
+        return item.period == selectedItemPeriod;
       });
     }
 
     if (selectedItem) {
-      const transListElm = document.querySelectorAll('.items > div > p');
-      transListElm.forEach((transID, index) => {
-        if (transID.textContent == selectedItem.ID) {
+      const listElm = document.querySelectorAll('.items > div > p');
+      listElm.forEach((key, index) => {
+        if (key.textContent == selectedItem.period) {
           setItemIndex(index + 1);
         }
       });
@@ -133,6 +133,7 @@ export default function Reports(props) {
       const selectedItemToSet = selectedItemStruct(selectedItem);
 
       setSelectedItem(selectedItemToSet);
+      // console.log(selectedItemToSet);
     }
   }
 
@@ -256,7 +257,7 @@ export default function Reports(props) {
             {/* Search Box */}
             <HStack px={3} w={'100%'}>
               <SearchBox
-                placeholder={'Search transaction by id, total or notes'}
+                placeholder={'Search report by period'}
                 search={search}
                 itemsLength={itemsLength}
                 setItemsLength={setItemsLength}
@@ -275,7 +276,7 @@ export default function Reports(props) {
                 PERIOD
               </Text>
               <Text fontWeight={'bold'} w={'50%'}>
-                STATUS
+                REVENUE
               </Text>
               <Text
                 fontWeight={'bold'}

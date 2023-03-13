@@ -1297,8 +1297,9 @@ const TransactionsList = props => {
 
                   {/* Item's Status */}
                   <VStack w={'50%'} alignItems={'flex-start'} pr={4}>
-                    <Text mt={'4px !important'}>{formattedDate}</Text>
+                    <Text>{formattedDate}</Text>
                     <Badge
+                      mt={'4px !important'}
                       fontWeight={'bold'}
                       colorScheme={item.status === 'lunas' ? 'green' : 'red'}
                     >
@@ -1380,7 +1381,7 @@ const TransactionDetails = props => {
       <VStack
         w={'100%'}
         h={screenWidth <= 1000 ? 'calc(100% - 64px)' : '100%'}
-        pb={3}
+        pb={screenWidth <= 1000 ? 0 : 3}
       >
         <HStack alignSelf={'flex-start'} px={3} mb={2} opacity={0.5}>
           <Icon as={InfoOutlinedIcon} />
@@ -1871,7 +1872,7 @@ const DebtsList = props => {
                     <Text fontWeight={'bold'} mt={'4px !important'}>
                       {item?.change?.toLocaleString()}
                     </Text>
-                    <Text mt={'2px !important'} opacity={item.notes ? 1 : 0.5}>
+                    <Text mt={'4px !important'} opacity={item.notes ? 1 : 0.5}>
                       {item.notes || 'no notes'}
                     </Text>
                   </VStack>
@@ -2004,10 +2005,15 @@ const DebtDetails = props => {
                         justifyContent={'space-between'}
                       >
                         <Text fontSize={'x-large'}>Rp.</Text>
-                        <Text fontSize={'xxx-large'}>
+                        <Text
+                          textAlign={'right'}
+                          fontSize={'xxx-large'}
+                          w={'calc(100% - 37px)'}
+                        >
                           {data.change?.toLocaleString()}
                         </Text>
                       </HStack>
+
                       <HStack w={'100%'} justifyContent={'flex-end'}>
                         {data.status === 'lunas' ? (
                           <Badge fontSize={'16px'} colorScheme={'green'}>
