@@ -461,6 +461,7 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
                           setNote(e.target.value);
                         }}
                         placeholder="Write some note here."
+                        _placeholder={{ opacity: 0.5 }}
                         size="sm"
                         _focusVisible={{
                           border:

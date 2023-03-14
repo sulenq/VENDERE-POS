@@ -114,6 +114,7 @@ const SearchBox = props => {
         tabIndex={0}
         onFocus={e => e.target.select()}
         placeholder={props.placeholder}
+        _placeholder={{ opacity: 0.5 }}
         w={'100%'}
         pr={'96px !important'}
         border={'1px solid'}
@@ -160,6 +161,7 @@ const Input = props => {
       px={3}
       type={props.type}
       placeholder={props.placeholder}
+      _placeholder={{ opacity: 0.5 }}
       value={props.value}
       onChange={props.onChange}
       border={'1px solid'}

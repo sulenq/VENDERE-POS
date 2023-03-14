@@ -327,7 +327,9 @@ const ExpenseDetails = props => {
             <Text className="detailsLabels" w={'150px'}>
               Total
             </Text>
-            <Text w={'calc(100% - 150px)'}>{selectedItem?.total}</Text>
+            <Text w={'calc(100% - 150px)'}>
+              {selectedItem?.total?.toLocaleString()}
+            </Text>
           </HStack>
 
           <HStack
@@ -345,6 +347,28 @@ const ExpenseDetails = props => {
               Expense Type
             </Text>
             <Text w={'calc(100% - 150px)'}>{selectedItem?.jenis}</Text>
+          </HStack>
+
+          <HStack
+            px={5}
+            pb={2}
+            w={'100%'}
+            alignItems={'flex-start'}
+            borderBottom={'1px solid'}
+            style={{
+              borderColor:
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
+            }}
+          >
+            <Text className="detailsLabels" w={'150px'}>
+              Notes
+            </Text>
+            <Text
+              w={'calc(100% - 150px)'}
+              opacity={props?.selectedItem?.notes ? 1 : 0.5}
+            >
+              {props?.selectedItem?.notes || 'no notes'}
+            </Text>
           </HStack>
 
           <HStack

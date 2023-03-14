@@ -1581,7 +1581,7 @@ const TransactionDetails = props => {
               }}
             >
               <Text className="detailsLabels" w={'25%'}>
-                Note
+                Notes
               </Text>
               <Text w={'75%'} opacity={props?.selectedItem?.notes ? 1 : 0.5}>
                 {props?.selectedItem?.notes || 'no notes'}
@@ -2304,7 +2304,7 @@ const DebtDetails = props => {
               }}
             >
               <Text className="detailsLabels" w={'25%'}>
-                Note
+                Notes
               </Text>
               <Text w={'75%'} opacity={props?.selectedItem?.notes ? 1 : 0.5}>
                 {props?.selectedItem?.notes || 'no notes'}

@@ -23,6 +23,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Textarea,
 } from '@chakra-ui/react';
 
 // MUI Icons
@@ -98,7 +99,7 @@ export default function Expenses(props) {
     if (selectedItem) {
       const keyElm = document.querySelectorAll('.items > div > .expensesID');
       keyElm.forEach((key, index) => {
-        console.log(selectedItem.ID, key);
+        // console.log(selectedItem.ID, key);
         if (key.textContent == selectedItem.ID) {
           setItemIndex(index + 1);
         }
@@ -164,6 +165,7 @@ export default function Expenses(props) {
     const [registerData, setRegisterData] = useState({
       jenis: 'Lain-lain',
       total: 0,
+      notes: '',
     });
     const [isCreatingAcount, setIsCreatingCashierAccount] = useState(false);
 
@@ -187,6 +189,7 @@ export default function Expenses(props) {
             setRegisterData({
               jenis: '',
               total: 0,
+              notes: '',
             });
             toast({
               position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
@@ -416,7 +419,7 @@ export default function Expenses(props) {
                   </FormControl>
 
                   <FormControl mt={4} isRequired>
-                    <FormLabel>Total </FormLabel>
+                    <FormLabel>Total</FormLabel>
                     <Input
                       placeholder="e.g. 20000"
                       value={registerData.total || ''}
@@ -430,6 +433,28 @@ export default function Expenses(props) {
                         if (e.key === 'Enter') {
                           document.querySelector('#addExpenseBtn').click();
                         }
+                      }}
+                    />
+                  </FormControl>
+
+                  <FormControl mt={4} isRequired>
+                    <FormLabel>Notes</FormLabel>
+                    <Textarea
+                      mt={'0px !important'}
+                      value={registerData?.notes}
+                      borderRadius={6}
+                      _placeholder={{ opacity: 0.5 }}
+                      onChange={e => {
+                        setRegisterData({
+                          ...registerData,
+                          notes: e.target.value,
+                        });
+                      }}
+                      placeholder="Write some note here."
+                      size="sm"
+                      _focusVisible={{
+                        border:
+                          colorMode === 'light' ? '2px solid ' : '2px solid',
                       }}
                     />
                   </FormControl>
@@ -520,7 +545,7 @@ export default function Expenses(props) {
             <HStack px={3} w={'100%'}>
               <SearchBox
                 data={data}
-                placeholder={'Search employee by username or id'}
+                placeholder={'Search expense by date, total or type'}
                 search={search}
                 itemsLength={itemsLength}
                 setItemsLength={setItemsLength}
@@ -536,7 +561,7 @@ export default function Expenses(props) {
             {/* Heading */}
             <HStack fontSize={'sm'} w={'100%'} py={2} pl={4} pr={6}>
               <Text fontWeight={'bold'} w={'30%'}>
-                ID
+                DATE
               </Text>
               <Text fontWeight={'bold'} w={'50%'}>
                 STATUS
