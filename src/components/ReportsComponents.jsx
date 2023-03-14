@@ -291,38 +291,38 @@ const ReportsList = props => {
       return expenses;
     }
 
-    let dataFormat = {
-      period: 'Maret 2023',
-      status: '',
-      revenue: { penjualan: 0, grossRevenue: 0 },
-      debt: {
-        piutang: 0,
-        bebanUtang: 0,
-      },
-      totalRevenue: 0,
-      cos: {
-        pembelian: 0,
-        bebanAngkut: 0,
-        totalCos: 0,
-        grossProfit: 0,
-      },
-      expenses: {
-        bebanOperasional: {
-          bebanListrik: 0,
-          bebanSewa: 0,
-          bebanTelepon: 0,
-        },
-        bebanLain: {
-          penyesuaianPersediaan: 0,
-          lainLain: 0,
-        },
-        prive: {
-          totalPrive: 0,
-        },
-        totalExpenses: 0,
-      },
-      totalProfit: 0,
-    };
+    // let dataFormat = {
+    //   period: 'Maret 2023',
+    //   status: '',
+    //   revenue: { penjualan: 0, grossRevenue: 0 },
+    //   debt: {
+    //     piutang: 0,
+    //     bebanUtang: 0,
+    //   },
+    //   totalRevenue: 0,
+    //   cos: {
+    //     pembelian: 0,
+    //     bebanAngkut: 0,
+    //     totalCos: 0,
+    //     grossProfit: 0,
+    //   },
+    //   expenses: {
+    //     bebanOperasional: {
+    //       bebanListrik: 0,
+    //       bebanSewa: 0,
+    //       bebanTelepon: 0,
+    //     },
+    //     bebanLain: {
+    //       penyesuaianPersediaan: 0,
+    //       lainLain: 0,
+    //     },
+    //     prive: {
+    //       totalPrive: 0,
+    //     },
+    //     totalExpenses: 0,
+    //   },
+    //   totalProfit: 0,
+    // };
 
     if (transData) {
       const periods = [];
@@ -338,12 +338,10 @@ const ReportsList = props => {
       // console.log(periods);
       periods.forEach((period, index) => {
         const revenue = getRevenue(transData, period);
-        // console.log(revenue);
         const debt = getDebt(debtsData, period);
         const totalRevenue =
           revenue?.grossRevenue + debt?.piutang + debt?.bebanUtang;
         const cos = getCos(expensesData, period);
-        // console.log(cos);
         const grossProfit = totalRevenue + cos.totalCos;
         const expenses = getExpenses(expensesData, period);
         console.log(expenses);
@@ -363,6 +361,7 @@ const ReportsList = props => {
 
         dataSet.push(dataFormat);
       });
+      
       props.setData(dataSet);
     }
   }, [rawData]);

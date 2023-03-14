@@ -114,15 +114,6 @@ const RDashboard = () => {
         <Text fontWeight={'bold'} opacity={0.5}>
           Employees
         </Text>
-        {/* <Link to={'/vendere-app/employees'}>
-          <Text
-            fontSize={'sm'}
-            style={{ color: 'var(--p-200)' }}
-            _hover={{ textDecoration: 'underline' }}
-          >
-            Manage
-          </Text>
-        </Link> */}
       </HStack>
 
       {/* Body */}
@@ -249,16 +240,28 @@ const LDashboard = () => {
 
   const [data, setData] = useState({
     totalRevenue: 0,
-    totalExpenses: 0,
-    data: [],
     revenueData: [],
-    dateData: [],
   });
+
+  const [totalExpenses, setTotalExpenses] = useState();
 
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState();
   // console.log(data?.revenueData);
-  const labels = data?.dateData;
+
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1;
+  const currentMonthLong = currentDate.toLocaleString(undefined, {
+    month: 'long',
+  });
+
+  const daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
+  const daysArray = [];
+  for (let i = 1; i <= daysInMonth; i++) {
+    daysArray.push(new Date(currentYear, currentMonth - 1, i).getDate());
+  }
+  const labels = daysArray;
   const chartData = {
     labels: labels,
     datasets: [
@@ -328,10 +331,6 @@ const LDashboard = () => {
     },
   ];
 
-  const currentDate = new Date();
-  const currentYear = currentDate.getFullYear();
-  const currentMonth = currentDate.getMonth() + 1;
-
   function getTotalRevenue(data) {
     let totalRevenue = 0;
     data?.forEach(item => {
@@ -340,16 +339,13 @@ const LDashboard = () => {
     return totalRevenue;
   }
 
-  function getTotalProfit(data) {
-    let totalProfit = 0;
-    data?.forEach(item => {
-      totalProfit += item.totalProfit;
-    });
-    return totalProfit;
-  }
-
   function getRevenueData(data) {
     const rawRevenueData = {};
+    for (let day of daysArray) {
+      if (day <= currentDate.getDate()) {
+        rawRevenueData[day] = 0;
+      }
+    }
 
     for (let item of data) {
       const date = new Date(item.CreatedAt);
@@ -365,6 +361,7 @@ const LDashboard = () => {
         }
       }
     }
+    console.log(rawRevenueData);
 
     const revenueData = [];
     for (let key in rawRevenueData) {
@@ -373,20 +370,73 @@ const LDashboard = () => {
     return revenueData;
   }
 
-  function getDateData(data) {
-    const dateData = {};
+  function getTotalExpenses(expensesData) {
+    // console.log(expensesData);
+    const period = `${currentMonthLong} ${currentYear}`;
+    console.log(period);
+    const expenses = {
+      cos: {
+        pembelian: 0,
+        bebanAngkut: 0,
+      },
+      bebanOperasional: {
+        bebanListrik: 0,
+        bebanSewa: 0,
+        bebanTelepon: 0,
+      },
+      bebanLain: {
+        penyesuaianPersediaan: 0,
+        lainLain: 0,
+      },
+      prive: {
+        totalPrive: 0,
+      },
+      totalExpenses: 0,
+    };
 
-    for (let item of data) {
+    expensesData.forEach((item, index) => {
       const date = new Date(item.CreatedAt);
+      const month = date.toLocaleString(undefined, { month: 'long' });
       const year = date.getFullYear();
-      const month = date.getMonth() + 1;
-      const day = date.getDate();
 
-      if (year === currentYear && month === currentMonth) {
-        dateData[day] = '';
+      if (period == `${month} ${year}`) {
+        switch (item.jenis) {
+          case 'Pembelian':
+            expenses.cos.pembelian -= item.total;
+            break;
+          case 'Beban Angkut':
+            expenses.cos.bebanAngkut -= item.total;
+            break;
+          case 'Beban Listrik':
+            expenses.bebanOperasional.bebanListrik -= item.total;
+            break;
+          case 'Beban Sewa':
+            expenses.bebanOperasional.bebanSewa -= item.total;
+            break;
+          case 'Beban Telepon':
+            expenses.bebanOperasional.bebanTelepon -= item.total;
+            break;
+          case 'Penyesuaian Persediaan':
+            expenses.bebanLain.penyesuaianPersediaan -= item.total;
+            break;
+          case 'Lain-lain':
+            expenses.bebanLain.lainLain -= item.total;
+            break;
+          case 'Prive':
+            expenses.prive.totalPrive -= item.total;
+        }
+      }
+    });
+
+    for (let key in expenses) {
+      if (key !== 'totalExpenses') {
+        for (let key2 in expenses[key]) {
+          expenses.totalExpenses += expenses[key][key2];
+        }
       }
     }
-    return Object.keys(dateData);
+
+    return expenses.totalExpenses;
   }
 
   //* Get Report Data Days
@@ -402,12 +452,9 @@ const LDashboard = () => {
         .then(r => {
           // console.log(r.data.data);
           setData({
+            ...data,
             totalRevenue: getTotalRevenue(r.data.data),
-            totalProfit: getTotalProfit(r.data.data),
-            totalExpenses: 0,
-            data: data,
             revenueData: getRevenueData(r.data.data),
-            dateData: getDateData(r.data.data),
           });
           setLoading(false);
         })
@@ -417,15 +464,36 @@ const LDashboard = () => {
         });
     }
 
+    function getExpensesData() {
+      let getExpensesAPI = `${baseURL}/api/v1/bebans/get`;
+
+      axios
+        .get(getExpensesAPI, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then(r => {
+          // console.log(r.data.data);
+          if (r.data.data) {
+            setTotalExpenses(getTotalExpenses(r.data.data));
+          } else {
+            setTotalExpenses(0);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+
     setTimeout(() => {
       getMonthReport();
+      getExpensesData();
     }, 1);
   }, [refresh]);
 
   return (
     <VStack mt={'16px !important'} w={'100%'} alignItems={'flex-start'}>
       <Text className="dashboardLabel" fontWeight={'bold'} opacity={0.5}>
-        Current Month (Gross)
+        {`Current Month (${currentMonthLong})`}
       </Text>
 
       <VStack
@@ -458,20 +526,7 @@ const LDashboard = () => {
               <HStack alignItems={'flex-start'}>
                 <Text>Rp.</Text>
                 <Text fontSize={'xx-large'} fontWeight={'bold'}>
-                  {data?.totalProfit?.toLocaleString() || 'Null'}
-                </Text>
-              </HStack>
-              <Text mt={'0px !important'} color={'var(--p-200)'}>
-                Total Gross Profit
-              </Text>
-            </VStack>
-
-            <VStack alignItems={'flex-start'} px={2}>
-              <HStack alignItems={'flex-start'}>
-                <Text>Rp.</Text>
-                <Text fontSize={'xx-large'} fontWeight={'bold'}>
-                  Coming Soon!
-                  {/* {data?.totalExpenses?.toLocaleString() || 'Null'} */}
+                  {totalExpenses?.toLocaleString() || 'Null'}
                 </Text>
               </HStack>
               <Text mt={'0px !important'} color={'var(--p-200)'}>
