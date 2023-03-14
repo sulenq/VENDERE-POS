@@ -38,6 +38,7 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
+import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 
 import { Input } from '../components/Inputs';
 import { useAuthUser, useSignOut } from 'react-auth-kit';
@@ -94,6 +95,12 @@ export default function Profile(props) {
       name: 'Debts',
       link: '/vendere-app/debts',
       icon: MoneyOffIcon,
+      restriction: 'admin',
+    },
+    {
+      name: 'Expenses',
+      link: '/vendere-app/expenses',
+      icon: MonetizationOnOutlinedIcon,
       restriction: 'admin',
     },
     {
@@ -208,7 +215,7 @@ export default function Profile(props) {
                       >
                         <AlertIcon alignSelf={'flex-start'} />
                         Make sure to remember the new password because you
-                        cannot undo the action.
+                        cannot undo this action.
                       </Alert>
 
                       <FormControl isRequired>
@@ -412,11 +419,10 @@ export default function Profile(props) {
                   color: '#00000080',
                   borderRadius: '12px',
                 }}
+                mb={'4px !important'}
               >
                 {auth().userRole}
               </Badge>
-
-              <br />
 
               {auth().userRole === 'admin' && (
                 <>
@@ -426,8 +432,6 @@ export default function Profile(props) {
 
               <SignOut />
             </VStack>
-
-            <br />
 
             <VStack
               w={'100%'}

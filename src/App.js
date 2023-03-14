@@ -59,6 +59,7 @@ import Reports from './routes/Reports';
 import Profile from './routes/Profile';
 import Employees from './routes/Employees';
 import ManageItems from './routes/ManageItems';
+import Expenses from './routes/Expenses';
 import { Stat } from './components/Data';
 import { PrimaryButton } from './components/Buttons';
 import { ModalContent, ModalFooter, ModalOverlay } from './components/Modals';
@@ -200,6 +201,7 @@ export default function App() {
             />
           }
         />
+
         <Route
           path="cashier"
           element={
@@ -222,6 +224,17 @@ export default function App() {
         />
 
         <Route
+          path="manageproducts"
+          element={
+            <RequireRoleAuth
+              loginPath="/?login=1"
+              restriction="admin"
+              element={<ManageItems />}
+            />
+          }
+        />
+
+        <Route
           path="transactions"
           element={
             <RequireRoleAuth
@@ -231,6 +244,7 @@ export default function App() {
             />
           }
         />
+
         <Route
           path="debts"
           element={
@@ -241,7 +255,18 @@ export default function App() {
             />
           }
         />
-        <Route path="support" element={''} />
+
+        <Route
+          path="expenses"
+          element={
+            <RequireRoleAuth
+              loginPath="/?login=1"
+              restriction="admin"
+              element={<Expenses />}
+            />
+          }
+        />
+
         <Route
           path="employees"
           element={
@@ -252,6 +277,7 @@ export default function App() {
             />
           }
         />
+
         <Route
           path="reports"
           element={
@@ -262,16 +288,9 @@ export default function App() {
             />
           }
         />
-        <Route
-          path="manageproducts"
-          element={
-            <RequireRoleAuth
-              loginPath="/?login=1"
-              restriction="admin"
-              element={<ManageItems />}
-            />
-          }
-        />
+
+        <Route path="support" element={''} />
+
         <Route
           path="profile"
           element={

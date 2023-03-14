@@ -368,7 +368,10 @@ const ReportsList = props => {
     let isItemFound = true;
     if (props.data?.length !== 0) {
       isItemFound = props.data?.some(item => {
-        return item.period?.toLowerCase()?.includes(props.search);
+        return item.period
+          ?.toLowerCase()
+          ?.includes(props.search)
+          ?.toLowerCase();
       });
     }
 
@@ -420,7 +423,9 @@ const ReportsList = props => {
           }}
         >
           {props.data?.map((item, index) => {
-            if (item?.period?.toLowerCase()?.includes(props.search)) {
+            if (
+              item?.period?.toLowerCase()?.includes(props.search?.toLowerCase())
+            ) {
               return (
                 <HStack
                   key={index}
@@ -596,7 +601,7 @@ const ReportDetails = props => {
                       w={'10px'}
                       h={'10px'}
                     ></Badge>
-                    <Text>Unfinished</Text>
+                    <Text>Ongoing</Text>
                   </HStack>
                 </>
               ) : (

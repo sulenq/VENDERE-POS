@@ -38,6 +38,7 @@ import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
+import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 
 import '../css/vendereApp.css';
 import {
@@ -98,6 +99,12 @@ const ResponsiveNav = props => {
 
   const navs2 = [
     {
+      name: 'Expenses',
+      link: '/vendere-app/expenses',
+      icon: MonetizationOnOutlinedIcon,
+      restriction: 'admin',
+    },
+    {
       name: 'Employees',
       link: '/vendere-app/employees',
       icon: PeopleOutlinedIcon,
@@ -126,7 +133,11 @@ const ResponsiveNav = props => {
       console.log(props.active);
       nav = document.querySelector('#navMobile');
       let active = props.active;
-      if (props.active === 'Employees' || props.active === 'Reports') {
+      if (
+        props.active === 'Employees' ||
+        props.active === 'Reports' ||
+        props.active === 'Expenses'
+      ) {
         active = 'Profile';
       }
       activeNav = document.querySelector(`#${active}`);
