@@ -78,25 +78,64 @@ export default function Dashboard(props) {
     window.addEventListener('resize', handleResize);
   });
 
-  const [dashboardData, setDashboardData] = useState({
-    today: {
-      income: 4024000,
-      transactions: 23,
-      items: 3,
-    },
-    currentMonth: {
-      totalRevenue: 12030400,
-      totalExpenses: 8040300,
-    },
-    employees: {
-      total: 2,
-      totalOnline: 1,
-      list: [
-        { name: 'Jolitos Kurniawan', role: 'Cashier', online: true },
-        { name: 'Sulenq Ndas Nogo', role: 'Cashier', online: false },
-      ],
-    },
-  });
+  const [transData, setTransData] = useState();
+  const [data, setData] = useState();
+  const [loading, setLoading] = useState(false);
+
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1;
+  const currentDay = currentDate.getDate();
+
+  function getTodayData(data) {
+    const todayData = {
+      income: 0,
+      transactions: 0,
+      items: 'Soon!',
+    };
+
+    data.forEach((item, index) => {
+      const date = new Date(item.CreatedAt);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+
+      console.log();
+      console.log();
+
+      if (
+        `${currentDay}${currentMonth}${currentYear}` == `${day}${month}${year}`
+      ) {
+        todayData.income += item.total;
+        todayData.transactions += 1;
+      }
+    });
+
+    return todayData;
+  }
+
+  useEffect(() => {
+    const getMonthReportAPI = `${baseURL}/api/v1/transactions/admin`;
+    setLoading(true);
+
+    function getMonthReport() {
+      axios
+        .get(getMonthReportAPI, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then(r => {
+          console.log(r.data.data);
+          setData(getTodayData(r.data.data));
+          setLoading(false);
+        })
+        .catch(err => {
+          console.log(err);
+          setLoading(false);
+        });
+    }
+
+    getMonthReport();
+  }, [refresh]);
 
   const PriorityDashboard = () => {
     return (
@@ -134,7 +173,7 @@ export default function Dashboard(props) {
                   <HStack alignItems={'flex-start'}>
                     <Text fontSize={'sm'}>Rp. </Text>
                     <Text fontSize={'xx-large'} fontWeight={'bold'}>
-                      {dashboardData.today.income.toLocaleString()}
+                      {data?.income?.toLocaleString()}
                     </Text>
                   </HStack>
                 </StatNumber>
@@ -169,7 +208,7 @@ export default function Dashboard(props) {
                     </HStack>
                   </StatLabel>
                   <StatNumber fontSize={'xx-large'}>
-                    {dashboardData.today.transactions}
+                    {data?.transactions}
                   </StatNumber>
                   <StatHelpText mb={0}>
                     <StatArrow type="increase" />
@@ -200,9 +239,7 @@ export default function Dashboard(props) {
                       <Text color={'var(--p-200)'}>Items</Text>
                     </HStack>
                   </StatLabel>
-                  <StatNumber fontSize={'xx-large'}>
-                    {dashboardData.today.items}
-                  </StatNumber>
+                  <StatNumber fontSize={'xx-large'}>{data?.items}</StatNumber>
                   <StatHelpText mb={0}>Need resupply</StatHelpText>
                 </>
               }

@@ -361,7 +361,7 @@ const LDashboard = () => {
         }
       }
     }
-    console.log(rawRevenueData);
+    // console.log(rawRevenueData);
 
     const revenueData = [];
     for (let key in rawRevenueData) {
@@ -373,7 +373,7 @@ const LDashboard = () => {
   function getTotalExpenses(expensesData) {
     // console.log(expensesData);
     const period = `${currentMonthLong} ${currentYear}`;
-    console.log(period);
+    // console.log(period);
     const expenses = {
       cos: {
         pembelian: 0,
