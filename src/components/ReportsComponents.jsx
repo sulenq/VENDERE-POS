@@ -61,6 +61,8 @@ const ReportsList = props => {
   const [transData, setTransData] = useState();
   const [debtsData, setDebtsData] = useState();
   const [expensesData, setExpensesData] = useState();
+  const [priveData, setPriveData] = useState();
+
   const [loading, setLoading] = useState(false);
   const skeletonLength = ['', '', '', '', '', '', '', '', '', '', '', ''];
   const [itemFound, setItemFound] = useState(true);
@@ -91,7 +93,7 @@ const ReportsList = props => {
         });
     }, 1);
 
-    let getExpensesAPI = `${baseURL}/api/v1/transactions/admin`;
+    let getExpensesAPI = `${baseURL}/api/v1/bebans/get`;
 
     setTimeout(() => {
       axios
@@ -130,87 +132,40 @@ const ReportsList = props => {
           console.log(err);
         });
     }, 1);
+
+    let getPriveAPI = `${baseURL}/api/v1/prives/get`;
+
+    setTimeout(() => {
+      axios
+        .get(getPriveAPI, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then(r => {
+          console.log(r.data.data);
+          if (r.data.data) {
+            setPriveData(r.data.data);
+          } else {
+            setPriveData([]);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }, 1);
   }, [props.refresh]);
 
   useEffect(() => {
-    if (transData && expensesData && debtsData) {
+    if (transData && expensesData && debtsData && priveData) {
       setRawData(true);
       setLoading(false);
     }
-  }, [transData, expensesData, debtsData]);
+  }, [transData, expensesData, debtsData, priveData]);
 
   //* OLAH DATA
   useEffect(() => {
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    const currentMonth = currentDate.getMonth() + 1;
-
-    let data = [
-      {
-        period: 'March 2023',
-        status: 'profit',
-        revenue: { penjualan: 12213123, grossRevenue: 12213123 },
-        debt: {
-          piutang: -613123,
-          bebanUtang: 0,
-          totalRevenue: 11600000,
-        },
-        cos: {
-          pembelian: -6213123,
-          bebanAngkut: 0,
-          totalCos: -6213123,
-          grossProfit: 6000000,
-        },
-        expenses: {
-          bebanOperasional: {
-            bebanListrik: -613123,
-            bebanSewa: 0,
-            bebanTelepon: -12412,
-          },
-          bebanLain: {
-            penyesuaianPersediaan: -121412,
-            lainLain: -32112,
-          },
-          prive: {
-            totalPrive: -231412,
-          },
-          totalExpenses: -1010471,
-        },
-        totalProfit: 4376406,
-      },
-      {
-        period: 'April 2023',
-        status: 'loss',
-        revenue: { penjualan: 15213123, grossRevenue: 15213123 },
-        debt: {
-          piutang: -10013123,
-          bebanUtang: 0,
-          totalRevenue: 15600000,
-        },
-        cos: {
-          pembelian: -8213123,
-          bebanAngkut: 0,
-          totalCos: -8213123,
-          grossProfit: 3502500,
-        },
-        expenses: {
-          bebanOperasional: {
-            bebanListrik: -813123,
-            bebanSewa: 0,
-            bebanTelepon: -72412,
-          },
-          bebanLain: {
-            penyesuaianPersediaan: -221412,
-            lainLain: -32112,
-          },
-          prive: {
-            totalPrive: -2431412,
-          },
-          totalExpenses: -2010570,
-        },
-        totalProfit: -1376406,
-      },
-    ];
+    // const currentDate = new Date();
+    // const currentYear = currentDate.getFullYear();
+    // const currentMonth = currentDate.getMonth() + 1;
 
     let dataSet = [];
 
@@ -224,7 +179,11 @@ const ReportsList = props => {
           revenue.penjualan += item.total;
         }
       });
-      revenue.grossRevenue = revenue.penjualan;
+      for (let key in revenue) {
+        if (key !== 'grossRevenue') {
+          revenue.grossRevenue += revenue[key];
+        }
+      }
       return revenue;
     }
 
@@ -235,9 +194,7 @@ const ReportsList = props => {
         const date = new Date(item.CreatedAt);
         const month = date.toLocaleString(undefined, { month: 'long' });
         const year = date.getFullYear();
-        // console.log(`${period} == ${month} ${year}`);
         if (period == `${month} ${year}`) {
-          // console.log('titit')
           debt.piutang += item.change;
         }
       });
@@ -245,9 +202,94 @@ const ReportsList = props => {
       return debt;
     }
 
-    function getCos(data, period) {}
+    function getCos(data, period) {
+      const cos = {
+        pembelian: 0,
+        bebanAngkut: 0,
+        totalCos: 0,
+      };
 
-    function getExpenses(data, period) {}
+      data.forEach((item, index) => {
+        const date = new Date(item.CreatedAt);
+        const month = date.toLocaleString(undefined, { month: 'long' });
+        const year = date.getFullYear();
+
+        if (period == `${month} ${year}`) {
+          switch (item.jenis) {
+            case 'Pembelian':
+              cos.pembelian -= item.total;
+              break;
+            case 'Beban Angkut':
+              cos.bebanAngkut -= item.total;
+              break;
+          }
+        }
+      });
+
+      for (let key in cos) {
+        if (key !== 'totalCos') {
+          cos.totalCos += cos[key];
+        }
+      }
+
+      return cos;
+    }
+
+    function getExpenses(expensesData, period) {
+      const expenses = {
+        bebanOperasional: {
+          bebanListrik: 0,
+          bebanSewa: 0,
+          bebanTelepon: 0,
+        },
+        bebanLain: {
+          penyesuaianPersediaan: 0,
+          lainLain: 0,
+        },
+        prive: {
+          totalPrive: 0,
+        },
+        totalExpenses: 0,
+      };
+
+      expensesData.forEach((item, index) => {
+        const date = new Date(item.CreatedAt);
+        const month = date.toLocaleString(undefined, { month: 'long' });
+        const year = date.getFullYear();
+
+        if (period == `${month} ${year}`) {
+          switch (item.jenis) {
+            case 'Beban Listrik':
+              expenses.bebanOperasional.bebanListrik -= item.total;
+              break;
+            case 'Beban Sewa':
+              expenses.bebanOperasional.bebanSewa -= item.total;
+              break;
+            case 'Beban Telepon':
+              expenses.bebanOperasional.bebanTelepon -= item.total;
+              break;
+            case 'Penyesuaian Persediaan':
+              expenses.bebanLain.penyesuaianPersediaan -= item.total;
+              break;
+            case 'Lain-lain':
+              expenses.bebanLain.lainLain -= item.total;
+              break;
+            case 'Prive':
+              expenses.prive.totalPrive -= item.total;
+          }
+        }
+      });
+
+      for (let key in expenses) {
+        if (key !== 'totalExpenses') {
+          for (let key2 in expenses[key]) {
+            expenses.totalExpenses += expenses[key][key2];
+          }
+        }
+      }
+
+      return expenses;
+    }
 
     let dataFormat = {
       period: 'Maret 2023',
@@ -296,30 +338,15 @@ const ReportsList = props => {
       // console.log(periods);
       periods.forEach((period, index) => {
         const revenue = getRevenue(transData, period);
+        // console.log(revenue);
         const debt = getDebt(debtsData, period);
         const totalRevenue =
           revenue?.grossRevenue + debt?.piutang + debt?.bebanUtang;
-        const cos = {
-          pembelian: 0,
-          bebanAngkut: 0,
-          totalCos: 0,
-        };
+        const cos = getCos(expensesData, period);
+        // console.log(cos);
         const grossProfit = totalRevenue + cos.totalCos;
-        const expenses = {
-          bebanOperasional: {
-            bebanListrik: 0,
-            bebanSewa: 0,
-            bebanTelepon: 0,
-          },
-          bebanLain: {
-            penyesuaianPersediaan: 0,
-            lainLain: 0,
-          },
-          prive: {
-            totalPrive: 0,
-          },
-          totalExpenses: 0,
-        };
+        const expenses = getExpenses(expensesData, period);
+        console.log(expenses);
         const totalProfit = grossProfit + expenses.totalExpenses;
 
         let dataFormat = {
@@ -328,27 +355,9 @@ const ReportsList = props => {
           revenue: revenue,
           debt: debt,
           totalRevenue: totalRevenue,
-          cos: {
-            pembelian: 0,
-            bebanAngkut: 0,
-            totalCos: 0,
-            grossProfit: grossProfit,
-          },
-          expenses: {
-            bebanOperasional: {
-              bebanListrik: 0,
-              bebanSewa: 0,
-              bebanTelepon: 0,
-            },
-            bebanLain: {
-              penyesuaianPersediaan: 0,
-              lainLain: 0,
-            },
-            prive: {
-              totalPrive: 0,
-            },
-            totalExpenses: 0,
-          },
+          cos: cos,
+          grossProfit: grossProfit,
+          expenses: expenses,
           totalProfit: totalProfit,
         };
 
@@ -368,10 +377,9 @@ const ReportsList = props => {
     let isItemFound = true;
     if (props.data?.length !== 0) {
       isItemFound = props.data?.some(item => {
-        return item.period
+        return item?.period
           ?.toLowerCase()
-          ?.includes(props.search)
-          ?.toLowerCase();
+          ?.includes(props.search?.toLowerCase());
       });
     }
 
@@ -770,9 +778,7 @@ const ReportDetails = props => {
               }}
             >
               <Text className="label">Gross Profit</Text>
-              <Text>
-                {props?.selectedItem?.cos?.grossProfit?.toLocaleString()}
-              </Text>
+              <Text>{props?.selectedItem?.grossProfit?.toLocaleString()}</Text>
             </HStack>
           </VStack>
 

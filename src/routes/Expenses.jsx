@@ -300,24 +300,6 @@ export default function Expenses(props) {
                           onClick={() => {
                             setRegisterData({
                               ...registerData,
-                              jenis: 'Lain-lain',
-                            });
-                          }}
-                        >
-                          Lain-lain
-                        </MenuItem>
-
-                        <MenuItem
-                          bg={'transparent'}
-                          _hover={{
-                            background:
-                              colorMode === 'light'
-                                ? 'var(--light-dim)'
-                                : 'var(--p-300)',
-                          }}
-                          onClick={() => {
-                            setRegisterData({
-                              ...registerData,
                               jenis: 'Pembelian',
                             });
                           }}
@@ -413,6 +395,42 @@ export default function Expenses(props) {
                           }}
                         >
                           Penyesuaian Persediaan
+                        </MenuItem>
+
+                        <MenuItem
+                          bg={'transparent'}
+                          _hover={{
+                            background:
+                              colorMode === 'light'
+                                ? 'var(--light-dim)'
+                                : 'var(--p-300)',
+                          }}
+                          onClick={() => {
+                            setRegisterData({
+                              ...registerData,
+                              jenis: 'Lain-lain',
+                            });
+                          }}
+                        >
+                          Lain-lain
+                        </MenuItem>
+
+                        <MenuItem
+                          bg={'transparent'}
+                          _hover={{
+                            background:
+                              colorMode === 'light'
+                                ? 'var(--light-dim)'
+                                : 'var(--p-300)',
+                          }}
+                          onClick={() => {
+                            setRegisterData({
+                              ...registerData,
+                              jenis: 'Prive',
+                            });
+                          }}
+                        >
+                          Prive
                         </MenuItem>
                       </MenuList>
                     </Menu>
