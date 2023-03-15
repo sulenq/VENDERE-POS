@@ -439,56 +439,66 @@ const LDashboard = () => {
     return expenses.totalExpenses;
   }
 
+  function getMonthReport() {
+    const getMonthReportAPI = `${baseURL}/api/v1/transactions/admin`;
+    axios
+      .get(getMonthReportAPI, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(r => {
+        // console.log(r.data.data);
+        setData({
+          ...data,
+          totalRevenue: getTotalRevenue(r.data.data),
+          revenueData: getRevenueData(r.data.data),
+        });
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setLoading(false);
+      });
+  }
+
+  function getExpensesData() {
+    const getExpensesAPI = `${baseURL}/api/v1/bebans/get`;
+
+    axios
+      .get(getExpensesAPI, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(r => {
+        // console.log(r.data.data);
+        if (r.data.data) {
+          setTotalExpenses(getTotalExpenses(r.data.data));
+        } else {
+          setTotalExpenses(0);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   //* Get Report Data Days
   useEffect(() => {
-    const getMonthReportAPI = `${baseURL}/api/v1/transactions/admin`;
     setLoading(true);
-
-    function getMonthReport() {
-      axios
-        .get(getMonthReportAPI, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then(r => {
-          // console.log(r.data.data);
-          setData({
-            ...data,
-            totalRevenue: getTotalRevenue(r.data.data),
-            revenueData: getRevenueData(r.data.data),
-          });
-          setLoading(false);
-        })
-        .catch(err => {
-          console.log(err);
-          setLoading(false);
-        });
-    }
-
-    function getExpensesData() {
-      let getExpensesAPI = `${baseURL}/api/v1/bebans/get`;
-
-      axios
-        .get(getExpensesAPI, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then(r => {
-          // console.log(r.data.data);
-          if (r.data.data) {
-            setTotalExpenses(getTotalExpenses(r.data.data));
-          } else {
-            setTotalExpenses(0);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
 
     setTimeout(() => {
       getMonthReport();
       getExpensesData();
     }, 1);
   }, [refresh]);
+
+  useEffect(() => {
+    const todayLive = setInterval(() => {
+      //request func here
+      getMonthReport();
+      getExpensesData();
+    }, 30000);
+
+    return () => clearInterval(todayLive);
+  });
 
   return (
     <VStack mt={'16px !important'} w={'100%'} alignItems={'flex-start'}>

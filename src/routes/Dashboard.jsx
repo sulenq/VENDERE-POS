@@ -114,28 +114,36 @@ export default function Dashboard(props) {
     return todayData;
   }
 
-  useEffect(() => {
+  function getMonthReport() {
     const getMonthReportAPI = `${baseURL}/api/v1/transactions/admin`;
     setLoading(true);
 
-    function getMonthReport() {
-      axios
-        .get(getMonthReportAPI, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then(r => {
-          console.log(r.data.data);
-          setData(getTodayData(r.data.data));
-          setLoading(false);
-        })
-        .catch(err => {
-          console.log(err);
-          setLoading(false);
-        });
-    }
+    axios
+      .get(getMonthReportAPI, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(r => {
+        // console.log(r.data.data);
+        setData(getTodayData(r.data.data));
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setLoading(false);
+      });
+  }
 
+  useEffect(() => {
     getMonthReport();
   }, [refresh]);
+
+  useEffect(() => {
+    const todayLive = setInterval(() => {
+      getMonthReport();
+    }, 30000);
+
+    return () => clearInterval(todayLive);
+  });
 
   const PriorityDashboard = () => {
     return (
@@ -179,7 +187,7 @@ export default function Dashboard(props) {
                 </StatNumber>
                 <StatHelpText mb={0}>
                   <StatArrow type="increase" />
-                  23.36%
+                  23.36% (soon!)
                 </StatHelpText>
               </>
             }
@@ -212,7 +220,7 @@ export default function Dashboard(props) {
                   </StatNumber>
                   <StatHelpText mb={0}>
                     <StatArrow type="increase" />
-                    23.36%
+                    23.36% (soon!)
                   </StatHelpText>
                 </>
               }
