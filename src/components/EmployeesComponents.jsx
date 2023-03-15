@@ -45,7 +45,7 @@ import { SearchBox, Input } from './Inputs';
 import { Skeleton } from './Skeleton';
 import { ModalContent, ModalOverlay, ModalBody, ModalFooter } from './Modals';
 
-const ExpensesList = props => {
+const EmployeesList = props => {
   const baseURL = 'http://localhost:8080';
   const { colorMode } = useColorMode();
   const location = useLocation();
@@ -65,7 +65,7 @@ const ExpensesList = props => {
   useEffect(() => {
     const token = Cookies.get('_auth');
 
-    const getItemsAPI = `${baseURL}/api/v1/bebans/get`;
+    const getItemsAPI = `${baseURL}/api/v1/cashiers`;
 
     setLoading(true);
 
@@ -97,12 +97,9 @@ const ExpensesList = props => {
     let isItemFound = true;
     if (props.data.length !== 0) {
       isItemFound = props.data.some(item => {
-        const date = new Date(item.CreatedAt);
-        const formattedDate = date.toLocaleDateString(undefined, dateOptions);
         return (
-          formattedDate?.includes(props?.search) ||
-          item?.total?.toString()?.includes(props?.search) ||
-          item.jenis?.toLowerCase()?.includes(props?.search?.toLowerCase())
+          item?.username?.toLowerCase().includes(props.search.toLowerCase()) ||
+          item?.ID?.toString().includes(props.search)
         );
       });
     }
@@ -125,17 +122,10 @@ const ExpensesList = props => {
       <VStack h={'100%'} justifyContent={'center'} opacity={0.2}>
         <Icon as={SearchOffOutlinedIcon} fontSize={'10rem'} />
         <Text fontSize={'x-large'} fontWeight={'bold'}>
-          Expense Not Found
+          Employee Not Found
         </Text>
       </VStack>
     );
-  };
-
-  const dateOptions = {
-    weekday: 'short',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
   };
 
   if (!loading) {
@@ -156,16 +146,11 @@ const ExpensesList = props => {
           }}
         >
           {props.data.map((item, index) => {
-            const date = new Date(item.CreatedAt);
-            const formattedDate = date.toLocaleDateString(
-              undefined,
-              dateOptions
-            );
-
             if (
-              formattedDate?.includes(props?.search) ||
-              item?.total?.toString()?.includes(props?.search) ||
-              item.jenis?.toLowerCase()?.includes(props?.search?.toLowerCase())
+              item?.username
+                ?.toLowerCase()
+                .includes(props.search.toLowerCase()) ||
+              item?.ID?.toString().includes(props.search)
             ) {
               return (
                 <HStack
@@ -187,30 +172,28 @@ const ExpensesList = props => {
                         : null,
                   }}
                 >
-                  {/* Expense Date */}
-                  <Text className="expensesID" display={'none'}>
-                    {item?.ID}
-                  </Text>
-                  <Text ml={'0 !important'} w={'30%'} p={'4px 8px'}>
-                    {formattedDate}
+                  {/* Emp ID */}
+                  <Text w={'30%'} p={'4px 8px'}>
+                    {item.ID}
                   </Text>
 
-                  {/* Expense Username */}
+                  {/* Emp Username */}
                   <VStack w={'50%'} alignItems={'flex-start'} pr={4}>
-                    <Text fontWeight={'bold'}>
-                      {item?.total?.toLocaleString()}
+                    <Text fontWeight={'bold'}>{item?.username}</Text>
+                    <Text mt={'4px !important'}>
+                      {item?.role?.charAt(0).toUpperCase() +
+                        item?.role?.slice(1)}
                     </Text>
-                    <Text mt={'4px !important'}>{item?.jenis}</Text>
                   </VStack>
 
-                  {/* Expense Action */}
+                  {/* Emp Action */}
                   <VStack
                     w={'20%'}
                     className={'actionBtnSection'}
                     alignSelf={'center'}
                   >
                     {screenWidth <= 1000 ? (
-                      <ExpenseDetailsModal
+                      <EmployeeDetailsModal
                         selectItem={props.selectItem}
                         item={item}
                         selectedItem={props.selectedItem}
@@ -252,7 +235,7 @@ const ExpensesList = props => {
   }
 };
 
-const ExpenseDetails = props => {
+const EmployeeDetails = props => {
   const selectedItem = props.selectedItem;
   const auth = useAuthUser();
   const { colorMode } = useColorMode();
@@ -283,7 +266,7 @@ const ExpenseDetails = props => {
     >
       <HStack alignSelf={'flex-start'} px={3} mb={2} opacity={0.5}>
         <Icon as={InfoOutlinedIcon} />
-        <Text fontWeight={'bold'}>Expenses Details</Text>
+        <Text fontWeight={'bold'}>Employee Details</Text>
       </HStack>
 
       <VStack
@@ -294,6 +277,27 @@ const ExpenseDetails = props => {
         fontSize={'sm'}
         overflowY={'auto'}
       >
+        {/* item detail IMG */}
+        <VStack px={3} w={'100%'} mb={2}>
+          <VStack
+            p={4}
+            style={{
+              width: '100%',
+              justifyContent: 'center',
+              aspectRatio: 3 / 2,
+              fontWeight: 'bold',
+              opacity: 0.2,
+              // borderRadius: '12px',
+              background:
+                colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)',
+              borderRadius: '8px',
+            }}
+          >
+            <Icon fontSize={'12rem'} as={ImageNotSupportedOutlinedIcon} />
+            <Text fontSize={'xx-large'}>Coming Soon!</Text>
+          </VStack>
+        </VStack>
+
         {/* item detail data */}
         <VStack w={'100%'} pb={2}>
           <HStack
@@ -325,49 +329,45 @@ const ExpenseDetails = props => {
             }}
           >
             <Text className="detailsLabels" w={'150px'}>
-              Total
+              Admin ID
+            </Text>
+            <Text w={'calc(100% - 150px)'}>{selectedItem?.admin_id}</Text>
+          </HStack>
+
+          <HStack
+            px={5}
+            pb={2}
+            w={'100%'}
+            alignItems={'flex-start'}
+            borderBottom={'1px solid'}
+            style={{
+              borderColor:
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
+            }}
+          >
+            <Text className="detailsLabels" w={'150px'}>
+              Username
+            </Text>
+            <Text w={'calc(100% - 150px)'}>{selectedItem?.username}</Text>
+          </HStack>
+
+          <HStack
+            px={5}
+            pb={2}
+            w={'100%'}
+            alignItems={'flex-start'}
+            borderBottom={'1px solid'}
+            style={{
+              borderColor:
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
+            }}
+          >
+            <Text className="detailsLabels" w={'150px'}>
+              Role (Job)
             </Text>
             <Text w={'calc(100% - 150px)'}>
-              {selectedItem?.total?.toLocaleString()}
-            </Text>
-          </HStack>
-
-          <HStack
-            px={5}
-            pb={2}
-            w={'100%'}
-            alignItems={'flex-start'}
-            borderBottom={'1px solid'}
-            style={{
-              borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
-            }}
-          >
-            <Text className="detailsLabels" w={'150px'}>
-              Expense Type
-            </Text>
-            <Text w={'calc(100% - 150px)'}>{selectedItem?.jenis}</Text>
-          </HStack>
-
-          <HStack
-            px={5}
-            pb={2}
-            w={'100%'}
-            alignItems={'flex-start'}
-            borderBottom={'1px solid'}
-            style={{
-              borderColor:
-                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
-            }}
-          >
-            <Text className="detailsLabels" w={'150px'}>
-              Notes
-            </Text>
-            <Text
-              w={'calc(100% - 150px)'}
-              opacity={props?.selectedItem?.notes ? 1 : 0.5}
-            >
-              {props?.selectedItem?.notes || 'no notes'}
+              {selectedItem?.role?.charAt(0)?.toUpperCase() +
+                selectedItem?.role?.slice(1) || ''}
             </Text>
           </HStack>
 
@@ -390,27 +390,43 @@ const ExpenseDetails = props => {
         </VStack>
       </VStack>
 
-      {props.selectedItem.ID && screenWidth <= 1000 && (
-        <HStack
-          w={'100%'}
-          mt={'0px !important'}
-          p={3}
-          overflowY={'auto'}
-          borderRadius={'0 0 12px 12px'}
-          justifyContent={'center'}
-          style={{
-            borderColor:
-              colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
-          }}
-        >
-          <PrimaryButton label={'Got It'} w={'100%'} onClick={props.onClose} />
-        </HStack>
-      )}
+      <HStack
+        w={'100%'}
+        mt={'0px !important'}
+        p={3}
+        fontSize={'sm'}
+        overflowY={'auto'}
+        borderRadius={'0 0 12px 12px'}
+        justifyContent={'center'}
+        style={{
+          borderColor:
+            colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
+        }}
+      >
+        {selectedItem.ID && auth().userRole === 'admin' ? (
+          <ButtonGroup w={'100%'} isAttached>
+            <DeleteEmployee
+              selectedItem={selectedItem}
+              setSelectedItem={props.setSelectedItem}
+              refresh={props.refresh}
+              setRefresh={props.setRefresh}
+            />
+          </ButtonGroup>
+        ) : (
+          selectedItem.ID && (
+            <PrimaryButton
+              label={'Got It'}
+              w={'100%'}
+              onClick={props.onClose}
+            />
+          )
+        )}
+      </HStack>
     </VStack>
   );
 };
 
-const ExpenseDetailsModal = props => {
+const EmployeeDetailsModal = props => {
   // console.log(props);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -448,7 +464,7 @@ const ExpenseDetailsModal = props => {
                   <>
                     <ModalCloseButton borderRadius={50} />
 
-                    <ExpenseDetails
+                    <EmployeeDetails
                       setSelectedItem={props.setSelectedItem}
                       selectedItem={props.selectedItem}
                       refresh={props.refresh}
@@ -470,4 +486,154 @@ const ExpenseDetailsModal = props => {
   );
 };
 
-export { ExpensesList, ExpenseDetails, ExpenseDetailsModal };
+const DeleteEmployee = props => {
+  // console.log(props.setSelectedItem);
+  const baseURL = 'http://localhost:8080';
+  const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    function handleResize() {
+      setScreenWidth(window.innerWidth);
+    }
+    window.addEventListener('resize', handleResize);
+  });
+
+  const [loading, setLoading] = useState();
+
+  function onDelete(e) {
+    e.preventDefault();
+
+    const token = Cookies.get('_auth');
+
+    console.log('Deleting item...');
+    // console.log(registerData);
+    // console.log(token);
+
+    const deleteProductAPI = new URL(
+      `${baseURL}/api/v1/cashier/delete?cashier_id=${props.selectedItem.ID}`
+    );
+
+    function deleteSelectedItem() {
+      axios
+        .delete(deleteProductAPI, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then(r => {
+          console.log(r);
+          onClose();
+          if (r.status === 200) {
+            console.log(r);
+            toast({
+              position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+              title: 'Employee Account Deleted',
+              status: 'success',
+              duration: 3000,
+              isClosable: true,
+            });
+          }
+          props.setSelectedItem({});
+          props.setRefresh(!props.refresh);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.error(err);
+          if (err) {
+            toast({
+              position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+              title: 'Sorry, fail to delete Employee Accountem.',
+              // description: err.response.data.data.error,
+              status: 'error',
+              duration: 3000,
+              isClosable: true,
+            });
+          }
+          setLoading(false);
+        });
+    }
+
+    setLoading(true);
+    setTimeout(() => {
+      deleteSelectedItem();
+    }, 1);
+  }
+
+  return (
+    <>
+      <PrimaryButtonOutline
+        w={'100%'}
+        label={'Delete Employee Account'}
+        onClick={onOpen}
+      />
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+
+        <ModalContent
+          content={
+            <>
+              <ModalHeader px={4}>
+                <HStack>
+                  <Icon as={DeleteOutlineOutlinedIcon} fontSize={'xx-large'} />
+                  <Text>Delete Account</Text>
+                </HStack>
+              </ModalHeader>
+
+              <ModalBody
+                content={
+                  <>
+                    <Alert
+                      borderRadius={'8px'}
+                      status="error"
+                      variant={'left-accent'}
+                      mb={5}
+                    >
+                      <AlertIcon alignSelf={'flex-start'} />
+                      Make sure if you want to delete employee account, you
+                      cannot undo this action.
+                    </Alert>
+                    <Text>
+                      Are you sure to delete the selected employee account?{' '}
+                    </Text>
+                    <HStack w={'100%'}>
+                      <Text w={'80px'}>ID</Text>
+                      <Text fontWeight={'bold'}>{props?.selectedItem?.ID}</Text>
+                    </HStack>
+                    <HStack w={'100%'}>
+                      <Text w={'80px'}>Username</Text>
+                      <Text fontWeight={'bold'}>
+                        {props?.selectedItem?.username}
+                      </Text>
+                    </HStack>
+                  </>
+                }
+              />
+
+              <ModalFooter
+                content={
+                  <>
+                    <ButtonGroup alignSelf={'flex-end'}>
+                      <Button
+                        className="btn"
+                        onClick={onClose}
+                        variant={'ghost'}
+                      >
+                        Close
+                      </Button>
+                      <PrimaryButton
+                        label={'Delete Account'}
+                        isLoading={loading}
+                        onClick={onDelete}
+                      />
+                    </ButtonGroup>
+                  </>
+                }
+              />
+            </>
+          }
+        />
+      </Modal>
+    </>
+  );
+};
+
+export { EmployeeDetails, EmployeesList };

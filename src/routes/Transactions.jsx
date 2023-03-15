@@ -22,11 +22,6 @@ import {
 } from '@chakra-ui/react';
 
 // MUI Icons
-import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import ImageNotSupportedOutlinedIcon from '@mui/icons-material/ImageNotSupportedOutlined';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
 
@@ -39,10 +34,13 @@ import { Stat } from '../components/Data';
 import { ModalContent, ModalFooter, ModalOverlay } from '../components/Modals';
 import { Input, InputNumber } from '../components/Inputs';
 import { Skeleton } from '../components/Skeleton';
-import { TransactionDetails, TransactionsList } from '../components/Items';
+import {
+  TransactionDetails,
+  TransactionsList,
+} from '../components/TransactionsComponents';
 import { useAuthUser } from 'react-auth-kit';
 
-export default function TRansactions(props) {
+export default function Transactions(props) {
   const { colorMode } = useColorMode();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -151,7 +149,7 @@ export default function TRansactions(props) {
       p={screenWidth <= 1000 ? 0 : 4}
       alignItems={'center'}
     >
-      <ResponsiveNav active={'Transactions'}   />
+      <ResponsiveNav active={'Transactions'} />
 
       <VStack
         id="appContentWrapper"

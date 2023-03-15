@@ -33,7 +33,10 @@ import { Stat } from '../components/Data';
 import { ModalContent, ModalFooter, ModalOverlay } from '../components/Modals';
 import { Input, InputNumber } from '../components/Inputs';
 import { Skeleton } from '../components/Skeleton';
-import { EmployeesList, EmployeeDetails } from '../components/Items';
+import {
+  EmployeesList,
+  EmployeeDetails,
+} from '../components/EmployeesComponents';
 
 export default function ManageItems(props) {
   const baseURL = 'http://localhost:8080';

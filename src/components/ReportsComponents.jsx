@@ -361,7 +361,7 @@ const ReportsList = props => {
 
         dataSet.push(dataFormat);
       });
-      
+
       props.setData(dataSet);
     }
   }, [rawData]);
@@ -979,7 +979,7 @@ const ReportDetailsModal = props => {
         <ModalOverlay />
 
         <ModalContent
-          h={screenWidth <= 1000 ? '95%' : ''}
+          h={screenWidth <= 1000 ? '90%' : ''}
           content={
             <>
               <ModalBody
