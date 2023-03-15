@@ -108,9 +108,15 @@ const TransactionsList = props => {
         const formattedDate = date.toLocaleDateString(undefined, dateOptions);
         return (
           item.ID.toString()?.includes(props.search) ||
-          item.notes.toString()?.toLowerCase().includes(props.search) ||
-          item.total.toString()?.toLowerCase().includes(props.search) ||
-          formattedDate.includes(props.search)
+          item.notes
+            .toString()
+            ?.toLowerCase()
+            .includes(props.search?.toLowerCase()) ||
+          item.total
+            .toString()
+            ?.toLowerCase()
+            .includes(props.search?.toLowerCase()) ||
+          formattedDate?.toLowerCase()?.includes(props.search?.toLowerCase())
         );
       });
     }
@@ -174,9 +180,17 @@ const TransactionsList = props => {
 
             if (
               item?.ID?.toString().includes(props.search) ||
-              item.notes.toString()?.toLowerCase().includes(props.search) ||
-              item.total.toString()?.toLowerCase().includes(props.search) ||
-              formattedDate.includes(props.search)
+              item.notes
+                .toString()
+                ?.toLowerCase()
+                .includes(props.search?.toLowerCase()) ||
+              item.total
+                .toString()
+                ?.toLowerCase()
+                .includes(props.search?.toLowerCase()) ||
+              formattedDate
+                ?.toLowerCase()
+                ?.includes(props.search?.toLowerCase())
             ) {
               return (
                 <HStack

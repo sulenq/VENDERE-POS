@@ -1,49 +1,29 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useLocation } from 'react-router-dom';
-import { useAuthUser, useSignOut } from 'react-auth-kit';
+import { useAuthUser } from 'react-auth-kit';
 
 // Chakra UI
 import {
-  IconButton,
   useColorMode,
   Text,
   VStack,
   HStack,
   Icon,
-  ButtonGroup,
   Modal,
-  ModalHeader,
   ModalCloseButton,
   useDisclosure,
-  useToast,
-  Alert,
-  AlertIcon,
-  FormLabel,
-  FormControl,
-  Button,
-  Badge,
 } from '@chakra-ui/react';
 
 // MUI Icons
-import AddShoppingCartRoundedIcon from '@mui/icons-material/AddShoppingCartRounded';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
 import SearchOffOutlinedIcon from '@mui/icons-material/SearchOffOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import ImageNotSupportedOutlinedIcon from '@mui/icons-material/ImageNotSupportedOutlined';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
-import LayersClearOutlinedIcon from '@mui/icons-material/LayersClearOutlined';
-import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 
 import '../css/vendereApp.css';
-import { PrimaryButton, PrimaryButtonOutline } from './Buttons';
-import { MoneyOff, PeopleAltOutlined, Search } from '@mui/icons-material';
-import { SearchBox, Input } from './Inputs';
+import { PrimaryButton } from './Buttons';
 import { Skeleton } from './Skeleton';
-import { ModalContent, ModalOverlay, ModalBody, ModalFooter } from './Modals';
+import { ModalContent, ModalOverlay, ModalBody } from './Modals';
 
 const ExpensesList = props => {
   const baseURL = 'http://localhost:8080';
@@ -100,7 +80,7 @@ const ExpensesList = props => {
         const date = new Date(item.CreatedAt);
         const formattedDate = date.toLocaleDateString(undefined, dateOptions);
         return (
-          formattedDate?.includes(props?.search) ||
+          formattedDate?.toLowerCase()?.includes(props.search?.toLowerCase()) ||
           item?.total?.toString()?.includes(props?.search) ||
           item.jenis?.toLowerCase()?.includes(props?.search?.toLowerCase())
         );
@@ -116,10 +96,10 @@ const ExpensesList = props => {
   }, [props.search, props.data, props.refreshs]);
 
   useEffect(() => {
-     if (itemFound) {
-       props.setItemIndex(1);
-       props.selectItem({ index: 1 });
-     }
+    if (itemFound) {
+      props.setItemIndex(1);
+      props.selectItem({ index: 1 });
+    }
   }, [props.search, itemFound]);
 
   const ItemNotFound = () => {
@@ -165,7 +145,9 @@ const ExpensesList = props => {
             );
 
             if (
-              formattedDate?.includes(props?.search) ||
+              formattedDate
+                ?.toLowerCase()
+                ?.includes(props.search?.toLowerCase()) ||
               item?.total?.toString()?.includes(props?.search) ||
               item.jenis?.toLowerCase()?.includes(props?.search?.toLowerCase())
             ) {
@@ -193,12 +175,12 @@ const ExpensesList = props => {
                   <Text className="expensesID" display={'none'}>
                     {item?.ID}
                   </Text>
-                  <Text ml={'0 !important'} w={'30%'} p={'4px 8px'}>
+                  <Text ml={'0 !important'} w={'35%'} p={'4px 8px'}>
                     {formattedDate}
                   </Text>
 
                   {/* Expense Username */}
-                  <VStack w={'50%'} alignItems={'flex-start'} pr={4}>
+                  <VStack w={'45%'} alignItems={'flex-start'} pr={4}>
                     <Text fontWeight={'bold'}>
                       {item?.total?.toLocaleString()}
                     </Text>

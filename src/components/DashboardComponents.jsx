@@ -530,7 +530,7 @@ const LDashboard = () => {
                 </Text>
               </HStack>
               <Text mt={'0px !important'} color={'var(--p-200)'}>
-                Total Expenses
+                Total Cost of Sales & Expenses
               </Text>
             </VStack>
 

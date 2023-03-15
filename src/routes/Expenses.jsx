@@ -602,10 +602,10 @@ export default function Expenses(props) {
 
             {/* Heading */}
             <HStack fontSize={'sm'} w={'100%'} py={2} pl={4} pr={6}>
-              <Text fontWeight={'bold'} w={'30%'}>
+              <Text fontWeight={'bold'} w={'35%'}>
                 DATE
               </Text>
-              <Text fontWeight={'bold'} w={'50%'}>
+              <Text fontWeight={'bold'} w={'45%'}>
                 STATUS
               </Text>
               <Text
