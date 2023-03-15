@@ -269,16 +269,6 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
 
   const [isCheckoutLLoading, setIsCheckoutLoading] = useState(false);
 
-  function inputPayHandler(e) {
-    if (!e.target.value) {
-      setPay(0);
-      // setChange(0 - total);
-    } else {
-      setPay(parseInt(e.target.value));
-      // setChange(parseInt(e.target.value) - total);
-    }
-  }
-
   function onCheckout() {
     setIsCheckoutLoading(true);
     console.log('cheking out...');
@@ -351,6 +341,29 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
     }, 1);
   }
 
+  function reverseFormatNumber(num) {
+    let cleanedString;
+    const validNums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+    const isNumValid = validNums.some(validNum => num.includes(validNum));
+    if (isNumValid) {
+      cleanedString = num.replace(/,/g, '');
+    } else {
+      cleanedString = '0';
+    }
+    return cleanedString;
+  }
+
+  function formatNum(num) {
+    let formattedNum;
+    if (num != 0) {
+      formattedNum = num.toLocaleString();
+    } else {
+      formattedNum = '';
+    }
+
+    return formattedNum;
+  }
+
   return (
     <>
       <PrimaryButton
@@ -408,9 +421,13 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
                         <Input
                           px={2}
                           mt={'4px !important'}
-                          value={pay || ''}
-                          type={'number'}
-                          onChange={inputPayHandler}
+                          value={formatNum(pay)}
+                          // type={'number'}
+                          onChange={e => {
+                            setPay(
+                              parseInt(reverseFormatNumber(e.target.value))
+                            );
+                          }}
                           onKeyUp={e => {
                             if (e.key === 'Enter') {
                               document.querySelector('#checkoutBtn').click();

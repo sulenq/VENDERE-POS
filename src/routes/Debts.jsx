@@ -174,7 +174,7 @@ export default function Debts(props) {
             {/* Search Box */}
             <HStack px={3} w={'100%'}>
               <SearchBox
-                placeholder={'Search debt by id, total or notes'}
+                placeholder={'Search debt by id, date, total hutang or notes'}
                 search={search}
                 itemsLength={itemsLength}
                 setItemsLength={setItemsLength}

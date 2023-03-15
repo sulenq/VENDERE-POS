@@ -104,10 +104,13 @@ const TransactionsList = props => {
     let isItemFound = true;
     if (props.data?.length !== 0) {
       isItemFound = props.data?.some(item => {
+        const date = new Date(item.CreatedAt);
+        const formattedDate = date.toLocaleDateString(undefined, dateOptions);
         return (
           item.ID.toString()?.includes(props.search) ||
           item.notes.toString()?.toLowerCase().includes(props.search) ||
-          item.total.toString()?.toLowerCase().includes(props.search)
+          item.total.toString()?.toLowerCase().includes(props.search) ||
+          formattedDate.includes(props.search)
         );
       });
     }
@@ -172,7 +175,8 @@ const TransactionsList = props => {
             if (
               item?.ID?.toString().includes(props.search) ||
               item.notes.toString()?.toLowerCase().includes(props.search) ||
-              item.total.toString()?.toLowerCase().includes(props.search)
+              item.total.toString()?.toLowerCase().includes(props.search) ||
+              formattedDate.includes(props.search)
             ) {
               return (
                 <HStack

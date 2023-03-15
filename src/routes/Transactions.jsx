@@ -202,7 +202,7 @@ export default function Transactions(props) {
             {/* Search Box */}
             <HStack px={3} w={'100%'}>
               <SearchBox
-                placeholder={'Search transaction by id, total or notes'}
+                placeholder={'Search transaction by id, date, total or notes'}
                 search={search}
                 itemsLength={itemsLength}
                 setItemsLength={setItemsLength}
