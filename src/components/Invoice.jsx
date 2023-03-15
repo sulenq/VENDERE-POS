@@ -260,13 +260,9 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
   const { colorMode } = useColorMode();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const toast = useToast();
-
   const [pay, setPay] = useState(0);
-
   const [note, setNote] = useState('');
-
   const [isCheckoutLLoading, setIsCheckoutLoading] = useState(false);
 
   function onCheckout() {

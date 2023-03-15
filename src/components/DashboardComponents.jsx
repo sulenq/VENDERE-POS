@@ -361,7 +361,7 @@ const LDashboard = () => {
         }
       }
     }
-    console.log(rawRevenueData);
+    // console.log(rawRevenueData);
 
     const revenueData = [];
     for (let key in rawRevenueData) {
