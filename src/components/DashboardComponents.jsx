@@ -546,7 +546,7 @@ const LDashboard = () => {
 
             <VStack
               w={'100%'}
-              h={'300px'}
+              h={'400px'}
               mt={'16px !important'}
               p={1}
               pb={2}
@@ -582,8 +582,7 @@ const LDashboard = () => {
           <>
             <Skeleton h={'70px'} />
             <Skeleton h={'70px'} />
-            <Skeleton h={'70px'} />
-            <Skeleton h={'200px'} />
+            <Skeleton h={'400px'} />
           </>
         )}
       </VStack>

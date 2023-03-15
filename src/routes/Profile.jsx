@@ -390,6 +390,14 @@ export default function Profile(props) {
             onClick={() => {
               navigate(-1);
             }}
+            _hover={{
+              background:
+                colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+            }}
+            _active={{
+              background:
+                colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
+            }}
           ></IconButton>
 
           <VStack
@@ -419,7 +427,7 @@ export default function Profile(props) {
                   color: '#00000080',
                   borderRadius: '12px',
                 }}
-                mb={'4px !important'}
+                mb={'8px !important'}
               >
                 {auth().userRole}
               </Badge>
