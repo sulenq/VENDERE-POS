@@ -317,7 +317,7 @@ export default function ManageItems(props) {
                     <FormControl mt={4} isRequired>
                       <FormLabel>Supply</FormLabel>
                       <Input
-                        onFocus={e => e.target.select()}
+                        // onFocus={e => e.target.select()}
                         placeholder="e.g 24"
                         // type={'number'}
                         value={formatNum(registerData.stock)}
@@ -353,8 +353,8 @@ export default function ManageItems(props) {
                     <FormControl mt={4} isRequired>
                       <FormLabel>Price</FormLabel>
                       <Input
-                        onFocus={e => e.target.select()}
-                        placeholder="e.g 24"
+                        // onFocus={e => e.target.select()}
+                        placeholder="e.g 24,000"
                         // type={'number'}
                         value={formatNum(registerData.price)}
                         onChange={e => {

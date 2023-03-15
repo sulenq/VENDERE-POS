@@ -1,12 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useLocation } from 'react-router-dom';
-import { useAuthUser, useSignOut } from 'react-auth-kit';
 
 // Chakra UI
 import {
-  IconButton,
   useColorMode,
   Text,
   VStack,
@@ -17,9 +14,7 @@ import {
   ModalHeader,
   ModalCloseButton,
   useDisclosure,
-  useToast,
-  Alert,
-  AlertIcon,
+  Textarea,
   FormLabel,
   FormControl,
   Button,
@@ -27,21 +22,14 @@ import {
 } from '@chakra-ui/react';
 
 // MUI Icons
-import AddShoppingCartRoundedIcon from '@mui/icons-material/AddShoppingCartRounded';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
+
 import SearchOffOutlinedIcon from '@mui/icons-material/SearchOffOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import ImageNotSupportedOutlinedIcon from '@mui/icons-material/ImageNotSupportedOutlined';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
-import LayersClearOutlinedIcon from '@mui/icons-material/LayersClearOutlined';
-import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 
 import '../css/vendereApp.css';
-import { PrimaryButton, PrimaryButtonOutline } from './Buttons';
-import { MoneyOff, PeopleAltOutlined, Search } from '@mui/icons-material';
-import { SearchBox, Input } from './Inputs';
+import { PrimaryButton } from './Buttons';
+import { MoneyOff } from '@mui/icons-material';
+import { Input } from './Inputs';
 import { Skeleton } from './Skeleton';
 import { ModalContent, ModalOverlay, ModalBody, ModalFooter } from './Modals';
 
@@ -287,6 +275,7 @@ const DebtDetails = props => {
       pay: 0,
       change: props.selectedItem.change,
       status: 'hutang',
+      notes: props.selectedItem.notes,
     });
     const [loading, setLoading] = useState(false);
 
@@ -314,13 +303,14 @@ const DebtDetails = props => {
     }
 
     function onPayDebt() {
-      const payDebtAPI = `${baseURL}/api/v1/transactions/updatedebt?transaction_id=${props.selectedItem.ID}`;
+      const payDebtAPI = `${baseURL}/api/v1/transactions/update?transaction_id=${props.selectedItem.ID}`;
       const token = Cookies.get('_auth');
 
       const debtDataToUpdate = {
         pay: props.selectedItem.pay + data.pay,
         change: data.change,
         status: data.status,
+        notes: data.notes,
       };
       console.log(debtDataToUpdate);
 
@@ -348,7 +338,7 @@ const DebtDetails = props => {
 
     return (
       <>
-        <PrimaryButton label="Pay Debt" w={'100%'} onClick={onOpen} />
+        <PrimaryButton label="Update Debt" w={'100%'} onClick={onOpen} />
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
           <ModalOverlay />
           <ModalContent
@@ -357,7 +347,7 @@ const DebtDetails = props => {
                 <ModalHeader px={4}>
                   <HStack>
                     <Icon as={MoneyOff} fontSize={'xx-large'} />
-                    <Text>Pay Debt</Text>
+                    <Text>Update Debt</Text>
                   </HStack>
                 </ModalHeader>
 
@@ -414,6 +404,7 @@ const DebtDetails = props => {
                                 status = 'hutang';
                               }
                               setData({
+                                ...data,
                                 pay: parseInt(
                                   reverseFormatNumber(e.target.value)
                                 ),
@@ -426,6 +417,30 @@ const DebtDetails = props => {
                             }}
                           />
                         </HStack>
+                      </FormControl>
+
+                      <FormControl mt={4} isRequired>
+                        <FormLabel>Notes</FormLabel>
+                        <Textarea
+                          mt={'0px !important'}
+                          value={data?.notes}
+                          borderRadius={6}
+                          _placeholder={{ opacity: 0.5 }}
+                          onChange={e => {
+                            setData({
+                              ...data,
+                              notes: e.target.value,
+                            });
+                          }}
+                          placeholder="Write some note here."
+                          size="sm"
+                          _focusVisible={{
+                            border:
+                              colorMode === 'light'
+                                ? '2px solid '
+                                : '2px solid',
+                          }}
+                        />
                       </FormControl>
                     </>
                   }
@@ -443,7 +458,7 @@ const DebtDetails = props => {
                         </Button>
                         <PrimaryButton
                           id={'payDebtBtn'}
-                          label={'Pay Debt'}
+                          label={'Update Debt'}
                           isLoading={loading}
                           onClick={onPayDebt}
                         />

@@ -60,10 +60,35 @@ const UpdateItem = props => {
   const [itemToUpdate, setItemToUpdate] = useState(
     JSON.parse(JSON.stringify(props.selectedItem))
   );
+  const [addStock, setAddStock] = useState(0);
+
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setItemToUpdate(JSON.parse(JSON.stringify(props.selectedItem)));
   }, [props.selectedItem]);
+
+  function reverseFormatNumber(num) {
+    let cleanedString;
+    const validNums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+    const isNumValid = validNums.some(validNum => num.includes(validNum));
+    if (isNumValid) {
+      cleanedString = num.replace(/,/g, '');
+    } else {
+      cleanedString = '0';
+    }
+    return cleanedString;
+  }
+
+  function formatNum(num) {
+    let formattedNum;
+    if (num != 0) {
+      formattedNum = num.toLocaleString();
+    } else {
+      formattedNum = '';
+    }
+
+    return formattedNum;
+  }
 
   function onUpdate(e) {
     e.preventDefault();
@@ -78,8 +103,12 @@ const UpdateItem = props => {
 
     function updateSelectedItem() {
       console.log(itemToUpdate);
+      const dataToUpdate = {
+        ...itemToUpdate,
+        stock: itemToUpdate.stock + addStock,
+      };
       axios
-        .put(updateProductAPI, itemToUpdate, {
+        .put(updateProductAPI, dataToUpdate, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then(r => {
@@ -153,11 +182,11 @@ const UpdateItem = props => {
                       Items will be refreshed after you update item.
                     </Alert> */}
 
-                    <form id="addNewItemForm">
-                      <FormControl mt={4} isRequired>
-                        <FormLabel>Item's Code</FormLabel>
+                    <form>
+                      <FormControl isRequired>
+                        <FormLabel>Product's Code</FormLabel>
                         <Input
-                          placeholder="e.g 086496010947 or ndog123"
+                          placeholder="e.g 089696010947 or ndog123"
                           value={itemToUpdate.code}
                           onChange={e => {
                             setItemToUpdate({
@@ -169,7 +198,7 @@ const UpdateItem = props => {
                       </FormControl>
 
                       <FormControl mt={4} isRequired>
-                        <FormLabel>Item's Name</FormLabel>
+                        <FormLabel>Product's Name</FormLabel>
                         <Input
                           placeholder="e.g Telur 1kg"
                           value={itemToUpdate.name}
@@ -182,74 +211,73 @@ const UpdateItem = props => {
                         />
                       </FormControl>
 
-                      <FormControl mt={4} isRequired>
-                        <FormLabel>Supply</FormLabel>
-                        <Input
-                          onFocus={e => e.target.select()}
-                          placeholder="e.g 24"
-                          type={'number'}
-                          min={1}
-                          value={itemToUpdate.stock}
-                          onChange={e => {
-                            if (parseInt(e.target.value) > 1) {
+                      <HStack mt={4}>
+                        <FormControl isRequired>
+                          <FormLabel>Supply</FormLabel>
+                          <Input
+                            // onFocus={e => e.target.select()}
+                            placeholder="e.g 24,000"
+                            // type={'number'}
+                            value={formatNum(itemToUpdate.stock + addStock)}
+                            onChange={e => {
                               setItemToUpdate({
                                 ...itemToUpdate,
-                                stock: parseInt(e.target.value),
+                                stock: parseInt(
+                                  reverseFormatNumber(e.target.value)
+                                ),
                               });
-                            } else {
-                              setItemToUpdate({
-                                ...itemToUpdate,
-                                stock: 1,
-                              });
-                            }
-                          }}
-                        />
-                      </FormControl>
+                            }}
+                          />
+                        </FormControl>
+
+                        <FormControl>
+                          <FormLabel>Add to Supply</FormLabel>
+                          <Input
+                            // onFocus={e => e.target.select()}
+                            placeholder="e.g 24,000"
+                            // type={'number'}
+                            value={formatNum(addStock)}
+                            onChange={e => {
+                              setAddStock(
+                                parseInt(reverseFormatNumber(e.target.value))
+                              );
+                            }}
+                          />
+                        </FormControl>
+                      </HStack>
+
+                      {/* <FormControl mt={4} isRequired>
+                      <FormLabel>Buy Price</FormLabel>
+                      <Input
+                        onFocus={e => e.target.select()}
+                        placeholder="e.g 24"
+                        // type={'number'}
+                        value={formatNum(itemToUpdate.stock)}
+                        onChange={e => {
+                          setItemToUpdate({
+                            ...itemToUpdate,
+                            stock: parseInt(
+                              reverseFormatNumber(e.target.value)
+                            ),
+                          });
+                        }}
+                      />
+                    </FormControl> */}
 
                       <FormControl mt={4} isRequired>
-                        <FormLabel>Buy Price</FormLabel>
+                        <FormLabel>Price</FormLabel>
                         <Input
                           onFocus={e => e.target.select()}
                           placeholder="e.g 24"
-                          type={'number'}
-                          min={1}
-                          value={itemToUpdate.modal}
+                          // type={'number'}
+                          value={formatNum(itemToUpdate.price)}
                           onChange={e => {
-                            if (parseInt(e.target.value) > 1) {
-                              setItemToUpdate({
-                                ...itemToUpdate,
-                                modal: parseInt(e.target.value),
-                              });
-                            } else {
-                              setItemToUpdate({
-                                ...itemToUpdate,
-                                modal: 1,
-                              });
-                            }
-                          }}
-                        />
-                      </FormControl>
-
-                      <FormControl mt={4} isRequired>
-                        <FormLabel>Sell Price</FormLabel>
-                        <Input
-                          onFocus={e => e.target.select()}
-                          placeholder="e.g 24"
-                          type={'number'}
-                          min={1}
-                          value={itemToUpdate.price}
-                          onChange={e => {
-                            if (parseInt(e.target.value) > 1) {
-                              setItemToUpdate({
-                                ...itemToUpdate,
-                                price: parseInt(e.target.value),
-                              });
-                            } else {
-                              setItemToUpdate({
-                                ...itemToUpdate,
-                                price: 1,
-                              });
-                            }
+                            setItemToUpdate({
+                              ...itemToUpdate,
+                              price: parseInt(
+                                reverseFormatNumber(e.target.value)
+                              ),
+                            });
                           }}
                         />
                       </FormControl>
@@ -306,7 +334,7 @@ const DeleteItem = props => {
     const token = Cookies.get('_auth');
 
     console.log('Deleting item...');
-    // console.log(registerData);
+    // console.log(itemToUpdate);
     // console.log(token);
 
     const deleteProductAPI = new URL(
