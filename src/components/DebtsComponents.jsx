@@ -113,11 +113,13 @@ const DebtsList = props => {
       setItemFound(false);
       props.setSelectedItem({});
     }
-  }, [props.search]);
+  }, [props.search, props.data, props.refresh]);
 
   useEffect(() => {
-    props.setItemIndex(1);
-    props.selectItem({ index: 1 });
+    if (itemFound) {
+      props.setItemIndex(1);
+      props.selectItem({ index: 1 });
+    }
   }, [props.search, itemFound]);
 
   const ItemNotFound = () => {
@@ -265,6 +267,29 @@ const DebtDetails = props => {
     });
     const [loading, setLoading] = useState(false);
 
+    function reverseFormatNumber(num) {
+      let cleanedString;
+      const validNums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+      const isNumValid = validNums.some(validNum => num.includes(validNum));
+      if (isNumValid) {
+        cleanedString = num.replace(/,/g, '');
+      } else {
+        cleanedString = '0';
+      }
+      return cleanedString;
+    }
+
+    function formatNum(num) {
+      let formattedNum;
+      if (num != 0) {
+        formattedNum = num.toLocaleString();
+      } else {
+        formattedNum = '';
+      }
+
+      return formattedNum;
+    }
+
     function onPayDebt() {
       const payDebtAPI = `${baseURL}/api/v1/transactions/updatedebt?transaction_id=${props.selectedItem.ID}`;
       const token = Cookies.get('_auth');
@@ -348,8 +373,8 @@ const DebtDetails = props => {
                         <FormLabel>Pay</FormLabel>
                         <HStack w={'100%'}>
                           <Input
-                            value={data.pay || ''}
-                            type={'number'}
+                            value={formatNum(data.pay)}
+                            // type={'number'}
                             onKeyUp={e => {
                               if (e.key === 'Enter') {
                                 document.querySelector('#payDebtBtn').click();
@@ -366,10 +391,13 @@ const DebtDetails = props => {
                                 status = 'hutang';
                               }
                               setData({
-                                pay: parseInt(e.target.value),
+                                pay: parseInt(
+                                  reverseFormatNumber(e.target.value)
+                                ),
                                 change:
-                                  parseInt(e.target.value || '0') +
-                                  props.selectedItem.change,
+                                  parseInt(
+                                    reverseFormatNumber(e.target.value)
+                                  ) + props.selectedItem.change,
                                 status: status,
                               });
                             }}

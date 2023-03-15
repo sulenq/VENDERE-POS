@@ -148,7 +148,7 @@ export default function ManageItems(props) {
       axios
         .get(getItemsAPI, { headers: { Authorization: `Bearer ${token}` } })
         .then(r => {
-          console.log(r.data.data);
+          // console.log(r.data.data);
           if (r.data.data) {
             setData(r.data.data);
           } else {
@@ -160,7 +160,7 @@ export default function ManageItems(props) {
           console.log(err);
           setLoading(false);
         });
-    }, 1  );
+    }, 1);
   }, [refresh]);
 
   //* Keydown event (arrow up & down) focus to searchBox
@@ -180,19 +180,38 @@ export default function ManageItems(props) {
     const [registerData, setRegisterData] = useState({
       code: '',
       name: '',
-      stock: 1,
-      modal: 1,
-      price: 1,
+      stock: 0,
+      price: 0,
     });
     const [isLoading, setIsLoading] = useState(false);
 
+    function reverseFormatNumber(num) {
+      let cleanedString;
+      const validNums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+      const isNumValid = validNums.some(validNum => num.includes(validNum));
+      if (isNumValid) {
+        cleanedString = num.replace(/,/g, '');
+      } else {
+        cleanedString = '0';
+      }
+      return cleanedString;
+    }
+
+    function formatNum(num) {
+      let formattedNum;
+      if (num != 0) {
+        formattedNum = num.toLocaleString();
+      } else {
+        formattedNum = '';
+      }
+
+      return formattedNum;
+    }
+
     function onAddNewItem(e) {
       e.preventDefault();
-
       const token = Cookies.get('_auth');
-
       console.log('Adding new item...');
-
       setIsLoading(true);
 
       const createProductAPI = new URL(`${baseURL}/api/v1/products/create`);
@@ -266,18 +285,9 @@ export default function ManageItems(props) {
                 </ModalHeader>
 
                 <ModalBody pb={6}>
-                  {/* <Alert
-                    borderRadius={'8px'}
-                    status="info"
-                    variant={'left-accent'}
-                  >
-                    <AlertIcon alignSelf={'flex-start'} />
-                    Page will be refreshed after you add new item.
-                  </Alert> */}
-
                   <form id="addNewItemForm">
-                    <FormControl mt={4} isRequired>
-                      <FormLabel>Item's Code</FormLabel>
+                    <FormControl isRequired>
+                      <FormLabel>Product's Code</FormLabel>
                       <Input
                         placeholder="e.g 089696010947 or ndog123"
                         value={registerData.code}
@@ -291,7 +301,7 @@ export default function ManageItems(props) {
                     </FormControl>
 
                     <FormControl mt={4} isRequired>
-                      <FormLabel>Item's Name</FormLabel>
+                      <FormLabel>Product's Name</FormLabel>
                       <Input
                         placeholder="e.g Telur 1kg"
                         value={registerData.name}
@@ -309,69 +319,51 @@ export default function ManageItems(props) {
                       <Input
                         onFocus={e => e.target.select()}
                         placeholder="e.g 24"
-                        type={'number'}
-                        min={1}
-                        value={registerData.stock}
+                        // type={'number'}
+                        value={formatNum(registerData.stock)}
                         onChange={e => {
-                          if (parseInt(e.target.value) > 1) {
-                            setRegisterData({
-                              ...registerData,
-                              stock: parseInt(e.target.value),
-                            });
-                          } else {
-                            setRegisterData({
-                              ...registerData,
-                              stock: 1,
-                            });
-                          }
+                          setRegisterData({
+                            ...registerData,
+                            stock: parseInt(
+                              reverseFormatNumber(e.target.value)
+                            ),
+                          });
                         }}
                       />
                     </FormControl>
 
-                    <FormControl mt={4} isRequired>
+                    {/* <FormControl mt={4} isRequired>
                       <FormLabel>Buy Price</FormLabel>
                       <Input
                         onFocus={e => e.target.select()}
                         placeholder="e.g 24"
-                        type={'number'}
-                        min={1}
-                        value={registerData.modal}
+                        // type={'number'}
+                        value={formatNum(registerData.stock)}
                         onChange={e => {
-                          if (parseInt(e.target.value) > 1) {
-                            setRegisterData({
-                              ...registerData,
-                              modal: parseInt(e.target.value),
-                            });
-                          } else {
-                            setRegisterData({
-                              ...registerData,
-                              modal: 1,
-                            });
-                          }
+                          setRegisterData({
+                            ...registerData,
+                            stock: parseInt(
+                              reverseFormatNumber(e.target.value)
+                            ),
+                          });
                         }}
                       />
-                    </FormControl>
+                    </FormControl> */}
 
                     <FormControl mt={4} isRequired>
-                      <FormLabel>Sell Price</FormLabel>
+                      <FormLabel>Price</FormLabel>
                       <Input
                         onFocus={e => e.target.select()}
                         placeholder="e.g 24"
-                        type={'number'}
-                        min={1}
-                        value={registerData.price}
+                        // type={'number'}
+                        value={formatNum(registerData.price)}
                         onChange={e => {
-                          if (parseInt(e.target.value) > 1) {
-                            setRegisterData({
-                              ...registerData,
-                              price: parseInt(e.target.value),
-                            });
-                          } else {
-                            setRegisterData({
-                              ...registerData,
-                              price: 1,
-                            });
-                          }
+                          setRegisterData({
+                            ...registerData,
+                            price: parseInt(
+                              reverseFormatNumber(e.target.value)
+                            ),
+                          });
                         }}
                       />
                     </FormControl>

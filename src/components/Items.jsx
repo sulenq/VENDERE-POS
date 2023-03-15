@@ -474,11 +474,13 @@ const ItemsList = props => {
       setItemFound(false);
       props.setSelectedItem({});
     }
-  }, [props.search]);
+  }, [props.search, props.data, props.refresh]);
 
   useEffect(() => {
-    props.setItemIndex(1);
-    props.selectItem({ index: 1 });
+    if (itemFound) {
+      props.setItemIndex(1);
+      props.selectItem({ index: 1 });
+    }
   }, [props.search, itemFound]);
 
   const ItemNotFound = () => {
@@ -730,7 +732,7 @@ const ItemDetails = props => {
             <Text w={'calc(100% - 150px)'}>{selectedItem?.name}</Text>
           </HStack>
 
-          <HStack
+          {/* <HStack
             px={5}
             pb={2}
             w={'100%'}
@@ -747,7 +749,7 @@ const ItemDetails = props => {
             <Text w={'calc(100% - 150px)'}>
               {selectedItem?.modal?.toLocaleString()}
             </Text>
-          </HStack>
+          </HStack> */}
 
           <HStack
             px={5}

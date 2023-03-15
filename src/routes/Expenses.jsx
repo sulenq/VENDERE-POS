@@ -157,6 +157,29 @@ export default function Expenses(props) {
     }
   });
 
+  function reverseFormatNumber(num) {
+    let cleanedString;
+    const validNums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+    const isNumValid = validNums.some(validNum => num.includes(validNum));
+    if (isNumValid) {
+      cleanedString = num.replace(/,/g, '');
+    } else {
+      cleanedString = '0';
+    }
+    return cleanedString;
+  }
+
+  function formatNum(num) {
+    let formattedNum;
+    if (num != 0) {
+      formattedNum = num.toLocaleString();
+    } else {
+      formattedNum = '';
+    }
+
+    return formattedNum;
+  }
+
   //* Add Expenses Section
   const AddExpenses = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -439,12 +462,13 @@ export default function Expenses(props) {
                   <FormControl mt={4} isRequired>
                     <FormLabel>Total</FormLabel>
                     <Input
-                      placeholder="e.g. 20000"
-                      value={registerData.total || ''}
+                      placeholder="e.g. 20,000"
+                      // type={'number'}
+                      value={formatNum(registerData.total)}
                       onChange={e => {
                         setRegisterData({
                           ...registerData,
-                          total: parseInt(e.target.value),
+                          total: parseInt(reverseFormatNumber(e.target.value)),
                         });
                       }}
                       onKeyUp={e => {

@@ -118,11 +118,13 @@ const TransactionsList = props => {
       setItemFound(false);
       props.setSelectedItem({});
     }
-  }, [props.search]);
+  }, [props.search, props.data, props.refresh]);
 
   useEffect(() => {
-    props.setItemIndex(1);
-    props.selectItem({ index: 1 });
+    if (itemFound) {
+      props.setItemIndex(1);
+      props.selectItem({ index: 1 });
+    }
   }, [props.search, itemFound]);
 
   const ItemNotFound = () => {
