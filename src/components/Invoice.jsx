@@ -274,71 +274,67 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
     console.log('cheking out...');
 
     //!Loading simulation
-    setTimeout(() => {
-      if (total > 0) {
-        let status = 'lunas';
-        let change = pay - total;
-        if (change * -1 > 0) {
-          status = 'hutang';
-        }
-        let totalProfit = 0;
-        cartList.forEach(item => {
-          totalProfit += (item.price - item.modal) * item.qty;
-        });
-        const invoice = {
-          cashierId: auth().userId,
-          total: total,
-          pay: pay,
-          change: change,
-          cartList: cartList,
-          status: status,
-          notes: note,
-          totalProfit: totalProfit,
-        };
+    if (total > 0) {
+      let status = 'lunas';
+      let change = pay - total;
+      if (change * -1 > 0) {
+        status = 'hutang';
+      }
+      let totalProfit = 0;
+      cartList.forEach(item => {
+        totalProfit += (item.price - item.modal) * item.qty;
+      });
+      const invoice = {
+        cashierId: auth().userId,
+        total: total,
+        pay: pay,
+        change: change,
+        cartList: cartList,
+        status: status,
+        notes: note,
+        totalProfit: totalProfit,
+      };
 
-        function checkout() {
-          const createTransactionAPI = `${baseUrl}/api/v1/transactions/create`;
-          const token = Cookies.get('_auth');
+      function checkout() {
+        const createTransactionAPI = `${baseUrl}/api/v1/transactions/create`;
+        const token = Cookies.get('_auth');
 
-          axios
-            .post(createTransactionAPI, invoice, {
-              headers: { Authorization: `Bearer ${token}` },
-            })
-            .then(r => {
-              console.log(r);
-              toast({
-                position: 'bottom-right',
-                title: 'Transaction added.',
-                description: `This invoice has been added to Transactions Page`,
-                status: 'success',
-                duration: 3000,
-                isClosable: true,
-              });
-              onClose();
-              clearInvoice();
-              setPay(0);
-              setNote('');
-              setIsCheckoutLoading(false);
-            })
-            .catch(err => {
-              console.log(err);
-              toast({
-                position: 'bottom-right',
-                title: 'Fail to create transaction.',
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-              });
-              setIsCheckoutLoading(false);
+        axios
+          .post(createTransactionAPI, invoice, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then(r => {
+            console.log(r);
+            toast({
+              position: 'bottom-right',
+              title: 'Transaction added.',
+              description: `This invoice has been added to Transactions Page`,
+              status: 'success',
+              duration: 3000,
+              isClosable: true,
             });
-        }
-
-        checkout();
-        console.log(invoice);
+            onClose();
+            clearInvoice();
+            setPay(0);
+            setNote('');
+            setIsCheckoutLoading(false);
+          })
+          .catch(err => {
+            console.log(err);
+            toast({
+              position: 'bottom-right',
+              title: 'Fail to create transaction.',
+              status: 'error',
+              duration: 3000,
+              isClosable: true,
+            });
+            setIsCheckoutLoading(false);
+          });
       }
 
-      return;
-    }, 1);
+      checkout();
+      console.log(invoice);
+    }
   }
 
   function reverseFormatNumber(num) {

@@ -78,74 +78,74 @@ export default function Dashboard(props) {
     window.addEventListener('resize', handleResize);
   });
 
-  const [transData, setTransData] = useState();
-  const [data, setData] = useState();
-  const [loading, setLoading] = useState(false);
-
-  const currentDate = new Date();
-  const currentYear = currentDate.getFullYear();
-  const currentMonth = currentDate.getMonth() + 1;
-  const currentDay = currentDate.getDate();
-
-  function getTodayData(data) {
-    const todayData = {
-      income: 0,
-      transactions: 0,
-      items: 'Soon!',
-    };
-
-    data.forEach((item, index) => {
-      const date = new Date(item.CreatedAt);
-      const year = date.getFullYear();
-      const month = date.getMonth() + 1;
-      const day = date.getDate();
-
-      console.log();
-      console.log();
-
-      if (
-        `${currentDay}${currentMonth}${currentYear}` == `${day}${month}${year}`
-      ) {
-        todayData.income += item.total;
-        todayData.transactions += 1;
-      }
-    });
-
-    return todayData;
-  }
-
-  function getMonthReport() {
-    const getMonthReportAPI = `${baseURL}/api/v1/transactions/admin`;
-    setLoading(true);
-
-    axios
-      .get(getMonthReportAPI, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then(r => {
-        // console.log(r.data.data);
-        setData(getTodayData(r.data.data));
-        setLoading(false);
-      })
-      .catch(err => {
-        console.log(err);
-        setLoading(false);
-      });
-  }
-
-  useEffect(() => {
-    getMonthReport();
-  }, [refresh]);
-
-  useEffect(() => {
-    const todayLive = setInterval(() => {
-      getMonthReport();
-    }, 30000);
-
-    return () => clearInterval(todayLive);
-  });
-
   const PriorityDashboard = () => {
+    const [data, setData] = useState();
+    const [loading, setLoading] = useState(false);
+
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
+    const currentDay = currentDate.getDate();
+
+    function getTodayData(data) {
+      const todayData = {
+        income: 0,
+        transactions: 0,
+        items: 'Soon!',
+      };
+
+      data.forEach((item, index) => {
+        const date = new Date(item.CreatedAt);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+
+        console.log();
+        console.log();
+
+        if (
+          `${currentDay}${currentMonth}${currentYear}` ==
+          `${day}${month}${year}`
+        ) {
+          todayData.income += item.total;
+          todayData.transactions += 1;
+        }
+      });
+
+      return todayData;
+    }
+
+    function getMonthReport() {
+      const getMonthReportAPI = `${baseURL}/api/v1/transactions/admin`;
+      setLoading(true);
+
+      axios
+        .get(getMonthReportAPI, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then(r => {
+          // console.log(r.data.data);
+          setData(getTodayData(r.data.data));
+          setLoading(false);
+        })
+        .catch(err => {
+          console.log(err);
+          setLoading(false);
+        });
+    }
+
+    useEffect(() => {
+      getMonthReport();
+    }, [refresh]);
+
+    useEffect(() => {
+      const todayLive = setInterval(() => {
+        getMonthReport();
+      }, 30000);
+
+      return () => clearInterval(todayLive);
+    });
+    
     return (
       <VStack
         mt={2}

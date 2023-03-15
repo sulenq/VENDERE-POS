@@ -301,7 +301,7 @@ const LDashboard = () => {
       x: {
         title: {
           display: true,
-          text: 'Day (date)',
+          text: 'Date (day)',
         },
         grid: {
           color: '#88888830',
@@ -355,13 +355,13 @@ const LDashboard = () => {
 
       if (year === currentYear && month === currentMonth) {
         if (!rawRevenueData[day]) {
-          rawRevenueData[day] = item.totalProfit;
+          rawRevenueData[day] = item.total;
         } else {
-          rawRevenueData[day] += item.totalProfit;
+          rawRevenueData[day] += item.total;
         }
       }
     }
-    // console.log(rawRevenueData);
+    console.log(rawRevenueData);
 
     const revenueData = [];
     for (let key in rawRevenueData) {
