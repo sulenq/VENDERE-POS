@@ -112,7 +112,7 @@ const RDashboard = () => {
         style={{ width: '100%', justifyContent: 'space-between' }}
       >
         <Text fontWeight={'bold'} opacity={0.5}>
-          Employees
+          Employees (online feature coming soon!)
         </Text>
       </HStack>
 

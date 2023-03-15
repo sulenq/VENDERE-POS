@@ -60,6 +60,7 @@ import Profile from './routes/Profile';
 import Employees from './routes/Employees';
 import ManageItems from './routes/ManageItems';
 import Expenses from './routes/Expenses';
+import Support from './routes/Support';
 import { Stat } from './components/Data';
 import { PrimaryButton } from './components/Buttons';
 import { ModalContent, ModalFooter, ModalOverlay } from './components/Modals';
@@ -289,7 +290,16 @@ export default function App() {
           }
         />
 
-        <Route path="support" element={''} />
+        <Route
+          path="support"
+          element={
+            <RequireRoleAuth
+              loginPath="/?login=1"
+              restriction=""
+              element={<Support />}
+            />
+          }
+        />
 
         <Route
           path="profile"
