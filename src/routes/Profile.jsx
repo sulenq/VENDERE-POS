@@ -22,6 +22,7 @@ import {
   ButtonGroup,
   Button,
   IconButton,
+  Divider,
 } from '@chakra-ui/react';
 
 // MUI Icons
@@ -59,9 +60,11 @@ export default function Profile(props) {
   const navigate = useNavigate();
   const toast = useToast();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [screenHeight, setScreenHeight] = useState(window.innerHeight);
   useEffect(() => {
     function handleResize() {
       setScreenWidth(window.innerWidth);
+      setScreenHeight(window.innerHeight);
     }
     window.addEventListener('resize', handleResize);
   });
@@ -74,27 +77,15 @@ export default function Profile(props) {
       restriction: 'admin',
     },
     {
-      name: 'ManageItems',
-      link: '/vendere-app/manageproducts',
-      icon: Inventory2OutlinedIcon,
-      restriction: 'admin',
-    },
-    {
       name: 'Cashier',
       link: '/vendere-app/cashier',
       icon: PointOfSaleRoundedIcon,
       restriction: 'cashier',
     },
     {
-      name: 'Transactions',
-      link: '/vendere-app/transactions',
-      icon: ReceiptLongOutlinedIcon,
-      restriction: '',
-    },
-    {
-      name: 'Debts',
-      link: '/vendere-app/debts',
-      icon: MoneyOffIcon,
+      name: 'ManageItems',
+      link: '/vendere-app/manageproducts',
+      icon: Inventory2OutlinedIcon,
       restriction: 'admin',
     },
     {
@@ -102,6 +93,21 @@ export default function Profile(props) {
       link: '/vendere-app/expenses',
       icon: MonetizationOnOutlinedIcon,
       restriction: 'admin',
+    },
+    {
+      name: 'Debts',
+      link: '/vendere-app/debts',
+      icon: MoneyOffIcon,
+      restriction: 'admin',
+    },
+  ];
+
+  const navs2 = [
+    {
+      name: 'Transactions',
+      link: '/vendere-app/transactions',
+      icon: ReceiptLongOutlinedIcon,
+      restriction: '',
     },
     {
       name: 'Employees',
@@ -296,6 +302,22 @@ export default function Profile(props) {
 
     return (
       <>
+        <HStack
+          w={'100%'}
+          justifyContent={'space-between'}
+          fontSize={'xs'}
+          px={1}
+        >
+          <Text>copyright sulenq</Text>
+          <Text>#pakaiVENDEREaja</Text>
+        </HStack>
+
+        {auth().userRole === 'admin' && (
+          <>
+            <ChangePassword />
+          </>
+        )}
+
         <PrimaryButton label={'Sign Out'} w={'100%'} onClick={onOpen} />
 
         <Modal onClose={onClose} isOpen={isOpen} isCentered>
@@ -354,9 +376,9 @@ export default function Profile(props) {
       <VStack
         id="appContentWrapper"
         // h={screenWidth <= 1000 ? '100%' : '800px'}
-        h={screenWidth <= 1000 ? '100%' : '96%'}
+        h={screenHeight <= 900 || screenWidth <= 1000 ? '100%' : ''}
         // maxh={screenWidth <= 1000 ? '100%' : '90%'}
-        w={screenWidth <= 1000 ? '100%' : '500px'}
+        w={screenWidth <= 1000 ? '100%' : '450px'}
         style={{
           background:
             colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-400a)',
@@ -369,14 +391,13 @@ export default function Profile(props) {
         <ActionTopBar />
 
         <VStack
+          id="profileContainer"
           mt={'2px !important'}
           h={'100%'}
           w={'100%'}
           m={'auto'}
-          p={8}
-          borderRadius={12}
+          p={3}
           // border={'1px solid red'}
-          bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)'}
           position={'relative'}
           overflowY={'auto'}
         >
@@ -400,11 +421,7 @@ export default function Profile(props) {
             }}
           ></IconButton>
 
-          <VStack
-            w={screenWidth <= 500 ? '100%' : '350px'}
-            h={'100%'}
-            justifyContent={'space-between'}
-          >
+          <VStack w={screenWidth <= 500 ? '100%' : '380px'} pb={2}>
             <VStack w={'100%'}>
               <Avatar
                 size={'xl'}
@@ -431,26 +448,26 @@ export default function Profile(props) {
               >
                 {auth().userRole}
               </Badge>
-
-              {auth().userRole === 'admin' && (
-                <>
-                  <ChangePassword />
-                </>
-              )}
-
-              <SignOut />
             </VStack>
 
-            <VStack
-              w={'100%'}
-              borderRadius={12}
-              justifyContent={'space-between'}
-            >
-              <VStack w={'100%'}>
-                <Text fontWeight={'bold'} alignSelf={'flex-start'}>
-                  Navigate
+            <VStack w={'100%'} borderRadius={12}>
+              <VStack
+                bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)'}
+                w={'100%'}
+                borderRadius={12}
+                py={2}
+                border={'1px solid'}
+                borderColor={'var(--p-200a)'}
+              >
+                <Text
+                  fontWeight={'bold'}
+                  alignSelf={'flex-start'}
+                  fontSize={'xs'}
+                  opacity={0.5}
+                  px={4}
+                >
+                  Priority Menu
                 </Text>
-
                 {navs.map((nav, index) => {
                   if (
                     auth().userRole === nav.restriction ||
@@ -461,14 +478,12 @@ export default function Profile(props) {
                         key={index}
                         cursor={'pointer'}
                         w={'100%'}
-                        h={'45px'}
                         justifyContent={'space-between'}
+                        py={3}
                         px={4}
-                        borderRadius={12}
-                        border={'1px solid'}
-                        borderColor={
-                          colorMode === 'light' ? 'var(--p-400)' : 'var(--p-50)'
-                        }
+                        mt={'0 !important'}
+                        borderBottom={index != navs.length - 1 && '1px solid'}
+                        borderColor={'var(--p-200a)'}
                         color={
                           colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)'
                         }
@@ -490,12 +505,83 @@ export default function Profile(props) {
                       >
                         <HStack>
                           <Icon as={nav.icon} fontSize={'16px'} mt={'1px'} />
+
                           <Text>
                             {nav.name === 'ManageItems'
                               ? 'Manage Items'
                               : nav.name}
                           </Text>
                         </HStack>
+
+                        <Icon as={ArrowOutwardOutlinedIcon} fontSize={'md'} />
+                      </HStack>
+                    );
+                  }
+                })}
+              </VStack>
+
+              <VStack
+                bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)'}
+                w={'100%'}
+                borderRadius={12}
+                py={2}
+                border={'1px solid'}
+                borderColor={'var(--p-200a)'}
+              >
+                <Text
+                  fontWeight={'bold'}
+                  alignSelf={'flex-start'}
+                  fontSize={'xs'}
+                  opacity={0.5}
+                  px={4}
+                >
+                  Other Menu
+                </Text>
+                {navs2.map((nav, index) => {
+                  if (
+                    auth().userRole === nav.restriction ||
+                    nav.restriction === ''
+                  ) {
+                    return (
+                      <HStack
+                        key={index}
+                        cursor={'pointer'}
+                        w={'100%'}
+                        justifyContent={'space-between'}
+                        py={3}
+                        px={4}
+                        mt={'0 !important'}
+                        borderBottom={index != navs2.length - 1 && '1px solid'}
+                        borderColor={'var(--p-200a)'}
+                        color={
+                          colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)'
+                        }
+                        _hover={{
+                          background:
+                            colorMode === 'light'
+                              ? 'var(--light) !important'
+                              : 'var(--p-350) !important',
+                        }}
+                        _active={{
+                          background:
+                            colorMode === 'light'
+                              ? 'var(--p-75) !important'
+                              : 'var(--p-300) !important',
+                        }}
+                        onClick={() => {
+                          navigate(nav.link);
+                        }}
+                      >
+                        <HStack>
+                          <Icon as={nav.icon} fontSize={'16px'} mt={'1px'} />
+
+                          <Text>
+                            {nav.name === 'ManageItems'
+                              ? 'Manage Items'
+                              : nav.name}
+                          </Text>
+                        </HStack>
+
                         <Icon as={ArrowOutwardOutlinedIcon} fontSize={'md'} />
                       </HStack>
                     );
@@ -503,6 +589,8 @@ export default function Profile(props) {
                 })}
               </VStack>
             </VStack>
+
+            <SignOut />
           </VStack>
         </VStack>
       </VStack>

@@ -10,33 +10,10 @@ import {
   useToast,
   HStack,
   useColorMode,
-  Grid,
-  SimpleGrid,
   VStack,
   Text,
-  StatLabel,
-  StatNumber,
-  StatHelpText,
-  StatArrow,
-  StatGroup,
-  Spinner,
   Avatar,
-  useDisclosure,
-  ButtonGroup,
-  Button,
-  Box,
-  Modal,
-  ModalHeader,
-  ModalBody,
   Icon,
-  FormControl,
-  FormLabel,
-  Divider,
-  Select,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
 } from '@chakra-ui/react';
 import { ColorModeButton } from '../components/ColorModeSwitcher';
 
@@ -237,7 +214,7 @@ const LDashboard = () => {
     }
     window.addEventListener('resize', handleResize);
   });
-
+  
   const [data, setData] = useState({
     totalRevenue: 0,
     revenueData: [],

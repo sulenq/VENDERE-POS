@@ -84,10 +84,10 @@ const ResponsiveNav = props => {
       restriction: 'admin',
     },
     {
-      name: 'Transactions',
-      link: '/vendere-app/transactions',
-      icon: ReceiptLongOutlinedIcon,
-      restriction: '',
+      name: 'Expenses',
+      link: '/vendere-app/expenses',
+      icon: MonetizationOnOutlinedIcon,
+      restriction: 'admin',
     },
     {
       name: 'Debts',
@@ -99,10 +99,10 @@ const ResponsiveNav = props => {
 
   const navs2 = [
     {
-      name: 'Expenses',
-      link: '/vendere-app/expenses',
-      icon: MonetizationOnOutlinedIcon,
-      restriction: 'admin',
+      name: 'Transactions',
+      link: '/vendere-app/transactions',
+      icon: ReceiptLongOutlinedIcon,
+      restriction: '',
     },
     {
       name: 'Employees',
@@ -125,54 +125,16 @@ const ResponsiveNav = props => {
   ];
 
   const NavMobile = () => {
-    // console.log(props.active);
-    let nav;
-    let activeNav;
-
-    useEffect(() => {
-      console.log(props.active);
-      nav = document.querySelector('#navMobile');
-      let active = props.active;
-      if (
-        props.active === 'Employees' ||
-        props.active === 'Reports' ||
-        props.active === 'Expenses' ||
-        props.active === 'Support'
-      ) {
-        active = 'Profile';
-      }
-      activeNav = document.querySelector(`#${active}`);
-      activeNav?.classList.add('navMobileContentBtnSelect');
-    });
-
-    const selectNavList = targetId => {
-      // console.log(targetId);
-      activeNav.classList.remove('navMobileContentBtnSelect');
-      const target = document.querySelector(`#${targetId}`);
-      target.classList.add('navMobileContentBtnSelect');
-
-      const navLabels = document.querySelectorAll('.navLabel');
-      navLabels.forEach(navLabel => {
-        navLabel.style.display = 'block';
-      });
-      nav.style.height = '80px';
-    };
-
-    const diselectNavList = targetId => {
-      activeNav.classList.remove('navMobileContentBtnSelect');
-      const target = document.querySelector(`#${targetId}`);
-      const targetLabel = document.querySelector(`#${targetId} > p`);
-      target.classList.remove('navMobileContentBtnSelect');
-      targetLabel.style.display = 'none';
-      nav.style.height = '56px';
-
-      const navLabels = document.querySelectorAll('.navLabel');
-      navLabels.forEach(navLabel => {
-        navLabel.style.display = 'none';
-      });
-      activeNav.classList.add('navMobileContentBtnSelect');
-    };
-
+    let active;
+    if (
+      props.active === 'Reports' ||
+      props.active === 'Transactions' ||
+      props.active === 'Employee'
+    ) {
+      active = 'Profile';
+    } else {
+      active = props.active;
+    }
     const navigate = useNavigate();
 
     return (
@@ -180,7 +142,7 @@ const ResponsiveNav = props => {
         id={'navMobile'}
         style={{
           width: '100%',
-          height: '56px',
+          // height: '65px',
           background: 'var(--p-500a)',
           position: 'fixed',
           bottom: '0',
@@ -193,6 +155,12 @@ const ResponsiveNav = props => {
       >
         {navs.map((nav, index) => {
           if (auth().userRole === nav.restriction || nav.restriction === '') {
+            let navName;
+            if (nav.name === 'ManageItems') {
+              navName = 'Products';
+            } else {
+              navName = nav.name;
+            }
             return (
               <VStack
                 key={index}
@@ -200,31 +168,23 @@ const ResponsiveNav = props => {
                 className={'navMobileContentBtn'}
                 m={'0px !important'}
                 style={{
-                  color: 'var(--p-50)',
-                  padding: '12px 8px',
+                  color: nav.name === active ? 'var(--accent)' : 'var(--p-50)',
+                  padding: '8px',
                   width: '100%',
                 }}
                 onClick={() => {
                   navigate(nav.link);
                 }}
-                onMouseEnter={() => {
-                  selectNavList(nav.name);
-                }}
-                onMouseLeave={() => diselectNavList(nav.name)}
+                // onMouseEnter={() => {
+                //   selectNavList(nav.name);
+                // }}
+                // onMouseLeave={() => diselectNavList(nav.name)}
               >
                 <Icon
                   as={nav.icon}
-                  style={{ margin: 'auto auto', fontSize: 'xx-large' }}
+                  style={{ margin: 'auto auto', fontSize: '30px' }}
                 />
-                <Text
-                  className="navLabel"
-                  display={'none'}
-                  style={{ color: 'var(--p-200)' }}
-                  fontSize={'xs'}
-                  pt={1}
-                >
-                  {nav.name}
-                </Text>
+                <Text className="navLabel">{navName}</Text>
               </VStack>
             );
           }
@@ -235,31 +195,23 @@ const ResponsiveNav = props => {
           className={'navMobileContentBtn'}
           m={'0px !important'}
           style={{
-            color: 'var(--p-50)',
-            padding: '12px 8px',
+            color: active === 'Profile' ? 'var(--accent)' : 'var(--p-50)',
+            padding: '8px',
             width: '100%',
           }}
           onClick={() => {
             navigate('/vendere-app/profile');
           }}
-          onMouseEnter={() => {
-            selectNavList('Profile');
-          }}
-          onMouseLeave={() => diselectNavList('Profile')}
+          // onMouseEnter={() => {
+          //   selectNavList('Profile');
+          // }}
+          // onMouseLeave={() => diselectNavList('Profile')}
         >
           <Icon
             as={AccountCircleRoundedIcon}
-            style={{ margin: 'auto auto', fontSize: 'xx-large' }}
+            style={{ margin: 'auto auto', fontSize: '30px' }}
           />
-          <Text
-            className="navLabel"
-            display={'none'}
-            style={{ color: 'var(--p-200)' }}
-            fontSize={'xs'}
-            pt={1}
-          >
-            Profile
-          </Text>
+          <Text className="navLabel">Profile</Text>
         </VStack>
       </HStack>
     );

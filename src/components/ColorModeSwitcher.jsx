@@ -4,6 +4,8 @@ import {
   useColorModeValue,
   IconButton,
   Button,
+  Text,
+  Icon,
 } from '@chakra-ui/react';
 import { FaMoon, FaSun } from 'react-icons/fa';
 
@@ -43,7 +45,6 @@ const ColorModeButton = props => {
       borderRadius={12}
       color="current"
       onClick={toggleColorMode}
-      leftIcon={<SwitchIcon />}
       _hover={{
         background: colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
       }}
@@ -52,7 +53,8 @@ const ColorModeButton = props => {
       }}
       {...props}
     >
-      Theme
+      <Icon as={SwitchIcon} mt={'2px'} mr={1} />
+      <Text>Theme</Text>
     </Button>
   );
 };

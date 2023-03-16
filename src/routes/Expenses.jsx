@@ -243,12 +243,12 @@ export default function Expenses(props) {
     }
 
     return (
-      <HStack px={1} w={'100%'}>
+      <HStack w={'100%'}>
         <PrimaryButton
           w={'100%'}
-          label={'Add New Expense'}
-          // size={'sm'}
+          label={'Expense'}
           onClick={onOpen}
+          // size={'sm'}
           // mr={'-8px !important'}
         />
 
@@ -563,7 +563,7 @@ export default function Expenses(props) {
               width: screenWidth <= 1000 ? '100%' : '50%',
               height: '100%',
               overflowY: 'auto',
-              paddingBottom: screenWidth <= 1000 ? '64px' : '',
+              paddingBottom: screenWidth <= 1000 ? '66px' : '',
               borderRadius: '12px',
               background: colorMode === 'light' ? 'white' : 'var(--p-400a)',
             }}

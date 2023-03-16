@@ -145,7 +145,7 @@ export default function Dashboard(props) {
 
       return () => clearInterval(todayLive);
     });
-    
+
     return (
       <VStack
         mt={2}
@@ -174,7 +174,7 @@ export default function Dashboard(props) {
                       color={'var(--p-200)'}
                       fontSize={'lg'}
                     />
-                    <Text color={'var(--p-200)'}>Income</Text>
+                    <Text color={'var(--p-200)'}>Total Gross Revenue</Text>
                   </HStack>
                 </StatLabel>
                 <StatNumber>

@@ -179,7 +179,7 @@ export default function Reports(props) {
               width: screenWidth <= 1000 ? '100%' : '50%',
               height: '100%',
               overflowY: 'auto',
-              paddingBottom: screenWidth <= 1000 ? '64px' : '',
+              paddingBottom: screenWidth <= 1000 ? '66px' : '',
               borderRadius: '12px',
               background: colorMode === 'light' ? 'white' : 'var(--p-400a)',
             }}

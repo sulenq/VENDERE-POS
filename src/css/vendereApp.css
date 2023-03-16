@@ -6,7 +6,7 @@
   --dark: #171717;
   --light: #f8f8f8;
   --light-dim: #f0f0f0;
-  --p-50: #fff;
+  --p-50: #ffffff;
   --p-50a: #ffffff90;
   --p-75: #e9e9e9;
   --p-100: #bebebe;
@@ -129,21 +129,21 @@ body,
   position: relative;
 }
 
-.navMobile {
+/* .navMobile {
   position: fixed;
   width: calc(100% - 16px);
-  height: 56px;
+  height: 80px;
   bottom: 8px;
   padding: 0 32px;
   margin: 0 8px;
   border-radius: 16px;
-  /* background-color: var(--p-500); */
   transition: 0.3s;
-  /* background: linear-gradient(
-    to bottom,
-    var(--p-500),
-    var(--p-600)
-  ); */
+} */
+
+.navLabel {
+  font-size: 10px;
+  /* color: var(--p-200); */
+  margin-top: 2px !important;
 }
 
 .navMobile > ul {
@@ -164,12 +164,7 @@ body,
   position: relative;
 }
 .navMobileContentBtnSelect::before {
-  content: '';
-  width: 100%;
-  height: 4px;
-  background: var(--accent);
-  position: absolute;
-  top: 0;
+  color: var(--accent);
 }
 
 .cartList {
@@ -243,6 +238,7 @@ bg={colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)'} */
 }
 
 @media only screen and (min-width: 1001px) {
+  #profileContainer::-webkit-scrollbar,
   #content::-webkit-scrollbar,
   #navOptions::-webkit-scrollbar,
   .skeleton::-webkit-scrollbar,

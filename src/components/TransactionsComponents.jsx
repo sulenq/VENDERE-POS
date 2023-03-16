@@ -510,7 +510,7 @@ const TransactionDetails = props => {
               </Text>
             </HStack>
 
-            <HStack
+            {/* <HStack
               key={9}
               px={5}
               pb={2}
@@ -528,7 +528,7 @@ const TransactionDetails = props => {
               <Text w={'75%'}>
                 {props?.selectedItem?.totalProfit?.toLocaleString()}
               </Text>
-            </HStack>
+            </HStack> */}
 
             <HStack
               key={2}
