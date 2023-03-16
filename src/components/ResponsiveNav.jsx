@@ -157,7 +157,7 @@ const ResponsiveNav = props => {
     if (
       props.active === 'Reports' ||
       props.active === 'Transactions' ||
-      props.active === 'Employee'
+      props.active === 'Employees'
     ) {
       if (auth().userRole === 'cashier' && props.active === 'Transactions') {
         active = 'Transactions';

@@ -622,7 +622,7 @@ const DebtDetails = props => {
               <Text className="detailsLabels" w={'25%'}>
                 Change
               </Text>
-              <Text w={'75%'}>
+              <Text w={'75%'} fontWeight={'bold'}>
                 {props?.selectedItem?.change?.toLocaleString()}
               </Text>
             </HStack>

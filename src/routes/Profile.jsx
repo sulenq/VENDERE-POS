@@ -330,24 +330,26 @@ export default function Profile(props) {
 
     return (
       <>
-        <HStack
-          w={'100%'}
-          justifyContent={'space-between'}
-          fontSize={'xs'}
-          opacity={0.5}
-          px={1}
-        >
-          <Text>copyright sulenq</Text>
-          <Text>#pakaiVENDEREaja</Text>
-        </HStack>
+        <VStack w={'100%'}>
+          <HStack
+            w={'100%'}
+            justifyContent={'space-between'}
+            fontSize={'xs'}
+            opacity={0.5}
+            px={1}
+          >
+            <Text>copyright sulenq</Text>
+            <Text>#pakaiVENDEREaja</Text>
+          </HStack>
 
-        {auth().userRole === 'admin' && (
-          <>
-            <ChangePassword />
-          </>
-        )}
+          {auth().userRole === 'admin' && (
+            <>
+              <ChangePassword />
+            </>
+          )}
 
-        <PrimaryButton label={'Sign Out'} w={'100%'} onClick={onOpen} />
+          <PrimaryButton label={'Sign Out'} w={'100%'} onClick={onOpen} />
+        </VStack>
 
         <Modal onClose={onClose} isOpen={isOpen} isCentered>
           <ModalOverlay />
@@ -450,109 +452,37 @@ export default function Profile(props) {
             }}
           ></IconButton>
 
-          <VStack w={screenWidth <= 500 ? '100%' : '380px'} pb={2}>
+          <VStack w={'100%'} h={'100%'} justifyContent={'space-between'}>
             <VStack w={'100%'}>
-              <Avatar
-                size={'xl'}
-                name={auth().displayName}
-                style={{
-                  background: 'var(--p-300)',
-                  color: 'var(--p-200)',
-                }}
-              />
+              <VStack w={'100%'}>
+                <Avatar
+                  size={'xl'}
+                  name={auth().displayName}
+                  style={{
+                    background: 'var(--p-300)',
+                    color: 'var(--p-200)',
+                  }}
+                />
 
-              <Text fontWeight={'bold'} fontSize={'x-large'}>
-                {auth().displayName}
-              </Text>
-
-              <Text mt={'2px !important'}>{auth().email}</Text>
-
-              <Badge
-                style={{
-                  background: 'var(--accent)',
-                  color: '#00000080',
-                  borderRadius: '12px',
-                }}
-                mb={'8px !important'}
-              >
-                {auth().userRole}
-              </Badge>
-            </VStack>
-
-            <VStack w={'100%'} borderRadius={12}>
-              <VStack
-                bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)'}
-                w={'100%'}
-                borderRadius={12}
-                pt={2}
-                border={'1px solid'}
-                borderColor={'var(--p-200a)'}
-              >
-                <Text
-                  fontWeight={'bold'}
-                  alignSelf={'flex-start'}
-                  fontSize={'xs'}
-                  opacity={0.5}
-                  px={4}
-                  pb={'6px'}
-                >
-                  Priority Menu
+                <Text fontWeight={'bold'} fontSize={'x-large'}>
+                  {auth().displayName}
                 </Text>
-                {navs1.map((nav, index) => {
-                  if (
-                    auth().userRole === nav.restriction ||
-                    nav.restriction === ''
-                  ) {
-                    return (
-                      <HStack
-                        key={index}
-                        cursor={'pointer'}
-                        w={'100%'}
-                        justifyContent={'space-between'}
-                        py={3}
-                        px={4}
-                        mt={'0 !important'}
-                        borderBottom={index != navs1.length - 1 && '1px solid'}
-                        borderColor={'var(--p-200a)'}
-                        color={
-                          colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)'
-                        }
-                        _hover={{
-                          background:
-                            colorMode === 'light'
-                              ? 'var(--light) !important'
-                              : 'var(--p-350) !important',
-                          borderRadius:
-                            index == navs1.length - 1 && '0 0 12px 12px',
-                        }}
-                        _active={{
-                          background:
-                            colorMode === 'light'
-                              ? 'var(--p-75) !important'
-                              : 'var(--p-300) !important',
-                        }}
-                        onClick={() => {
-                          navigate(nav.link);
-                        }}
-                      >
-                        <HStack>
-                          <Icon as={nav.icon} fontSize={'16px'} mt={'1px'} />
 
-                          <Text>
-                            {nav.name === 'ManageItems'
-                              ? 'Manage Items'
-                              : nav.name}
-                          </Text>
-                        </HStack>
+                <Text mt={'2px !important'}>{auth().email}</Text>
 
-                        <Icon as={ArrowOutwardOutlinedIcon} fontSize={'md'} />
-                      </HStack>
-                    );
-                  }
-                })}
+                <Badge
+                  style={{
+                    background: 'var(--accent)',
+                    color: '#00000080',
+                    borderRadius: '12px',
+                  }}
+                  mb={'8px !important'}
+                >
+                  {auth().userRole}
+                </Badge>
               </VStack>
 
-              {auth().userRole === 'admin' && (
+              <VStack w={'100%'} borderRadius={12}>
                 <VStack
                   bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)'}
                   w={'100%'}
@@ -571,7 +501,7 @@ export default function Profile(props) {
                   >
                     Priority Menu
                   </Text>
-                  {navs2.map((nav, index) => {
+                  {navs1.map((nav, index) => {
                     if (
                       auth().userRole === nav.restriction ||
                       nav.restriction === ''
@@ -586,7 +516,7 @@ export default function Profile(props) {
                           px={4}
                           mt={'0 !important'}
                           borderBottom={
-                            index != navs2.length - 1 && '1px solid'
+                            index != navs1.length - 1 && '1px solid'
                           }
                           borderColor={'var(--p-200a)'}
                           color={
@@ -600,7 +530,7 @@ export default function Profile(props) {
                                 ? 'var(--light) !important'
                                 : 'var(--p-350) !important',
                             borderRadius:
-                              index == navs2.length - 1 && '0 0 12px 12px',
+                              index == navs1.length - 1 && '0 0 12px 12px',
                           }}
                           _active={{
                             background:
@@ -617,7 +547,7 @@ export default function Profile(props) {
 
                             <Text>
                               {nav.name === 'ManageItems'
-                                ? 'Manage Items'
+                                ? 'Products'
                                 : nav.name}
                             </Text>
                           </HStack>
@@ -628,7 +558,92 @@ export default function Profile(props) {
                     }
                   })}
                 </VStack>
-              )}
+
+                {auth().userRole === 'admin' && (
+                  <VStack
+                    bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)'}
+                    w={'100%'}
+                    borderRadius={12}
+                    pt={2}
+                    border={'1px solid'}
+                    borderColor={'var(--p-200a)'}
+                  >
+                    <Text
+                      fontWeight={'bold'}
+                      alignSelf={'flex-start'}
+                      fontSize={'xs'}
+                      opacity={0.5}
+                      px={4}
+                      pb={'6px'}
+                    >
+                      Other Menu
+                    </Text>
+                    {navs2.map((nav, index) => {
+                      if (
+                        auth().userRole === nav.restriction ||
+                        nav.restriction === ''
+                      ) {
+                        return (
+                          <HStack
+                            key={index}
+                            cursor={'pointer'}
+                            w={'100%'}
+                            justifyContent={'space-between'}
+                            py={3}
+                            px={4}
+                            mt={'0 !important'}
+                            borderBottom={
+                              index != navs2.length - 1 && '1px solid'
+                            }
+                            borderColor={'var(--p-200a)'}
+                            color={
+                              colorMode === 'light'
+                                ? 'var(--p-500)'
+                                : 'var(--p-50)'
+                            }
+                            _hover={{
+                              background:
+                                colorMode === 'light'
+                                  ? 'var(--light) !important'
+                                  : 'var(--p-350) !important',
+                              borderRadius:
+                                index == navs2.length - 1 && '0 0 12px 12px',
+                            }}
+                            _active={{
+                              background:
+                                colorMode === 'light'
+                                  ? 'var(--p-75) !important'
+                                  : 'var(--p-300) !important',
+                            }}
+                            onClick={() => {
+                              navigate(nav.link);
+                            }}
+                          >
+                            <HStack>
+                              <Icon
+                                as={nav.icon}
+                                fontSize={'16px'}
+                                mt={'1px'}
+                              />
+
+                              <Text>
+                                {nav.name === 'ManageItems'
+                                  ? 'Manage Items'
+                                  : nav.name}
+                              </Text>
+                            </HStack>
+
+                            <Icon
+                              as={ArrowOutwardOutlinedIcon}
+                              fontSize={'md'}
+                            />
+                          </HStack>
+                        );
+                      }
+                    })}
+                  </VStack>
+                )}
+              </VStack>
             </VStack>
 
             <SignOut />

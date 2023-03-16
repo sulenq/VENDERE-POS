@@ -311,7 +311,7 @@ const ExpenseDetails = props => {
             <Text className="detailsLabels" w={'150px'}>
               Total
             </Text>
-            <Text w={'calc(100% - 150px)'}>
+            <Text w={'calc(100% - 150px)'} fontWeight={'bold'}>
               {selectedItem?.total?.toLocaleString()}
             </Text>
           </HStack>
