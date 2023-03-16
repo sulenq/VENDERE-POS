@@ -62,7 +62,7 @@ const DebtsList = props => {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then(r => {
-          // console.log(r.data.data);
+          console.log(r.data.data);
           if (r.data.data) {
             props.setData(r.data.data);
           } else {
@@ -347,7 +347,7 @@ const DebtDetails = props => {
                 <ModalHeader px={4}>
                   <HStack>
                     <Icon as={MoneyOff} fontSize={'xx-large'} />
-                    <Text>Update Debt</Text>
+                    <Text>Updating Debt</Text>
                   </HStack>
                 </ModalHeader>
 

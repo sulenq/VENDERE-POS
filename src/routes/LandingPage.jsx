@@ -181,7 +181,7 @@ export default function LandingPage(props) {
                       as={AccountCircleOutlinedIcon}
                       fontSize={'xx-large'}
                     />
-                    <Text>Create Your Account</Text>
+                    <Text>Signing Up Your Account</Text>
                   </HStack>
                 </ModalHeader>
 

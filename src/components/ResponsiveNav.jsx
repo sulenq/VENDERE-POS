@@ -97,6 +97,34 @@ const ResponsiveNav = props => {
     },
   ];
 
+  const cashierNavs = [
+    {
+      name: 'Cashier',
+      link: '/vendere-app/cashier',
+      icon: PointOfSaleRoundedIcon,
+      restriction: 'cashier',
+    },
+    {
+      name: 'Transactions',
+      link: '/vendere-app/transactions',
+      icon: ReceiptLongOutlinedIcon,
+      restriction: '',
+    },
+    {
+      name: 'Support',
+      link: '/vendere-app/support',
+      icon: HelpOutlineOutlinedIcon,
+      restriction: '',
+    },
+  ];
+
+  let navs1;
+  if (auth().userRole === 'admin') {
+    navs1 = navs;
+  } else if (auth().userRole === 'cashier') {
+    navs1 = cashierNavs;
+  }
+
   const navs2 = [
     {
       name: 'Transactions',
@@ -131,7 +159,11 @@ const ResponsiveNav = props => {
       props.active === 'Transactions' ||
       props.active === 'Employee'
     ) {
-      active = 'Profile';
+      if (auth().userRole === 'cashier' && props.active === 'Transactions') {
+        active = 'Transactions';
+      } else {
+        active = 'Profile';
+      }
     } else {
       active = props.active;
     }
@@ -153,7 +185,7 @@ const ResponsiveNav = props => {
         backdropFilter="auto"
         backdropBlur="5px"
       >
-        {navs.map((nav, index) => {
+        {navs1.map((nav, index) => {
           if (auth().userRole === nav.restriction || nav.restriction === '') {
             let navName;
             if (nav.name === 'ManageItems') {
@@ -354,7 +386,7 @@ const ResponsiveNav = props => {
                 width: '100%',
               }}
             >
-              {navs.map((nav, index) => {
+              {navs1.map((nav, index) => {
                 if (
                   auth()?.userRole === nav.restriction ||
                   nav.restriction === ''

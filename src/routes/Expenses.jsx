@@ -264,7 +264,7 @@ export default function Expenses(props) {
                       as={MonetizationOnOutlinedIcon}
                       fontSize={'xx-large'}
                     />
-                    <Text>Add New Expense</Text>
+                    <Text>Adding New Expense</Text>
                   </HStack>
                 </ModalHeader>
 

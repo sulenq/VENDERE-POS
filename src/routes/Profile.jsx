@@ -102,6 +102,34 @@ export default function Profile(props) {
     },
   ];
 
+  const cashierNavs = [
+    {
+      name: 'Cashier',
+      link: '/vendere-app/cashier',
+      icon: PointOfSaleRoundedIcon,
+      restriction: 'cashier',
+    },
+    {
+      name: 'Transactions',
+      link: '/vendere-app/transactions',
+      icon: ReceiptLongOutlinedIcon,
+      restriction: '',
+    },
+    {
+      name: 'Support',
+      link: '/vendere-app/support',
+      icon: HelpOutlineOutlinedIcon,
+      restriction: '',
+    },
+  ];
+
+  let navs1;
+  if (auth().userRole === 'admin') {
+    navs1 = navs;
+  } else if (auth().userRole === 'cashier') {
+    navs1 = cashierNavs;
+  }
+
   const navs2 = [
     {
       name: 'Transactions',
@@ -206,7 +234,7 @@ export default function Profile(props) {
                 <ModalHeader px={4}>
                   <HStack>
                     <Icon as={LockOpenOutlinedIcon} />
-                    <Text>Change Password</Text>
+                    <Text>Changing Account Password</Text>
                   </HStack>
                 </ModalHeader>
 
@@ -306,6 +334,7 @@ export default function Profile(props) {
           w={'100%'}
           justifyContent={'space-between'}
           fontSize={'xs'}
+          opacity={0.5}
           px={1}
         >
           <Text>copyright sulenq</Text>
@@ -455,7 +484,7 @@ export default function Profile(props) {
                 bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)'}
                 w={'100%'}
                 borderRadius={12}
-                py={2}
+                pt={2}
                 border={'1px solid'}
                 borderColor={'var(--p-200a)'}
               >
@@ -465,10 +494,11 @@ export default function Profile(props) {
                   fontSize={'xs'}
                   opacity={0.5}
                   px={4}
+                  pb={'6px'}
                 >
                   Priority Menu
                 </Text>
-                {navs.map((nav, index) => {
+                {navs1.map((nav, index) => {
                   if (
                     auth().userRole === nav.restriction ||
                     nav.restriction === ''
@@ -482,7 +512,7 @@ export default function Profile(props) {
                         py={3}
                         px={4}
                         mt={'0 !important'}
-                        borderBottom={index != navs.length - 1 && '1px solid'}
+                        borderBottom={index != navs1.length - 1 && '1px solid'}
                         borderColor={'var(--p-200a)'}
                         color={
                           colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)'
@@ -492,6 +522,8 @@ export default function Profile(props) {
                             colorMode === 'light'
                               ? 'var(--light) !important'
                               : 'var(--p-350) !important',
+                          borderRadius:
+                            index == navs1.length - 1 && '0 0 12px 12px',
                         }}
                         _active={{
                           background:
@@ -520,74 +552,83 @@ export default function Profile(props) {
                 })}
               </VStack>
 
-              <VStack
-                bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)'}
-                w={'100%'}
-                borderRadius={12}
-                py={2}
-                border={'1px solid'}
-                borderColor={'var(--p-200a)'}
-              >
-                <Text
-                  fontWeight={'bold'}
-                  alignSelf={'flex-start'}
-                  fontSize={'xs'}
-                  opacity={0.5}
-                  px={4}
+              {auth().userRole === 'admin' && (
+                <VStack
+                  bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)'}
+                  w={'100%'}
+                  borderRadius={12}
+                  pt={2}
+                  border={'1px solid'}
+                  borderColor={'var(--p-200a)'}
                 >
-                  Other Menu
-                </Text>
-                {navs2.map((nav, index) => {
-                  if (
-                    auth().userRole === nav.restriction ||
-                    nav.restriction === ''
-                  ) {
-                    return (
-                      <HStack
-                        key={index}
-                        cursor={'pointer'}
-                        w={'100%'}
-                        justifyContent={'space-between'}
-                        py={3}
-                        px={4}
-                        mt={'0 !important'}
-                        borderBottom={index != navs2.length - 1 && '1px solid'}
-                        borderColor={'var(--p-200a)'}
-                        color={
-                          colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)'
-                        }
-                        _hover={{
-                          background:
+                  <Text
+                    fontWeight={'bold'}
+                    alignSelf={'flex-start'}
+                    fontSize={'xs'}
+                    opacity={0.5}
+                    px={4}
+                    pb={'6px'}
+                  >
+                    Priority Menu
+                  </Text>
+                  {navs2.map((nav, index) => {
+                    if (
+                      auth().userRole === nav.restriction ||
+                      nav.restriction === ''
+                    ) {
+                      return (
+                        <HStack
+                          key={index}
+                          cursor={'pointer'}
+                          w={'100%'}
+                          justifyContent={'space-between'}
+                          py={3}
+                          px={4}
+                          mt={'0 !important'}
+                          borderBottom={
+                            index != navs2.length - 1 && '1px solid'
+                          }
+                          borderColor={'var(--p-200a)'}
+                          color={
                             colorMode === 'light'
-                              ? 'var(--light) !important'
-                              : 'var(--p-350) !important',
-                        }}
-                        _active={{
-                          background:
-                            colorMode === 'light'
-                              ? 'var(--p-75) !important'
-                              : 'var(--p-300) !important',
-                        }}
-                        onClick={() => {
-                          navigate(nav.link);
-                        }}
-                      >
-                        <HStack>
-                          <Icon as={nav.icon} fontSize={'16px'} mt={'1px'} />
+                              ? 'var(--p-500)'
+                              : 'var(--p-50)'
+                          }
+                          _hover={{
+                            background:
+                              colorMode === 'light'
+                                ? 'var(--light) !important'
+                                : 'var(--p-350) !important',
+                            borderRadius:
+                              index == navs2.length - 1 && '0 0 12px 12px',
+                          }}
+                          _active={{
+                            background:
+                              colorMode === 'light'
+                                ? 'var(--p-75) !important'
+                                : 'var(--p-300) !important',
+                          }}
+                          onClick={() => {
+                            navigate(nav.link);
+                          }}
+                        >
+                          <HStack>
+                            <Icon as={nav.icon} fontSize={'16px'} mt={'1px'} />
 
-                          <Text>
-                            {nav.name === 'ManageItems'
-                              ? 'Manage Items'
-                              : nav.name}
-                          </Text>
+                            <Text>
+                              {nav.name === 'ManageItems'
+                                ? 'Manage Items'
+                                : nav.name}
+                            </Text>
+                          </HStack>
+
+                          <Icon as={ArrowOutwardOutlinedIcon} fontSize={'md'} />
                         </HStack>
-
-                        <Icon as={ArrowOutwardOutlinedIcon} fontSize={'md'} />
-                      </HStack>
-                    );
-                  }
-                })}
-              </VStack>
+                      );
+                    }
+                  })}
+                </VStack>
+              )}
             </VStack>
 
             <SignOut />

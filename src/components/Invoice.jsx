@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { useIsAuthenticated, useAuthUser, useSignOut } from 'react-auth-kit';
+import { useAuthUser } from 'react-auth-kit';
 import Cookies from 'js-cookie';
 
 // Chakra UI
@@ -23,26 +22,18 @@ import {
   ModalCloseButton,
   useToast,
   Textarea,
-  Alert,
-  AlertTitle,
-  AlertDescription,
-  AlertIcon,
-  Link,
-  Kbd,
-  Slide,
 } from '@chakra-ui/react';
 
 // MUI Icons
 import AddShoppingCartRoundedIcon from '@mui/icons-material/AddShoppingCartRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
-import RemoveShoppingCartRoundedIcon from '@mui/icons-material/RemoveShoppingCartRounded';
+import RemoveShoppingCartOutlinedIcon from '@mui/icons-material/RemoveShoppingCartOutlined';
+
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
-import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 
 import '../css/vendereApp.css';
-import { ColorModeIconButton } from './ColorModeSwitcher';
 import { PrimaryButton, PrimaryButtonOutline } from './Buttons';
 import { ModalContent, ModalBody, ModalFooter, ModalOverlay } from './Modals';
 import { SearchBox } from '../components/Inputs';
@@ -240,7 +231,7 @@ const CartList = ({
               : '1px solid var(--p-300)',
         }}
       >
-        <Icon as={RemoveShoppingCartRoundedIcon} fontSize={'10rem'} />
+        <Icon as={RemoveShoppingCartOutlinedIcon} fontSize={'10rem'} />
         <Text
           cursor={'default'}
           textAlign={'center'}
@@ -380,7 +371,7 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
               <ModalHeader px={4}>
                 <HStack>
                   <ShoppingCartCheckoutIcon />
-                  <Text fontWeight={'bold'}>Checkout ?</Text>
+                  <Text fontWeight={'bold'}>Checking Out ?</Text>
                 </HStack>
               </ModalHeader>
 

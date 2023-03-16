@@ -1,12 +1,11 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useLocation } from 'react-router-dom';
-import { useAuthUser, useSignOut } from 'react-auth-kit';
+import { useAuthUser } from 'react-auth-kit';
 
 // Chakra UI
 import {
-  IconButton,
   useColorMode,
   Text,
   VStack,
@@ -20,28 +19,18 @@ import {
   useToast,
   Alert,
   AlertIcon,
-  FormLabel,
-  FormControl,
   Button,
-  Badge,
 } from '@chakra-ui/react';
 
 // MUI Icons
-import AddShoppingCartRoundedIcon from '@mui/icons-material/AddShoppingCartRounded';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
+
 import SearchOffOutlinedIcon from '@mui/icons-material/SearchOffOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ImageNotSupportedOutlinedIcon from '@mui/icons-material/ImageNotSupportedOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
-import LayersClearOutlinedIcon from '@mui/icons-material/LayersClearOutlined';
-import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 
 import '../css/vendereApp.css';
 import { PrimaryButton, PrimaryButtonOutline } from './Buttons';
-import { MoneyOff, PeopleAltOutlined, Search } from '@mui/icons-material';
-import { SearchBox, Input } from './Inputs';
 import { Skeleton } from './Skeleton';
 import { ModalContent, ModalOverlay, ModalBody, ModalFooter } from './Modals';
 
@@ -113,10 +102,10 @@ const EmployeesList = props => {
   }, [props.search, props.data, props.refresh]);
 
   useEffect(() => {
-     if (itemFound) {
-       props.setItemIndex(1);
-       props.selectItem({ index: 1 });
-     }
+    if (itemFound) {
+      props.setItemIndex(1);
+      props.selectItem({ index: 1 });
+    }
   }, [props.search, itemFound]);
 
   const ItemNotFound = () => {
@@ -576,7 +565,7 @@ const DeleteEmployee = props => {
               <ModalHeader px={4}>
                 <HStack>
                   <Icon as={DeleteOutlineOutlinedIcon} fontSize={'xx-large'} />
-                  <Text>Delete Account</Text>
+                  <Text>Deleting Employee's Account</Text>
                 </HStack>
               </ModalHeader>
 

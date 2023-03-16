@@ -280,7 +280,7 @@ export default function ManageItems(props) {
                 <ModalHeader px={4}>
                   <HStack>
                     <Icon as={Inventory2OutlinedIcon} fontSize={'xx-large'} />
-                    <Text>Add New Item</Text>
+                    <Text>Adding New Item</Text>
                   </HStack>
                 </ModalHeader>
 

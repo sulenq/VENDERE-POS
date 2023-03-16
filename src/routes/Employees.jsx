@@ -226,7 +226,7 @@ export default function ManageItems(props) {
                 <ModalHeader>
                   <HStack>
                     <Icon as={PeopleAltOutlined} fontSize={'xx-large'} />
-                    <Text>Create Employee's Account</Text>
+                    <Text>Signing Up Employee's Account</Text>
                   </HStack>
                 </ModalHeader>
 

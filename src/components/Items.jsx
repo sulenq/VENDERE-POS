@@ -165,7 +165,7 @@ const UpdateItem = props => {
                     as={DriveFileRenameOutlineOutlinedIcon}
                     fontSize={'xx-large'}
                   />
-                  <Text>Update Product</Text>
+                  <Text>Updating Product</Text>
                 </HStack>
               </ModalHeader>
 
@@ -401,7 +401,7 @@ const DeleteItem = props => {
               <ModalHeader px={4}>
                 <HStack>
                   <Icon as={DeleteOutlineOutlinedIcon} fontSize={'xx-large'} />
-                  <Text>Delete Product</Text>
+                  <Text>Deleting Product</Text>
                 </HStack>
               </ModalHeader>
 
