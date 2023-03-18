@@ -418,7 +418,11 @@ const ResponsiveNav = props => {
                         margin: '6px 0',
                       }}
                     >
-                      <Icon as={nav.icon} fontSize={'xl'} />
+                      <Icon
+                        as={nav.icon}
+                        fontSize={'xl'}
+                        mt={'3px !important'}
+                      />
                       <Text ml={2}>
                         {nav.name === 'ManageItems' ? 'Products' : nav.name}
                       </Text>
@@ -463,7 +467,11 @@ const ResponsiveNav = props => {
                         marginTop: index === 0 ? '12px' : '',
                       }}
                     >
-                      <Icon as={nav.icon} fontSize={'xl'} />
+                      <Icon
+                        as={nav.icon}
+                        fontSize={'xl'}
+                        mt={'3px !important'}
+                      />
                       <Text ml={2}>
                         {nav.name === 'ManageItems' ? 'Products' : nav.name}
                       </Text>
