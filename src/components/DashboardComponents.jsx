@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import Chart from 'chart.js/auto';
@@ -214,7 +214,7 @@ const LDashboard = () => {
     }
     window.addEventListener('resize', handleResize);
   });
-  
+
   const [data, setData] = useState({
     totalRevenue: 0,
     revenueData: [],

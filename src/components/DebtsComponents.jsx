@@ -396,7 +396,7 @@ const DebtDetails = props => {
                             onChange={e => {
                               let status = 'hutang';
                               if (
-                                e.target.value >=
+                                parseInt(reverseFormatNumber(e.target.value)) >=
                                 props.selectedItem.change * -1
                               ) {
                                 status = 'lunas';

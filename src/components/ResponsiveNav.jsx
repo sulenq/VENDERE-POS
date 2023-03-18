@@ -157,10 +157,13 @@ const ResponsiveNav = props => {
     if (
       props.active === 'Reports' ||
       props.active === 'Transactions' ||
-      props.active === 'Employees'
+      props.active === 'Employees' ||
+      props.active === 'Support'
     ) {
       if (auth().userRole === 'cashier' && props.active === 'Transactions') {
         active = 'Transactions';
+      } else if (auth().userRole === 'cashier' && props.active === 'Support') {
+        active = 'Support';
       } else {
         active = 'Profile';
       }
