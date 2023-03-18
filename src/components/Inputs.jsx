@@ -116,7 +116,7 @@ const SearchBox = props => {
         placeholder={props.placeholder}
         _placeholder={{ opacity: 0.5 }}
         w={'100%'}
-        pr={'96px !important'}
+        pr={screenWidth >= 1000 ? '96px !important' : ''}
         border={'1px solid'}
         borderColor={colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)'}
         borderRadius={'8px'}
@@ -124,7 +124,7 @@ const SearchBox = props => {
           border: '1px solid',
         }}
       />
-      {screenWidth > 1000 ? (
+      {screenWidth > 1000 && (
         <InputRightElement
           children={
             <HStack mr={'60px !important'}>
@@ -144,8 +144,6 @@ const SearchBox = props => {
             </HStack>
           }
         />
-      ) : (
-        ''
       )}
     </InputGroup>
   );

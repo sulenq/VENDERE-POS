@@ -1,22 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
 import {
-  RequireAuth,
-  useSignIn,
-  useAuthHeader,
-  useAuthUser,
-  useSignOut,
-} from 'react-auth-kit';
-
-import {
-  Badge,
   useToast,
   HStack,
   useColorMode,
-  Grid,
   SimpleGrid,
   VStack,
   Text,
@@ -24,44 +13,20 @@ import {
   StatNumber,
   StatHelpText,
   StatArrow,
-  StatGroup,
-  Spinner,
-  Avatar,
-  useDisclosure,
-  ButtonGroup,
-  Box,
-  Modal,
-  ModalHeader,
-  ModalBody,
   Icon,
-  FormControl,
-  FormLabel,
-  Divider,
-  Select,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
 } from '@chakra-ui/react';
-import { ColorModeButton } from '../components/ColorModeSwitcher';
 
 // MUI Icons
 import PaymentsOutlinedIcon from '@mui/icons-material/PaymentsOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
-import GoogleIcon from '@mui/icons-material/Google';
 
 import '../css/vendereApp.css';
 
 import ResponsiveNav from '../components/ResponsiveNav';
 import { ActionTopBar } from '../components/ActionTopBar';
 import { Stat } from '../components/Data';
-import { PrimaryButton } from '../components/Buttons';
-import { ModalContent, ModalFooter, ModalOverlay } from '../components/Modals';
-import { Input } from '../components/Inputs';
-import { Skeleton } from '../components/Skeleton';
+
 import { RDashboard, LDashboard } from '../components/DashboardComponents';
 
 export default function Dashboard(props) {
