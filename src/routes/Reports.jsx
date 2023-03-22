@@ -276,7 +276,7 @@ export default function Reports(props) {
                 PERIOD
               </Text>
               <Text fontWeight={'bold'} w={'50%'}>
-                REVENUE
+                SUMMARY
               </Text>
               <Text
                 fontWeight={'bold'}

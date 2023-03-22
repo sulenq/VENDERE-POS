@@ -474,7 +474,7 @@ export default function ManageItems(props) {
                 CODE
               </Text>
               <Text fontWeight={'bold'} w={'50%'}>
-                ITEM
+                SUMMARY
               </Text>
               <Text
                 fontWeight={'bold'}

@@ -607,7 +607,7 @@ export default function Expenses(props) {
                 DATE
               </Text>
               <Text fontWeight={'bold'} w={'45%'}>
-                STATUS
+                SUMMARY
               </Text>
               <Text
                 fontWeight={'bold'}

@@ -221,7 +221,7 @@ export default function Transactions(props) {
                 ID
               </Text>
               <Text fontWeight={'bold'} w={'50%'}>
-                STATUS
+                SUMMARY
               </Text>
               <Text
                 fontWeight={'bold'}
