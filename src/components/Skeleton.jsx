@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  HStack,
-  Skeleton as SkeletonChakra,
-  useColorMode,
-} from '@chakra-ui/react';
+import { Skeleton as SkeletonChakra, useColorMode } from '@chakra-ui/react';
 
 const Skeleton = props => {
   const { colorMode } = useColorMode();
