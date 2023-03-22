@@ -463,14 +463,14 @@ const ReportsList = props => {
                   {/* Item's Status */}
                   <VStack w={'50%'} alignItems={'flex-start'} pr={4}>
                     <Text mt={'4px !important'}>
-                      {item?.totalRevenue?.toLocaleString()}
+                      {item?.totalRevenue?.toLocaleString('id-ID')}
                     </Text>
                     <Badge
                       fontWeight={'bold'}
                       mt={'4px !important'}
                       colorScheme={item.status === 'profit' ? 'green' : 'red'}
                     >
-                      {item?.totalProfit?.toLocaleString()}
+                      {item?.totalProfit?.toLocaleString('id-ID')}
                     </Badge>
                   </VStack>
 
@@ -638,7 +638,9 @@ const ReportDetails = props => {
             >
               <Text className="label">Penjualan</Text>
               <Text>
-                {props?.selectedItem?.revenue?.penjualan?.toLocaleString()}
+                {props?.selectedItem?.revenue?.penjualan?.toLocaleString(
+                  'id-ID'
+                )}
               </Text>
             </HStack>
 
@@ -653,7 +655,9 @@ const ReportDetails = props => {
             >
               <Text className="label">Gross Revenue</Text>
               <Text>
-                {props?.selectedItem?.revenue?.grossRevenue?.toLocaleString()}
+                {props?.selectedItem?.revenue?.grossRevenue?.toLocaleString(
+                  'id-ID'
+                )}
               </Text>
             </HStack>
           </VStack>
@@ -676,7 +680,7 @@ const ReportDetails = props => {
             >
               <Text className="label">Piutang</Text>
               <Text>
-                {props?.selectedItem?.debt?.piutang?.toLocaleString()}
+                {props?.selectedItem?.debt?.piutang?.toLocaleString('id-ID')}
               </Text>
             </HStack>
 
@@ -689,7 +693,7 @@ const ReportDetails = props => {
             >
               <Text className="label">Beban Utang</Text>
               <Text>
-                {props?.selectedItem?.debt?.bebanUtang?.toLocaleString()}
+                {props?.selectedItem?.debt?.bebanUtang?.toLocaleString('id-ID')}
               </Text>
             </HStack>
 
@@ -703,7 +707,9 @@ const ReportDetails = props => {
               }}
             >
               <Text className="label">Total Revenue</Text>
-              <Text>{props?.selectedItem?.totalRevenue?.toLocaleString()}</Text>
+              <Text>
+                {props?.selectedItem?.totalRevenue?.toLocaleString('id-ID')}
+              </Text>
             </HStack>
 
             {/* <HStack
@@ -716,7 +722,7 @@ const ReportDetails = props => {
               }}
             >
               <Text className="label">Total Debt</Text>
-              <Text>{(613123).toLocaleString()}</Text>
+              <Text>{(613123).toLocaleString('id-ID')}</Text>
             </HStack> */}
           </VStack>
 
@@ -738,7 +744,7 @@ const ReportDetails = props => {
             >
               <Text className="label">Pembelian</Text>
               <Text>
-                {props?.selectedItem?.cos?.pembelian?.toLocaleString()}
+                {props?.selectedItem?.cos?.pembelian?.toLocaleString('id-ID')}
               </Text>
             </HStack>
 
@@ -751,7 +757,7 @@ const ReportDetails = props => {
             >
               <Text className="label">Beban Angkut</Text>
               <Text>
-                {props?.selectedItem?.cos?.bebanAngkut?.toLocaleString()}
+                {props?.selectedItem?.cos?.bebanAngkut?.toLocaleString('id-ID')}
               </Text>
             </HStack>
 
@@ -766,7 +772,7 @@ const ReportDetails = props => {
             >
               <Text className="label">Total Cost of Sales</Text>
               <Text>
-                {props?.selectedItem?.cos?.totalCos?.toLocaleString()}
+                {props?.selectedItem?.cos?.totalCos?.toLocaleString('id-ID')}
               </Text>
             </HStack>
 
@@ -779,7 +785,9 @@ const ReportDetails = props => {
               }}
             >
               <Text className="label">Gross Profit</Text>
-              <Text>{props?.selectedItem?.grossProfit?.toLocaleString()}</Text>
+              <Text>
+                {props?.selectedItem?.grossProfit?.toLocaleString('id-ID')}
+              </Text>
             </HStack>
           </VStack>
 
@@ -808,7 +816,9 @@ const ReportDetails = props => {
                   Beban Listrik
                 </Text>
                 <Text>
-                  {props?.selectedItem?.expenses?.bebanOperasional?.bebanListrik?.toLocaleString()}
+                  {props?.selectedItem?.expenses?.bebanOperasional?.bebanListrik?.toLocaleString(
+                    'id-ID'
+                  )}
                 </Text>
               </HStack>
 
@@ -823,7 +833,9 @@ const ReportDetails = props => {
                   Beban Sewa
                 </Text>
                 <Text>
-                  {props?.selectedItem?.expenses?.bebanOperasional?.bebanSewa?.toLocaleString()}
+                  {props?.selectedItem?.expenses?.bebanOperasional?.bebanSewa?.toLocaleString(
+                    'id-ID'
+                  )}
                 </Text>
               </HStack>
 
@@ -838,7 +850,9 @@ const ReportDetails = props => {
                   Beban Telepon
                 </Text>
                 <Text>
-                  {props?.selectedItem?.expenses?.bebanOperasional?.bebanTelepon?.toLocaleString()}
+                  {props?.selectedItem?.expenses?.bebanOperasional?.bebanTelepon?.toLocaleString(
+                    'id-ID'
+                  )}
                 </Text>
               </HStack>
             </VStack>
@@ -859,7 +873,9 @@ const ReportDetails = props => {
                   Penyesuaian Persediaan
                 </Text>
                 <Text>
-                  {props?.selectedItem?.expenses?.bebanLain?.penyesuaianPersediaan?.toLocaleString()}
+                  {props?.selectedItem?.expenses?.bebanLain?.penyesuaianPersediaan?.toLocaleString(
+                    'id-ID'
+                  )}
                 </Text>
               </HStack>
 
@@ -874,7 +890,9 @@ const ReportDetails = props => {
                   Lain-lain
                 </Text>
                 <Text>
-                  {props?.selectedItem?.expenses?.bebanLain?.lainLain.toLocaleString()}
+                  {props?.selectedItem?.expenses?.bebanLain?.lainLain.toLocaleString(
+                    'id-ID'
+                  )}
                 </Text>
               </HStack>
             </VStack>
@@ -895,7 +913,9 @@ const ReportDetails = props => {
                   Total Prive
                 </Text>
                 <Text>
-                  {props?.selectedItem?.expenses?.prive?.totalPrive?.toLocaleString()}
+                  {props?.selectedItem?.expenses?.prive?.totalPrive?.toLocaleString(
+                    'id-ID'
+                  )}
                 </Text>
               </HStack>
             </VStack>
@@ -911,7 +931,9 @@ const ReportDetails = props => {
             >
               <Text className="label">Total Expenses</Text>
               <Text>
-                {props?.selectedItem?.expenses?.totalExpenses?.toLocaleString()}
+                {props?.selectedItem?.expenses?.totalExpenses?.toLocaleString(
+                  'id-ID'
+                )}
               </Text>
             </HStack>
           </VStack>
@@ -927,7 +949,9 @@ const ReportDetails = props => {
             borderRadius={4}
           >
             <Text className="label">Total Profit / Loss(-)</Text>
-            <Text>{props?.selectedItem?.totalProfit?.toLocaleString()}</Text>
+            <Text>
+              {props?.selectedItem?.totalProfit?.toLocaleString('id-ID')}
+            </Text>
           </HStack>
         </VStack>
       </VStack>

@@ -109,7 +109,9 @@ const RDashboard = () => {
         <HStack w={'100%'} justifyContent={'space-between'}>
           {!loading ? (
             <HStack px={2}>
-              <Text fontWeight={'bold'}>{data?.total?.toLocaleString()}</Text>
+              <Text fontWeight={'bold'}>
+                {data?.total?.toLocaleString('id-ID')}
+              </Text>
               <Text mt={'0px !important'} color={'var(--p-200)'}>
                 Total Employees
               </Text>
@@ -229,7 +231,7 @@ const LDashboard = () => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
-  const currentMonthLong = currentDate.toLocaleString(undefined, {
+  const currentMonthLong = currentDate.toLocaleString('en-EN', {
     month: 'long',
   });
 
@@ -373,7 +375,7 @@ const LDashboard = () => {
 
     expensesData.forEach((item, index) => {
       const date = new Date(item.CreatedAt);
-      const month = date.toLocaleString(undefined, { month: 'long' });
+      const month = date.toLocaleString('en-EN', { month: 'long' });
       const year = date.getFullYear();
 
       if (period == `${month} ${year}`) {
@@ -501,7 +503,7 @@ const LDashboard = () => {
               <HStack alignItems={'flex-start'}>
                 <Text>Rp.</Text>
                 <Text fontSize={'xx-large'} fontWeight={'bold'}>
-                  {data?.totalRevenue?.toLocaleString() || 'Null'}
+                  {data?.totalRevenue?.toLocaleString('id-ID') || 'Null'}
                 </Text>
               </HStack>
               <Text mt={'0px !important'} color={'var(--p-200)'}>
@@ -513,7 +515,7 @@ const LDashboard = () => {
               <HStack alignItems={'flex-start'}>
                 <Text>Rp.</Text>
                 <Text fontSize={'xx-large'} fontWeight={'bold'}>
-                  {totalExpenses?.toLocaleString() || 'Null'}
+                  {totalExpenses?.toLocaleString('id-ID') || 'Null'}
                 </Text>
               </HStack>
               <Text mt={'0px !important'} color={'var(--p-200)'}>

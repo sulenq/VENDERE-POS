@@ -72,7 +72,7 @@ const UpdateItem = props => {
     const validNums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
     const isNumValid = validNums.some(validNum => num.includes(validNum));
     if (isNumValid) {
-      const numCapped = num.substring(0, 21);
+      const numCapped = num.substring(0, 19);
       cleanedString = numCapped.replace(/\./g, '');
     } else {
       cleanedString = '0';
@@ -587,7 +587,7 @@ const ItemsList = props => {
                   <VStack w={'50%'} alignItems={'flex-start'} pr={4}>
                     <Text fontWeight={'bold'}>{item.name}</Text>
                     <Text mt={'4px !important'}>
-                      {'@ ' + item.price.toLocaleString()}
+                      {'@ ' + item.price.toLocaleString('id-ID')}
                     </Text>
                   </VStack>
 
@@ -776,7 +776,7 @@ const ItemDetails = props => {
               Buy Price
             </Text>
             <Text w={'calc(100% - 150px)'}>
-              {selectedItem?.modal?.toLocaleString()}
+              {selectedItem?.modal?.toLocaleString('id-ID')}
             </Text>
           </HStack> */}
 
@@ -795,7 +795,7 @@ const ItemDetails = props => {
               Sell Price
             </Text>
             <Text w={'calc(100% - 150px)'}>
-              {selectedItem?.price?.toLocaleString()}
+              {selectedItem?.price?.toLocaleString('id-ID')}
             </Text>
           </HStack>
 
@@ -814,7 +814,7 @@ const ItemDetails = props => {
               Supply
             </Text>
             <Text w={'calc(100% - 150px)'}>
-              {selectedItem?.stock?.toLocaleString()}
+              {selectedItem?.stock?.toLocaleString('id-ID')}
             </Text>
           </HStack>
 

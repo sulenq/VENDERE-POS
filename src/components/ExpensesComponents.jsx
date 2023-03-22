@@ -182,7 +182,7 @@ const ExpensesList = props => {
                   {/* Expense Username */}
                   <VStack w={'45%'} alignItems={'flex-start'} pr={4}>
                     <Text fontWeight={'bold'}>
-                      {item?.total?.toLocaleString()}
+                      {item?.total?.toLocaleString('id-ID')}
                     </Text>
                     <Text mt={'4px !important'}>{item?.jenis}</Text>
                   </VStack>
@@ -312,7 +312,7 @@ const ExpenseDetails = props => {
               Total
             </Text>
             <Text w={'calc(100% - 150px)'} fontWeight={'bold'}>
-              {selectedItem?.total?.toLocaleString()}
+              {selectedItem?.total?.toLocaleString('id-ID')}
             </Text>
           </HStack>
 

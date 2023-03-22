@@ -90,13 +90,13 @@ const CartList = ({
                   <VStack alignItems={'flex-start'}>
                     <Text fontWeight={'bold'}>{item.name}</Text>
                     <Text m="0 !important">
-                      @ {item.price.toLocaleString()}
+                      @ {item.price.toLocaleString('id-ID')}
                     </Text>
                   </VStack>
 
                   <VStack alignItems={'flex-end'}>
                     <Text id={`totalItemPrice${item.code}`} fontWeight={'bold'}>
-                      {item.totalPrice.toLocaleString()}
+                      {item.totalPrice.toLocaleString('id-ID')}
                     </Text>
 
                     <HStack>
@@ -329,7 +329,7 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
     const validNums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
     const isNumValid = validNums.some(validNum => num.includes(validNum));
     if (isNumValid) {
-      const numCapped = num.substring(0, 21);
+      const numCapped = num.substring(0, 19);
       cleanedString = numCapped.replace(/\./g, '');
     } else {
       cleanedString = '0';
@@ -392,7 +392,7 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
                       </Text>
 
                       <Text fontSize={'xxx-large'} fontWeight={'bold'}>
-                        {total.toLocaleString()}
+                        {total.toLocaleString('id-ID')}
                       </Text>
                     </HStack>
 
@@ -445,7 +445,7 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
                           }
                           borderRadius={'6px'}
                         >
-                          <Text>{(pay - total).toLocaleString()}</Text>
+                          <Text>{(pay - total).toLocaleString('id-ID')}</Text>
                         </Box>
                       </VStack>
                     </HStack>
@@ -712,7 +712,7 @@ const Invoice = ({
         </Text>
 
         <Text fontSize={'xxx-large'} fontWeight={'bold'}>
-          {total.toLocaleString()}
+          {total.toLocaleString('id-ID')}
         </Text>
       </HStack>
 

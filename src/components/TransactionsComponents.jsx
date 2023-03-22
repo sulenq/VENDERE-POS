@@ -398,7 +398,7 @@ const TransactionDetails = props => {
                 Total
               </Text>
               <Text w={'75%'} fontWeight={'bold'}>
-                {props?.selectedItem?.total?.toLocaleString()}
+                {props?.selectedItem?.total?.toLocaleString('id-ID')}
               </Text>
             </HStack>
 
@@ -418,7 +418,7 @@ const TransactionDetails = props => {
                 Pay
               </Text>
               <Text w={'75%'}>
-                {props?.selectedItem?.pay?.toLocaleString()}
+                {props?.selectedItem?.pay?.toLocaleString('id-ID')}
               </Text>
             </HStack>
 
@@ -438,7 +438,7 @@ const TransactionDetails = props => {
                 Change
               </Text>
               <Text w={'75%'}>
-                {props?.selectedItem?.change?.toLocaleString()}
+                {props?.selectedItem?.change?.toLocaleString('id-ID')}
               </Text>
             </HStack>
 
@@ -477,12 +477,12 @@ const TransactionDetails = props => {
                       <VStack w={'70%'} alignItems={'flex-start'}>
                         <Text>{item.name}</Text>
                         <Text mt={'0px !important'}>
-                          {'@ ' + item.price?.toLocaleString()}
+                          {'@ ' + item.price?.toLocaleString('id-ID')}
                         </Text>
                       </VStack>
                       <Text w={'10%'}>{'×' + item.qty}</Text>
                       <Text w={'20%'} textAlign={'end'}>
-                        {item.totalPrice?.toLocaleString()}
+                        {item.totalPrice?.toLocaleString('id-ID')}
                       </Text>
                     </HStack>
                   );
@@ -526,7 +526,7 @@ const TransactionDetails = props => {
                 Profit
               </Text>
               <Text w={'75%'}>
-                {props?.selectedItem?.totalProfit?.toLocaleString()}
+                {props?.selectedItem?.totalProfit?.toLocaleString('id-ID')}
               </Text>
             </HStack> */}
 

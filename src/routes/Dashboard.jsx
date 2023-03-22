@@ -146,7 +146,7 @@ export default function Dashboard(props) {
                   <HStack alignItems={'flex-start'}>
                     <Text fontSize={'sm'}>Rp. </Text>
                     <Text fontSize={'xx-large'} fontWeight={'bold'}>
-                      {data?.income?.toLocaleString()}
+                      {data?.income?.toLocaleString('id-ID')}
                     </Text>
                   </HStack>
                 </StatNumber>

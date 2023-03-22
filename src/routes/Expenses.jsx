@@ -162,7 +162,7 @@ export default function Expenses(props) {
     const validNums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
     const isNumValid = validNums.some(validNum => num.includes(validNum));
     if (isNumValid) {
-      const numCapped = num.substring(0, 21);
+      const numCapped = num.substring(0, 19);
       cleanedString = numCapped.replace(/\./g, '');
     } else {
       cleanedString = '0';

@@ -201,7 +201,7 @@ const DebtsList = props => {
                   {/* Item's Status */}
                   <VStack w={'50%'} alignItems={'flex-start'} pr={4}>
                     <Text fontWeight={'bold'} mt={'4px !important'}>
-                      {item?.change?.toLocaleString()}
+                      {item?.change?.toLocaleString('id-ID')}
                     </Text>
                     <Text mt={'4px !important'} opacity={item.notes ? 1 : 0.5}>
                       {item.notes || 'no notes'}
@@ -284,7 +284,7 @@ const DebtDetails = props => {
       const validNums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
       const isNumValid = validNums.some(validNum => num.includes(validNum));
       if (isNumValid) {
-        const numCapped = num.substring(0, 21);
+        const numCapped = num.substring(0, 19);
         cleanedString = numCapped.replace(/\./g, '');
       } else {
         cleanedString = '0';
@@ -367,7 +367,7 @@ const DebtDetails = props => {
                           fontSize={'xxx-large'}
                           w={'calc(100% - 37px)'}
                         >
-                          {data.change?.toLocaleString()}
+                          {data.change?.toLocaleString('id-ID')}
                         </Text>
                       </HStack>
 
@@ -584,7 +584,7 @@ const DebtDetails = props => {
                 Total
               </Text>
               <Text w={'75%'}>
-                {props?.selectedItem?.total?.toLocaleString()}
+                {props?.selectedItem?.total?.toLocaleString('id-ID')}
               </Text>
             </HStack>
 
@@ -604,7 +604,7 @@ const DebtDetails = props => {
                 Pay
               </Text>
               <Text w={'75%'}>
-                {props?.selectedItem?.pay?.toLocaleString()}
+                {props?.selectedItem?.pay?.toLocaleString('id-ID')}
               </Text>
             </HStack>
 
@@ -624,7 +624,7 @@ const DebtDetails = props => {
                 Change
               </Text>
               <Text w={'75%'} fontWeight={'bold'}>
-                {props?.selectedItem?.change?.toLocaleString()}
+                {props?.selectedItem?.change?.toLocaleString('id-ID')}
               </Text>
             </HStack>
 
@@ -663,12 +663,12 @@ const DebtDetails = props => {
                       <VStack w={'70%'} alignItems={'flex-start'}>
                         <Text>{item.name}</Text>
                         <Text mt={'0px !important'}>
-                          {'@ ' + item.price?.toLocaleString()}
+                          {'@ ' + item.price?.toLocaleString('id-ID')}
                         </Text>
                       </VStack>
                       <Text w={'10%'}>{'×' + item.qty}</Text>
                       <Text w={'20%'} textAlign={'end'}>
-                        {item.totalPrice?.toLocaleString()}
+                        {item.totalPrice?.toLocaleString('id-ID')}
                       </Text>
                     </HStack>
                   );
@@ -712,7 +712,7 @@ const DebtDetails = props => {
                 Profit
               </Text>
               <Text w={'75%'}>
-                {props?.selectedItem?.totalProfit?.toLocaleString()}
+                {props?.selectedItem?.totalProfit?.toLocaleString('id-ID')}
               </Text>
             </HStack> */}
 

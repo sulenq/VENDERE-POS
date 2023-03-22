@@ -11,7 +11,7 @@ export const ActionTopBar = () => {
     month: 'long',
     year: 'numeric',
   };
-  const todayDate = new Date().toLocaleString(undefined, dateOptions);
+  const todayDate = new Date().toLocaleDateString('en-EN', dateOptions);
   const { colorMode } = useColorMode();
 
   return (

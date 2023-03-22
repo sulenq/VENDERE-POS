@@ -180,7 +180,9 @@ export default function App() {
     toast({
       position: screenWidth <= 1000 ? 'bottom' : 'bottom-right',
       title: 'Item added.',
-      description: `${itemQty} ${itemName} added, total ${updateTotal.toLocaleString()}`,
+      description: `${itemQty} ${itemName} added, total ${updateTotal.toLocaleString(
+        'id-ID'
+      )}`,
       status: 'success',
       duration: 3000,
       isClosable: true,
