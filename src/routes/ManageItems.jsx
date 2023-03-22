@@ -190,7 +190,8 @@ export default function ManageItems(props) {
       const validNums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
       const isNumValid = validNums.some(validNum => num.includes(validNum));
       if (isNumValid) {
-        cleanedString = num.replace(/./g, '');
+        const numCapped = num.substring(0, 21);
+        cleanedString = numCapped.replace(/\./g, '');
       } else {
         cleanedString = '0';
       }
@@ -358,9 +359,14 @@ export default function ManageItems(props) {
                         // type={'number'}
                         value={formatNum(registerData.price)}
                         onChange={e => {
-                          console.log(e.target.value);
+                          // console.log(e.target.value);
+                          // console.log(
+                          //   parseInt(reverseFormatNumber(e.target.value))
+                          // );
                           console.log(
-                            parseInt(reverseFormatNumber(e.target.value))
+                            parseInt(
+                              reverseFormatNumber('1.111.111.111.111.1111')
+                            )
                           );
                           setRegisterData({
                             ...registerData,
