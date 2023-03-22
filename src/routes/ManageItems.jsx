@@ -200,7 +200,7 @@ export default function ManageItems(props) {
     function formatNum(num) {
       let formattedNum;
       if (num != 0) {
-        formattedNum = num.toLocaleString();
+        formattedNum = num.toLocaleString('id-ID');
       } else {
         formattedNum = '';
       }
@@ -358,6 +358,10 @@ export default function ManageItems(props) {
                         // type={'number'}
                         value={formatNum(registerData.price)}
                         onChange={e => {
+                          console.log(e.target.value);
+                          console.log(
+                            parseInt(reverseFormatNumber(e.target.value))
+                          );
                           setRegisterData({
                             ...registerData,
                             price: parseInt(

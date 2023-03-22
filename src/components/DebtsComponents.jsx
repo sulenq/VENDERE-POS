@@ -294,7 +294,7 @@ const DebtDetails = props => {
     function formatNum(num) {
       let formattedNum;
       if (num != 0) {
-        formattedNum = num.toLocaleString();
+        formattedNum = num.toLocaleString('id-ID');
       } else {
         formattedNum = '';
       }
