@@ -329,7 +329,7 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
     const validNums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
     const isNumValid = validNums.some(validNum => num.includes(validNum));
     if (isNumValid) {
-      cleanedString = num.replace(/,/g, '');
+      cleanedString = num.replace(/./g, '');
     } else {
       cleanedString = '0';
     }
