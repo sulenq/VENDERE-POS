@@ -463,7 +463,7 @@ export default function Expenses(props) {
                   <FormControl mt={4} isRequired>
                     <FormLabel>Total</FormLabel>
                     <Input
-                      placeholder="e.g. 20,000"
+                      placeholder="e.g. 20.000"
                       // type={'number'}
                       value={formatNum(registerData.total)}
                       onChange={e => {

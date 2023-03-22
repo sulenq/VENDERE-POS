@@ -355,19 +355,10 @@ export default function ManageItems(props) {
                       <FormLabel>Price</FormLabel>
                       <Input
                         // onFocus={e => e.target.select()}
-                        placeholder="e.g 24,000"
+                        placeholder="e.g 24.000"
                         // type={'number'}
                         value={formatNum(registerData.price)}
                         onChange={e => {
-                          // console.log(e.target.value);
-                          // console.log(
-                          //   parseInt(reverseFormatNumber(e.target.value))
-                          // );
-                          console.log(
-                            parseInt(
-                              reverseFormatNumber('1.111.111.111.111.1111')
-                            )
-                          );
                           setRegisterData({
                             ...registerData,
                             price: parseInt(

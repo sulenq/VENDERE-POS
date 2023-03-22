@@ -217,7 +217,7 @@ const UpdateItem = props => {
                           <FormLabel>Supply</FormLabel>
                           <Input
                             // onFocus={e => e.target.select()}
-                            placeholder="e.g 24,000"
+                            placeholder="e.g 24"
                             // type={'number'}
                             value={formatNum(itemToUpdate.stock + addStock)}
                             onChange={e => {
@@ -269,7 +269,7 @@ const UpdateItem = props => {
                         <FormLabel>Price</FormLabel>
                         <Input
                           onFocus={e => e.target.select()}
-                          placeholder="e.g 24"
+                          placeholder="e.g 24.000"
                           // type={'number'}
                           value={formatNum(itemToUpdate.price)}
                           onChange={e => {
