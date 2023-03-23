@@ -506,7 +506,9 @@ const TransactionDetails = props => {
                 Notes
               </Text>
               <Text w={'75%'} opacity={props?.selectedItem?.notes ? 1 : 0.5}>
-                {props?.selectedItem?.notes || 'no notes'}
+                {props?.selectedItem
+                  ? props?.selectedItem?.notes || 'no notes'
+                  : ''}
               </Text>
             </HStack>
 

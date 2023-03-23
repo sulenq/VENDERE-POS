@@ -437,48 +437,49 @@ const ResponsiveNav = props => {
                 ''
               )}
 
-              {navs2.map((nav, index) => {
-                if (
-                  auth()?.userRole === nav.restriction ||
-                  nav.restriction === ''
-                ) {
-                  return (
-                    <HStack
-                      key={index}
-                      id={nav.name + 'Nav'}
-                      className={
-                        props.active === nav.name
-                          ? 'navListActive navLink'
-                          : 'navLink'
-                      }
-                      onClick={() => navigate(nav.link)}
-                      onMouseEnter={() => {
-                        selectNav(nav.name + 'Nav');
-                      }}
-                      onMouseLeave={() => {
-                        diselectNav(nav.name + 'Nav');
-                      }}
-                      style={{
-                        width: '100%',
-                        padding: '8px 16px',
-                        borderRadius: '8px',
-                        cursor: 'pointer',
-                        margin: '6px 0',
-                        marginTop: index === 0 ? '12px' : '',
-                      }}
-                    >
-                      <Icon
-                        as={nav.icon}
-                        fontSize={'xl'}
-                        mt={'3px !important'}
-                      />
-                      <Text ml={2}>
-                        {nav.name === 'ManageItems' ? 'Products' : nav.name}
-                      </Text>
-                    </HStack>
-                  );
-                }
-              })}
+              {auth()?.userRole === 'admin' &&
+                navs2.map((nav, index) => {
+                  if (
+                    auth()?.userRole === nav.restriction ||
+                    nav.restriction === ''
+                  ) {
+                    return (
+                      <HStack
+                        key={index}
+                        id={nav.name + 'Nav'}
+                        className={
+                          props.active === nav.name
+                            ? 'navListActive navLink'
+                            : 'navLink'
+                        }
+                        onClick={() => navigate(nav.link)}
+                        onMouseEnter={() => {
+                          selectNav(nav.name + 'Nav');
+                        }}
+                        onMouseLeave={() => {
+                          diselectNav(nav.name + 'Nav');
+                        }}
+                        style={{
+                          width: '100%',
+                          padding: '8px 16px',
+                          borderRadius: '8px',
+                          cursor: 'pointer',
+                          margin: '6px 0',
+                          marginTop: index === 0 ? '12px' : '',
+                        }}
+                      >
+                        <Icon
+                          as={nav.icon}
+                          fontSize={'xl'}
+                          mt={'3px !important'}
+                        />
+                        <Text ml={2}>
+                          {nav.name === 'ManageItems' ? 'Products' : nav.name}
+                        </Text>
+                      </HStack>
+                    );
+                  }
+                })}
             </VStack>
 
             {/* Mini Profile */}

@@ -293,7 +293,7 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
           .then(r => {
             console.log(r);
             toast({
-              position: 'bottom-right',
+              position: screenWidth <= 1000 ? 'bottom' : 'bottom-right',
               title: 'Transaction added.',
               description: `This invoice has been added to Transactions Page`,
               status: 'success',
@@ -309,7 +309,7 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
           .catch(err => {
             console.log(err);
             toast({
-              position: 'bottom-right',
+              position: screenWidth <= 1000 ? 'bottom' : 'bottom-right',
               title: 'Fail to create transaction.',
               status: 'error',
               duration: 3000,

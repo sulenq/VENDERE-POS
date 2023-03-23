@@ -484,6 +484,7 @@ export default function Profile(props) {
 
               <VStack w={'100%'} borderRadius={12}>
                 <VStack
+                  mb={1}
                   bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)'}
                   w={'100%'}
                   borderRadius={12}

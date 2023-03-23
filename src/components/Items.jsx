@@ -791,7 +791,7 @@ const ItemDetails = props => {
             }}
           >
             <Text className="detailsLabels" w={'150px'}>
-              Sell Price
+              Price
             </Text>
             <Text w={'calc(100% - 150px)'}>
               {selectedItem?.price?.toLocaleString('id-ID')}
