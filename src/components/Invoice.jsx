@@ -371,7 +371,7 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
               <ModalHeader px={4}>
                 <HStack>
                   <ShoppingCartCheckoutIcon />
-                  <Text fontWeight={'bold'}>Checking Out ?</Text>
+                  <Text fontWeight={'bold'}>Checking Out</Text>
                 </HStack>
               </ModalHeader>
 
