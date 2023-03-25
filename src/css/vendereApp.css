@@ -116,12 +116,12 @@ body,
 }
 .navListActive::before {
   content: '';
-  width: 12px;
+  width: 8px;
   height: 70%;
   border-radius: 50px;
   background: var(--accent);
   position: absolute;
-  left: -6px;
+  left: -4px;
   z-index: 2;
 }
 .navListSelected {
@@ -176,12 +176,12 @@ body,
 
 .itemSelected::before {
   content: '';
-  width: 12px;
+  width: 8px;
   height: 100%;
   border-radius: 50px;
   background-color: var(--accent);
   position: absolute;
-  left: -6px;
+  left: -4px;
   top: 0;
 }
 
