@@ -110,19 +110,18 @@ body,
 }
 
 .navListActive {
-  background: linear-gradient(to right, var(--p-50), var(--p-50));
-  color: var(--p-500);
+  background: var(--p-300a);
   position: relative;
   z-index: 1;
 }
 .navListActive::before {
   content: '';
-  width: 14px;
+  width: 12px;
   height: 70%;
   border-radius: 50px;
   background: var(--accent);
   position: absolute;
-  left: -7px;
+  left: -6px;
   z-index: 2;
 }
 .navListSelected {
@@ -177,13 +176,13 @@ body,
 
 .itemSelected::before {
   content: '';
-  width: 6px;
-  height: 90%;
+  width: 12px;
+  height: 100%;
   border-radius: 50px;
   background-color: var(--accent);
   position: absolute;
-  left: 5px;
-  top: 4px;
+  left: -6px;
+  top: 0;
 }
 
 .itemTd {
