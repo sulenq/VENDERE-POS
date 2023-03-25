@@ -53,7 +53,7 @@ const ModalFooter = ({ content }) => {
       bg={colorMode === 'light' ? '#eff2f6' : 'var(--p-450a)'}
       borderRadius={'0 0 10px 10px'}
       flexDirection={'column'}
-      py={3}
+      p={4}
     >
       {content}
     </Modalfooter>
