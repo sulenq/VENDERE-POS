@@ -127,8 +127,10 @@ const SearchBox = props => {
         _placeholder={{ opacity: 0.5 }}
         w={'100%'}
         pr={screenWidth >= 1000 ? '96px !important' : ''}
-        bg={colorMode === 'light' ? 'var(--light-dim2)' : 'var(--p-300a2)'}
-        border={'none'}
+        bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-300a2)'}
+        borderLeft={'1px solid'}
+        borderRight={'1px solid'}
+        borderTop={'1px solid'}
         borderBottom={'2px solid'}
         borderColor={
           colorMode === 'light'
@@ -137,8 +139,8 @@ const SearchBox = props => {
         }
         borderRadius={'8px'}
         _focusVisible={{
-          bg: colorMode === 'light' ? 'var(--light)' : 'var(--p-350a2)',
-          borderColor: 'var(--accent) !important',
+          bg: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-350a2)',
+          borderBottom: '2px solid var(--accent) !important',
         }}
       />
       {screenWidth > 1000 && (
@@ -179,11 +181,20 @@ const Input = props => {
       _placeholder={{ opacity: 0.5 }}
       value={props.value}
       onChange={props.onChange}
-      border={'1px solid'}
-      borderColor={colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)'}
+      bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-300a2)'}
+      borderLeft={'1px solid'}
+      borderRight={'1px solid'}
+      borderTop={'1px solid'}
+      borderBottom={'2px solid'}
+      borderColor={
+        colorMode === 'light'
+          ? 'var(--p-75) !important'
+          : 'var(--p-300) !important'
+      }
       borderRadius={'8px'}
       _focusVisible={{
-        border: '1px solid',
+        bg: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-350a2)',
+        borderBottom: '2px solid var(--accent) !important',
       }}
     />
   );

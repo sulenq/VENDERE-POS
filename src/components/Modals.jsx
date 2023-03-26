@@ -50,7 +50,7 @@ const ModalFooter = ({ content }) => {
 
   return (
     <Modalfooter
-      bg={colorMode === 'light' ? '#eff2f6' : 'var(--p-350a)'}
+      bg={colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350a)'}
       borderRadius={'0 0 10px 10px'}
       flexDirection={'column'}
       p={4}

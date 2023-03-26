@@ -1,12 +1,12 @@
 :root {
-  --accent: #fdd100;
+  --accent: #edc111;
   --accenta: #fdd30033;
-  --accent-dim: #b5930b;
+  --accent-dim: #edc111;
   --dark-dim: #2d3748;
   --dark: #171717;
   --light: #fafafa;
   --light-dim: #f0f0f0;
-  --light-dim2: rgba(240, 240, 240, 0.677) 0;
+  --light-dim2: #f0f0f0ad;
   --p-50: #ffffff;
   --p-50a: #ffffff90;
   --p-75: #e9e9e9;
@@ -243,6 +243,12 @@ bg={colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)'} */
 .reportDetail > .label,
 .reportDetail > .value {
   opacity: 0.6;
+}
+
+@media only screen and (max-width: 1001px) {
+  #hero {
+    flex-direction: column-reverse;
+  }
 }
 
 @media only screen and (min-width: 1001px) {

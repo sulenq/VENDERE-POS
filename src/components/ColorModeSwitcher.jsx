@@ -10,7 +10,7 @@ import {
 import { FaMoon, FaSun } from 'react-icons/fa';
 
 const ColorModeIconButton = props => {
-  const { toggleColorMode } = useColorMode();
+  const { toggleColorMode, colorMode } = useColorMode();
   const text = useColorModeValue('dark', 'light');
   const SwitchIcon = useColorModeValue(FaMoon, FaSun);
 
@@ -25,6 +25,12 @@ const ColorModeIconButton = props => {
       color="current"
       onClick={toggleColorMode}
       icon={<SwitchIcon />}
+      _hover={{
+        background: colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)',
+      }}
+      _active={{
+        background: colorMode === 'light' ? 'var(--p-100)' : 'var(--p-350)',
+      }}
       {...props}
     ></IconButton>
   );

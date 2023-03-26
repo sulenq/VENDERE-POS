@@ -8,7 +8,7 @@ import {
   Button,
   HStack,
   Text,
-  Box,
+  Heading,
   useDisclosure,
   Modal,
   ModalHeader,
@@ -19,13 +19,11 @@ import {
   useColorMode,
   Divider,
   VStack,
-  Select,
   useToast,
   Avatar,
   Alert,
   AlertIcon,
-  AlertTitle,
-  AlertDescription,
+  Image,
 } from '@chakra-ui/react';
 
 import { useSignIn, useAuthUser, useIsAuthenticated } from 'react-auth-kit';
@@ -36,6 +34,7 @@ import '../css/landingPage.css';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
 import GoogleIcon from '@mui/icons-material/Google';
+import LoyaltyOutlinedIcon from '@mui/icons-material/LoyaltyOutlined';
 
 import { ColorModeIconButton } from '../components/ColorModeSwitcher';
 import { PrimaryButton, PrimaryButtonOutline } from '../components/Buttons';
@@ -551,9 +550,28 @@ export default function LandingPage(props) {
       bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-450)'}
     >
       <HStack w={'100%'} justifyContent={'space-between'} px={'24px'}>
-        <Text fontSize={'lg'} fontWeight={'bold'}>
-          VENDERE
-        </Text>
+        {/* Logo */}
+        <Heading as={'h1'} alignSelf="flex-start">
+          <HStack
+            alignItems={'center'}
+            color={'var(--accent-dim)'}
+            fontSize={'20px'}
+          >
+            <LoyaltyOutlinedIcon />
+            <Text className="navLabel">V E N D E R E</Text>
+          </HStack>
+
+          <Text
+            className="navLabel"
+            fontSize={'xs'}
+            fontWeight="normal"
+            opacity={0.5}
+            pl={'32px'}
+            // textAlign={'right'}
+          >
+            #pakaiVENDEREaja
+          </Text>
+        </Heading>
         <HStack>
           <ColorModeIconButton />
 
@@ -583,9 +601,9 @@ export default function LandingPage(props) {
                     color:
                       colorMode !== 'light' ? 'var(--p-500)' : 'var(--p-50)',
                   }}
-                  size={'sm'}
+                  size={'xs'}
                 />
-                <Text>{auth().displayName}</Text>
+                <Text fontSize={'sm'}>{auth().displayName}</Text>
               </HStack>
             </>
           ) : (
@@ -597,11 +615,27 @@ export default function LandingPage(props) {
         </HStack>
       </HStack>
 
-      <VStack id="hero" position={'relative'} justifyContent={'center'} px={10}>
-        <Text fontSize={'xxx-large'} fontWeight={'bold'} lineHeight={'3.75rem'}>
-          Responsive, powerful system to grow your bussiness
-        </Text>
-      </VStack>
+      <HStack id="hero" position={'relative'} justifyContent={'center'} px={10}>
+        <VStack w={'70%'}>
+          <Text
+            fontSize={'xxx-large'}
+            fontWeight={'bold'}
+            lineHeight={'3.75rem'}
+          >
+            Responsive, powerful system to{' '}
+            <Text color={'var(--accent)'}>grow your bussiness</Text>
+          </Text>
+        </VStack>
+
+        <VStack>
+          <Image
+            src="img/money.gif"
+            boxSize="200px"
+            objectFit="cover"
+            alt={'money img'}
+          />
+        </VStack>
+      </HStack>
     </VStack>
   );
 }
