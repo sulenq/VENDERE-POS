@@ -191,7 +191,7 @@ export default function LandingPage(props) {
                     status="info"
                     variant={'left-accent'}
                   >
-                    <AlertIcon alignSelf={'flex-start'} />
+                    <AlertIcon alignSelf={'flex-start'} mt={'2px !important'} />
                     Register your shop! This registered account will be admin
                     account of the shop.
                   </Alert>

@@ -12,10 +12,16 @@ import {
   Text,
   Modal,
   useDisclosure,
+  ModalHeader,
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  ModalCloseButton,
 } from '@chakra-ui/react';
 
 // MUI Icons
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
+import CropFreeOutlinedIcon from '@mui/icons-material/CropFreeOutlined';
 
 // My Components
 import '../css/vendereApp.css';
@@ -24,7 +30,7 @@ import { ItemsList } from '../components/Items';
 import { SearchBox } from '../components/Inputs';
 import Invoice from '../components/Invoice';
 import { PrimaryButton } from '../components/Buttons';
-import { ModalContent, ModalOverlay } from '../components/Modals';
+import { ModalBody, ModalContent, ModalOverlay } from '../components/Modals';
 import { ActionTopBar } from '../components/ActionTopBar';
 
 export default function Cashier({
@@ -59,16 +65,13 @@ export default function Cashier({
   });
 
   const [data, setData] = useState([]);
-
   const [search, setSearch] = useState('');
-
   const [itemIndex, setItemIndex] = useState(1);
-
   const [itemsLength, setItemsLength] = useState(0);
-
   const [selectedItem, setSelectedItem] = useState({});
-
   const [refresh, setRefresh] = useState(true);
+
+  const [barcode, setBarcode] = useState('no code scanned');
 
   const dateOptions = {
     weekday: 'short',
@@ -79,7 +82,6 @@ export default function Cashier({
 
   const baseURL = 'http://localhost:8080';
   const [loading, setLoading] = useState(false);
-
   //* GET DATA
   useEffect(() => {
     const token = Cookies.get('_auth');
@@ -182,9 +184,43 @@ export default function Cashier({
           w={'100%'}
         />
 
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onClose={onClose} isCentered>
           <ModalOverlay />
-          <ModalContent />
+          <ModalContent
+            content={
+              <>
+                <ModalCloseButton borderRadius={50} />
+                <ModalHeader>
+                  <HStack>
+                    <Icon as={CropFreeOutlinedIcon} />
+                    <Text>Scanning</Text>
+                  </HStack>
+                </ModalHeader>
+
+                <ModalBody
+                  content={
+                    <>
+                      <VStack>
+                        <Alert borderRadius={8}>
+                          <AlertIcon
+                            mt={'2px !important'}
+                            alignSelf={'flex-start'}
+                          />
+                          <AlertDescription>
+                            Use your scanner hardware, scanned code below
+                          </AlertDescription>
+                        </Alert>
+                        <HStack fontSize={'x-large'} py={3}>
+                          <Text opacity={0.5}>Code : </Text>
+                          <Text>{barcode}</Text>
+                        </HStack>
+                      </VStack>
+                    </>
+                  }
+                />
+              </>
+            }
+          />
         </Modal>
       </>
     );

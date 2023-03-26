@@ -415,7 +415,10 @@ const DeleteItem = props => {
                       variant={'left-accent'}
                       mb={5}
                     >
-                      <AlertIcon alignSelf={'flex-start'} />
+                      <AlertIcon
+                        alignSelf={'flex-start'}
+                        mt={'2px !important'}
+                      />
                       Make sure if you want to delete product, you cannot undo
                       this action.
                     </Alert>

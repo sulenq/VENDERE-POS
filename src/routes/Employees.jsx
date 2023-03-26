@@ -236,7 +236,7 @@ export default function ManageItems(props) {
                     status="info"
                     variant={'left-accent'}
                   >
-                    <AlertIcon alignSelf={'flex-start'} />
+                    <AlertIcon alignSelf={'flex-start'} mt={'2px !important'} />
                     This registered account will be your employees account of
                     this shop.
                   </Alert>

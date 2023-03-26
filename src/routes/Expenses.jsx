@@ -275,7 +275,7 @@ export default function Expenses(props) {
                     status="warning"
                     variant={'left-accent'}
                   >
-                    <AlertIcon alignSelf={'flex-start'} />
+                    <AlertIcon alignSelf={'flex-start'} mt={'2px !important'} />
                     Make sure to double check your input before submit, you
                     cannot undo this action.
                   </Alert>

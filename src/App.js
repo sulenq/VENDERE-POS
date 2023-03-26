@@ -125,7 +125,7 @@ export default function App() {
           }
         }
       }
-    }, 1000);
+    }, 100);
 
     return () => clearInterval(tokenListener);
   });

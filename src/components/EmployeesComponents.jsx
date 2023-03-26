@@ -578,7 +578,10 @@ const DeleteEmployee = props => {
                       variant={'left-accent'}
                       mb={5}
                     >
-                      <AlertIcon alignSelf={'flex-start'} />
+                      <AlertIcon
+                        alignSelf={'flex-start'}
+                        mt={'2px !important'}
+                      />
                       Make sure if you want to delete employee account, you
                       cannot undo this action.
                     </Alert>

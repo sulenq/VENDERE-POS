@@ -938,13 +938,16 @@ const ReportDetails = props => {
             </HStack>
           </VStack>
 
-          <HStack
+          <Badge
             w={'100%'}
+            display={'flex'}
             justifyContent={'space-between'}
             mt={'12px !important'}
             px={3}
             py={1}
-            bg={'var(--accenta)'}
+            colorScheme={
+              props?.selectedItem?.status === 'profit' ? 'green' : 'red'
+            }
             fontWeight={'bold'}
             borderRadius={4}
           >
@@ -952,7 +955,7 @@ const ReportDetails = props => {
             <Text>
               {props?.selectedItem?.totalProfit?.toLocaleString('id-ID')}
             </Text>
-          </HStack>
+          </Badge>
         </VStack>
       </VStack>
 

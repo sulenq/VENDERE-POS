@@ -454,7 +454,7 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
                     <VStack alignItems={'flex-start'} mt={2}>
                       <Text>Add Note</Text>
                       <Textarea
-                        mt={'0px !important'}
+                        mt={'4px !important'}
                         value={note || ''}
                         borderRadius={6}
                         onChange={e => {
@@ -470,10 +470,10 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
                       />
                     </VStack>
 
-                    <Text mt={4} fontSize={'sm'}>
+                    {/* <Text mt={4} fontSize={'sm'}>
                       This Invoice will be added to Transactions, are you sure
                       you wanna checkout this invoice?
-                    </Text>
+                    </Text> */}
                   </>
                 }
               />

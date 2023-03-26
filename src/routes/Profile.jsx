@@ -247,7 +247,10 @@ export default function Profile(props) {
                         variant={'left-accent'}
                         mb={2}
                       >
-                        <AlertIcon alignSelf={'flex-start'} />
+                        <AlertIcon
+                          alignSelf={'flex-start'}
+                          mt={'2px !important'}
+                        />
                         Make sure to remember the new password because you
                         cannot undo this action.
                       </Alert>
