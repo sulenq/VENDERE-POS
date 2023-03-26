@@ -488,7 +488,7 @@ export default function Profile(props) {
                   bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)'}
                   w={'100%'}
                   borderRadius={12}
-                  pt={2}
+                  p={2}
                   border={'1px solid'}
                   borderColor={'var(--p-200a)'}
                 >
@@ -497,7 +497,7 @@ export default function Profile(props) {
                     alignSelf={'flex-start'}
                     fontSize={'xs'}
                     opacity={0.5}
-                    px={4}
+                    px={2}
                     pb={'6px'}
                   >
                     Priority Menu
@@ -516,10 +516,11 @@ export default function Profile(props) {
                           py={3}
                           px={4}
                           mt={'0 !important'}
-                          borderBottom={
-                            index != navs1.length - 1 && '1px solid'
-                          }
+                          // borderBottom={
+                          //   index != navs1.length - 1 && '1px solid'
+                          // }
                           borderColor={'var(--p-200a)'}
+                          borderRadius={'12px'}
                           color={
                             colorMode === 'light'
                               ? 'var(--p-500)'
@@ -530,8 +531,8 @@ export default function Profile(props) {
                               colorMode === 'light'
                                 ? 'var(--light) !important'
                                 : 'var(--p-350) !important',
-                            borderRadius:
-                              index == navs1.length - 1 && '0 0 12px 12px',
+                            // borderRadius:
+                            //   index == navs1.length - 1 && '0 0 12px 12px',
                           }}
                           _active={{
                             background:
@@ -565,7 +566,7 @@ export default function Profile(props) {
                     bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)'}
                     w={'100%'}
                     borderRadius={12}
-                    pt={2}
+                    p={2}
                     border={'1px solid'}
                     borderColor={'var(--p-200a)'}
                   >
@@ -574,7 +575,7 @@ export default function Profile(props) {
                       alignSelf={'flex-start'}
                       fontSize={'xs'}
                       opacity={0.5}
-                      px={4}
+                      px={2}
                       pb={'6px'}
                     >
                       Other Menu
@@ -593,10 +594,11 @@ export default function Profile(props) {
                             py={3}
                             px={4}
                             mt={'0 !important'}
-                            borderBottom={
-                              index != navs2.length - 1 && '1px solid'
-                            }
+                            // borderBottom={
+                            //   index != navs1.length - 1 && '1px solid'
+                            // }
                             borderColor={'var(--p-200a)'}
+                            borderRadius={'12px'}
                             color={
                               colorMode === 'light'
                                 ? 'var(--p-500)'
@@ -607,8 +609,8 @@ export default function Profile(props) {
                                 colorMode === 'light'
                                   ? 'var(--light) !important'
                                   : 'var(--p-350) !important',
-                              borderRadius:
-                                index == navs2.length - 1 && '0 0 12px 12px',
+                              // borderRadius:
+                              //   index == navs1.length - 1 && '0 0 12px 12px',
                             }}
                             _active={{
                               background:
@@ -629,7 +631,7 @@ export default function Profile(props) {
 
                               <Text>
                                 {nav.name === 'ManageItems'
-                                  ? 'Manage Items'
+                                  ? 'Products'
                                   : nav.name}
                               </Text>
                             </HStack>

@@ -344,7 +344,7 @@ const ReportsList = props => {
         const cos = getCos(expensesData, period);
         const grossProfit = totalRevenue + cos.totalCos;
         const expenses = getExpenses(expensesData, period);
-        console.log(expenses);
+        // console.log(expenses);
         const totalProfit = grossProfit + expenses.totalExpenses;
 
         let dataFormat = {

@@ -46,10 +46,10 @@ const ColorModeButton = props => {
       color="current"
       onClick={toggleColorMode}
       _hover={{
-        background: colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+        background: colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)',
       }}
       _active={{
-        background: colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
+        background: colorMode === 'light' ? 'var(--p-100)' : 'var(--p-350)',
       }}
       {...props}
     >

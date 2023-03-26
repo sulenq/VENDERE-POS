@@ -15,15 +15,10 @@ import {
   Button,
   Modal,
   ModalHeader,
-  ModalCloseButton,
-  Alert,
-  AlertIcon,
   ButtonGroup,
   Badge,
   Avatar,
   useToast,
-  FormControl,
-  FormLabel,
 } from '@chakra-ui/react';
 
 // MUI
@@ -39,6 +34,10 @@ import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
+import ArrowRightOutlinedIcon from '@mui/icons-material/ArrowRightOutlined';
+import ArrowLeftOutlinedIcon from '@mui/icons-material/ArrowLeftOutlined';
+import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
+import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
 
 import '../css/vendereApp.css';
 import {
@@ -58,13 +57,12 @@ const ResponsiveNav = props => {
     }
     window.addEventListener('resize', handleResize);
   });
-  const { colorMode } = useColorMode();
   const toast = useToast();
 
   const auth = useAuthUser();
   const logout = useSignOut();
 
-  const navs = [
+  const adminNav = [
     {
       name: 'Dashboard',
       link: '/vendere-app',
@@ -120,7 +118,7 @@ const ResponsiveNav = props => {
 
   let navs1;
   if (auth().userRole === 'admin') {
-    navs1 = navs;
+    navs1 = adminNav;
   } else if (auth().userRole === 'cashier') {
     navs1 = cashierNavs;
   }
@@ -219,7 +217,7 @@ const ResponsiveNav = props => {
                   as={nav.icon}
                   style={{ margin: 'auto auto', fontSize: '30px' }}
                 />
-                <Text className="navLabel">{navName}</Text>
+                <Text className="mobileNavLabel">{navName}</Text>
               </VStack>
             );
           }
@@ -246,7 +244,7 @@ const ResponsiveNav = props => {
             as={AccountCircleRoundedIcon}
             style={{ margin: 'auto auto', fontSize: '30px' }}
           />
-          <Text className="navLabel">Profile</Text>
+          <Text className="mobileNavLabel">Profile</Text>
         </VStack>
       </HStack>
     );
@@ -256,6 +254,20 @@ const ResponsiveNav = props => {
     // console.log(props.active);
 
     const navigate = useNavigate();
+    // const [expandedNav, setExpandedNav] = useState(false);
+    // useEffect(() => {
+    //   const navLabel = document.querySelectorAll('.navLabel');
+
+    //   if (!expandedNav) {
+    //     navLabel.forEach(label => {
+    //       label.style.display = 'none';
+    //     });
+    //   } else {
+    //     navLabel.forEach(label => {
+    //       label.style.display = 'block';
+    //     });
+    //   }
+    // }, [expandedNav]);
 
     const SignOut = () => {
       const { isOpen, onOpen, onClose } = useDisclosure();
@@ -350,30 +362,38 @@ const ResponsiveNav = props => {
           id="nav"
           w={'200px'}
           h={'100%'}
-          py={2}
           pr={1}
           borderRadius={'12px 0 0 12px'}
+          justifyContent={'space-between !important'}
         >
           {/* Logo */}
-          <Heading
-            as={'h1'}
-            size="lg"
-            color={'white'}
-            pb={8}
-            alignSelf="flex-start"
-          >
-            <HStack alignItems={'center'}>
-              <LoyaltyOutlinedIcon style={{ color: 'var(--accent)' }} />
-              <Text>Vendere</Text>
+          <Heading as={'h1'} color={'white'} pb={8} alignSelf="flex-start">
+            <HStack
+              alignItems={'center'}
+              color={'var(--accent)'}
+              fontSize={'24px'}
+            >
+              <LoyaltyOutlinedIcon />
+              <Text className="navLabel">V E N D E R E</Text>
             </HStack>
+            <Text
+              className="navLabel"
+              fontSize={'sm'}
+              fontWeight="normal"
+              opacity={0.5}
+              pl={'32px'}
+              // textAlign={'right'}
+            >
+              #pakaiVENDEREaja
+            </Text>
           </Heading>
 
-          {/* Nav Body */}
+          {/* Nav Link Section */}
           <VStack
             pr={3}
             id={'navOptions'}
-            justifyContent={'space-between !important'}
-            h={'100%'}
+            // justifyContent={'space-between !important'}
+            // h={'100%'}
             w={'100%'}
             position={'relative'}
             overflowY={'auto'}
@@ -389,6 +409,31 @@ const ResponsiveNav = props => {
                 width: '100%',
               }}
             >
+              {/* <HStack
+                w={'100%'}
+                p={2}
+                // border={'1px solid red'}
+                borderRadius={12}
+                opacity={0.5}
+                cursor={'pointer'}
+                onClick={() => {
+                  setExpandedNav(!expandedNav);
+                }}
+              >
+                <Icon
+                  as={
+                    expandedNav
+                      ? KeyboardArrowLeftOutlinedIcon
+                      : KeyboardArrowRightOutlinedIcon
+                  }
+                  fontSize={'xx-large'}
+                  mt={'3px !important'}
+                />
+                <Text className="navLabel" ml={'2px !important'}>
+                  {expandedNav ? 'Minimize' : 'Expand'}
+                </Text>
+              </HStack> */}
+
               {navs1.map((nav, index) => {
                 if (
                   auth()?.userRole === nav.restriction ||
@@ -423,7 +468,7 @@ const ResponsiveNav = props => {
                         fontSize={'xl'}
                         mt={'3px !important'}
                       />
-                      <Text ml={2}>
+                      <Text className="navLabel" ml={2}>
                         {nav.name === 'ManageItems' ? 'Products' : nav.name}
                       </Text>
                     </HStack>
@@ -473,7 +518,7 @@ const ResponsiveNav = props => {
                           fontSize={'xl'}
                           mt={'3px !important'}
                         />
-                        <Text ml={2}>
+                        <Text className="navLabel" ml={2}>
                           {nav.name === 'ManageItems' ? 'Products' : nav.name}
                         </Text>
                       </HStack>
@@ -481,34 +526,36 @@ const ResponsiveNav = props => {
                   }
                 })}
             </VStack>
+          </VStack>
 
-            {/* Mini Profile */}
-            <VStack
-              mt={'64px !important'}
+          {/* Mini Profile */}
+          <VStack
+            mt={'64px !important'}
+            style={{
+              border: '3px solid var(--p-350a)',
+              borderRadius: '12px',
+              width: '100%',
+              padding: '12px',
+              paddingTop: '50px',
+              color: 'white',
+              position: 'relative',
+              bottom: '0',
+              background:
+                'linear-gradient(to bottom, var(--p-400a), var(--p-350a))',
+            }}
+          >
+            <Avatar
+              size={'xl'}
+              name={auth()?.displayName}
               style={{
-                border: '3px solid var(--p-350a)',
-                borderRadius: '12px',
-                width: '100%',
-                padding: '12px',
-                paddingTop: '50px',
-                color: 'white',
-                position: 'relative',
-                bottom: '0',
-                background:
-                  'linear-gradient(to bottom, var(--p-400a), var(--p-350a))',
+                position: 'absolute',
+                top: '-50px',
+                background: 'var(--p-300)',
+                color: 'var(--p-200)',
               }}
-            >
-              <Avatar
-                size={'xl'}
-                name={auth()?.displayName}
-                style={{
-                  position: 'absolute',
-                  top: '-50px',
-                  background: 'var(--p-300)',
-                  color: 'var(--p-200)',
-                }}
-              />
+            />
 
+            <VStack w={'100%'} className={'navLabel'}>
               <Text
                 style={{
                   fontWeight: 'bold',

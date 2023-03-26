@@ -86,7 +86,7 @@ const SearchBox = props => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
       if (props.itemIndex <= props.itemsLength) {
-        if ((props.itemIndex == props.itemsLength)) {
+        if (props.itemIndex == props.itemsLength) {
           props.setItemIndex(1);
           props.selectItem({ index: 1 });
         } else {
@@ -127,11 +127,18 @@ const SearchBox = props => {
         _placeholder={{ opacity: 0.5 }}
         w={'100%'}
         pr={screenWidth >= 1000 ? '96px !important' : ''}
-        border={'1px solid'}
-        borderColor={colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)'}
+        bg={colorMode === 'light' ? 'var(--light-dim2)' : 'var(--p-300a2)'}
+        border={'none'}
+        borderBottom={'2px solid'}
+        borderColor={
+          colorMode === 'light'
+            ? 'var(--p-75) !important'
+            : 'var(--p-300) !important'
+        }
         borderRadius={'8px'}
         _focusVisible={{
-          border: '1px solid',
+          bg: colorMode === 'light' ? 'var(--light)' : 'var(--p-350a2)',
+          borderColor: 'var(--accent) !important',
         }}
       />
       {screenWidth > 1000 && (
