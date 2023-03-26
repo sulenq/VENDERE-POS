@@ -20,7 +20,7 @@ const ModalContent = props => {
       ref={props.refq}
       borderRadius={12}
       w={props.w || '95%'}
-      bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)'}
+      bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-350a)'}
       backdropFilter="auto"
       backdropBlur="20px"
       m={'0px !important'}
@@ -50,7 +50,7 @@ const ModalFooter = ({ content }) => {
 
   return (
     <Modalfooter
-      bg={colorMode === 'light' ? '#eff2f6' : 'var(--p-450a)'}
+      bg={colorMode === 'light' ? '#eff2f6' : 'var(--p-350a)'}
       borderRadius={'0 0 10px 10px'}
       flexDirection={'column'}
       p={4}

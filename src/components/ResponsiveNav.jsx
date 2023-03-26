@@ -364,7 +364,6 @@ const ResponsiveNav = props => {
           h={'100%'}
           pr={1}
           borderRadius={'12px 0 0 12px'}
-          justifyContent={'space-between !important'}
         >
           {/* Logo */}
           <Heading as={'h1'} color={'white'} pb={8} alignSelf="flex-start">
@@ -392,8 +391,8 @@ const ResponsiveNav = props => {
           <VStack
             pr={3}
             id={'navOptions'}
-            // justifyContent={'space-between !important'}
-            // h={'100%'}
+            justifyContent={'space-between !important'}
+            h={'100%'}
             w={'100%'}
             position={'relative'}
             overflowY={'auto'}
@@ -526,66 +525,66 @@ const ResponsiveNav = props => {
                   }
                 })}
             </VStack>
-          </VStack>
 
-          {/* Mini Profile */}
-          <VStack
-            mt={'64px !important'}
-            style={{
-              border: '3px solid var(--p-350a)',
-              borderRadius: '12px',
-              width: '100%',
-              padding: '12px',
-              paddingTop: '50px',
-              color: 'white',
-              position: 'relative',
-              bottom: '0',
-              background:
-                'linear-gradient(to bottom, var(--p-400a), var(--p-350a))',
-            }}
-          >
-            <Avatar
-              size={'xl'}
-              name={auth()?.displayName}
+            {/* Mini Profile */}
+            <VStack
+              mt={'64px !important'}
               style={{
-                position: 'absolute',
-                top: '-50px',
-                background: 'var(--p-300)',
-                color: 'var(--p-200)',
+                border: '3px solid var(--p-350a)',
+                borderRadius: '12px',
+                width: '100%',
+                padding: '12px',
+                paddingTop: '50px',
+                color: 'white',
+                position: 'relative',
+                bottom: '0',
+                background:
+                  'linear-gradient(to bottom, var(--p-400a), var(--p-350a))',
               }}
-            />
-
-            <VStack w={'100%'} className={'navLabel'}>
-              <Text
+            >
+              <Avatar
+                size={'xl'}
+                name={auth()?.displayName}
                 style={{
-                  fontWeight: 'bold',
-                  width: '100%',
-                  textAlign: 'center',
+                  position: 'absolute',
+                  top: '-50px',
+                  background: 'var(--p-300)',
+                  color: 'var(--p-200)',
                 }}
-              >
-                {auth()?.displayName}
-              </Text>
+              />
 
-              <Badge
-                style={{
-                  background: 'var(--accent)',
-                  color: '#00000080',
-                  borderRadius: '12px',
-                }}
-              >
-                {auth()?.userRole}
-              </Badge>
-              <br />
-              {auth()?.userRole === 'admin' && (
-                <SecondaryButtonOutlineNav
-                  w={'100%'}
-                  label={'Profile'}
-                  onClick={() => {
-                    navigate('/vendere-app/profile');
+              <VStack w={'100%'} className={'navLabel'}>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    width: '100%',
+                    textAlign: 'center',
                   }}
-                />
-              )}
-              <SignOut />
+                >
+                  {auth()?.displayName}
+                </Text>
+
+                <Badge
+                  style={{
+                    background: 'var(--accent)',
+                    color: '#00000080',
+                    borderRadius: '12px',
+                  }}
+                >
+                  {auth()?.userRole}
+                </Badge>
+                <br />
+                {auth()?.userRole === 'admin' && (
+                  <SecondaryButtonOutlineNav
+                    w={'100%'}
+                    label={'Profile'}
+                    onClick={() => {
+                      navigate('/vendere-app/profile');
+                    }}
+                  />
+                )}
+                <SignOut />
+              </VStack>
             </VStack>
           </VStack>
         </VStack>
