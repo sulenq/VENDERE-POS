@@ -30,9 +30,9 @@ export default function Debts(props) {
   });
 
   const dateOptions = {
-    weekday: 'short',
+    weekday: 'long',
     day: 'numeric',
-    month: 'long',
+    month: 'numeric',
     year: 'numeric',
   };
 

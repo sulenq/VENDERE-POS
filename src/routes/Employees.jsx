@@ -62,9 +62,9 @@ export default function ManageItems(props) {
   const [refresh, setRefresh] = useState(true);
 
   const dateOptions = {
-    weekday: 'short',
+    weekday: 'long',
     day: 'numeric',
-    month: 'long',
+    month: 'numeric',
     year: 'numeric',
   };
 
@@ -335,7 +335,8 @@ export default function ManageItems(props) {
               overflowY: 'auto',
               paddingBottom: screenWidth <= 1000 ? '66px' : '',
               borderRadius: '12px',
-              background: colorMode === 'light' ? 'white' : 'var(--p-400a)',
+              background:
+                colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)',
             }}
             py={3}
           >

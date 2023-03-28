@@ -114,9 +114,9 @@ const ExpensesList = props => {
   };
 
   const dateOptions = {
-    weekday: 'short',
+    weekday: 'long',
     day: 'numeric',
-    month: 'long',
+    month: 'numeric',
     year: 'numeric',
   };
 
@@ -175,12 +175,12 @@ const ExpensesList = props => {
                   <Text className="expensesID" display={'none'}>
                     {item?.ID}
                   </Text>
-                  <Text ml={'0 !important'} w={'35%'} p={'4px 8px'}>
+                  <Text ml={'0 !important'} w={'30%'} p={'4px 8px'}>
                     {formattedDate}
                   </Text>
 
                   {/* Expense Username */}
-                  <VStack w={'45%'} alignItems={'flex-start'} pr={4}>
+                  <VStack w={'50%'} alignItems={'flex-start'} pr={4}>
                     <Text fontWeight={'bold'}>
                       {item?.total?.toLocaleString('id-ID')}
                     </Text>
@@ -261,7 +261,7 @@ const ExpenseDetails = props => {
         height: '100%',
         overflowY: 'auto',
         borderRadius: '12px',
-        background: colorMode === 'light' ? 'white' : 'var(--p-400a)',
+        background: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)',
       }}
       pt={3}
     >

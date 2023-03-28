@@ -66,9 +66,9 @@ export default function Expenses(props) {
   const [refresh, setRefresh] = useState(true);
 
   const dateOptions = {
-    weekday: 'short',
+    weekday: 'long',
     day: 'numeric',
-    month: 'long',
+    month: 'numeric',
     year: 'numeric',
   };
 
@@ -566,7 +566,8 @@ export default function Expenses(props) {
               overflowY: 'auto',
               paddingBottom: screenWidth <= 1000 ? '66px' : '',
               borderRadius: '12px',
-              background: colorMode === 'light' ? 'white' : 'var(--p-400a)',
+              background:
+                colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)',
             }}
             py={3}
           >
@@ -603,10 +604,10 @@ export default function Expenses(props) {
 
             {/* Heading */}
             <HStack fontSize={'sm'} w={'100%'} py={2} pl={4} pr={6}>
-              <Text fontWeight={'bold'} w={'35%'}>
+              <Text fontWeight={'bold'} w={'30%'}>
                 DATE
               </Text>
-              <Text fontWeight={'bold'} w={'45%'}>
+              <Text fontWeight={'bold'} w={'50%'}>
                 SUMMARY
               </Text>
               <Text

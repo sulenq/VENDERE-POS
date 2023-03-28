@@ -256,7 +256,8 @@ export default function Dashboard(props) {
               overflowY: 'auto',
               paddingBottom: screenWidth <= 1000 ? '64px' : '16px',
               borderRadius: '12px',
-              background: colorMode === 'light' ? 'white' : 'var(--p-400a)',
+              background:
+                colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)',
             }}
           >
             <PriorityDashboard />

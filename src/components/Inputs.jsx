@@ -207,7 +207,7 @@ const Input = props => {
       _placeholder={{ opacity: 0.5 }}
       value={props.value}
       onChange={props.onChange}
-      bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-300a2)'}
+      bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-350a2)'}
       borderLeft={'1px solid'}
       borderRight={'1px solid'}
       borderTop={'1px solid'}
@@ -215,7 +215,7 @@ const Input = props => {
       borderColor={
         colorMode === 'light'
           ? 'var(--p-75) !important'
-          : 'var(--p-300) !important'
+          : 'var(--p-350a) !important'
       }
       borderRadius={'8px'}
       _focusVisible={{

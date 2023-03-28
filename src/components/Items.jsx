@@ -715,7 +715,7 @@ const ItemDetails = props => {
         height: '100%',
         overflowY: 'auto',
         borderRadius: '12px',
-        background: colorMode === 'light' ? 'white' : 'var(--p-400a)',
+        background: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)',
       }}
       pt={3}
     >

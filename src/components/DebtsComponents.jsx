@@ -131,9 +131,9 @@ const DebtsList = props => {
   };
 
   const dateOptions = {
-    weekday: 'short',
+    weekday: 'long',
     day: 'numeric',
-    month: 'long',
+    month: 'numeric',
     year: 'numeric',
   };
 
@@ -482,7 +482,7 @@ const DebtDetails = props => {
         height: '100%',
         overflowY: 'auto',
         borderRadius: '12px',
-        background: colorMode === 'light' ? 'white' : 'var(--p-400a)',
+        background: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)',
       }}
       pt={3}
       justifyContent={'space-between'}

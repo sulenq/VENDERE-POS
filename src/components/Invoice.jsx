@@ -612,7 +612,7 @@ const Invoice = ({
                       overflowY: 'auto',
                       borderRadius: '12px',
                       background:
-                        colorMode === 'light' ? 'white' : 'var(--p-400)',
+                        colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400)',
                     }}
                     py={3}
                   >

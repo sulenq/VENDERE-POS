@@ -35,9 +35,9 @@ export default function Reports(props) {
   });
 
   const dateOptions = {
-    weekday: 'short',
+    weekday: 'long',
     day: 'numeric',
-    month: 'long',
+    month: 'numeric',
     year: 'numeric',
   };
 
@@ -160,7 +160,8 @@ export default function Reports(props) {
               overflowY: 'auto',
               paddingBottom: screenWidth <= 1000 ? '66px' : '',
               borderRadius: '12px',
-              background: colorMode === 'light' ? 'white' : 'var(--p-400a)',
+              background:
+                colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)',
             }}
             py={3}
           >
@@ -215,7 +216,8 @@ export default function Reports(props) {
                   >
                     Mothly
                   </MenuItem>
-                  <MenuItem
+
+                  {/* <MenuItem
                     bg={'transparent'}
                     _hover={{
                       background:
@@ -228,7 +230,7 @@ export default function Reports(props) {
                     }}
                   >
                     Yearly
-                  </MenuItem>
+                  </MenuItem> */}
                 </MenuList>
               </Menu>
             </HStack>
@@ -282,7 +284,7 @@ export default function Reports(props) {
             />
           </VStack>
 
-          {/* Trans Details Section*/}
+          {/* Report Details Section*/}
           {screenWidth <= 1000 ? null : (
             <ReportDetails
               reportType={reportType}

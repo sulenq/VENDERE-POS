@@ -30,9 +30,9 @@ export default function Debts(props) {
   });
 
   const dateOptions = {
-    weekday: 'short',
+    weekday: 'long',
     day: 'numeric',
-    month: 'long',
+    month: 'numeric',
     year: 'numeric',
   };
 
@@ -153,7 +153,8 @@ export default function Debts(props) {
               overflowY: 'auto',
               paddingBottom: screenWidth <= 1000 ? '66px' : '',
               borderRadius: '12px',
-              background: colorMode === 'light' ? 'white' : 'var(--p-400a)',
+              background:
+                colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)',
             }}
             py={3}
           >

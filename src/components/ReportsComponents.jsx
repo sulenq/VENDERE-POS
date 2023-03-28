@@ -388,9 +388,9 @@ const ReportsList = props => {
   };
 
   const dateOptions = {
-    weekday: 'short',
+    weekday: 'long',
     day: 'numeric',
-    month: 'long',
+    month: 'numeric',
     year: 'numeric',
   };
 
@@ -525,7 +525,7 @@ const ReportDetails = props => {
         height: '100%',
         overflowY: 'auto',
         borderRadius: '12px',
-        background: colorMode === 'light' ? 'white' : 'var(--p-400a)',
+        background: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)',
       }}
       pt={3}
       justifyContent={'space-between'}
@@ -926,7 +926,11 @@ const ReportDetails = props => {
             px={3}
             py={1}
             colorScheme={
-              props?.selectedItem?.status === 'profit' ? 'green' : 'red'
+              props?.selectedItem?.status === 'profit'
+                ? 'green'
+                : props?.selectedItem?.status === 'loss'
+                ? 'red'
+                : ''
             }
             fontWeight={'bold'}
             borderRadius={4}

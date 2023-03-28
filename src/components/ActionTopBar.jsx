@@ -6,12 +6,12 @@ import SyncOutlinedIcon from '@mui/icons-material/SyncOutlined';
 
 export const ActionTopBar = () => {
   const dateOptions = {
-    weekday: 'short',
+    weekday: 'long',
     day: 'numeric',
-    month: 'long',
+    month: 'numeric',
     year: 'numeric',
   };
-  const todayDate = new Date().toLocaleDateString('en-EN', dateOptions);
+  const todayDate = new Date().toLocaleDateString(undefined, dateOptions);
   const { colorMode } = useColorMode();
 
   return (

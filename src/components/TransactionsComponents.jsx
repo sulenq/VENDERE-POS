@@ -24,6 +24,7 @@ import {
   FormControl,
   Button,
   Badge,
+  Divider,
 } from '@chakra-ui/react';
 
 // MUI Icons
@@ -148,9 +149,9 @@ const TransactionsList = props => {
   };
 
   const dateOptions = {
-    weekday: 'short',
+    weekday: 'long',
     day: 'numeric',
-    month: 'long',
+    month: 'numeric',
     year: 'numeric',
   };
 
@@ -219,14 +220,19 @@ const TransactionsList = props => {
 
                   {/* Item's Status */}
                   <VStack w={'50%'} alignItems={'flex-start'} pr={4}>
-                    <Text>{formattedDate}</Text>
-                    <Badge
-                      mt={'4px !important'}
-                      fontWeight={'bold'}
-                      colorScheme={item.status === 'lunas' ? 'green' : 'red'}
-                    >
-                      {item?.status}
-                    </Badge>
+                    <Text fontWeight={'bold'}>{formattedDate}</Text>
+                    <HStack>
+                      <Badge
+                        mt={'4px !important'}
+                        fontWeight={'bold'}
+                        colorScheme={item.status === 'lunas' ? 'green' : 'red'}
+                      >
+                        {item?.status}
+                      </Badge>
+                      <Text borderLeft={'1px solid var(--p-200a)'} pl={2}>
+                        {item?.total?.toLocaleString('id-ID')}
+                      </Text>
+                    </HStack>
                   </VStack>
 
                   {/* Item Action */}
@@ -295,7 +301,7 @@ const TransactionDetails = props => {
         height: '100%',
         overflowY: 'auto',
         borderRadius: '12px',
-        background: colorMode === 'light' ? 'white' : 'var(--p-400a)',
+        background: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)',
       }}
       pt={3}
       justifyContent={'space-between'}
