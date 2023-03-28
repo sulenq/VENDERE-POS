@@ -228,6 +228,13 @@ const UpdateItem = props => {
                                 ),
                               });
                             }}
+                            onKeyUp={e => {
+                              if (e.key === 'Enter') {
+                                document
+                                  .querySelector('#updateProductBtn')
+                                  .click();
+                              }
+                            }}
                           />
                         </FormControl>
 
@@ -242,6 +249,13 @@ const UpdateItem = props => {
                               setAddStock(
                                 parseInt(reverseFormatNumber(e.target.value))
                               );
+                            }}
+                            onKeyUp={e => {
+                              if (e.key === 'Enter') {
+                                document
+                                  .querySelector('#updateProductBtn')
+                                  .click();
+                              }
                             }}
                           />
                         </FormControl>
@@ -280,6 +294,13 @@ const UpdateItem = props => {
                               ),
                             });
                           }}
+                          onKeyUp={e => {
+                            if (e.key === 'Enter') {
+                              document
+                                .querySelector('#updateProductBtn')
+                                .click();
+                            }
+                          }}
                         />
                       </FormControl>
                     </form>
@@ -298,6 +319,7 @@ const UpdateItem = props => {
                         Close
                       </Button>
                       <PrimaryButton
+                        id={'updateProductBtn'}
                         label={'Update Product'}
                         isLoading={loading}
                         onClick={onUpdate}
@@ -543,7 +565,7 @@ const ItemsList = props => {
     if (itemFound) {
       return (
         <VStack
-          className="items"
+          className={colorMode === 'light' ? 'items onLight' : 'items onDark'}
           h={'100%'}
           w={'100%'}
           mt={'0px !important'}
@@ -582,6 +604,9 @@ const ItemsList = props => {
                   }}
                 >
                   {/* Item's Code */}
+                  <Text className="itemID" display={'none'}>
+                    {item?.ID}
+                  </Text>
                   <Text w={'30%'} p={'4px 8px'}>
                     {item.code}
                   </Text>
@@ -590,7 +615,7 @@ const ItemsList = props => {
                   <VStack w={'50%'} alignItems={'flex-start'} pr={4}>
                     <Text fontWeight={'bold'}>{item.name}</Text>
                     <Text mt={'4px !important'}>
-                      {'@ ' + item.price.toLocaleString('id-ID')}
+                      {'Rp. ' + item.price.toLocaleString('id-ID')}
                     </Text>
                   </VStack>
 
@@ -701,6 +726,7 @@ const ItemDetails = props => {
 
       <VStack
         id={'itemDetails'}
+        className={colorMode === 'light' ? 'onLight' : 'onDark'}
         h={selectedItem.ID ? 'calc(100% - 96px)' : '100%'}
         w={'100%'}
         mt={'0px !important'}

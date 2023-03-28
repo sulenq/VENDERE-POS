@@ -110,24 +110,26 @@ export default function Cashier({
 
   function selectItem({ item, index }) {
     let selectedItem;
+    const items = document.querySelectorAll('.items > div');
 
     if (item) {
       selectedItem = item;
     } else {
-      const selectedItemCode = document.querySelector(
-        `.items > :nth-child(${index}) p`
+      // selectedItem = data[index - 1];
+      const selectedItemKey = document.querySelector(
+        `.items > :nth-child(${index}) .itemID`
       )?.textContent;
 
       selectedItem = data.find(item => {
-        return item.code === selectedItemCode;
+        return item.ID == selectedItemKey;
       });
     }
 
     if (selectedItem) {
-      const itemCodesElm = document.querySelectorAll('.items > div > p');
+      const itemsKeyElm = document.querySelectorAll('.items > div > .itemID');
 
-      itemCodesElm.forEach((itemCodeElm, index) => {
-        if (itemCodeElm.textContent === selectedItem.code) {
+      itemsKeyElm.forEach((itemKeyElm, index) => {
+        if (itemKeyElm.textContent == selectedItem.ID) {
           setItemIndex(index + 1);
         }
       });

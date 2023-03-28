@@ -22,7 +22,7 @@ const ColorModeIconButton = props => {
       aria-label={`Switch to ${text} mode`}
       variant="ghost"
       borderRadius={50}
-      color="current"
+      color={'current'}
       onClick={toggleColorMode}
       icon={<SwitchIcon />}
       _hover={{

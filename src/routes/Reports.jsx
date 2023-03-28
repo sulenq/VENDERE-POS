@@ -1,11 +1,7 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-import Cookies from 'js-cookie';
 
 import {
-  useToast,
   Menu,
-  MenButton,
   MenuList,
   MenuItem,
   MenuButton,
@@ -13,18 +9,8 @@ import {
   useColorMode,
   VStack,
   Text,
-  useDisclosure,
-  ButtonGroup,
   Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
   Icon,
-  FormControl,
-  FormLabel,
-  Alert,
-  AlertIcon,
-  Select,
 } from '@chakra-ui/react';
 
 // MUI Icons
@@ -34,14 +20,8 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 // My Component
 import ResponsiveNav from '../components/ResponsiveNav';
 import { SearchBox } from '../components/Inputs';
-import { PrimaryButton, PrimaryButtonOutline } from '../components/Buttons';
 import { ActionTopBar } from '../components/ActionTopBar';
-import { Stat } from '../components/Data';
-import { ModalContent, ModalFooter, ModalOverlay } from '../components/Modals';
-import { Input, InputNumber } from '../components/Inputs';
-import { Skeleton } from '../components/Skeleton';
 import { ReportDetails, ReportsList } from '../components/ReportsComponents';
-import { useAuthUser } from 'react-auth-kit';
 
 export default function Reports(props) {
   const { colorMode } = useColorMode();
@@ -68,7 +48,6 @@ export default function Reports(props) {
   const [itemsLength, setItemsLength] = useState(0);
   const [selectedItem, setSelectedItem] = useState({});
   const [refresh, setRefresh] = useState(true);
-  const auth = useAuthUser();
 
   function selectItem({ item, index }) {
     let selectedItem;
@@ -173,7 +152,7 @@ export default function Reports(props) {
         <ActionTopBar />
 
         <HStack h={'calc(100% - 40px)'} w={'100%'} mt={'4px !important'}>
-          {/* Trans Section */}
+          {/* Reportss Section */}
           <VStack
             style={{
               width: screenWidth <= 1000 ? '100%' : '50%',

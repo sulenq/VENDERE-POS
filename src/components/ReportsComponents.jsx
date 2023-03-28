@@ -61,7 +61,6 @@ const ReportsList = props => {
   const [transData, setTransData] = useState();
   const [debtsData, setDebtsData] = useState();
   const [expensesData, setExpensesData] = useState();
-  const [priveData, setPriveData] = useState();
 
   const [loading, setLoading] = useState(false);
   const skeletonLength = ['', '', '', '', '', '', '', '', '', '', '', ''];
@@ -132,34 +131,14 @@ const ReportsList = props => {
           console.log(err);
         });
     }, 1);
-
-    let getPriveAPI = `${baseURL}/api/v1/prives/get`;
-
-    setTimeout(() => {
-      axios
-        .get(getPriveAPI, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then(r => {
-          console.log(r.data.data);
-          if (r.data.data) {
-            setPriveData(r.data.data);
-          } else {
-            setPriveData([]);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }, 1);
   }, [props.refresh]);
 
   useEffect(() => {
-    if (transData && expensesData && debtsData && priveData) {
+    if (transData && expensesData && debtsData) {
       setRawData(true);
       setLoading(false);
     }
-  }, [transData, expensesData, debtsData, priveData]);
+  }, [transData, expensesData, debtsData]);
 
   //* OLAH DATA
   useEffect(() => {
@@ -419,7 +398,7 @@ const ReportsList = props => {
     if (itemFound) {
       return (
         <VStack
-          className="items"
+          className={colorMode === 'light' ? 'items onLight' : 'items onDark'}
           h={'100%'}
           w={'100%'}
           mt={'0px !important'}
@@ -563,6 +542,7 @@ const ReportDetails = props => {
 
         <VStack
           id={'itemDetails'}
+          className={colorMode === 'light' ? 'onLight' : 'onDark'}
           w={'100%'}
           mt={'0px !important'}
           fontSize={'sm'}

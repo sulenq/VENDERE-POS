@@ -426,6 +426,7 @@ export default function Profile(props) {
 
         <VStack
           id="profileContainer"
+          className={colorMode === 'light' ? 'onLight' : 'onDark'}
           mt={'2px !important'}
           h={'100%'}
           w={'100%'}

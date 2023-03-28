@@ -5,7 +5,7 @@
   --dark-dim: #2d3748;
   --dark: #171717;
   --light: #fafafa;
-  --light-dim: #f0f0f0;
+  --light-dim: #f5f5f5;
   --light-dim2: #f0f0f0ad;
   --p-50: #ffffff;
   --p-50a: #ffffff90;
@@ -112,6 +112,10 @@ body,
 
 #cashierNav {
   margin: 0;
+}
+
+.navLink:hover {
+  background: var(--p-300a);
 }
 
 .navListActive {
@@ -252,7 +256,7 @@ bg={colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)'} */
 }
 
 @media only screen and (min-width: 1001px) {
-  #profileContainer::-webkit-scrollbar,
+  /* #profileContainer::-webkit-scrollbar,
   #content::-webkit-scrollbar,
   #navOptions::-webkit-scrollbar,
   .skeleton::-webkit-scrollbar,
@@ -262,9 +266,28 @@ bg={colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)'} */
     width: 8px;
     border-radius: 2px;
     background-color: var(--p-100);
+  } */
+  .manuk {
+    background-color: red;
   }
 
-  ::-webkit-scrollbar-thumb {
+  .onDark::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 2px;
+    background-color: var(--p-250);
+  }
+  .onDark::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background-color: var(--p-100);
+  }
+
+  .onLight::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 2px;
+    background-color: var(--p-100);
+  }
+
+  .onLight::-webkit-scrollbar-thumb {
     border-radius: 2px;
     background-color: var(--p-250);
   }

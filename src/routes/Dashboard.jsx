@@ -248,6 +248,7 @@ export default function Dashboard(props) {
           <ActionTopBar />
           <VStack
             id={'content'}
+            className={colorMode === 'light' ? 'onLight' : 'onDark'}
             mt={'4px !important'}
             style={{
               width: '100%',

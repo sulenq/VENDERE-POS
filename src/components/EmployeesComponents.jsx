@@ -123,7 +123,7 @@ const EmployeesList = props => {
     if (itemFound) {
       return (
         <VStack
-          className="items"
+          className={colorMode === 'light' ? 'items onLight' : 'items onDark'}
           h={'100%'}
           w={'100%'}
           mt={'0px !important'}
@@ -262,6 +262,7 @@ const EmployeeDetails = props => {
 
       <VStack
         id={'itemDetails'}
+        className={colorMode === 'light' ? 'onLight' : 'onDark'}
         h={selectedItem.ID ? 'calc(100% - 96px)' : '100%'}
         w={'100%'}
         mt={'0px !important'}

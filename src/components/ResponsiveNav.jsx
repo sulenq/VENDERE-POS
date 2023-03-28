@@ -341,20 +341,8 @@ const ResponsiveNav = props => {
     };
 
     // Selecting Nav List
-    const selectNav = targetId => {
-      const navActive = document.querySelector(`#${props.active}Nav`);
-      const target = document.querySelector(`#${targetId}`);
-      if (target != navActive) {
-        target.classList.add('navListSelected');
-      }
-    };
-    const diselectNav = targetId => {
-      const navActive = document.querySelector(`#${props.active}Nav`);
-      const target = document.querySelector(`#${targetId}`);
-      target.classList.remove('navListSelected');
-      navActive.classList.add('navListActive');
-      // console.log(navActive);
-    };
+
+    const { colorMode } = useColorMode();
 
     return (
       <>
@@ -391,6 +379,7 @@ const ResponsiveNav = props => {
           <VStack
             pr={3}
             id={'navOptions'}
+            className={colorMode === 'light' ? 'onLight' : 'onDark'}
             justifyContent={'space-between !important'}
             h={'100%'}
             w={'100%'}
@@ -448,12 +437,6 @@ const ResponsiveNav = props => {
                           : 'navLink'
                       }
                       onClick={() => navigate(nav.link)}
-                      onMouseEnter={() => {
-                        selectNav(nav.name + 'Nav');
-                      }}
-                      onMouseLeave={() => {
-                        diselectNav(nav.name + 'Nav');
-                      }}
                       style={{
                         width: '100%',
                         padding: '8px 16px',
@@ -497,12 +480,6 @@ const ResponsiveNav = props => {
                             : 'navLink'
                         }
                         onClick={() => navigate(nav.link)}
-                        onMouseEnter={() => {
-                          selectNav(nav.name + 'Nav');
-                        }}
-                        onMouseLeave={() => {
-                          diselectNav(nav.name + 'Nav');
-                        }}
                         style={{
                           width: '100%',
                           padding: '8px 16px',

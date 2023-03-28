@@ -28,7 +28,7 @@ import { ModalContent, ModalOverlay, ModalBody } from './Modals';
 const ExpensesList = props => {
   const baseURL = 'http://localhost:8080';
   const { colorMode } = useColorMode();
-  const location = useLocation();
+  // const location = useLocation();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
     function handleResize() {
@@ -124,7 +124,7 @@ const ExpensesList = props => {
     if (itemFound) {
       return (
         <VStack
-          className="items"
+          className={colorMode === 'light' ? 'items onLight' : 'items onDark'}
           h={'100%'}
           w={'100%'}
           mt={'0px !important'}
@@ -272,6 +272,7 @@ const ExpenseDetails = props => {
 
       <VStack
         id={'itemDetails'}
+        className={colorMode === 'light' ? 'onLight' : 'onDark'}
         h={selectedItem.ID ? 'calc(100% - 96px)' : '100%'}
         w={'100%'}
         mt={'0px !important'}

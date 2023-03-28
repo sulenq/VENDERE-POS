@@ -158,7 +158,7 @@ const TransactionsList = props => {
     if (itemFound) {
       return (
         <VStack
-          className="items"
+          className={colorMode === 'light' ? 'items onLight' : 'items onDark'}
           h={'100%'}
           w={'100%'}
           mt={'0px !important'}
@@ -312,6 +312,7 @@ const TransactionDetails = props => {
 
         <VStack
           id={'itemDetails'}
+          className={colorMode === 'light' ? 'onLight' : 'onDark'}
           w={'100%'}
           mt={'0px !important'}
           fontSize={'sm'}

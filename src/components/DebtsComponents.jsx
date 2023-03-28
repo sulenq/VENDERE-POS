@@ -62,7 +62,7 @@ const DebtsList = props => {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then(r => {
-          console.log(r.data.data);
+          // console.log(r.data.data);
           if (r.data.data) {
             props.setData(r.data.data);
           } else {
@@ -141,7 +141,7 @@ const DebtsList = props => {
     if (itemFound) {
       return (
         <VStack
-          className="items"
+          className={colorMode === 'light' ? 'items onLight' : 'items onDark'}
           h={'100%'}
           w={'100%'}
           mt={'0px !important'}
@@ -498,6 +498,7 @@ const DebtDetails = props => {
 
         <VStack
           id={'itemDetails'}
+          className={colorMode === 'light' ? 'onLight' : 'onDark'}
           w={'100%'}
           mt={'0px !important'}
           fontSize={'sm'}
@@ -717,7 +718,7 @@ const DebtDetails = props => {
             </HStack> */}
 
             <HStack
-              key={2}
+              key={9}
               px={5}
               pb={2}
               w={'100%'}

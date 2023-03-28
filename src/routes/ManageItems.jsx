@@ -72,24 +72,26 @@ export default function ManageItems(props) {
 
   function selectItem({ item, index }) {
     let selectedItem;
+    const items = document.querySelectorAll('.items > div');
 
     if (item) {
       selectedItem = item;
     } else {
-      const selectedItemCode = document.querySelector(
-        `.items > :nth-child(${index}) p`
+      // selectedItem = data[index - 1];
+      const selectedItemKey = document.querySelector(
+        `.items > :nth-child(${index}) .itemID`
       )?.textContent;
 
       selectedItem = data.find(item => {
-        return item.code === selectedItemCode;
+        return item.ID == selectedItemKey;
       });
     }
 
     if (selectedItem) {
-      const itemCodesElm = document.querySelectorAll('.items > div > p');
+      const itemsKeyElm = document.querySelectorAll('.items > div > .itemID');
 
-      itemCodesElm.forEach((itemCodeElm, index) => {
-        if (itemCodeElm.textContent === selectedItem.code) {
+      itemsKeyElm.forEach((itemKeyElm, index) => {
+        if (itemKeyElm.textContent == selectedItem.ID) {
           setItemIndex(index + 1);
         }
       });
@@ -366,6 +368,11 @@ export default function ManageItems(props) {
                             ),
                           });
                         }}
+                        onKeyUp={e => {
+                          if (e.key === 'Enter') {
+                            document.querySelector('#addNewItemBtn').click();
+                          }
+                        }}
                       />
                     </FormControl>
                   </form>
@@ -383,6 +390,7 @@ export default function ManageItems(props) {
                           Close
                         </Button>
                         <PrimaryButton
+                          id={'addNewItemBtn'}
                           label={'Add New Item'}
                           onClick={onAddNewItem}
                           isLoading={isLoading}
@@ -448,6 +456,7 @@ export default function ManageItems(props) {
               <HStack opacity={0.5}>
                 <Icon as={Inventory2OutlinedIcon} />
                 <Text fontWeight={'bold'}>All Products</Text>
+                <Text>{`(${data.length} products)`}</Text>
               </HStack>
             </HStack>
 
