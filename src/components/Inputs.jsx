@@ -81,6 +81,34 @@ const SearchBox = props => {
       }
     }
 
+    // if (e.key === 'ArrowDown') {
+    //   e.preventDefault();
+    //   if (props.itemIndex <= props.itemsLength) {
+    //     if (props.itemIndex == props.itemsLength) {
+    //       props.setItemIndex(1);
+    //       props.selectItem({ index: 1 });
+    //     } else {
+    //       props.setItemIndex(props.itemIndex + 1);
+    //       props.selectItem({ index: props.itemIndex + 1 });
+    //     }
+    //   }
+    // }
+
+    // if (e.key === 'ArrowUp') {
+    //   e.preventDefault();
+    //   if (props.itemIndex >= 1) {
+    //     if (props.itemIndex == 1) {
+    //       props.setItemIndex(props.itemIndex + props.itemsLength - 1);
+    //       props.selectItem({ index: props.itemIndex + props.itemsLength - 1 });
+    //     } else {
+    //       props.setItemIndex(props.itemIndex - 1);
+    //       props.selectItem({ index: props.itemIndex - 1 });
+    //     }
+    //   }
+    // }
+  };
+
+  const handleKeyDown = e => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
       if (props.itemIndex <= props.itemsLength) {
@@ -108,34 +136,6 @@ const SearchBox = props => {
     }
   };
 
-  // const handleKeyDown = e => {
-  //   if (e.key === 'ArrowDown') {
-  //     e.preventDefault();
-  //     if (props.itemIndex <= props.itemsLength) {
-  //       if (props.itemIndex == props.itemsLength) {
-  //         props.setItemIndex(1);
-  //         props.selectItem({ index: 1 });
-  //       } else {
-  //         props.setItemIndex(props.itemIndex + 1);
-  //         props.selectItem({ index: props.itemIndex + 1 });
-  //       }
-  //     }
-  //   }
-
-  //   if (e.key === 'ArrowUp') {
-  //     e.preventDefault();
-  //     if (props.itemIndex >= 1) {
-  //       if (props.itemIndex == 1) {
-  //         props.setItemIndex(props.itemIndex + props.itemsLength - 1);
-  //         props.selectItem({ index: props.itemIndex + props.itemsLength - 1 });
-  //       } else {
-  //         props.setItemIndex(props.itemIndex - 1);
-  //         props.selectItem({ index: props.itemIndex - 1 });
-  //       }
-  //     }
-  //   }
-  // };
-
   return (
     <InputGroup>
       <InputChakra
@@ -145,7 +145,7 @@ const SearchBox = props => {
         className={'inputBox'}
         onChange={props.onChange}
         onKeyUp={handleKeyUp}
-        // onKeyDown={handleKeyDown}
+        onKeyDown={handleKeyDown}
         value={props.search}
         tabIndex={0}
         onFocus={e => e.target.select()}

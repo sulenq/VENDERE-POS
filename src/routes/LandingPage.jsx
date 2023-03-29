@@ -37,7 +37,11 @@ import GoogleIcon from '@mui/icons-material/Google';
 import LoyaltyOutlinedIcon from '@mui/icons-material/LoyaltyOutlined';
 
 import { ColorModeIconButton } from '../components/ColorModeSwitcher';
-import { PrimaryButton, PrimaryButtonOutline } from '../components/Buttons';
+import {
+  PrimaryButton,
+  PrimaryButtonNav,
+  SecondaryButtonOutlineNav,
+} from '../components/Buttons';
 import { ModalOverlay, ModalContent, ModalFooter } from '../components/Modals';
 import { textAlign } from '@mui/system';
 
@@ -162,7 +166,7 @@ export default function LandingPage(props) {
 
     return (
       <>
-        <PrimaryButtonOutline
+        <SecondaryButtonOutlineNav
           id={'signUpBtn'}
           label="SIGN UP"
           onClick={onOpen}
@@ -394,7 +398,7 @@ export default function LandingPage(props) {
 
     return (
       <>
-        <PrimaryButton id={'signInBtn'} label={'SIGN IN'} onClick={onOpen} />
+        <PrimaryButtonNav id={'signInBtn'} label={'SIGN IN'} onClick={onOpen} />
 
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
           <ModalOverlay />
@@ -546,15 +550,24 @@ export default function LandingPage(props) {
   return (
     <VStack
       className="landingPage"
-      p={screenWidth <= 1000 ? '16px 0' : '16px 100px'}
-      bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-450)'}
+      color={'white'}
+      // bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-450)'}
     >
-      <HStack w={'100%'} justifyContent={'space-between'} px={'24px'}>
+      <HStack
+        id={'landingPageNavBar'}
+        bg={'var(--p-350a2)'}
+        backdropFilter={'blur(5px)'}
+        w={'100%'}
+        justifyContent={'space-between'}
+        px={'24px'}
+        py={3}
+        zIndex={99}
+      >
         {/* Logo */}
         <Heading as={'h1'} alignSelf="flex-start">
           <HStack
             alignItems={'center'}
-            color={'var(--accent-dim)'}
+            color={'var(--accent)'}
             fontSize={'20px'}
           >
             <LoyaltyOutlinedIcon />
@@ -573,7 +586,10 @@ export default function LandingPage(props) {
           </Text>
         </Heading>
         <HStack>
-          <ColorModeIconButton />
+          <ColorModeIconButton
+            _hover={{ bg: 'var(--p-300a)' }}
+            _active={{ bg: 'var(--p-200a)' }}
+          />
 
           {isAuthenticated() ? (
             <>
@@ -584,22 +600,19 @@ export default function LandingPage(props) {
                 _hover={{ cursor: 'pointer' }}
                 style={{
                   border: '2px solid',
-                  borderColor:
-                    colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)',
+                  borderColor: 'var(--p-50)',
                   borderRadius: '50px',
                   padding: '4px',
                   paddingRight: '8px',
-                  color: colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)',
+                  color: 'var(--p-50)',
                   fontWeight: 'bold',
                 }}
               >
                 <Avatar
                   name={auth().displayName}
                   style={{
-                    background:
-                      colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)',
-                    color:
-                      colorMode !== 'light' ? 'var(--p-500)' : 'var(--p-50)',
+                    background: 'var(--p-50)',
+                    color: 'var(--p-500)',
                   }}
                   size={'xs'}
                 />
@@ -609,28 +622,35 @@ export default function LandingPage(props) {
           ) : (
             <>
               <SignUp />
+
               <SignIn />
             </>
           )}
         </HStack>
       </HStack>
 
-      <HStack id="hero" position={'relative'} justifyContent={'center'} px={10}>
-        <VStack w={'70%'}>
+      <HStack
+        id="hero"
+        p={screenWidth <= 1000 ? '16px 0' : '16px 240px'}
+        mt={'-32px !important'}
+        position={'relative'}
+        justifyContent={'center'}
+      >
+        <VStack w={'70%'} pr={3}>
           <Text
             fontSize={'xxx-large'}
             fontWeight={'bold'}
             lineHeight={'3.75rem'}
           >
             Responsive, powerful system to{' '}
-            <Text color={'var(--accent)'}>grow your bussiness</Text>
+            <span style={{ color: 'var(--accent)' }}>grow your bussiness</span>
           </Text>
         </VStack>
 
         <VStack>
           <Image
             src="img/money.gif"
-            boxSize="200px"
+            boxSize="240px"
             objectFit="cover"
             alt={'money img'}
           />
