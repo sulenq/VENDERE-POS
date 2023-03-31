@@ -396,7 +396,7 @@ const ResponsiveNav = props => {
           pl={'18px'}
           pt={4}
           pb={2}
-          // borderRight={'1px solid var(--p-250a)'}
+          borderRight={'1px solid var(--p-200a)'}
           overflow={'hidden'}
           transition={'all .2s'}
           justifyContent={'space-between'}

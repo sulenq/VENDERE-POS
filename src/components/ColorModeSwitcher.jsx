@@ -29,7 +29,7 @@ const ColorModeIconButton = props => {
         background: colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)',
       }}
       _active={{
-        background: colorMode === 'light' ? 'var(--p-100)' : 'var(--p-350)',
+        background: colorMode === 'light' ? 'var(--p-100a)' : 'var(--p-350)',
       }}
       {...props}
     ></IconButton>
