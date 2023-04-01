@@ -170,6 +170,7 @@ export default function LandingPage(props) {
           id={'signUpBtn'}
           label="SIGN UP"
           onClick={onOpen}
+          size={screenWidth <= 1000 ? 'sm' : 'md'}
         />
 
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -398,7 +399,12 @@ export default function LandingPage(props) {
 
     return (
       <>
-        <PrimaryButtonNav id={'signInBtn'} label={'SIGN IN'} onClick={onOpen} />
+        <PrimaryButtonNav
+          id={'signInBtn'}
+          label={'SIGN IN'}
+          size={screenWidth <= 1000 ? 'sm' : 'md'}
+          onClick={onOpen}
+        />
 
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
           <ModalOverlay />
@@ -551,6 +557,8 @@ export default function LandingPage(props) {
     <VStack
       className="landingPage"
       color={'white'}
+      overflow={'auto'}
+      // h={screenWidth <= 500 || screenWidth >= 1000 ? '100%' : ''}
       // bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-450)'}
     >
       <HStack
@@ -561,6 +569,7 @@ export default function LandingPage(props) {
         justifyContent={'space-between'}
         px={'24px'}
         py={3}
+        position={'fixed'}
         zIndex={99}
       >
         {/* Logo */}
@@ -568,7 +577,7 @@ export default function LandingPage(props) {
           <HStack
             alignItems={'center'}
             color={'var(--accent)'}
-            fontSize={'20px'}
+            fontSize={screenWidth <= 1000 ? '16px' : '20px'}
           >
             <LoyaltyOutlinedIcon />
             <Text className="navLabel">V E N D E R E</Text>
@@ -630,11 +639,13 @@ export default function LandingPage(props) {
       </HStack>
 
       <HStack
-        id="hero"
-        p={screenWidth <= 1000 ? '16px 0' : '16px 240px'}
-        mt={'-32px !important'}
-        position={'relative'}
+        id={'hero'}
+        // pt={screenWidth <= 1000 ? '128px' : '320px'}
+        py={'64px'}
+        h={'920px'}
         justifyContent={'center'}
+        alignItems={'center'}
+        px={screenWidth <= 1000 ? '24px' : '240px'}
       >
         <VStack w={'70%'} pr={3}>
           <Text

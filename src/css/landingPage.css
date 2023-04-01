@@ -21,7 +21,6 @@ body {
 }
 
 .landingPage {
-  height: 100%;
   overflow: auto;
   /* background-image: url('../../public/assets/appBg.png'); */
   background-repeat: no-repeat;
@@ -31,6 +30,5 @@ body {
 
 .landingPage #hero {
   /* border: 1px solid red; */
-  height: 95%;
   overflow: hidden;
 }

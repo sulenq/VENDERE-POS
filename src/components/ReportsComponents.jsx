@@ -1009,7 +1009,8 @@ const ReportDetailsModal = props => {
         <ModalOverlay />
 
         <ModalContent
-          h={screenWidth <= 1000 ? '90%' : ''}
+          // h={screenWidth <= 1000 ? '90%' : ''}
+          maxH={'90%'}
           content={
             <>
               <ModalBody
