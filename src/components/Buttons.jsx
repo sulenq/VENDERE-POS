@@ -1,7 +1,5 @@
 import { Button, useColorMode, Icon } from '@chakra-ui/react';
 
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
-
 import '../css/vendereApp.css';
 
 const PrimaryButton = props => {
@@ -9,19 +7,20 @@ const PrimaryButton = props => {
 
   return (
     <Button
+      // {...props}
       id={props.id}
-      ref={props.refq}
       onClick={props.onClick}
       size={props.size}
       form={props.form}
       type={props.type}
-      variant={'solid'}
       pb={props.pb}
-      borderRadius={props.borderRadius || 12}
       ml={props.ml}
       mr={props.mr}
       w={props.w}
+      ref={props.refq}
+      borderRadius={props.borderRadius || 12}
       isLoading={props.isLoading}
+      variant={'solid'}
       color={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-500)'}
       background={colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)'}
       style={props.style}
@@ -51,11 +50,11 @@ const PrimaryButtonOutline = props => {
       type={props.type}
       size={props.size}
       form={props.form}
+      pb={props.pb}
+      w={props.w}
       variant={'outline'}
       ref={props.refq}
       borderRadius={props.borderRadius || 12}
-      pb={props.pb}
-      w={props.w}
       style={{
         color: colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)',
         border: '1px solid',
