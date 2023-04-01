@@ -38,7 +38,7 @@ import {
   EmployeeDetails,
 } from '../components/EmployeesComponents';
 
-export default function ManageItems(props) {
+export default function Employees(props) {
   const baseURL = 'http://localhost:8080';
 
   const toast = useToast();
@@ -223,7 +223,7 @@ export default function ManageItems(props) {
           <ModalContent
             content={
               <>
-                <ModalHeader>
+                <ModalHeader px={4}>
                   <HStack>
                     <Icon as={PeopleAltOutlined} fontSize={'xx-large'} />
                     <Text>Signing Up Employee's Account</Text>

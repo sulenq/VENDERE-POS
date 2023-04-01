@@ -25,10 +25,11 @@ import {
 
 import SearchOffOutlinedIcon from '@mui/icons-material/SearchOffOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { MoneyOff } from '@mui/icons-material';
+import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
 
 import '../css/vendereApp.css';
-import { PrimaryButton } from './Buttons';
-import { MoneyOff } from '@mui/icons-material';
+import { PrimaryButton, PrimaryButtonOutline } from './Buttons';
 import { Input } from './Inputs';
 import { Skeleton } from './Skeleton';
 import { ModalContent, ModalOverlay, ModalBody, ModalFooter } from './Modals';
@@ -339,7 +340,12 @@ const DebtDetails = props => {
 
     return (
       <>
-        <PrimaryButton label="Update Debt" w={'100%'} onClick={onOpen} />
+        <PrimaryButtonOutline
+          leftIcon={DriveFileRenameOutlineOutlinedIcon}
+          label="Update Debt"
+          w={'100%'}
+          onClick={onOpen}
+        />
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
           <ModalOverlay />
           <ModalContent
@@ -504,6 +510,7 @@ const DebtDetails = props => {
           fontSize={'sm'}
           overflowY={'auto'}
           pb={3}
+          maxH={window.innerHeight - 200}
         >
           <VStack w={'100%'}>
             <HStack
@@ -809,7 +816,7 @@ const DebtDetailsModal = props => {
         <ModalOverlay />
 
         <ModalContent
-          h={screenWidth <= 1000 ? '90%' : ''}
+          maxH={'90%'}
           content={
             <>
               <ModalCloseButton borderRadius={50} />

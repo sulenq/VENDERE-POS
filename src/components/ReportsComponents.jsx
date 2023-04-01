@@ -326,10 +326,11 @@ const ReportsList = props => {
         const expenses = getExpenses(expensesData, period);
         // console.log(expenses);
         const totalProfit = grossProfit + expenses.totalExpenses;
+        const status = totalProfit < 0 ? 'loss' : 'profit';
 
         let dataFormat = {
           period: period,
-          status: 'profit',
+          status: status,
           revenue: revenue,
           debt: debt,
           totalRevenue: totalRevenue,
@@ -552,6 +553,7 @@ const ReportDetails = props => {
         h={screenWidth <= 1000 ? 'calc(100% - 64px)' : '100%'}
         pb={screenWidth <= 1000 ? 0 : 3}
       >
+        {/* Header */}
         <HStack alignSelf={'flex-start'} px={3} mb={2} opacity={0.5}>
           <Icon as={InfoOutlinedIcon} />
           <Text fontWeight={'bold'}>Report Details</Text>
@@ -565,6 +567,7 @@ const ReportDetails = props => {
           fontSize={'sm'}
           overflowY={'auto'}
           px={2}
+          h={window.innerHeight - 200}
         >
           <VStack
             py={3}
@@ -1009,12 +1012,13 @@ const ReportDetailsModal = props => {
         <ModalOverlay />
 
         <ModalContent
-          // h={screenWidth <= 1000 ? '90%' : ''}
           maxH={'90%'}
+          // border={'1px solid yellow'}
           content={
             <>
               <ModalBody
-                overflowY={'auto'}
+                // h={'100%'}
+                overflowY={'hidden'}
                 content={
                   <>
                     <ModalCloseButton borderRadius={50} />
@@ -1032,7 +1036,6 @@ const ReportDetailsModal = props => {
                 px={0}
                 py={0}
                 pb={'0px !important'}
-                h={'100%'}
               />
             </>
           }

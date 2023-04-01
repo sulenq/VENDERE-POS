@@ -179,7 +179,7 @@ export default function LandingPage(props) {
           <ModalContent
             content={
               <>
-                <ModalHeader>
+                <ModalHeader px={4}>
                   <HStack>
                     <Icon
                       as={AccountCircleOutlinedIcon}
@@ -413,7 +413,7 @@ export default function LandingPage(props) {
             id="signInModal"
             content={
               <>
-                <ModalHeader>
+                <ModalHeader px={4}>
                   <HStack>
                     <Icon as={StorefrontOutlinedIcon} fontSize={'xx-large'} />
                     <Text>Let's Get into Bussiness</Text>

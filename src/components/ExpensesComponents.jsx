@@ -273,11 +273,12 @@ const ExpenseDetails = props => {
       <VStack
         id={'itemDetails'}
         className={colorMode === 'light' ? 'onLight' : 'onDark'}
-        h={selectedItem.ID ? 'calc(100% - 96px)' : '100%'}
+        // h={selectedItem.ID ? 'calc(100% - 96px)' : '100%'}
         w={'100%'}
         mt={'0px !important'}
         fontSize={'sm'}
         overflowY={'auto'}
+        maxH={window.innerHeight - 200}
       >
         {/* item detail data */}
         <VStack w={'100%'} pb={2}>
@@ -425,7 +426,7 @@ const ExpenseDetailsModal = props => {
         <ModalOverlay />
 
         <ModalContent
-          h={screenWidth <= 1000 ? '90%' : ''}
+          maxH={'90%'}
           content={
             <>
               <ModalBody

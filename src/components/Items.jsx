@@ -152,7 +152,12 @@ const UpdateItem = props => {
 
   return (
     <>
-      <PrimaryButton w={'100%'} label={'Update Product'} onClick={onOpen} />
+      <PrimaryButtonOutline
+        w={'100%'}
+        leftIcon={DriveFileRenameOutlineOutlinedIcon}
+        label={'Update Product'}
+        onClick={onOpen}
+      />
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
@@ -412,6 +417,7 @@ const DeleteItem = props => {
     <>
       <PrimaryButtonOutline
         w={'100%'}
+        leftIcon={DeleteOutlineOutlinedIcon}
         label={'Delete Product'}
         onClick={onOpen}
       />
@@ -732,6 +738,7 @@ const ItemDetails = props => {
         mt={'0px !important'}
         fontSize={'sm'}
         overflowY={'auto'}
+        maxH={window.innerHeight - 200}
       >
         {/* item detail IMG */}
         <VStack px={3} w={'100%'} mb={2}>
@@ -971,7 +978,7 @@ const ItemDetailsModal = props => {
         <ModalOverlay />
 
         <ModalContent
-          h={screenWidth <= 1000 ? '90%' : ''}
+          maxH={'90%'}
           content={
             <>
               <ModalBody

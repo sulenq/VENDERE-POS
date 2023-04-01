@@ -324,6 +324,7 @@ const TransactionDetails = props => {
           fontSize={'sm'}
           overflowY={'auto'}
           pb={3}
+          maxH={window.innerHeight - 200}
         >
           <VStack w={'100%'}>
             <HStack
@@ -627,11 +628,11 @@ const TransactionDetailsModal = props => {
         <ModalOverlay />
 
         <ModalContent
-          h={screenWidth <= 1000 ? '90%' : ''}
+          maxH={'90%'}
           content={
             <>
               <ModalBody
-                overflowY={'auto'}
+                overflowY={'hidden'}
                 content={
                   <>
                     <ModalCloseButton borderRadius={50} />
@@ -648,7 +649,6 @@ const TransactionDetailsModal = props => {
                 px={0}
                 py={0}
                 pb={'0px !important'}
-                h={'100%'}
               />
             </>
           }

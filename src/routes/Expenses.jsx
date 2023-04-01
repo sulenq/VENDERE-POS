@@ -259,7 +259,7 @@ export default function Expenses(props) {
           <ModalContent
             content={
               <>
-                <ModalHeader>
+                <ModalHeader px={4}>
                   <HStack>
                     <Icon
                       as={MonetizationOnOutlinedIcon}

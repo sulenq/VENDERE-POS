@@ -268,6 +268,7 @@ const EmployeeDetails = props => {
         mt={'0px !important'}
         fontSize={'sm'}
         overflowY={'auto'}
+        maxH={window.innerHeight - 200}
       >
         {/* item detail IMG */}
         <VStack px={3} w={'100%'} mb={2}>
@@ -448,7 +449,7 @@ const EmployeeDetailsModal = props => {
         <ModalOverlay />
 
         <ModalContent
-          h={screenWidth <= 1000 ? '90%' : ''}
+          maxH={'90%'}
           content={
             <>
               <ModalBody
@@ -554,6 +555,7 @@ const DeleteEmployee = props => {
     <>
       <PrimaryButtonOutline
         w={'100%'}
+        leftIcon={DeleteOutlineOutlinedIcon}
         label={'Delete Employee Account'}
         onClick={onOpen}
       />

@@ -192,7 +192,7 @@ export default function Cashier({
             content={
               <>
                 <ModalCloseButton borderRadius={50} />
-                <ModalHeader>
+                <ModalHeader px={4}>
                   <HStack>
                     <Icon as={CropFreeOutlinedIcon} />
                     <Text>Scanning</Text>
