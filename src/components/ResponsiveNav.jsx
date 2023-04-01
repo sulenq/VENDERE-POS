@@ -371,7 +371,7 @@ const ResponsiveNav = props => {
               pl={'32px'}
               // textAlign={'right'}
             >
-              #pakaiVENDEREaja
+              #pakaiVENDEREoke
             </Text>
           </Heading>
 

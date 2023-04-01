@@ -582,7 +582,7 @@ export default function LandingPage(props) {
             pl={'32px'}
             // textAlign={'right'}
           >
-            #pakaiVENDEREaja
+            #pakaiVENDEREoke
           </Text>
         </Heading>
         <HStack>
@@ -651,6 +651,7 @@ export default function LandingPage(props) {
           <Image
             src="img/money.gif"
             boxSize="240px"
+            mb={'24px'}
             objectFit="cover"
             alt={'money img'}
           />

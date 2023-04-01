@@ -312,8 +312,16 @@ const LDashboard = () => {
 
   function getTotalRevenue(data) {
     let totalRevenue = 0;
+
     data?.forEach(item => {
-      totalRevenue += item.total;
+      const date = new Date(item.CreatedAt);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+
+      if (year === currentYear && month === currentMonth) {
+        totalRevenue += item.total;
+      }
     });
     return totalRevenue;
   }
@@ -553,7 +561,7 @@ const LDashboard = () => {
               label="See Full Reports"
               w={'100%'}
               onClick={() => {
-                navigate('/vendere-app/reports');
+                navigate(`/vendere-app/reports`);
               }}
             />
           </>

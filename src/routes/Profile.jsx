@@ -342,7 +342,7 @@ export default function Profile(props) {
             px={1}
           >
             <Text>copyright sulenq</Text>
-            <Text>#pakaiVENDEREaja</Text>
+            <Text>#pakaiVENDEREoke</Text>
           </HStack>
 
           {auth().userRole === 'admin' && (

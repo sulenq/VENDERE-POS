@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useLocation } from 'react-router-dom';
-import { useAuthUser, useSignOut } from 'react-auth-kit';
+import { useSearchParams } from 'react-router-dom';
+import { useAuthUser } from 'react-auth-kit';
 
 // Chakra UI
 import {
@@ -48,6 +48,7 @@ import { ModalContent, ModalOverlay, ModalBody, ModalFooter } from './Modals';
 const ReportsList = props => {
   const baseURL = 'http://localhost:8080';
   const { colorMode } = useColorMode();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
     function handleResize() {
@@ -341,11 +342,27 @@ const ReportsList = props => {
         dataSet.push(dataFormat);
       });
 
-      props.setData(dataSet);
+      const dataSetReversed = dataSet.reverse();
+      props.setData(dataSetReversed);
     }
   }, [rawData]);
 
   useEffect(() => {
+    // const currentDate = new Date();
+    // const currentYear = currentDate.getFullYear();
+    // const currentMonthLong = currentDate.toLocaleString('en-EN', {
+    //   month: 'long',
+    // });
+    // if (searchParams.get('period') == `${currentMonthLong} ${currentYear}`) {
+    //   const items = document.querySelectorAll('.items > div > p');
+    //   items.forEach((item, index) => {
+    //     if (item.textContent == searchParams.get('period')) {
+    //       props.selectItem({ index: index + 1 });
+    //     }
+    //   });
+    // } else if (props.data?.length > 0) {
+    //   props.selectItem({ index: 1 });
+    // }
     if (props.data?.length > 0) {
       props.selectItem({ index: 1 });
     }
@@ -387,12 +404,12 @@ const ReportsList = props => {
     );
   };
 
-  const dateOptions = {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'numeric',
-    year: 'numeric',
-  };
+  // const dateOptions = {
+  //   weekday: 'long',
+  //   day: 'numeric',
+  //   month: 'numeric',
+  //   year: 'numeric',
+  // };
 
   if (!loading) {
     if (itemFound) {
@@ -463,7 +480,7 @@ const ReportsList = props => {
                       <ReportDetailsModal
                         reportType={props.reportType}
                         selectItem={props.selectItem}
-                        selectedItem={props.selectedItem}
+                        selectedItem={item}
                         refresh={props.refresh}
                         setRefresh={props.setRefresh}
                       />
