@@ -452,9 +452,7 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
                     {/* Add Note */}
                     <VStack alignItems={'flex-start'} mt={2}>
                       <Text>Add Note</Text>
-                      <Textarea
-                        placeholder={'Write some note, e.g Agus, bayar lusa'}
-                      />
+                      <Textarea placeholder={'Write some note here'} />
                     </VStack>
 
                     {/* <Text mt={4} fontSize={'sm'}>

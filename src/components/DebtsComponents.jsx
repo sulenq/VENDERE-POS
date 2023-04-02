@@ -427,9 +427,7 @@ const DebtDetails = props => {
 
                       <FormControl mt={4} isRequired>
                         <FormLabel>Notes</FormLabel>
-                        <Textarea
-                          placeholder={'Write some note, e.g Agus, bayar lusa'}
-                        />
+                        <Textarea placeholder={'Write some note here'} />
                       </FormControl>
                     </>
                   }

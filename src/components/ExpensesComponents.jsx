@@ -238,7 +238,6 @@ const ExpensesList = props => {
 
 const ExpenseDetails = props => {
   const selectedItem = props.selectedItem;
-  const auth = useAuthUser();
   const { colorMode } = useColorMode();
   const location = useLocation();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);

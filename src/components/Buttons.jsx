@@ -63,13 +63,13 @@ const PrimaryButtonOutline = props => {
       _hover={{
         background:
           colorMode === 'light'
-            ? 'var(--light) !important'
+            ? 'var(--p-75) !important'
             : 'var(--p-350) !important',
       }}
       _active={{
         background:
           colorMode === 'light'
-            ? 'var(--p-75) !important'
+            ? 'var(--p-100a) !important'
             : 'var(--p-300) !important',
       }}
     >
@@ -128,8 +128,8 @@ const SecondaryButtonOutlineNav = props => {
       w={props.w}
       style={{
         color: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-50)',
-        border: '2px solid',
-        borderColor: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-50)',
+        border: '1px solid',
+        borderColor: 'var(--p-250)',
       }}
       _hover={{
         background: 'whiteAlpha.200 !important',

@@ -189,6 +189,17 @@ export default function Expenses(props) {
     });
     const [isCreatingAcount, setIsCreatingCashierAccount] = useState(false);
 
+    const expenseTypeList = [
+      'Pembelian',
+      'Beban Angkut',
+      'Beban Listrik',
+      'Beban Sewa',
+      'Beban Telepon',
+      'Penyesuaian Persediaan',
+      'Lain-lain',
+      'Prive',
+    ];
+
     function addExpense(e) {
       e.preventDefault();
 
@@ -309,149 +320,28 @@ export default function Expenses(props) {
                           colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400)'
                         }
                       >
-                        <MenuItem
-                          bg={'transparent'}
-                          _hover={{
-                            background:
-                              colorMode === 'light'
-                                ? 'var(--light-dim)'
-                                : 'var(--p-300)',
-                          }}
-                          onClick={() => {
-                            setRegisterData({
-                              ...registerData,
-                              jenis: 'Pembelian',
-                            });
-                          }}
-                        >
-                          Pembelian
-                        </MenuItem>
-
-                        <MenuItem
-                          bg={'transparent'}
-                          _hover={{
-                            background:
-                              colorMode === 'light'
-                                ? 'var(--light-dim)'
-                                : 'var(--p-300)',
-                          }}
-                          onClick={() => {
-                            setRegisterData({
-                              ...registerData,
-                              jenis: 'Beban Angkut',
-                            });
-                          }}
-                        >
-                          Beban Angkut
-                        </MenuItem>
-
-                        <MenuItem
-                          bg={'transparent'}
-                          _hover={{
-                            background:
-                              colorMode === 'light'
-                                ? 'var(--light-dim)'
-                                : 'var(--p-300)',
-                          }}
-                          onClick={() => {
-                            setRegisterData({
-                              ...registerData,
-                              jenis: 'Beban Listrik',
-                            });
-                          }}
-                        >
-                          Beban Listrik
-                        </MenuItem>
-
-                        <MenuItem
-                          bg={'transparent'}
-                          _hover={{
-                            background:
-                              colorMode === 'light'
-                                ? 'var(--light-dim)'
-                                : 'var(--p-300)',
-                          }}
-                          onClick={() => {
-                            setRegisterData({
-                              ...registerData,
-                              jenis: 'Beban Sewa',
-                            });
-                          }}
-                        >
-                          Beban Sewa
-                        </MenuItem>
-
-                        <MenuItem
-                          bg={'transparent'}
-                          _hover={{
-                            background:
-                              colorMode === 'light'
-                                ? 'var(--light-dim)'
-                                : 'var(--p-300)',
-                          }}
-                          onClick={() => {
-                            setRegisterData({
-                              ...registerData,
-                              jenis: 'Beban Telepon',
-                            });
-                          }}
-                        >
-                          Beban Telepon
-                        </MenuItem>
-
-                        <MenuItem
-                          bg={'transparent'}
-                          _hover={{
-                            background:
-                              colorMode === 'light'
-                                ? 'var(--light-dim)'
-                                : 'var(--p-300)',
-                          }}
-                          onClick={() => {
-                            setRegisterData({
-                              ...registerData,
-                              jenis: 'Penyesuaian Persediaan',
-                            });
-                          }}
-                        >
-                          Penyesuaian Persediaan
-                        </MenuItem>
-
-                        <MenuItem
-                          bg={'transparent'}
-                          _hover={{
-                            background:
-                              colorMode === 'light'
-                                ? 'var(--light-dim)'
-                                : 'var(--p-300)',
-                          }}
-                          onClick={() => {
-                            setRegisterData({
-                              ...registerData,
-                              jenis: 'Lain-lain',
-                            });
-                          }}
-                        >
-                          Lain-lain
-                        </MenuItem>
-
-                        <MenuItem
-                          bg={'transparent'}
-                          _hover={{
-                            background:
-                              colorMode === 'light'
-                                ? 'var(--light-dim)'
-                                : 'var(--p-300)',
-                          }}
-                          onClick={() => {
-                            setRegisterData({
-                              ...registerData,
-                              jenis: 'Prive',
-                            });
-                          }}
-                        >
-                          Prive
-                        </MenuItem>
+                        {expenseTypeList.map((expenseType, index) => {
+                          return (
+                            <MenuItem
+                              key={expenseType + index}
+                              bg={'transparent'}
+                              _hover={{
+                                background:
+                                  colorMode === 'light'
+                                    ? 'var(--light-dim)'
+                                    : 'var(--p-300)',
+                              }}
+                              onClick={() => {
+                                setRegisterData({
+                                  ...registerData,
+                                  jenis: expenseType,
+                                });
+                              }}
+                            >
+                              {expenseType}
+                            </MenuItem>
+                          );
+                        })}
                       </MenuList>
                     </Menu>
                   </FormControl>
@@ -478,9 +368,7 @@ export default function Expenses(props) {
 
                   <FormControl mt={4} isRequired>
                     <FormLabel>Notes</FormLabel>
-                    <Textarea
-                      placeholder={'Write some note, e.g Agus, bayar lusa'}
-                    />
+                    <Textarea placeholder={'Write some note here'} />
                   </FormControl>
                 </ModalBody>
 
