@@ -21,7 +21,6 @@ import {
   ModalHeader,
   ModalCloseButton,
   useToast,
-  Textarea,
 } from '@chakra-ui/react';
 
 // MUI Icons
@@ -36,7 +35,7 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import '../css/vendereApp.css';
 import { PrimaryButton, PrimaryButtonOutline } from './Buttons';
 import { ModalContent, ModalBody, ModalFooter, ModalOverlay } from './Modals';
-import { SearchBox } from '../components/Inputs';
+import { SearchBox, Textarea } from '../components/Inputs';
 import { ItemsList } from '../components/Items';
 
 const CartList = ({
@@ -454,19 +453,7 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
                     <VStack alignItems={'flex-start'} mt={2}>
                       <Text>Add Note</Text>
                       <Textarea
-                        mt={'4px !important'}
-                        value={note || ''}
-                        borderRadius={6}
-                        onChange={e => {
-                          setNote(e.target.value);
-                        }}
-                        placeholder="Write some note here."
-                        _placeholder={{ opacity: 0.5 }}
-                        size="sm"
-                        _focusVisible={{
-                          border:
-                            colorMode === 'light' ? '2px solid ' : '2px solid',
-                        }}
+                        placeholder={'Write some note, e.g Agus, bayar lusa'}
                       />
                     </VStack>
 

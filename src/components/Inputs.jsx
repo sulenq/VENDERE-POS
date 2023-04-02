@@ -7,11 +7,7 @@ import {
   InputGroup,
   InputRightElement,
   Text,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
+  Textarea as TextareaChakra,
 } from '@chakra-ui/react';
 import { useLocation } from 'react-router-dom';
 
@@ -226,18 +222,31 @@ const Input = props => {
   );
 };
 
-const InputNumber = props => {
+const Textarea = props => {
   const { colorMode } = useColorMode();
 
   return (
-    <NumberInput defaultValue={1} min={props.min} max={props.max}>
-      <NumberInputField />
-      <NumberInputStepper>
-        <NumberIncrementStepper />
-        <NumberDecrementStepper />
-      </NumberInputStepper>
-    </NumberInput>
+    <TextareaChakra
+      {...props}
+      mt={'0px !important'}
+      _placeholder={{ opacity: 0.5 }}
+      bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-350a2)'}
+      borderLeft={'1px solid'}
+      borderRight={'1px solid'}
+      borderTop={'1px solid'}
+      borderBottom={'2px solid'}
+      borderColor={
+        colorMode === 'light'
+          ? 'var(--p-75) !important'
+          : 'var(--p-350a) !important'
+      }
+      borderRadius={'8px'}
+      _focusVisible={{
+        bg: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-350a2)',
+        borderBottom: '2px solid var(--accent) !important',
+      }}
+    />
   );
 };
 
-export { SearchBox, Input, InputNumber };
+export { SearchBox, Input, Textarea };

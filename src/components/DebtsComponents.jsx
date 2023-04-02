@@ -14,7 +14,6 @@ import {
   ModalHeader,
   ModalCloseButton,
   useDisclosure,
-  Textarea,
   FormLabel,
   FormControl,
   Button,
@@ -30,7 +29,7 @@ import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRen
 
 import '../css/vendereApp.css';
 import { PrimaryButton, PrimaryButtonOutline } from './Buttons';
-import { Input } from './Inputs';
+import { Input, Textarea } from './Inputs';
 import { Skeleton } from './Skeleton';
 import { ModalContent, ModalOverlay, ModalBody, ModalFooter } from './Modals';
 
@@ -429,24 +428,7 @@ const DebtDetails = props => {
                       <FormControl mt={4} isRequired>
                         <FormLabel>Notes</FormLabel>
                         <Textarea
-                          mt={'0px !important'}
-                          value={data?.notes}
-                          borderRadius={6}
-                          _placeholder={{ opacity: 0.5 }}
-                          onChange={e => {
-                            setData({
-                              ...data,
-                              notes: e.target.value,
-                            });
-                          }}
-                          placeholder="Write some note here."
-                          size="sm"
-                          _focusVisible={{
-                            border:
-                              colorMode === 'light'
-                                ? '2px solid '
-                                : '2px solid',
-                          }}
+                          placeholder={'Write some note, e.g Agus, bayar lusa'}
                         />
                       </FormControl>
                     </>

@@ -23,23 +23,19 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  Textarea,
 } from '@chakra-ui/react';
 
 // MUI Icons
-import PeopleAltOutlined from '@mui/icons-material/PeopleOutlined';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 
 // My Component
 import ResponsiveNav from '../components/ResponsiveNav';
-import { SearchBox } from '../components/Inputs';
-import { PrimaryButton, PrimaryButtonOutline } from '../components/Buttons';
+import { SearchBox, Textarea } from '../components/Inputs';
+import { PrimaryButton } from '../components/Buttons';
 import { ActionTopBar } from '../components/ActionTopBar';
-import { Stat } from '../components/Data';
 import { ModalContent, ModalFooter, ModalOverlay } from '../components/Modals';
-import { Input, InputNumber } from '../components/Inputs';
-import { Skeleton } from '../components/Skeleton';
+import { Input } from '../components/Inputs';
 import { ExpensesList, ExpenseDetails } from '../components/ExpensesComponents';
 
 export default function Expenses(props) {
@@ -483,22 +479,7 @@ export default function Expenses(props) {
                   <FormControl mt={4} isRequired>
                     <FormLabel>Notes</FormLabel>
                     <Textarea
-                      mt={'0px !important'}
-                      value={registerData?.notes}
-                      borderRadius={6}
-                      _placeholder={{ opacity: 0.5 }}
-                      onChange={e => {
-                        setRegisterData({
-                          ...registerData,
-                          notes: e.target.value,
-                        });
-                      }}
-                      placeholder="Write some note here."
-                      size="sm"
-                      _focusVisible={{
-                        border:
-                          colorMode === 'light' ? '2px solid ' : '2px solid',
-                      }}
+                      placeholder={'Write some note, e.g Agus, bayar lusa'}
                     />
                   </FormControl>
                 </ModalBody>
