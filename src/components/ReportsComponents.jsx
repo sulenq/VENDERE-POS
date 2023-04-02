@@ -548,11 +548,7 @@ const ReportDetails = props => {
       pt={3}
       justifyContent={'space-between'}
     >
-      <VStack
-        w={'100%'}
-        h={screenWidth <= 1000 ? 'calc(100% - 64px)' : '100%'}
-        pb={screenWidth <= 1000 ? 0 : 3}
-      >
+      <VStack w={'100%'} h={'100%'} pb={screenWidth <= 1000 ? 0 : 3}>
         {/* Header */}
         <HStack alignSelf={'flex-start'} px={3} mb={2} opacity={0.5}>
           <Icon as={InfoOutlinedIcon} />
@@ -567,7 +563,7 @@ const ReportDetails = props => {
           fontSize={'sm'}
           overflowY={'auto'}
           px={2}
-          h={window.innerHeight - 200}
+          h={screenWidth <= 1000 ? window.innerHeight - 200 : '100%'}
         >
           <VStack
             py={3}
@@ -976,7 +972,7 @@ const ReportDetails = props => {
               colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
           }}
         >
-          <PrimaryButton label={'Got It'} w={'100%'} onClick={props.onClose} />
+          <PrimaryButtonOutline label={'Got It'} w={'100%'} onClick={props.onClose} />
         </HStack>
       )}
     </VStack>

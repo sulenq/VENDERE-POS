@@ -324,7 +324,7 @@ const TransactionDetails = props => {
           fontSize={'sm'}
           overflowY={'auto'}
           pb={3}
-          maxH={window.innerHeight - 200}
+          maxH={screenWidth <= 1000 ? window.innerHeight - 200 : '100%'}
         >
           <VStack w={'100%'}>
             <HStack
@@ -581,7 +581,6 @@ const TransactionDetails = props => {
 
       {props.selectedItem.ID && screenWidth <= 1000 && (
         <HStack
-          key={'Got It Button'}
           w={'100%'}
           mt={'0px !important'}
           p={3}
@@ -593,7 +592,11 @@ const TransactionDetails = props => {
               colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
           }}
         >
-          <PrimaryButton label={'Got It'} w={'100%'} onClick={props.onClose} />
+          <PrimaryButtonOutline
+            label={'Got It'}
+            w={'100%'}
+            onClick={props.onClose}
+          />
         </HStack>
       )}
     </VStack>

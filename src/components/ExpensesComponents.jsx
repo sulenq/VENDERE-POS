@@ -21,7 +21,7 @@ import SearchOffOutlinedIcon from '@mui/icons-material/SearchOffOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 import '../css/vendereApp.css';
-import { PrimaryButton } from './Buttons';
+import { PrimaryButton, PrimaryButtonOutline } from './Buttons';
 import { Skeleton } from './Skeleton';
 import { ModalContent, ModalOverlay, ModalBody } from './Modals';
 
@@ -278,7 +278,7 @@ const ExpenseDetails = props => {
         mt={'0px !important'}
         fontSize={'sm'}
         overflowY={'auto'}
-        maxH={window.innerHeight - 200}
+        maxH={screenWidth <= 1000 ? window.innerHeight - 200 : '100%'}
       >
         {/* item detail data */}
         <VStack w={'100%'} pb={2}>
@@ -389,7 +389,11 @@ const ExpenseDetails = props => {
               colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
           }}
         >
-          <PrimaryButton label={'Got It'} w={'100%'} onClick={props.onClose} />
+          <PrimaryButtonOutline
+            label={'Got It'}
+            w={'100%'}
+            onClick={props.onClose}
+          />
         </HStack>
       )}
     </VStack>

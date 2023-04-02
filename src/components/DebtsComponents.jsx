@@ -492,7 +492,7 @@ const DebtDetails = props => {
           fontSize={'sm'}
           overflowY={'auto'}
           pb={3}
-          maxH={window.innerHeight - 200}
+          maxH={screenWidth <= 1000 ? window.innerHeight - 200 : '100%'}
         >
           <VStack w={'100%'}>
             <HStack

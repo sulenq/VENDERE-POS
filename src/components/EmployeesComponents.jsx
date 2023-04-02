@@ -268,7 +268,7 @@ const EmployeeDetails = props => {
         mt={'0px !important'}
         fontSize={'sm'}
         overflowY={'auto'}
-        maxH={window.innerHeight - 200}
+        maxH={screenWidth <= 1000 ? window.innerHeight - 200 : '100%'}
       >
         {/* item detail IMG */}
         <VStack px={3} w={'100%'} mb={2}>
@@ -407,7 +407,7 @@ const EmployeeDetails = props => {
           </ButtonGroup>
         ) : (
           selectedItem.ID && (
-            <PrimaryButton
+            <PrimaryButtonOutline
               label={'Got It'}
               w={'100%'}
               onClick={props.onClose}
