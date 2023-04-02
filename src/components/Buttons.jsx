@@ -147,13 +147,25 @@ const PrimaryButtonGhost = props => {
 
   return (
     <Button
-      {...props}
+      // {...props}
+      id={props.id}
+      onClick={props.onClick}
+      size={props.size}
+      form={props.form}
+      type={props.type}
+      pb={props.pb}
+      ml={props.ml}
+      mr={props.mr}
+      w={props.w}
+      ref={props.refq}
+      borderRadius={props.borderRadius || 12}
+      isLoading={props.isLoading}
       className="btn primaryBtn"
       variant={'ghost'}
-      style={{
-        color: 'var(--p-500)',
-        background: 'var(--p-50)',
-      }}
+      // style={{
+      //   color: 'var(--p-500)',
+      //   background: 'var(--p-50)',
+      // }}
       _hover={{
         background: colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
       }}

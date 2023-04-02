@@ -974,7 +974,7 @@ const ItemDetailsModal = props => {
         details
       </Text>
 
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <Modal isOpen={isOpen} onClose={onClose} trapFocus={false} isCentered>
         <ModalOverlay />
 
         <ModalContent
