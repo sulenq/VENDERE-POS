@@ -58,7 +58,7 @@ const PrimaryButtonOutline = props => {
       style={{
         color: colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)',
         border: '1px solid',
-        borderColor: colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)',
+        borderColor: colorMode === 'light' ? 'var(--p-200)' : 'var(--p-250)',
       }}
       _hover={{
         background:

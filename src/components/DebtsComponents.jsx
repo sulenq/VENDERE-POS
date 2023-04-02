@@ -505,7 +505,7 @@ const DebtDetails = props => {
               borderBottom={'1px solid'}
               style={{
                 borderColor:
-                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                  colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
               }}
             >
               <Text className="detailsLabels" w={'25%'}>
@@ -523,7 +523,7 @@ const DebtDetails = props => {
               borderBottom={'1px solid'}
               style={{
                 borderColor:
-                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                  colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
               }}
             >
               <Text className="detailsLabels" w={'25%'}>
@@ -541,7 +541,7 @@ const DebtDetails = props => {
               borderBottom={'1px solid'}
               style={{
                 borderColor:
-                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                  colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
               }}
             >
               <Text className="detailsLabels" w={'25%'}>
@@ -567,7 +567,7 @@ const DebtDetails = props => {
               borderBottom={'1px solid'}
               style={{
                 borderColor:
-                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                  colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
               }}
             >
               <Text className="detailsLabels" w={'25%'}>
@@ -587,7 +587,7 @@ const DebtDetails = props => {
               borderBottom={'1px solid'}
               style={{
                 borderColor:
-                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                  colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
               }}
             >
               <Text className="detailsLabels" w={'25%'}>
@@ -607,7 +607,7 @@ const DebtDetails = props => {
               borderBottom={'1px solid'}
               style={{
                 borderColor:
-                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                  colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
               }}
             >
               <Text className="detailsLabels" w={'25%'}>
@@ -627,7 +627,7 @@ const DebtDetails = props => {
               borderBottom={'1px solid'}
               style={{
                 borderColor:
-                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                  colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
               }}
             >
               <Text className="detailsLabels" w={'25%'}>
@@ -675,7 +675,7 @@ const DebtDetails = props => {
               borderBottom={'1px solid'}
               style={{
                 borderColor:
-                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                  colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
               }}
             >
               <Text className="detailsLabels" w={'25%'}>
@@ -694,9 +694,9 @@ const DebtDetails = props => {
               alignItems={'flex-start'}
               borderBottom={'1px solid'}
               style={{
-                borderColor:
-                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
-              }}
+              borderColor:
+                colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
+            }}
             >
               <Text className="detailsLabels" w={'25%'}>
                 Profit
@@ -715,7 +715,7 @@ const DebtDetails = props => {
               borderBottom={'1px solid'}
               style={{
                 borderColor:
-                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                  colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
               }}
             >
               <Text className="detailsLabels" w={'25%'}>
@@ -733,7 +733,7 @@ const DebtDetails = props => {
               borderBottom={'1px solid'}
               style={{
                 borderColor:
-                  colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+                  colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
               }}
             >
               <Text className="detailsLabels" w={'25%'}>
