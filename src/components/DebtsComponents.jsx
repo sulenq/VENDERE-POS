@@ -748,7 +748,7 @@ const DebtDetails = props => {
       <HStack
         w={'100%'}
         mt={'0px !important'}
-        p={3}
+        p={'16px 12px 12px 12px'}
         overflowY={'auto'}
         borderRadius={'0 0 12px 12px'}
         justifyContent={'center'}

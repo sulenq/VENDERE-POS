@@ -89,12 +89,10 @@ export default function ManageItems(props) {
 
     if (selectedItem) {
       const itemsKeyElm = document.querySelectorAll('.items > div > .itemID');
-
-      itemsKeyElm.forEach((itemKeyElm, index) => {
-        if (itemKeyElm.textContent == selectedItem.ID) {
-          setItemIndex(index + 1);
-        }
-      });
+      const selectedItemIndex = Array.from(itemsKeyElm).findIndex(
+        itemElm => itemElm.textContent === selectedItem.ID.toString()
+      );
+      setItemIndex(selectedItemIndex + 1);
 
       function selectedItemStruct(selectedItem) {
         const CreatedAt = new Date(selectedItem.CreatedAt);

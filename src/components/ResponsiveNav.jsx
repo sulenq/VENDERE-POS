@@ -391,7 +391,7 @@ const ResponsiveNav = props => {
               id="navList"
               className="navListWrapper"
               style={{
-                fontWeight: 'bold',
+                fontWeight: '500',
                 color: 'white',
                 alignItems: 'flex-start',
                 width: '100%',
@@ -448,7 +448,7 @@ const ResponsiveNav = props => {
                       <Icon
                         as={nav.icon}
                         fontSize={'xl'}
-                        mt={'3px !important'}
+                        mt={'2px !important'}
                       />
                       <Text className="navLabel" ml={2}>
                         {nav.name === 'ManageItems' ? 'Products' : nav.name}
@@ -492,7 +492,7 @@ const ResponsiveNav = props => {
                         <Icon
                           as={nav.icon}
                           fontSize={'xl'}
-                          mt={'3px !important'}
+                          mt={'2px !important'}
                         />
                         <Text className="navLabel" ml={2}>
                           {nav.name === 'ManageItems' ? 'Products' : nav.name}

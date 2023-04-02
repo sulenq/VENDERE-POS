@@ -195,7 +195,7 @@ const TransactionsList = props => {
             ) {
               return (
                 <HStack
-                  key={index}
+                  key={item?.ID}
                   id={'item' + index}
                   pl={4}
                   pr={6}
@@ -328,7 +328,7 @@ const TransactionDetails = props => {
         >
           <VStack w={'100%'}>
             <HStack
-              key={0}
+              key={'ID'}
               pt={3}
               px={5}
               pb={2}
@@ -347,7 +347,7 @@ const TransactionDetails = props => {
             </HStack>
 
             <HStack
-              key={1}
+              key={'Cashier ID'}
               px={5}
               pb={2}
               w={'100%'}
@@ -365,7 +365,7 @@ const TransactionDetails = props => {
             </HStack>
 
             <HStack
-              key={3}
+              key={'Status'}
               px={5}
               pb={2}
               w={'100%'}
@@ -391,7 +391,7 @@ const TransactionDetails = props => {
             </HStack>
 
             <HStack
-              key={4}
+              key={'Total'}
               px={5}
               pb={2}
               w={'100%'}
@@ -411,7 +411,7 @@ const TransactionDetails = props => {
             </HStack>
 
             <HStack
-              key={5}
+              key={'Pay'}
               px={5}
               pb={2}
               w={'100%'}
@@ -431,7 +431,7 @@ const TransactionDetails = props => {
             </HStack>
 
             <HStack
-              key={6}
+              key={'Change'}
               px={5}
               pb={2}
               w={'100%'}
@@ -451,7 +451,7 @@ const TransactionDetails = props => {
             </HStack>
 
             <HStack
-              key={7}
+              key={'CartList'}
               px={5}
               pb={2}
               w={'100%'}
@@ -499,7 +499,7 @@ const TransactionDetails = props => {
             </HStack>
 
             <HStack
-              key={8}
+              key={'Notes'}
               px={5}
               pb={2}
               w={'100%'}
@@ -541,7 +541,7 @@ const TransactionDetails = props => {
             </HStack> */}
 
             <HStack
-              key={2}
+              key={'Created At'}
               px={5}
               pb={2}
               w={'100%'}
@@ -559,7 +559,7 @@ const TransactionDetails = props => {
             </HStack>
 
             <HStack
-              key={10}
+              key={'Updated At'}
               px={5}
               pb={2}
               w={'100%'}
@@ -581,6 +581,7 @@ const TransactionDetails = props => {
 
       {props.selectedItem.ID && screenWidth <= 1000 && (
         <HStack
+          key={'Got It Button'}
           w={'100%'}
           mt={'0px !important'}
           p={3}
