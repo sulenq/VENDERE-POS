@@ -67,6 +67,8 @@ export default function LandingPage(props) {
   const { colorMode } = useColorMode();
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [screenHeight, setScreenHeight] = useState(window.innerHeight);
+
   useEffect(() => {
     function handleResize() {
       setScreenWidth(window.innerWidth);
@@ -639,12 +641,12 @@ export default function LandingPage(props) {
 
       <HStack
         id={'hero'}
-        // pt={screenWidth <= 1000 ? '128px' : '320px'}
         py={'64px'}
-        h={'920px'}
+        h={screenHeight <= 700 ? 'fit-content' : 'calc(100vh - 8px)'}
         justifyContent={'center'}
         alignItems={'center'}
         px={screenWidth <= 1000 ? '24px' : '240px'}
+        // pt={screenWidth <= 1000 ? '128px' : '320px'}
       >
         <VStack w={'70%'} pr={3}>
           <Text
