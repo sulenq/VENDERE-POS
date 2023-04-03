@@ -279,10 +279,9 @@ const EmployeeDetails = props => {
               justifyContent: 'center',
               aspectRatio: 3 / 2,
               fontWeight: 'bold',
-              opacity: 0.2,
+              opacity: 0.1,
               // borderRadius: '12px',
-              background:
-                colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)',
+              background: 'var(--p-200)',
               borderRadius: '8px',
             }}
           >
