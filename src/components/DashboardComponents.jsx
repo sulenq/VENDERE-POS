@@ -110,41 +110,6 @@ const RDashboard = () => {
     return () => clearInterval(employeeLive);
   });
 
-  // useEffect(() => {
-  //   const getEmployeesAPI = `${baseURL}/api/v1/cashiers`;
-
-  //   setLoading(true);
-
-  //   const EmployeeLive = setInterval(() => {
-  //     axios
-  //       .get(getEmployeesAPI, {
-  //         headers: { Authorization: `Bearer ${token}` },
-  //       })
-  //       .then(r => {
-  //         // console.log(r);
-  //         let totalOnline = 0;
-  //         r?.data?.data?.forEach(emp => {
-  //           if (emp.online) {
-  //             totalOnline += 1;
-  //           }
-  //         });
-  //         // console.log(totalOnline);
-  //         setData({
-  //           total: r.data.data?.length || 0,
-  //           totalOnline: totalOnline,
-  //           list: r.data.data?.reverse(),
-  //         });
-  //         setLoading(false);
-  //       })
-  //       .catch(err => {
-  //         console.log(err);
-  //         setLoading(false);
-  //       });
-  //   }, 1);
-
-  //   return () => clearInterval(EmployeeLive);
-  // }, [refresh]);
-
   return (
     <VStack mt={'16px !important'} w={'100%'} alignItems={'flex-start'}>
       {/* Heading */}
@@ -153,7 +118,7 @@ const RDashboard = () => {
         style={{ width: '100%', justifyContent: 'space-between' }}
       >
         <Text fontWeight={'bold'} opacity={0.5}>
-          Cashiers (online feature coming soon!)
+          Cashiers
         </Text>
       </HStack>
 

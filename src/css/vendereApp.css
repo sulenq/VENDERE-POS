@@ -278,7 +278,7 @@ bg={colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)'} */
     background-color: transparent;
   }
   .onDark::-webkit-scrollbar-thumb {
-    border-radius: 2px;
+    border-radius: 20px;
     background-color: var(--p-200);
   }
 
@@ -289,7 +289,7 @@ bg={colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)'} */
   }
 
   .onLight::-webkit-scrollbar-thumb {
-    border-radius: 2px;
+    border-radius: 20px;
     background-color: var(--p-250);
   }
 }
