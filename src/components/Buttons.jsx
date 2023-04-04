@@ -18,7 +18,7 @@ const PrimaryButton = props => {
       mr={props.mr}
       w={props.w}
       ref={props.refq}
-      borderRadius={props.borderRadius || 12}
+      borderRadius={props.borderRadius || 50}
       isLoading={props.isLoading}
       variant={'solid'}
       color={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-500)'}
@@ -54,7 +54,7 @@ const PrimaryButtonOutline = props => {
       w={props.w}
       variant={'outline'}
       ref={props.refq}
-      borderRadius={props.borderRadius || 12}
+      borderRadius={props.borderRadius || 50}
       style={{
         color: colorMode === 'light' ? 'var(--p-500)' : 'var(--p-50)',
         border: '1px solid',
@@ -86,7 +86,7 @@ const PrimaryButtonNav = props => {
     <Button
       id={props.id}
       ref={props.refq}
-      className="btn primaryBtn"
+      className="btn"
       onClick={props.onClick}
       size={props.size}
       type={props.type}
@@ -118,7 +118,7 @@ const SecondaryButtonOutlineNav = props => {
   return (
     <Button
       id={props.id}
-      className="btn secondaryButtonOutline"
+      className="btn"
       onClick={props.onClick}
       type={props.type}
       size={props.size}
@@ -159,9 +159,8 @@ const PrimaryButtonGhost = props => {
       mr={props.mr}
       w={props.w}
       ref={props.refq}
-      borderRadius={props.borderRadius || 12}
+      borderRadius={props.borderRadius || 50}
       isLoading={props.isLoading}
-      className="btn primaryBtn"
       variant={'ghost'}
       // style={{
       //   color: 'var(--p-500)',

@@ -368,7 +368,15 @@ export default function Expenses(props) {
 
                   <FormControl mt={4} isRequired>
                     <FormLabel>Notes</FormLabel>
-                    <Textarea placeholder={'Write some note here'} />
+                    <Textarea
+                      placeholder={'Write some note here'}
+                      onChange={e => {
+                        setRegisterData({
+                          ...registerData,
+                          notes: e.target.value,
+                        });
+                      }}
+                    />
                   </FormControl>
                 </ModalBody>
 

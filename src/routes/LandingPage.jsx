@@ -524,7 +524,7 @@ export default function LandingPage(props) {
                     _hover={{ textDecoration: 'underline' }}
                     onClick={toSignUp}
                   >
-                    Don't have account?, let's register yours
+                    Don't have account?, let's register yours (admin only)
                   </Text>
                 </ModalBody>
 

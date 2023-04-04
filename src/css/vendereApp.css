@@ -8,7 +8,7 @@
   --light-dim: #efefef;
   --light-dim2: #f0f0f0ad;
   --p-50: #f5f5f5;
-  --p-50a: #ffffff90;
+  --p-50a: #ffffffb1;
   --p-75: #e9e9e9;
   --p-100: #bebebe;
   --p-100a: #bebebe56;
@@ -104,7 +104,7 @@ body,
 }
 
 .btn {
-  border-radius: 12px !important;
+  border-radius: 50px !important;
 }
 
 /* .inputBox:focus-visible {
@@ -279,7 +279,7 @@ bg={colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)'} */
   }
   .onDark::-webkit-scrollbar-thumb {
     border-radius: 2px;
-    background-color: var(--p-100);
+    background-color: var(--p-200);
   }
 
   .onLight::-webkit-scrollbar {
