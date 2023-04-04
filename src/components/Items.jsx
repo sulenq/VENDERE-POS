@@ -777,7 +777,7 @@ const ItemDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
+                colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300a2)',
             }}
           >
             <Text className="detailsLabels" w={'150px'}>
@@ -794,7 +794,7 @@ const ItemDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
+                colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300a2)',
             }}
           >
             <Text className="detailsLabels" w={'150px'}>
@@ -811,7 +811,7 @@ const ItemDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
+                colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300a2)',
             }}
           >
             <Text className="detailsLabels" w={'150px'}>
@@ -830,7 +830,7 @@ const ItemDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
+                colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300a2)',
             }}
           >
             <Text className="detailsLabels" w={'150px'}>
@@ -849,7 +849,7 @@ const ItemDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
+                colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300a2)',
             }}
           >
             <Text className="detailsLabels" w={'150px'}>
@@ -868,7 +868,7 @@ const ItemDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
+                colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300a2)',
             }}
           >
             <Text className="detailsLabels" w={'150px'}>
@@ -885,7 +885,7 @@ const ItemDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
+                colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300a2)',
             }}
           >
             <Text className="detailsLabels" w={'150px'}>
@@ -902,7 +902,7 @@ const ItemDetails = props => {
             borderBottom={'1px solid'}
             style={{
               borderColor:
-                colorMode === 'light' ? 'var(--p-75)' : 'var(--p-350)',
+                colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300a2)',
             }}
           >
             <Text className="detailsLabels" w={'150px'}>

@@ -16,8 +16,8 @@
   --p-200a: #88888830;
   --p-250: #606060;
   --p-300: #303030;
-  --p-300a: #303030aa;
-  --p-300a2: #3030304e;
+  --p-300a: #30303058;
+  --p-300a2: #30303038;
   --p-350: #252525;
   --p-350a: #20202080;
   --p-350a2: #2727272d;
@@ -275,7 +275,7 @@ bg={colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)'} */
   .onDark::-webkit-scrollbar {
     width: 8px;
     border-radius: 2px;
-    background-color: var(--p-250);
+    background-color: transparent;
   }
   .onDark::-webkit-scrollbar-thumb {
     border-radius: 2px;
@@ -285,7 +285,7 @@ bg={colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)'} */
   .onLight::-webkit-scrollbar {
     width: 8px;
     border-radius: 2px;
-    background-color: var(--p-100);
+    background-color: transparent;
   }
 
   .onLight::-webkit-scrollbar-thumb {
