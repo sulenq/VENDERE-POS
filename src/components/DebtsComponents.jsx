@@ -62,7 +62,7 @@ const DebtsList = props => {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then(r => {
-          // console.log(r.data.data);
+          console.log(r.data.data);
           if (r.data.data) {
             props.setData(r.data.data);
           } else {
@@ -317,6 +317,7 @@ const DebtDetails = props => {
 
       setLoading(true);
       function payDebt() {
+        console.log(debtDataToUpdate);
         axios
           .put(payDebtAPI, debtDataToUpdate, {
             headers: { Authorization: `Bearer ${token}` },
@@ -427,7 +428,13 @@ const DebtDetails = props => {
 
                       <FormControl mt={4} isRequired>
                         <FormLabel>Notes</FormLabel>
-                        <Textarea placeholder={'Write some note here'} />
+                        <Textarea
+                          value={data?.notes}
+                          placeholder={'Write some note here'}
+                          onChange={e => {
+                            setData({ ...data, notes: e.target.value });
+                          }}
+                        />
                       </FormControl>
                     </>
                   }
@@ -747,17 +754,14 @@ const DebtDetails = props => {
         w={'100%'}
         mt={'0px !important'}
         p={'16px 12px 12px 12px'}
-        overflowY={'auto'}
+        fontSize={'sm'}
+        // overflowY={'auto'}
         borderRadius={'0 0 12px 12px'}
         justifyContent={'center'}
         style={{
           borderColor:
-            colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
+            colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350)',
         }}
-        // bg={'var(--p-500)'}
-        // py={3}
-        // borderTop={'1px solid'}
-        // borderBottom={'1px solid'}
       >
         {props.selectedItem.ID && (
           <PayDebt setSelectedItem={props.setSelectedItem} />

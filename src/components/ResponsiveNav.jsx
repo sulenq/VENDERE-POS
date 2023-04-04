@@ -31,9 +31,10 @@ import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
-import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import ArrowRightOutlinedIcon from '@mui/icons-material/ArrowRightOutlined';
 import ArrowLeftOutlinedIcon from '@mui/icons-material/ArrowLeftOutlined';
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
@@ -47,8 +48,11 @@ import {
 } from './Buttons';
 import { ModalContent, ModalBody, ModalFooter, ModalOverlay } from './Modals';
 import { Input } from '../components/Inputs';
+import axios from 'axios';
 
 const ResponsiveNav = props => {
+  const baseUrl = 'http://localhost:8080';
+
   // Width Meter
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -275,6 +279,17 @@ const ResponsiveNav = props => {
 
       function logOut() {
         setIsSignOutLoading(true);
+        const token = Cookies.get('_auth');
+        axios
+          .put(`${baseUrl}/api/v1/users/kasir/badalakingkong`, null, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            console.error(error);
+          });
         setTimeout(() => {
           logout();
           Cookies.set('isSignedOut', 'yes');
@@ -292,7 +307,12 @@ const ResponsiveNav = props => {
 
       return (
         <>
-          <PrimaryButtonNav label={'Sign Out'} w={'100%'} onClick={onOpen} />
+          <PrimaryButtonNav
+            label={'Sign Out'}
+            // leftIcon={LogoutOutlinedIcon}
+            w={'100%'}
+            onClick={onOpen}
+          />
 
           <Modal onClose={onClose} isOpen={isOpen} isCentered>
             <ModalOverlay />
@@ -459,7 +479,7 @@ const ResponsiveNav = props => {
               })}
 
               {auth()?.userRole === 'admin' ? (
-                <Divider borderColor={'var(--p-200)'} />
+                <Divider borderColor={'var(--p-100a)'} />
               ) : (
                 ''
               )}
@@ -554,6 +574,7 @@ const ResponsiveNav = props => {
                 {auth()?.userRole === 'admin' && (
                   <SecondaryButtonOutlineNav
                     w={'100%'}
+                    // leftIcon={AccountCircleOutlinedIcon}
                     label={'Profile'}
                     onClick={() => {
                       navigate('/vendere-app/profile');

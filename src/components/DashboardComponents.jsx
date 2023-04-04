@@ -53,7 +53,7 @@ const RDashboard = () => {
 
     setLoading(true);
 
-    setTimeout(() => {
+    const EmployeeLive = setInterval(() => {
       axios
         .get(getEmployeesAPI, {
           headers: { Authorization: `Bearer ${token}` },
@@ -70,7 +70,7 @@ const RDashboard = () => {
           setData({
             total: r.data.data?.length || 0,
             totalOnline: totalOnline,
-            list: r.data.data,
+            list: r.data.data?.reverse(),
           });
           setLoading(false);
         })
@@ -78,7 +78,7 @@ const RDashboard = () => {
           console.log(err);
           setLoading(false);
         });
-    }, 1);
+    }, 1000);
   }, [refresh]);
 
   return (

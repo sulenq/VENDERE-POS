@@ -1,6 +1,7 @@
 import '../css/vendereApp.css';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import { useAuthUser, useSignOut } from 'react-auth-kit';
 import axios from 'axios';
 import {
   Box,
@@ -42,7 +43,6 @@ import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 
 import { Input } from '../components/Inputs';
-import { useAuthUser, useSignOut } from 'react-auth-kit';
 import { PrimaryButton, PrimaryButtonOutline } from '../components/Buttons';
 import {
   ModalContent,
@@ -54,6 +54,8 @@ import { ActionTopBar } from '../components/ActionTopBar';
 import { useNavigate } from 'react-router-dom';
 
 export default function Profile(props) {
+  const baseUrl = 'http://localhost:8080';
+
   const { colorMode } = useColorMode();
   const auth = useAuthUser();
   const logout = useSignOut();
@@ -315,8 +317,22 @@ export default function Profile(props) {
     const [isSignOutLoading, setIsSignOutLoading] = useState(false);
 
     function logOut() {
-      setIsSignOutLoading(true);
+      const token = Cookies.get('_auth');
       setTimeout(() => {
+        setIsSignOutLoading(true);
+        console.log(token);
+        if (auth().userRole === 'cashier') {
+          axios
+            .put(`${baseUrl}/api/v1/users/kasir/badalakingkong`, null, {
+              headers: { Authorization: `Bearer ${token}` },
+            })
+            .then(response => {
+              console.log(response);
+            })
+            .catch(error => {
+              console.error(error);
+            });
+        }
         logout();
         Cookies.set('isSignedOut', 'yes');
         setIsSignOutLoading(false);
