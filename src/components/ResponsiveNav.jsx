@@ -341,6 +341,9 @@ const ResponsiveNav = props => {
                           className="btn"
                           onClick={onClose}
                           variant={'ghost'}
+                          colorScheme={
+                            colorMode === 'light' ? 'blackAlpha' : 'gray'
+                          }
                         >
                           Close
                         </Button>

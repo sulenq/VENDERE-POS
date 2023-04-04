@@ -4,7 +4,6 @@ import Cookies from 'js-cookie';
 import { useAuthUser, useSignOut } from 'react-auth-kit';
 import axios from 'axios';
 import {
-  Box,
   useColorMode,
   VStack,
   Avatar,
@@ -292,6 +291,9 @@ export default function Profile(props) {
                           className="btn"
                           onClick={onClose}
                           variant={'ghost'}
+                          colorScheme={
+                            colorMode === 'light' ? 'blackAlpha' : 'gray'
+                          }
                         >
                           Close
                         </Button>
@@ -397,6 +399,9 @@ export default function Profile(props) {
                         className="btn"
                         onClick={onClose}
                         variant={'ghost'}
+                        colorScheme={
+                          colorMode === 'light' ? 'blackAlpha' : 'gray'
+                        }
                       >
                         Close
                       </Button>

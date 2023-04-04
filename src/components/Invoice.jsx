@@ -466,7 +466,14 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
               <ModalFooter
                 content={
                   <ButtonGroup alignSelf={'flex-end'}>
-                    <Button variant={'ghost'} className="btn" onClick={onClose}>
+                    <Button
+                      variant={'ghost'}
+                      className="btn"
+                      onClick={onClose}
+                      colorScheme={
+                        colorMode === 'light' ? 'blackAlpha' : 'gray'
+                      }
+                    >
                       Cancel
                     </Button>
 

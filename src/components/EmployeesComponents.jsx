@@ -482,6 +482,7 @@ const DeleteEmployee = props => {
   // console.log(props.setSelectedItem);
   const baseURL = 'http://localhost:8080';
   const toast = useToast();
+  const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -612,6 +613,9 @@ const DeleteEmployee = props => {
                         className="btn"
                         onClick={onClose}
                         variant={'ghost'}
+                        colorScheme={
+                          colorMode === 'light' ? 'blackAlpha' : 'gray'
+                        }
                       >
                         Close
                       </Button>

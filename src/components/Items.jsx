@@ -6,7 +6,6 @@ import { useAuthUser, useSignOut } from 'react-auth-kit';
 
 // Chakra UI
 import {
-  IconButton,
   useColorMode,
   Text,
   VStack,
@@ -48,6 +47,7 @@ import { ModalContent, ModalOverlay, ModalBody, ModalFooter } from './Modals';
 const UpdateItem = props => {
   const baseURL = 'http://localhost:8080';
   const toast = useToast();
+  const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -320,6 +320,9 @@ const UpdateItem = props => {
                         className="btn"
                         onClick={onClose}
                         variant={'ghost'}
+                        colorScheme={
+                          colorMode === 'light' ? 'blackAlpha' : 'gray'
+                        }
                       >
                         Close
                       </Button>
@@ -345,6 +348,7 @@ const DeleteItem = props => {
   // console.log(props.setSelectedItem);
   const baseURL = 'http://localhost:8080';
   const toast = useToast();
+  const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -475,6 +479,9 @@ const DeleteItem = props => {
                         className="btn"
                         onClick={onClose}
                         variant={'ghost'}
+                        colorScheme={
+                          colorMode === 'light' ? 'blackAlpha' : 'gray'
+                        }
                       >
                         Close
                       </Button>

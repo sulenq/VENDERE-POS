@@ -44,16 +44,13 @@ const RDashboard = () => {
   const employeesSkeletonLength = ['', '', ''];
 
   const [data, setData] = useState();
-  const [loading, setLoading] = useState(false);
-  const [refresh, setRefresh] = useState();
+  const [loading, setLoading] = useState(true);
+  const [refresh, setRefresh] = useState(false);
 
   //* Get Data
   useEffect(() => {
     const getEmployeesAPI = `${baseURL}/api/v1/cashiers`;
-
-    setLoading(true);
-
-    const EmployeeLive = setInterval(() => {
+    setTimeout(() => {
       axios
         .get(getEmployeesAPI, {
           headers: { Authorization: `Bearer ${token}` },
@@ -78,8 +75,75 @@ const RDashboard = () => {
           console.log(err);
           setLoading(false);
         });
-    }, 1000);
+    }, 1);
   }, [refresh]);
+
+  useEffect(() => {
+    const employeeLive = setInterval(() => {
+      const getEmployeesAPI = `${baseURL}/api/v1/cashiers`;
+      axios
+        .get(getEmployeesAPI, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then(r => {
+          // console.log(r);
+          let totalOnline = 0;
+          r?.data?.data?.forEach(emp => {
+            if (emp.online) {
+              totalOnline += 1;
+            }
+          });
+          // console.log(totalOnline);
+          setData({
+            total: r.data.data?.length || 0,
+            totalOnline: totalOnline,
+            list: r.data.data?.reverse(),
+          });
+          setLoading(false);
+        })
+        .catch(err => {
+          console.log(err);
+          setLoading(false);
+        });
+    }, 100);
+
+    return () => clearInterval(employeeLive);
+  });
+
+  // useEffect(() => {
+  //   const getEmployeesAPI = `${baseURL}/api/v1/cashiers`;
+
+  //   setLoading(true);
+
+  //   const EmployeeLive = setInterval(() => {
+  //     axios
+  //       .get(getEmployeesAPI, {
+  //         headers: { Authorization: `Bearer ${token}` },
+  //       })
+  //       .then(r => {
+  //         // console.log(r);
+  //         let totalOnline = 0;
+  //         r?.data?.data?.forEach(emp => {
+  //           if (emp.online) {
+  //             totalOnline += 1;
+  //           }
+  //         });
+  //         // console.log(totalOnline);
+  //         setData({
+  //           total: r.data.data?.length || 0,
+  //           totalOnline: totalOnline,
+  //           list: r.data.data?.reverse(),
+  //         });
+  //         setLoading(false);
+  //       })
+  //       .catch(err => {
+  //         console.log(err);
+  //         setLoading(false);
+  //       });
+  //   }, 1);
+
+  //   return () => clearInterval(EmployeeLive);
+  // }, [refresh]);
 
   return (
     <VStack mt={'16px !important'} w={'100%'} alignItems={'flex-start'}>

@@ -1,51 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import axios from 'axios';
+import { useAuthUser } from 'react-auth-kit';
 
-import { RequireAuth, useSignOut } from 'react-auth-kit';
+import { useSignOut } from 'react-auth-kit';
 
-import {
-  useToast,
-  HStack,
-  useColorMode,
-  Grid,
-  SimpleGrid,
-  VStack,
-  Text,
-  StatLabel,
-  StatNumber,
-  StatHelpText,
-  StatArrow,
-  StatGroup,
-  Spinner,
-  Avatar,
-  useDisclosure,
-  ButtonGroup,
-  Button,
-  Box,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Icon,
-  FormControl,
-  Input,
-  FormLabel,
-  Divider,
-  Select,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-} from '@chakra-ui/react';
+import { useToast, VStack, Text } from '@chakra-ui/react';
 import { ColorModeButton } from './components/ColorModeSwitcher';
-
-// MUI Icons
-import PaymentsOutlinedIcon from '@mui/icons-material/PaymentsOutlined';
-import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
-import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
-import GoogleIcon from '@mui/icons-material/Google';
 
 import './css/vendereApp.css';
 
@@ -61,9 +23,6 @@ import Employees from './routes/Employees';
 import ManageItems from './routes/ManageItems';
 import Expenses from './routes/Expenses';
 import Support from './routes/Support';
-import { Stat } from './components/Data';
-import { PrimaryButton } from './components/Buttons';
-import { ModalContent, ModalFooter, ModalOverlay } from './components/Modals';
 import RequireRoleAuth from './routes/RequireRoleAuth';
 
 const PageNotFound = () => {
@@ -77,6 +36,8 @@ const PageNotFound = () => {
 };
 
 export default function App() {
+  const baseUrl = 'http://localhost:8080';
+  const auth = useAuthUser();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
     function handleResize() {
@@ -110,6 +71,18 @@ export default function App() {
       } else {
         if (token) {
           if (newToken !== token) {
+            if (auth().userRole === 'cashier') {
+              axios
+                .put(`${baseUrl}/api/v1/users/kasir/badalakingkong`, null, {
+                  headers: { Authorization: `Bearer ${token}` },
+                })
+                .then(response => {
+                  console.log(response);
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            }
             setToken();
             console.log('auth token was lost');
             logout();

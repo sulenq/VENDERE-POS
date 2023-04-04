@@ -117,6 +117,7 @@ const SecondaryButtonOutlineNav = props => {
 
   return (
     <Button
+      id={props.id}
       className="btn secondaryButtonOutline"
       onClick={props.onClick}
       type={props.type}

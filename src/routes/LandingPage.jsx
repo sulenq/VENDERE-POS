@@ -42,7 +42,6 @@ import {
   SecondaryButtonOutlineNav,
 } from '../components/Buttons';
 import { ModalOverlay, ModalContent, ModalFooter } from '../components/Modals';
-import { textAlign } from '@mui/system';
 
 // My Components
 import { Input } from '../components/Inputs';
@@ -72,6 +71,7 @@ export default function LandingPage(props) {
   useEffect(() => {
     function handleResize() {
       setScreenWidth(window.innerWidth);
+      setScreenHeight(window.innerHeight);
     }
     window.addEventListener('resize', handleResize);
   });
@@ -271,6 +271,9 @@ export default function LandingPage(props) {
                           className="btn"
                           onClick={onClose}
                           variant={'ghost'}
+                          colorScheme={
+                            colorMode === 'light' ? 'blackAlpha' : 'gray'
+                          }
                         >
                           Close
                         </Button>
@@ -393,7 +396,7 @@ export default function LandingPage(props) {
 
     function toSignUp() {
       const signUpBtn = document.querySelector('#signUpBtn');
-      signUpBtn.click();
+      signUpBtn?.click();
     }
 
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -533,6 +536,9 @@ export default function LandingPage(props) {
                           className="btn"
                           onClick={onClose}
                           variant={'ghost'}
+                          colorScheme={
+                            colorMode === 'light' ? 'blackAlpha' : 'gray'
+                          }
                         >
                           Close
                         </Button>
@@ -642,7 +648,7 @@ export default function LandingPage(props) {
       <HStack
         id={'hero'}
         py={'64px'}
-        h={screenHeight <= 700 ? 'fit-content' : 'calc(100vh - 8px)'}
+        h={screenHeight <= 420 ? 'fit-content' : 'calc(100vh - 8px)'}
         justifyContent={'center'}
         alignItems={'center'}
         px={screenWidth <= 1000 ? '24px' : '240px'}

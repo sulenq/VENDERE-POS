@@ -40,11 +40,8 @@ import {
 
 export default function Employees(props) {
   const baseURL = 'http://localhost:8080';
-
   const toast = useToast();
-
   const { colorMode } = useColorMode();
-
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
     function handleResize() {
@@ -281,6 +278,9 @@ export default function Employees(props) {
                           className="btn"
                           onClick={onClose}
                           variant={'ghost'}
+                          colorScheme={
+                            colorMode === 'light' ? 'blackAlpha' : 'gray'
+                          }
                         >
                           Close
                         </Button>
