@@ -549,7 +549,7 @@ export default function Profile(props) {
                           _hover={{
                             background:
                               colorMode === 'light'
-                                ? 'var(--light) !important'
+                                ? 'var(--light-dim) !important'
                                 : 'var(--p-350) !important',
                             // borderRadius:
                             //   index == navs1.length - 1 && '0 0 12px 12px',
@@ -627,7 +627,7 @@ export default function Profile(props) {
                             _hover={{
                               background:
                                 colorMode === 'light'
-                                  ? 'var(--light) !important'
+                                  ? 'var(--light-dim) !important'
                                   : 'var(--p-350) !important',
                               // borderRadius:
                               //   index == navs1.length - 1 && '0 0 12px 12px',
