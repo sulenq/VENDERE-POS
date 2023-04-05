@@ -264,7 +264,7 @@ const ResponsiveNav = props => {
       if (!expandedNav) {
         navLabel.forEach(label => {
           label.style.display = 'none';
-          nav.style.width = '80px';
+          nav.style.width = '75px';
         });
       } else {
         navLabel.forEach(label => {
@@ -383,7 +383,7 @@ const ResponsiveNav = props => {
       <>
         <VStack
           id="nav"
-          w={'80px'}
+          w={'75px'}
           h={'100%'}
           pr={1}
           pt={5}
@@ -556,8 +556,8 @@ const ResponsiveNav = props => {
 
           {/* Mini Profile */}
           <VStack
-            mt={expandedNav ? '64px !important' : '24px !important'}
             mr={'16px !important'}
+            mt={expandedNav ? '64px !important' : '24px !important'}
             style={{
               border: '3px solid var(--p-350a)',
               borderRadius: '12px',

@@ -235,11 +235,7 @@ export default function Dashboard(props) {
       <VStack
         id="appContentWrapper"
         h={'100%'}
-        w={
-          screenWidth <= 1000
-            ? '100%'
-            : `100%`
-        }
+        w={screenWidth <= 1000 ? '100%' : `100%`}
         p={2}
         ml={'0px !important'}
         style={{
@@ -250,6 +246,7 @@ export default function Dashboard(props) {
       >
         <>
           <ActionTopBar />
+
           <VStack
             id={'content'}
             className={colorMode === 'light' ? 'onLight' : 'onDark'}
@@ -258,7 +255,7 @@ export default function Dashboard(props) {
               width: '100%',
               height: '100%',
               overflowY: 'auto',
-              paddingBottom: screenWidth <= 1000 ? '64px' : '16px',
+              paddingBottom: screenWidth <= 1000 ? '64px' : '4px',
               borderRadius: '12px',
               background:
                 colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)',

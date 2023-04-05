@@ -272,9 +272,9 @@ const DebtDetails = props => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [data, setData] = useState({
-      pay: 0,
-      change: props.selectedItem.change,
       status: 'hutang',
+      change: props.selectedItem.change,
+      pay: 0,
       notes: props.selectedItem.notes,
     });
     const [loading, setLoading] = useState(false);
@@ -304,7 +304,7 @@ const DebtDetails = props => {
     }
 
     function onPayDebt() {
-      const payDebtAPI = `${baseURL}/api/v1/transactions/update?transaction_id=${props.selectedItem.ID}`;
+      const payDebtAPI = `${baseURL}/api/v1/transactions/updatedebt?transaction_id=${props.selectedItem.ID}`;
       const token = Cookies.get('_auth');
 
       const debtDataToUpdate = {

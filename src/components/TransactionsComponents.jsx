@@ -172,7 +172,7 @@ const TransactionsList = props => {
           }}
         >
           {props.data?.map((item, index) => {
-            // console.log(item);
+            console.log(item);
             const date = new Date(item.CreatedAt);
             const formattedDate = date.toLocaleDateString(
               undefined,

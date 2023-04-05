@@ -276,8 +276,12 @@ bg={colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)'} */
     background-color: red;
   }
 
+  .onLight::-webkit-scrollbar:hover {
+    width: 10px;
+  }
+
   .onDark::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
     border-radius: 2px;
     background-color: transparent;
   }
@@ -287,7 +291,7 @@ bg={colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)'} */
   }
 
   .onLight::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
     border-radius: 2px;
     background-color: transparent;
   }
