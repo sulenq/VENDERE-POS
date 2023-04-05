@@ -34,7 +34,9 @@ const PrimaryButton = props => {
         background: 'var(--accent) !important',
       }}
     >
-      {props.leftIcon && <Icon as={props.leftIcon} w={5} pr={'2px'} />}
+      {props.leftIcon && (
+        <Icon as={props.leftIcon} w={5} pr={props.label ? '2px' : ''} />
+      )}
       {props.label}
     </Button>
   );
@@ -73,7 +75,9 @@ const PrimaryButtonOutline = props => {
             : 'var(--p-300) !important',
       }}
     >
-      {props.leftIcon && <Icon as={props.leftIcon} h={5} pr={'2px'} />}
+      {props.leftIcon && (
+        <Icon as={props.leftIcon} h={5} pr={props.label ? '2px' : ''} />
+      )}
       {props.label}
     </Button>
   );
@@ -106,7 +110,9 @@ const PrimaryButtonNav = props => {
       }}
       _active={{ background: 'var(--accent) !important' }}
     >
-      {props.leftIcon && <Icon as={props.leftIcon} w={5} pr={'2px'} />}
+      {props.leftIcon && (
+        <Icon as={props.leftIcon} w={5} pr={props.label ? '2px' : ''} />
+      )}
       {props.label}
     </Button>
   );
@@ -137,7 +143,9 @@ const SecondaryButtonOutlineNav = props => {
       }}
       _active={{ background: 'whiteAlpha.300 !important' }}
     >
-      {props.leftIcon && <Icon as={props.leftIcon} h={5} pr={'2px'} />}
+      {props.leftIcon && (
+        <Icon as={props.leftIcon} h={5} pr={props.label ? '2px' : ''} />
+      )}
       {props.label}
     </Button>
   );

@@ -115,6 +115,10 @@ body,
   margin: 0;
 }
 
+.navLabel {
+  display: none;
+}
+
 .navLink:hover {
   background: var(--p-300a);
 }

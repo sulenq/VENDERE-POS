@@ -317,7 +317,7 @@ export default function Employees(props) {
           background:
             colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-400a)',
           borderRadius: screenWidth <= 1000 ? 0 : '12px',
-          width: screenWidth <= 1000 ? '100%' : 'calc(100% - 200px)',
+          width: screenWidth <= 1000 ? '100%' : '100%',
           paddingTop: 6,
           padding: 8,
           height: '100%',

@@ -62,7 +62,7 @@ const DebtsList = props => {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then(r => {
-          console.log(r.data.data);
+          // console.log(r.data.data);
           if (r.data.data) {
             props.setData(r.data.data);
           } else {

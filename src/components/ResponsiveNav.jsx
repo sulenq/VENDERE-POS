@@ -16,7 +16,7 @@ import {
   Modal,
   ModalHeader,
   ButtonGroup,
-  Badge,
+  IconButton,
   Avatar,
   useToast,
 } from '@chakra-ui/react';
@@ -35,8 +35,7 @@ import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import ArrowRightOutlinedIcon from '@mui/icons-material/ArrowRightOutlined';
-import ArrowLeftOutlinedIcon from '@mui/icons-material/ArrowLeftOutlined';
+import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
 import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
 
@@ -47,7 +46,6 @@ import {
   SecondaryButtonOutlineNav,
 } from './Buttons';
 import { ModalContent, ModalBody, ModalFooter, ModalOverlay } from './Modals';
-import { Input } from '../components/Inputs';
 import axios from 'axios';
 
 const ResponsiveNav = props => {
@@ -258,20 +256,23 @@ const ResponsiveNav = props => {
     // console.log(props.active);
 
     const navigate = useNavigate();
-    // const [expandedNav, setExpandedNav] = useState(false);
-    // useEffect(() => {
-    //   const navLabel = document.querySelectorAll('.navLabel');
-
-    //   if (!expandedNav) {
-    //     navLabel.forEach(label => {
-    //       label.style.display = 'none';
-    //     });
-    //   } else {
-    //     navLabel.forEach(label => {
-    //       label.style.display = 'block';
-    //     });
-    //   }
-    // }, [expandedNav]);
+    const [expandedNav, setExpandedNav] = useState(false);
+    useEffect(() => {
+      const navLabel = document.querySelectorAll('.navLabel');
+      const nav = document.querySelector('#nav');
+      // console.dir(avatarNav);
+      if (!expandedNav) {
+        navLabel.forEach(label => {
+          label.style.display = 'none';
+          nav.style.width = '80px';
+        });
+      } else {
+        navLabel.forEach(label => {
+          label.style.display = 'block';
+          nav.style.width = '280px';
+        });
+      }
+    }, [expandedNav]);
 
     const SignOut = () => {
       const { isOpen, onOpen, onClose } = useDisclosure();
@@ -307,12 +308,23 @@ const ResponsiveNav = props => {
 
       return (
         <>
-          <PrimaryButtonNav
-            label={'Sign Out'}
-            // leftIcon={LogoutOutlinedIcon}
-            w={'100%'}
-            onClick={onOpen}
-          />
+          {expandedNav ? (
+            <PrimaryButtonNav
+              // leftIcon={LogoutOutlinedIcon}
+              display={'block !important'}
+              label={'Sign Out'}
+              w={'100%'}
+              onClick={onOpen}
+            />
+          ) : (
+            <PrimaryButtonNav
+              leftIcon={LogoutOutlinedIcon}
+              display={'block !important'}
+              // label={'Sign Out'}
+              w={'100%'}
+              onClick={onOpen}
+            />
+          )}
 
           <Modal onClose={onClose} isOpen={isOpen} isCentered>
             <ModalOverlay />
@@ -371,27 +383,45 @@ const ResponsiveNav = props => {
       <>
         <VStack
           id="nav"
-          w={'200px'}
+          w={'80px'}
           h={'100%'}
           pr={1}
+          pt={5}
+          pb={2}
           borderRadius={'12px 0 0 12px'}
+          position={'relative'}
+          overflowX={'hidden'}
+          overflowY={'auto'}
+          transition={'all .2s'}
+          justifyContent={'space-between'}
         >
           {/* Logo */}
-          <Heading as={'h1'} color={'white'} pb={8} alignSelf="flex-start">
+          <Heading
+            as={VStack}
+            color={'white'}
+            pb={8}
+            alignSelf="flex-start"
+            pr={3}
+            px={4}
+          >
             <HStack
               alignItems={'center'}
               color={'var(--accent)'}
-              fontSize={'24px'}
+              fontSize={'20px'}
             >
               <LoyaltyOutlinedIcon />
-              <Text className="navLabel">V E N D E R E</Text>
+              <Text className="navLabel" letterSpacing={6}>
+                VENDERE
+              </Text>
             </HStack>
+
             <Text
               className="navLabel"
               fontSize={'sm'}
               fontWeight="normal"
               opacity={0.5}
-              pl={'32px'}
+              pl={'24px'}
+              mt={'0 !important'}
               // textAlign={'right'}
             >
               #pakaiVENDEREoke
@@ -400,14 +430,14 @@ const ResponsiveNav = props => {
 
           {/* Nav Link Section */}
           <VStack
-            pr={3}
+            pr={4}
             id={'navOptions'}
             className={colorMode === 'light' ? 'onLight' : 'onDark'}
             justifyContent={'space-between !important'}
-            h={'100%'}
+            // h={'100%'}
             w={'100%'}
             position={'relative'}
-            overflowY={'auto'}
+            overflowX={'hidden'}
           >
             {/* the Nav List */}
             <VStack
@@ -415,35 +445,30 @@ const ResponsiveNav = props => {
               className="navListWrapper"
               style={{
                 fontWeight: '500',
-                color: 'white',
+                color: 'var(--p-50)',
                 alignItems: 'flex-start',
                 width: '100%',
               }}
             >
-              {/* <HStack
-                w={'100%'}
-                p={2}
-                // border={'1px solid red'}
-                borderRadius={12}
-                opacity={0.5}
-                cursor={'pointer'}
-                onClick={() => {
-                  setExpandedNav(!expandedNav);
-                }}
-              >
-                <Icon
+              <HStack px={4} py={3} w={'100%'}>
+                <IconButton
                   as={
                     expandedNav
                       ? KeyboardArrowLeftOutlinedIcon
                       : KeyboardArrowRightOutlinedIcon
                   }
-                  fontSize={'xx-large'}
-                  mt={'3px !important'}
+                  // alignSelf={'flex-end'}
+                  size={'xs'}
+                  cursor={'pointer'}
+                  bg={'var(--p-250)'}
+                  opacity={0.3}
+                  borderRadius={50}
+                  _hover={{ bg: 'var(--p-200)' }}
+                  onClick={() => {
+                    setExpandedNav(!expandedNav);
+                  }}
                 />
-                <Text className="navLabel" ml={'2px !important'}>
-                  {expandedNav ? 'Minimize' : 'Expand'}
-                </Text>
-              </HStack> */}
+              </HStack>
 
               {navs1.map((nav, index) => {
                 if (
@@ -472,6 +497,7 @@ const ResponsiveNav = props => {
                         as={nav.icon}
                         fontSize={'xl'}
                         mt={'2px !important'}
+                        color={'var(--p-100)'}
                       />
                       <Text className="navLabel" ml={2}>
                         {nav.name === 'ManageItems' ? 'Products' : nav.name}
@@ -516,6 +542,7 @@ const ResponsiveNav = props => {
                           as={nav.icon}
                           fontSize={'xl'}
                           mt={'2px !important'}
+                          color={'var(--p-100)'}
                         />
                         <Text className="navLabel" ml={2}>
                           {nav.name === 'ManageItems' ? 'Products' : nav.name}
@@ -525,67 +552,91 @@ const ResponsiveNav = props => {
                   }
                 })}
             </VStack>
+          </VStack>
 
-            {/* Mini Profile */}
-            <VStack
-              mt={'64px !important'}
+          {/* Mini Profile */}
+          <VStack
+            mt={expandedNav ? '64px !important' : '24px !important'}
+            mr={'16px !important'}
+            style={{
+              border: '3px solid var(--p-350a)',
+              borderRadius: '12px',
+              width: '100%',
+              padding: '12px',
+              paddingTop: '50px',
+              color: 'white',
+              position: 'relative',
+              bottom: '0',
+              background:
+                'linear-gradient(to bottom, var(--p-400a), var(--p-350a))',
+            }}
+          >
+            <Avatar
+              size={expandedNav ? 'xl' : 'sm'}
+              name={auth()?.displayName}
+              w={!expandedNav ? '40px' : null}
+              h={!expandedNav ? '40px' : null}
               style={{
-                border: '3px solid var(--p-350a)',
-                borderRadius: '12px',
-                width: '100%',
-                padding: '12px',
-                paddingTop: '50px',
-                color: 'white',
-                position: 'relative',
-                bottom: '0',
-                background:
-                  'linear-gradient(to bottom, var(--p-400a), var(--p-350a))',
+                position: 'absolute',
+                top: expandedNav ? '-50px' : '10px',
+                background: 'var(--p-300)',
+                color: 'var(--p-200)',
               }}
-            >
-              <Avatar
-                size={'xl'}
-                name={auth()?.displayName}
+            />
+
+            <VStack w={'100%'}>
+              <Text
+                className={'navLabel'}
+                w={'180px !important'}
                 style={{
-                  position: 'absolute',
-                  top: '-50px',
-                  background: 'var(--p-300)',
-                  color: 'var(--p-200)',
+                  fontWeight: 'bold',
+                  width: '100%',
+                  textAlign: 'center',
                 }}
-              />
+              >
+                {auth()?.displayName}
+              </Text>
 
-              <VStack w={'100%'} className={'navLabel'}>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    width: '100%',
-                    textAlign: 'center',
-                  }}
-                >
-                  {auth()?.displayName}
-                </Text>
+              <Text
+                className={'navLabel'}
+                fontSize={'12px'}
+                fontWeight={'bold'}
+                px={2}
+                style={{
+                  background: 'var(--accent)',
+                  color: '#00000080',
+                  borderRadius: '12px',
+                }}
+              >
+                {auth()?.userRole?.toUpperCase()}
+              </Text>
 
-                <Badge
-                  style={{
-                    background: 'var(--accent)',
-                    color: '#00000080',
-                    borderRadius: '12px',
+              <br />
+
+              {auth()?.userRole === 'admin' && expandedNav && (
+                <SecondaryButtonOutlineNav
+                  // leftIcon={AccountCircleOutlinedIcon}
+                  w={'100%'}
+                  display={'block !important'}
+                  label={'Profile'}
+                  onClick={() => {
+                    navigate('/vendere-app/profile');
                   }}
-                >
-                  {auth()?.userRole}
-                </Badge>
-                <br />
-                {auth()?.userRole === 'admin' && (
-                  <SecondaryButtonOutlineNav
-                    w={'100%'}
-                    // leftIcon={AccountCircleOutlinedIcon}
-                    label={'Profile'}
-                    onClick={() => {
-                      navigate('/vendere-app/profile');
-                    }}
-                  />
-                )}
-                <SignOut />
-              </VStack>
+                />
+              )}
+              {auth()?.userRole === 'admin' && !expandedNav && (
+                <SecondaryButtonOutlineNav
+                  leftIcon={PermIdentityOutlinedIcon}
+                  w={'100%'}
+                  display={'block !important'}
+                  // label={'Profile'}
+                  onClick={() => {
+                    navigate('/vendere-app/profile');
+                  }}
+                />
+              )}
+
+              <SignOut />
             </VStack>
           </VStack>
         </VStack>

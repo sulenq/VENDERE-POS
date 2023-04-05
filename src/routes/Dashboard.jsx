@@ -235,7 +235,11 @@ export default function Dashboard(props) {
       <VStack
         id="appContentWrapper"
         h={'100%'}
-        w={screenWidth <= 1000 ? '100%' : 'calc(100% - 200px)'}
+        w={
+          screenWidth <= 1000
+            ? '100%'
+            : `100%`
+        }
         p={2}
         ml={'0px !important'}
         style={{

@@ -255,7 +255,10 @@ export default function Cashier({
           background:
             colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-400a)',
           borderRadius: screenWidth <= 1000 ? 0 : '12px',
-          width: screenWidth <= 1000 ? '100%' : 'calc(100% - 200px)',
+          width:
+            screenWidth <= 1000
+              ? '100%'
+              : `calc(100% - ${document.querySelector('#nav').offsetWidth})`,
           padding: 8,
           height: '100%',
           alignItems: 'flex-start',
