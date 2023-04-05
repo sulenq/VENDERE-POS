@@ -587,11 +587,10 @@ export default function LandingPage(props) {
             fontSize={screenWidth <= 1000 ? '16px' : '20px'}
           >
             <LoyaltyOutlinedIcon />
-            <Text className="navLabel">V E N D E R E</Text>
+            <Text>V E N D E R E</Text>
           </HStack>
 
           <Text
-            className="navLabel"
             fontSize={'xs'}
             fontWeight="normal"
             opacity={0.5}

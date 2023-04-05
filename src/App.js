@@ -71,7 +71,7 @@ export default function App() {
       } else {
         if (token) {
           if (newToken !== token) {
-            if (auth().userRole === 'cashier') {
+            if (auth()?.userRole === 'cashier') {
               axios
                 .put(`${baseUrl}/api/v1/users/kasir/badalakingkong`, null, {
                   headers: { Authorization: `Bearer ${token}` },
@@ -86,7 +86,7 @@ export default function App() {
             setToken();
             console.log('auth token was lost');
             logout();
-            navigate('/');
+            navigate('/?login=1');
             toast({
               position: screenWidth <= 1000 ? 'bottom-center' : 'bottom-right',
               title: "You've been signed out",

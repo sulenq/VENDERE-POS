@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSignOut } from 'react-auth-kit';
+import { useAuthUser, useSignIn, useSignOut } from 'react-auth-kit';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -19,17 +19,13 @@ import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettin
 
 export default function RequireRoleAuth(props) {
   const baseURL = 'http://localhost:8080';
-
+  // const signIn = useSignIn();
   const logout = useSignOut();
-
   const navigate = useNavigate();
-
+  const authState = useAuthUser();
   const [auth, setIsAuth] = useState();
-
   const toast = useToast();
-
   const { colorMode } = useColorMode();
-
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
     function handleResize() {
@@ -57,9 +53,18 @@ export default function RequireRoleAuth(props) {
           headers: { Authorization: `Bearer ${authToken}` },
         })
         .then(r => {
-          // console.log(r.data.data);
+          console.log(r.data.data);
           if (r.status === 200 && r.data.data.message === 'token benar') {
             setIsAuth(r.data.data);
+            // console.log(authState().userId, r.data.data.user_id);
+            if (
+              authState().userId != r.data.data.user_id ||
+              authState().userRole != r.data.data.role ||
+              authState().displayName != r.data.data.name
+            ) {
+              console.log('titit');
+              logout();
+            }
             const id = 'validationToast';
             if (!toast.isActive(id)) {
               toast({
@@ -70,13 +75,6 @@ export default function RequireRoleAuth(props) {
                 isClosable: true,
               });
             }
-            // toast({
-            //   position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-            //   title: `Validated as ${r.data.data.role}`,
-            //   status: 'success',
-            //   duration: 3000,
-            //   isClosable: true,
-            // });
           }
         })
         .catch(err => {

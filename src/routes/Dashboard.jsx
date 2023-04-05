@@ -229,7 +229,6 @@ export default function Dashboard(props) {
       className="vendereApp finisher-header"
       p={screenWidth <= 1000 ? 0 : 4}
       alignItems={'center'}
-      finisher-header
     >
       <ResponsiveNav active={'Dashboard'} />
       <VStack

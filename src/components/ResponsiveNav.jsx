@@ -119,9 +119,9 @@ const ResponsiveNav = props => {
   ];
 
   let navs1;
-  if (auth().userRole === 'admin') {
+  if (auth()?.userRole === 'admin') {
     navs1 = adminNav;
-  } else if (auth().userRole === 'cashier') {
+  } else if (auth()?.userRole === 'cashier') {
     navs1 = cashierNavs;
   }
 
@@ -188,8 +188,8 @@ const ResponsiveNav = props => {
         backdropFilter="auto"
         backdropBlur="5px"
       >
-        {navs1.map((nav, index) => {
-          if (auth().userRole === nav.restriction || nav.restriction === '') {
+        {navs1?.map((nav, index) => {
+          if (auth()?.userRole === nav.restriction || nav.restriction === '') {
             let navName;
             if (nav.name === 'ManageItems') {
               navName = 'Products';
@@ -470,7 +470,7 @@ const ResponsiveNav = props => {
                 />
               </HStack>
 
-              {navs1.map((nav, index) => {
+              {navs1?.map((nav, index) => {
                 if (
                   auth()?.userRole === nav.restriction ||
                   nav.restriction === ''
@@ -514,7 +514,7 @@ const ResponsiveNav = props => {
               )}
 
               {auth()?.userRole === 'admin' &&
-                navs2.map((nav, index) => {
+                navs2?.map((nav, index) => {
                   if (
                     auth()?.userRole === nav.restriction ||
                     nav.restriction === ''
@@ -557,28 +557,29 @@ const ResponsiveNav = props => {
           {/* Mini Profile */}
           <VStack
             mr={'16px !important'}
-            mt={expandedNav ? '64px !important' : '24px !important'}
+            mt={expandedNav ? '72px !important' : '24px !important'}
             style={{
-              border: '3px solid var(--p-350a)',
+              // border: '3px solid var(--p-350a)',
               borderRadius: '12px',
               width: '100%',
               padding: '12px',
-              paddingTop: '50px',
+              paddingTop: expandedNav ? '50px' : '',
               color: 'white',
               position: 'relative',
               bottom: '0',
-              background:
-                'linear-gradient(to bottom, var(--p-400a), var(--p-350a))',
+              // background:
+              //   'linear-gradient(to bottom, var(--p-400a), var(--p-350a))',
             }}
           >
             <Avatar
               size={expandedNav ? 'xl' : 'sm'}
               name={auth()?.displayName}
+              display={expandedNav ? 'block' : 'none'}
               w={!expandedNav ? '40px' : null}
               h={!expandedNav ? '40px' : null}
               style={{
                 position: 'absolute',
-                top: expandedNav ? '-50px' : '10px',
+                top: expandedNav ? '-50px' : '40px',
                 background: 'var(--p-300)',
                 color: 'var(--p-200)',
               }}
@@ -613,29 +614,15 @@ const ResponsiveNav = props => {
 
               <br />
 
-              {auth()?.userRole === 'admin' && expandedNav && (
-                <SecondaryButtonOutlineNav
-                  // leftIcon={AccountCircleOutlinedIcon}
-                  w={'100%'}
-                  display={'block !important'}
-                  label={'Profile'}
-                  onClick={() => {
-                    navigate('/vendere-app/profile');
-                  }}
-                />
-              )}
-              {auth()?.userRole === 'admin' && !expandedNav && (
-                <SecondaryButtonOutlineNav
-                  leftIcon={PermIdentityOutlinedIcon}
-                  w={'100%'}
-                  display={'block !important'}
-                  // label={'Profile'}
-                  onClick={() => {
-                    navigate('/vendere-app/profile');
-                  }}
-                />
-              )}
-
+              <SecondaryButtonOutlineNav
+                leftIcon={!expandedNav ? PermIdentityOutlinedIcon : null}
+                w={'100%'}
+                display={'block !important'}
+                label={expandedNav ? 'Profile' : null}
+                onClick={() => {
+                  navigate('/vendere-app/profile');
+                }}
+              />
               <SignOut />
             </VStack>
           </VStack>

@@ -452,7 +452,12 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
                     {/* Add Note */}
                     <VStack alignItems={'flex-start'} mt={2}>
                       <Text>Add Note</Text>
-                      <Textarea placeholder={'Write some note here'} />
+                      <Textarea
+                        placeholder={'Write some note here'}
+                        onChange={e => {
+                          setNote(e.target.value);
+                        }}
+                      />
                     </VStack>
 
                     {/* <Text mt={4} fontSize={'sm'}>
@@ -558,7 +563,7 @@ const Invoice = ({
         <VStack alignItems={'flex-start'}>
           <Text>31/12/2022</Text>
           <Text fontWeight={'bold'} m="0 !important">
-            {auth().displayName}
+            {auth()?.displayName}
           </Text>
         </VStack>
 
