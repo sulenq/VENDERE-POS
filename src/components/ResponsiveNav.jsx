@@ -53,9 +53,11 @@ const ResponsiveNav = props => {
 
   // Width Meter
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [screenHeight, setScreenHeight] = useState(window.innerHeight);
   useEffect(() => {
     function handleResize() {
       setScreenWidth(window.innerWidth);
+      setScreenHeight(window.innerHeight);
     }
     window.addEventListener('resize', handleResize);
   });
@@ -383,6 +385,9 @@ const ResponsiveNav = props => {
       <>
         <VStack
           id="nav"
+          onMouseLeave={() => {
+            setExpandedNav(false);
+          }}
           w={'75px'}
           h={'100%'}
           pr={1}
@@ -430,7 +435,7 @@ const ResponsiveNav = props => {
 
           {/* Nav Link Section */}
           <VStack
-            pr={4}
+            pr={screenHeight <= 757 ? 2 : 3}
             id={'navOptions'}
             className={colorMode === 'light' ? 'onLight' : 'onDark'}
             justifyContent={'space-between !important'}
@@ -484,7 +489,16 @@ const ResponsiveNav = props => {
                           ? 'navListActive navLink'
                           : 'navLink'
                       }
-                      onClick={() => navigate(nav.link)}
+                      onClick={() => {
+                        setExpandedNav(false);
+                        if (expandedNav) {
+                          setTimeout(() => {
+                            navigate(nav.link);
+                          }, 200);
+                        } else {
+                          navigate(nav.link);
+                        }
+                      }}
                       style={{
                         width: '100%',
                         padding: '8px 16px',
@@ -528,7 +542,16 @@ const ResponsiveNav = props => {
                             ? 'navListActive navLink'
                             : 'navLink'
                         }
-                        onClick={() => navigate(nav.link)}
+                        onClick={() => {
+                          setExpandedNav(false);
+                          if (expandedNav) {
+                            setTimeout(() => {
+                              navigate(nav.link);
+                            }, 200);
+                          } else {
+                            navigate(nav.link);
+                          }
+                        }}
                         style={{
                           width: '100%',
                           padding: '8px 16px',
