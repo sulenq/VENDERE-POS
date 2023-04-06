@@ -494,7 +494,7 @@ const ResponsiveNav = props => {
                         if (expandedNav) {
                           setTimeout(() => {
                             navigate(nav.link);
-                          }, 200);
+                          }, 170);
                         } else {
                           navigate(nav.link);
                         }
@@ -547,7 +547,7 @@ const ResponsiveNav = props => {
                           if (expandedNav) {
                             setTimeout(() => {
                               navigate(nav.link);
-                            }, 200);
+                            }, 170);
                           } else {
                             navigate(nav.link);
                           }

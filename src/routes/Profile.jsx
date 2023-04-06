@@ -28,7 +28,6 @@ import {
 // MUI Icons
 import ArrowOutwardOutlinedIcon from '@mui/icons-material/ArrowOutwardOutlined';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
-import LoyaltyOutlinedIcon from '@mui/icons-material/LoyaltyOutlined';
 import PointOfSaleRoundedIcon from '@mui/icons-material/PointOfSaleRounded';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import MoneyOffIcon from '@mui/icons-material/MoneyOff';
@@ -52,7 +51,7 @@ import {
 import { ActionTopBar } from '../components/ActionTopBar';
 import { useNavigate } from 'react-router-dom';
 
-export default function Profile(props) {
+export default function Profile() {
   const baseUrl = 'http://localhost:8080';
 
   const { colorMode } = useColorMode();
@@ -434,12 +433,13 @@ export default function Profile(props) {
         h={screenHeight <= 900 || screenWidth <= 1000 ? '100%' : ''}
         // maxh={screenWidth <= 1000 ? '100%' : '90%'}
         w={screenWidth <= 1000 ? '100%' : '450px'}
+        pt={2}
+        px={2}
+        pb={4}
         style={{
           background:
             colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-400a)',
           borderRadius: screenWidth <= 1000 ? '' : '12px',
-          paddingTop: 6,
-          padding: 8,
           alignItems: 'flex-start',
         }}
       >
@@ -452,7 +452,6 @@ export default function Profile(props) {
           h={'100%'}
           w={'100%'}
           m={'auto'}
-          p={3}
           // border={'1px solid red'}
           position={'relative'}
           overflowY={'auto'}
@@ -477,7 +476,7 @@ export default function Profile(props) {
             }}
           ></IconButton>
 
-          <VStack w={'100%'} h={'100%'} justifyContent={'space-between'}>
+          <VStack w={'100%'} justifyContent={'space-between'} px={3}>
             <VStack w={'100%'}>
               <VStack w={'100%'}>
                 <Avatar
