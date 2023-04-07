@@ -106,7 +106,7 @@ const TransactionsList = props => {
     if (props.data?.length !== 0) {
       isItemFound = props.data?.some(item => {
         const date = new Date(item.CreatedAt);
-        const formattedDate = date.toLocaleDateString(undefined, dateOptions);
+        const formattedDate = date.toLocaleDateString('id-ID', dateOptions);
         return (
           item.ID.toString()?.includes(props.search) ||
           item.notes
@@ -172,12 +172,9 @@ const TransactionsList = props => {
           }}
         >
           {props.data?.map((item, index) => {
-            console.log(item);
+            // console.log(item);
             const date = new Date(item.CreatedAt);
-            const formattedDate = date.toLocaleDateString(
-              undefined,
-              dateOptions
-            );
+            const formattedDate = date.toLocaleDateString('id-ID', dateOptions);
 
             if (
               item?.ID?.toString().includes(props.search) ||

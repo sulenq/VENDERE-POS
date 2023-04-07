@@ -142,17 +142,17 @@ export default function Cashier({
         const DeletedAt = new Date(selectedItem.DeletedAt);
 
         const formattedCreatedAt = CreatedAt.toLocaleDateString(
-          undefined,
+          'id-ID',
           dateOptions
         );
 
         const formattedUpdatedAt = UpdatedAt.toLocaleDateString(
-          undefined,
+          'id-ID',
           dateOptions
         );
 
         const formattedDeletedAt = DeletedAt.toLocaleDateString(
-          undefined,
+          'id-ID',
           dateOptions
         );
 

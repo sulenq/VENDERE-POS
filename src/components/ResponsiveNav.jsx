@@ -580,13 +580,13 @@ const ResponsiveNav = props => {
           {/* Mini Profile */}
           <VStack
             mr={'16px !important'}
-            mt={expandedNav ? '72px !important' : '24px !important'}
+            mt={'24px !important'}
             style={{
               // border: '3px solid var(--p-350a)',
               borderRadius: '12px',
               width: '100%',
               padding: '12px',
-              paddingTop: expandedNav ? '50px' : '',
+              paddingTop: '',
               color: 'white',
               position: 'relative',
               bottom: '0',
@@ -594,7 +594,7 @@ const ResponsiveNav = props => {
               //   'linear-gradient(to bottom, var(--p-400a), var(--p-350a))',
             }}
           >
-            <Avatar
+            {/* <Avatar
               size={expandedNav ? 'xl' : 'sm'}
               name={auth()?.displayName}
               display={expandedNav ? 'block' : 'none'}
@@ -606,10 +606,10 @@ const ResponsiveNav = props => {
                 background: 'var(--p-300)',
                 color: 'var(--p-200)',
               }}
-            />
+            /> */}
 
             <VStack w={'100%'}>
-              <Text
+              {/* <Text
                 className={'navLabel'}
                 w={'180px !important'}
                 style={{
@@ -635,7 +635,7 @@ const ResponsiveNav = props => {
                 {auth()?.userRole?.toUpperCase()}
               </Text>
 
-              <br />
+              <br /> */}
 
               <SecondaryButtonOutlineNav
                 leftIcon={!expandedNav ? PermIdentityOutlinedIcon : null}

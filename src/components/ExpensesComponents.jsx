@@ -78,7 +78,7 @@ const ExpensesList = props => {
     if (props.data.length !== 0) {
       isItemFound = props.data.some(item => {
         const date = new Date(item.CreatedAt);
-        const formattedDate = date.toLocaleDateString(undefined, dateOptions);
+        const formattedDate = date.toLocaleDateString('id-ID', dateOptions);
         return (
           formattedDate?.toLowerCase()?.includes(props.search?.toLowerCase()) ||
           item?.total?.toString()?.includes(props?.search) ||
@@ -139,10 +139,7 @@ const ExpensesList = props => {
         >
           {props.data.map((item, index) => {
             const date = new Date(item.CreatedAt);
-            const formattedDate = date.toLocaleDateString(
-              undefined,
-              dateOptions
-            );
+            const formattedDate = date.toLocaleDateString('id-ID', dateOptions);
 
             if (
               formattedDate

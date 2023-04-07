@@ -88,7 +88,7 @@ const DebtsList = props => {
     if (props.data?.length !== 0) {
       isItemFound = props.data?.some(item => {
         const date = new Date(item.CreatedAt);
-        const formattedDate = date.toLocaleDateString(undefined, dateOptions);
+        const formattedDate = date.toLocaleDateString('id-ID', dateOptions);
         return (
           item.ID.toString()?.includes(props.search) ||
           item.notes
@@ -155,10 +155,7 @@ const DebtsList = props => {
         >
           {props.data?.map((item, index) => {
             const date = new Date(item.CreatedAt);
-            const formattedDate = date.toLocaleDateString(
-              undefined,
-              dateOptions
-            );
+            const formattedDate = date.toLocaleDateString('id-ID', dateOptions);
             if (
               item.ID.toString().includes(props.search) ||
               item.notes

@@ -443,7 +443,7 @@ const DeleteItem = props => {
                   <>
                     <Alert
                       borderRadius={'8px'}
-                      status="error"
+                      status="warning"
                       variant={'left-accent'}
                       mb={5}
                     >
