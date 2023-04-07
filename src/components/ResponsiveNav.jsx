@@ -391,7 +391,7 @@ const ResponsiveNav = props => {
           w={'90px'}
           h={'100%'}
           pr={1}
-          pl={4}
+          pl={'18px'}
           pt={5}
           pb={2}
           // borderRadius={'0 12px 12px 0'}
