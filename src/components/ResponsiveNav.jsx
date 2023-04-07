@@ -266,12 +266,12 @@ const ResponsiveNav = props => {
       if (!expandedNav) {
         navLabel.forEach(label => {
           label.style.display = 'none';
-          nav.style.width = '75px';
+          nav.style.width = '90px';
         });
       } else {
         navLabel.forEach(label => {
           label.style.display = 'block';
-          nav.style.width = '280px';
+          nav.style.width = '235px';
         });
       }
     }, [expandedNav]);
@@ -388,18 +388,24 @@ const ResponsiveNav = props => {
           onMouseLeave={() => {
             setExpandedNav(false);
           }}
-          w={'75px'}
+          w={'90px'}
           h={'100%'}
           pr={1}
+          pl={4}
           pt={5}
           pb={2}
-          borderRadius={'12px 0 0 12px'}
-          position={'relative'}
-          overflowX={'hidden'}
-          overflowY={'auto'}
+          // borderRadius={'0 12px 12px 0'}
+          borderRight={'1px solid var(--p-250a)'}
+          overflow={'hidden'}
           transition={'all .2s'}
           justifyContent={'space-between'}
+          position={'fixed'}
+          left={'0'}
+          // bg={'var(--p-450)'}
+          zIndex={99}
         >
+          <HStack id={'navBg'} position={'absolute !important'}></HStack>
+
           {/* Logo */}
           <Heading
             as={VStack}
@@ -466,6 +472,7 @@ const ResponsiveNav = props => {
                   size={'xs'}
                   cursor={'pointer'}
                   bg={'var(--p-250)'}
+                  display={expandedNav ? 'none' : 'block'}
                   opacity={0.3}
                   borderRadius={50}
                   _hover={{ bg: 'var(--p-200)' }}

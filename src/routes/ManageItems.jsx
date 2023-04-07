@@ -411,25 +411,21 @@ export default function ManageItems(props) {
   return (
     <HStack
       className="vendereApp"
-      p={screenWidth <= 1000 ? 0 : 4}
       alignItems={'center'}
+      justifyContent={'flex-end'}
+      // pl={screenWidth <= 1000 ? 0 : 4}
     >
       <ResponsiveNav active={'ManageItems'} />
 
       <VStack
         id="appContentWrapper"
-        ml={'0px !important'}
+        w={screenWidth <= 1000 ? '100%' : 'calc(100% - 90px)'}
+        bg={colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-400a)'}
         h={'100%'}
-        style={{
-          background:
-            colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-400a)',
-          borderRadius: screenWidth <= 1000 ? 0 : '12px',
-          width: screenWidth <= 1000 ? '100%' : '100%',
-          paddingTop: 6,
-          padding: 8,
-          height: '100%',
-          alignItems: 'flex-start',
-        }}
+        ml={'0px !important'}
+        p={2}
+        pl={3}
+        alignItems={'flex-start'}
       >
         <ActionTopBar />
 

@@ -226,22 +226,20 @@ export default function Dashboard(props) {
   // Dashboard Main Section
   return (
     <HStack
-      className="vendereApp finisher-header"
-      p={screenWidth <= 1000 ? 0 : 4}
+      className="vendereApp"
       alignItems={'center'}
+      justifyContent={'flex-end'}
     >
       <ResponsiveNav active={'Dashboard'} />
       <VStack
         id="appContentWrapper"
+        w={screenWidth <= 1000 ? '100%' : 'calc(100% - 90px)'}
+        bg={colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-400a)'}
         h={'100%'}
-        w={screenWidth <= 1000 ? '100%' : `100%`}
-        p={2}
         ml={'0px !important'}
-        style={{
-          background:
-            colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-400a)',
-          borderRadius: screenWidth <= 1000 ? 0 : '12px',
-        }}
+        p={2}
+        pl={3}
+        alignItems={'flex-start'}
       >
         <>
           <ActionTopBar />
