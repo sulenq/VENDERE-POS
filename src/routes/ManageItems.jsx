@@ -437,7 +437,7 @@ export default function ManageItems(props) {
               height: '100%',
               overflowY: 'auto',
               paddingBottom: screenWidth <= 1000 ? '66px' : '',
-              borderRadius: '12px',
+              borderRadius: '20px',
               background:
                 colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)',
             }}

@@ -128,7 +128,7 @@ export default function Dashboard(props) {
               background:
                 colorMode === 'light' ? 'var(--p-450)' : 'var(--p-50)',
               color: colorMode === 'light' ? 'white' : 'black',
-              borderRadius: '12px',
+              borderRadius: '20px',
             }}
             content={
               <>
@@ -166,7 +166,7 @@ export default function Dashboard(props) {
                   colorMode === 'light'
                     ? '2px solid var(--p-75)'
                     : '2px solid var(--p-350)',
-                borderRadius: '12px',
+                borderRadius: '20px',
               }}
               content={
                 <>
@@ -198,7 +198,7 @@ export default function Dashboard(props) {
                   colorMode === 'light'
                     ? '2px solid var(--p-75)'
                     : '2px solid var(--p-350)',
-                borderRadius: '12px',
+                borderRadius: '20px',
               }}
               content={
                 <>
@@ -253,7 +253,7 @@ export default function Dashboard(props) {
               height: '100%',
               overflowY: 'auto',
               paddingBottom: screenWidth <= 1000 ? '64px' : '4px',
-              borderRadius: '12px',
+              borderRadius: '20px',
               background:
                 colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)',
             }}

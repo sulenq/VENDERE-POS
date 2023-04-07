@@ -18,7 +18,7 @@ const ModalContent = props => {
   return (
     <Modalcontent
       ref={props.refq}
-      borderRadius={12}
+      borderRadius={20}
       w={props.w || '95%'}
       bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-350a)'}
       backdropFilter="auto"
@@ -45,7 +45,7 @@ const ModalFooter = ({ content }) => {
   return (
     <Modalfooter
       bg={colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-350a)'}
-      borderRadius={'0 0 10px 10px'}
+      borderRadius={'0 0 20px 20px'}
       flexDirection={'column'}
       p={4}
     >

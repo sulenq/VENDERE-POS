@@ -394,7 +394,7 @@ const ResponsiveNav = props => {
           m={'0 !Important'}
           pr={1}
           pl={'18px'}
-          pt={5}
+          pt={4}
           pb={2}
           // borderRight={'1px solid var(--p-250a)'}
           overflow={'hidden'}
@@ -447,7 +447,7 @@ const ResponsiveNav = props => {
 
           {/* Nav Link Section */}
           <VStack
-            pr={screenHeight <= 757 ? 2 : 3}
+            pr={screenHeight <= 757 ? 2 : 4}
             id={'navOptions'}
             className={colorMode === 'light' ? 'onLight' : 'onDark'}
             justifyContent={'space-between !important'}

@@ -250,7 +250,7 @@ const EmployeeDetails = props => {
             : '50%',
         height: '100%',
         overflowY: 'auto',
-        borderRadius: '12px',
+        borderRadius: '20px',
         background: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)',
       }}
       pt={3}
@@ -280,7 +280,7 @@ const EmployeeDetails = props => {
               aspectRatio: 3 / 2,
               fontWeight: 'bold',
               opacity: 0.1,
-              // borderRadius: '12px',
+              // borderRadius: '20px',
               background: 'var(--p-200)',
               borderRadius: '8px',
             }}

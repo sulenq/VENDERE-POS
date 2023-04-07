@@ -585,7 +585,6 @@ const ItemsList = props => {
           fontSize={'sm'}
           overflowY={'auto'}
           borderTop={'1px solid'}
-          // borderBottom={'1px solid'}
           style={{
             borderColor:
               colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
@@ -645,6 +644,7 @@ const ItemsList = props => {
                           size={'sm'}
                           onClick={() => {
                             onAdd(item);
+                            document.querySelector('#itemSearchBox').focus();
                           }}
                         />
                         <ItemDetailsModal
@@ -727,7 +727,7 @@ const ItemDetails = props => {
             : '50%',
         height: '100%',
         overflowY: 'auto',
-        borderRadius: '12px',
+        borderRadius: '20px',
         background: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)',
       }}
       pt={3}
@@ -757,7 +757,7 @@ const ItemDetails = props => {
               aspectRatio: 3 / 2,
               fontWeight: 'bold',
               opacity: 0.1,
-              // borderRadius: '12px',
+              // borderRadius: '20px',
               background: 'var(--p-200)',
               borderRadius: '8px',
             }}

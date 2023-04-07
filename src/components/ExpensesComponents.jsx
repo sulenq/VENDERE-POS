@@ -256,7 +256,7 @@ const ExpenseDetails = props => {
             : '50%',
         height: '100%',
         overflowY: 'auto',
-        borderRadius: '12px',
+        borderRadius: '20px',
         background: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)',
       }}
       pt={3}

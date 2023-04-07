@@ -132,7 +132,7 @@ const RDashboard = () => {
             colorMode === 'light'
               ? '2px solid var(--p-75)'
               : '2px solid var(--p-350)',
-          borderRadius: '12px',
+          borderRadius: '20px',
         }}
       >
         <HStack w={'100%'} justifyContent={'space-between'}>
@@ -531,7 +531,7 @@ const LDashboard = () => {
             colorMode === 'light'
               ? '2px solid var(--p-75)'
               : '2px solid var(--p-350)',
-          borderRadius: '12px',
+          borderRadius: '20px',
         }}
       >
         {!loading ? (

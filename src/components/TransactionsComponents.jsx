@@ -297,7 +297,7 @@ const TransactionDetails = props => {
         width: screenWidth <= 1000 ? '100%' : '50%',
         height: '100%',
         overflowY: 'auto',
-        borderRadius: '12px',
+        borderRadius: '20px',
         background: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)',
       }}
       pt={3}
@@ -630,10 +630,11 @@ const TransactionDetailsModal = props => {
 
         <ModalContent
           maxH={'90%'}
+          borderRadius={20}
           content={
             <>
               <ModalBody
-                overflowY={'hidden'}
+                // overflowY={'hidden'}
                 content={
                   <>
                     <ModalCloseButton borderRadius={50} />

@@ -542,7 +542,7 @@ const ReportDetails = props => {
         width: screenWidth <= 1000 ? '100%' : '50%',
         height: '100%',
         overflowY: 'auto',
-        borderRadius: '12px',
+        borderRadius: '20px',
         background: colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)',
       }}
       pt={3}
@@ -972,7 +972,11 @@ const ReportDetails = props => {
               colorMode === 'light' ? 'var(--light-dim)' : 'var(--p-300)',
           }}
         >
-          <PrimaryButtonOutline label={'Got It'} w={'100%'} onClick={props.onClose} />
+          <PrimaryButtonOutline
+            label={'Got It'}
+            w={'100%'}
+            onClick={props.onClose}
+          />
         </HStack>
       )}
     </VStack>

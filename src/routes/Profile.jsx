@@ -498,7 +498,7 @@ export default function Profile() {
                   style={{
                     background: 'var(--accent)',
                     color: '#00000080',
-                    borderRadius: '12px',
+                    borderRadius: '20px',
                   }}
                   mb={'8px !important'}
                 >
@@ -512,7 +512,7 @@ export default function Profile() {
                   bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)'}
                   w={'100%'}
                   borderRadius={12}
-                  p={2}
+                  py={2}
                   border={'1px solid'}
                   borderColor={'var(--p-200a)'}
                 >
@@ -521,7 +521,7 @@ export default function Profile() {
                     alignSelf={'flex-start'}
                     fontSize={'xs'}
                     opacity={0.5}
-                    px={2}
+                    px={4}
                     pb={'6px'}
                   >
                     Priority Menu
@@ -538,13 +538,13 @@ export default function Profile() {
                           w={'100%'}
                           justifyContent={'space-between'}
                           py={3}
-                          px={4}
+                          px={6}
                           mt={'0 !important'}
                           // borderBottom={
                           //   index != navs1.length - 1 && '1px solid'
                           // }
                           borderColor={'var(--p-200a)'}
-                          borderRadius={'12px'}
+                          // borderRadius={'12px'}
                           color={
                             colorMode === 'light'
                               ? 'var(--p-500)'
@@ -554,7 +554,7 @@ export default function Profile() {
                             background:
                               colorMode === 'light'
                                 ? 'var(--light-dim) !important'
-                                : 'var(--p-350) !important',
+                                : 'var(--p-350a) !important',
                             // borderRadius:
                             //   index == navs1.length - 1 && '0 0 12px 12px',
                           }}
@@ -562,7 +562,7 @@ export default function Profile() {
                             background:
                               colorMode === 'light'
                                 ? 'var(--p-75) !important'
-                                : 'var(--p-300) !important',
+                                : 'var(--p-300a) !important',
                           }}
                           onClick={() => {
                             navigate(nav.link);
@@ -590,7 +590,7 @@ export default function Profile() {
                     bg={colorMode === 'light' ? 'var(--p-50)' : 'var(--p-400a)'}
                     w={'100%'}
                     borderRadius={12}
-                    p={2}
+                    py={2}
                     border={'1px solid'}
                     borderColor={'var(--p-200a)'}
                   >
@@ -599,7 +599,7 @@ export default function Profile() {
                       alignSelf={'flex-start'}
                       fontSize={'xs'}
                       opacity={0.5}
-                      px={2}
+                      px={4}
                       pb={'6px'}
                     >
                       Other Menu
@@ -616,13 +616,13 @@ export default function Profile() {
                             w={'100%'}
                             justifyContent={'space-between'}
                             py={3}
-                            px={4}
+                            px={6}
                             mt={'0 !important'}
                             // borderBottom={
                             //   index != navs1.length - 1 && '1px solid'
                             // }
                             borderColor={'var(--p-200a)'}
-                            borderRadius={'12px'}
+                            // borderRadius={'12px'}
                             color={
                               colorMode === 'light'
                                 ? 'var(--p-500)'
@@ -632,7 +632,7 @@ export default function Profile() {
                               background:
                                 colorMode === 'light'
                                   ? 'var(--light-dim) !important'
-                                  : 'var(--p-350) !important',
+                                  : 'var(--p-350a) !important',
                               // borderRadius:
                               //   index == navs1.length - 1 && '0 0 12px 12px',
                             }}
@@ -640,7 +640,7 @@ export default function Profile() {
                               background:
                                 colorMode === 'light'
                                   ? 'var(--p-75) !important'
-                                  : 'var(--p-300) !important',
+                                  : 'var(--p-300a) !important',
                             }}
                             onClick={() => {
                               navigate(nav.link);
