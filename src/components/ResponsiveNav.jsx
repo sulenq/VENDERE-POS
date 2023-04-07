@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSignOut, useAuthUser } from 'react-auth-kit';
 import Cookies from 'js-cookie';
@@ -19,6 +19,7 @@ import {
   IconButton,
   Avatar,
   useToast,
+  Box,
 } from '@chakra-ui/react';
 
 // MUI
@@ -390,21 +391,26 @@ const ResponsiveNav = props => {
           }}
           w={'90px'}
           h={'100%'}
+          m={'0 !Important'}
           pr={1}
           pl={'18px'}
           pt={5}
           pb={2}
-          // borderRadius={'0 12px 12px 0'}
-          borderRight={'1px solid var(--p-250a)'}
+          // borderRight={'1px solid var(--p-250a)'}
           overflow={'hidden'}
           transition={'all .2s'}
           justifyContent={'space-between'}
           position={'fixed'}
           left={'0'}
-          // bg={'var(--p-450)'}
           zIndex={99}
         >
-          <HStack id={'navBg'} position={'absolute !important'}></HStack>
+          <HStack
+            id={'navBg'}
+            position={'absolute !important'}
+            left={'0'}
+            top={'0'}
+            backgroundPosition={'left'}
+          ></HStack>
 
           {/* Logo */}
           <Heading
@@ -657,6 +663,18 @@ const ResponsiveNav = props => {
             </VStack>
           </VStack>
         </VStack>
+
+        <Box
+          display={expandedNav ? 'block' : 'none'}
+          onClick={() => setExpandedNav(false)}
+          w={'100%'}
+          h={'100%'}
+          position={'fixed'}
+          bg="#00000070"
+          backdropFilter="auto"
+          backdropBlur="10px"
+          zIndex={98}
+        ></Box>
       </>
     );
   };

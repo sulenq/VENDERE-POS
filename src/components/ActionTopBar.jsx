@@ -1,6 +1,6 @@
 import React from 'react';
 import { HStack, Text, useColorMode, IconButton } from '@chakra-ui/react';
-import { ColorModeButton, ColorModeIconButton } from './ColorModeSwitcher';
+import { ColorModeIconButton } from './ColorModeSwitcher';
 
 import SyncOutlinedIcon from '@mui/icons-material/SyncOutlined';
 
@@ -15,7 +15,7 @@ export const ActionTopBar = () => {
   const { colorMode } = useColorMode();
 
   return (
-    <HStack w={'100%'} pb={1} px={2} justifyContent={'space-between'}>
+    <HStack w={'100%'} pb={1} pl={3} pr={1} justifyContent={'space-between'}>
       <Text opacity={'0.5'}>{todayDate}</Text>
       <HStack>
         <IconButton
