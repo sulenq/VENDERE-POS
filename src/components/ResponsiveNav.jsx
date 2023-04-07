@@ -181,13 +181,14 @@ const ResponsiveNav = props => {
         style={{
           width: '100%',
           // height: '65px',
-          background: 'var(--p-500a)',
+          background: 'var(--p-500)',
           position: 'fixed',
           bottom: '0',
           zIndex: 99,
           cursor: 'pointer',
           // transition: '0.3s',
         }}
+        px={4}
         backdropFilter="auto"
         backdropBlur="5px"
       >
