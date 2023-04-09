@@ -428,7 +428,13 @@ export default function LandingPage(props) {
                   <form id="loginForm">
                     <FormControl mt={4} isRequired>
                       <FormLabel>Sign In As...</FormLabel>
-                      <HStack>
+                      <HStack
+                        bg={
+                          colorMode === 'light' ? 'var(--p-75)' : 'var(--p-300)'
+                        }
+                        borderRadius={50}
+                        p={1}
+                      >
                         {roles.map((role, index) => {
                           return (
                             <Text
@@ -440,7 +446,7 @@ export default function LandingPage(props) {
                                   colorMode === 'light'
                                     ? '2px solid var(--p-75)'
                                     : '2px solid var(--p-300)',
-                                borderRadius: '8px',
+                                borderRadius: '20px',
                                 padding: '4px',
                                 cursor: 'pointer',
                                 background:

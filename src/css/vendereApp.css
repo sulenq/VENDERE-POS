@@ -1,4 +1,5 @@
 :root {
+  --accent-light: #edc11115;
   --accent: #edc111;
   --accenta: #fdd30033;
   --accent-dim: #edc111;
@@ -33,6 +34,16 @@
 
 * {
   box-sizing: border-box !important;
+}
+
+/* Style untuk input autofill pada semua browser */
+input:-webkit-autofill,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--accent-light) inset !important;
+  box-shadow: 0 0 0 30px var(--accent-light) inset !important;
+  border: 1px solid var(--accent-light);
 }
 
 ::selection {
