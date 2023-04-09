@@ -570,7 +570,7 @@ export default function LandingPage(props) {
     >
       <HStack
         id={'landingPageNavBar'}
-        bg={'var(--p-350a2)'}
+        bg={'linear-gradient(to bottom, var(--p-350a2), transparent)'}
         backdropFilter={'blur(5px)'}
         w={'100%'}
         justifyContent={'space-between'}

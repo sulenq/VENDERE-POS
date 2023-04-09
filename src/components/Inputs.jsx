@@ -41,7 +41,6 @@ const SearchBox = props => {
         )
       ) {
         targetItem.scrollIntoView({
-          behavior: 'smooth',
           block: 'nearest',
         });
       }
