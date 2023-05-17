@@ -151,33 +151,40 @@ const ReportsList = props => {
 
     function getRevenue(data, period) {
       let revenue = { penjualan: 0, grossRevenue: 0 };
-      data?.forEach(item => {
-        const date = new Date(item.CreatedAt);
-        const month = date.toLocaleString(undefined, { month: 'long' });
-        const year = date.getFullYear();
-        if (period == `${month} ${year}`) {
-          revenue.penjualan += item.total;
-        }
-      });
-      for (let key in revenue) {
-        if (key !== 'grossRevenue') {
-          revenue.grossRevenue += revenue[key];
+
+      if (data) {
+        data?.forEach(item => {
+          const date = new Date(item.CreatedAt);
+          const month = date.toLocaleString(undefined, { month: 'long' });
+          const year = date.getFullYear();
+          if (period == `${month} ${year}`) {
+            revenue.penjualan += item.total;
+          }
+        });
+
+        for (let key in revenue) {
+          if (key !== 'grossRevenue') {
+            revenue.grossRevenue += revenue[key];
+          }
         }
       }
+
       return revenue;
     }
 
     function getDebt(data, period) {
       const debt = { piutang: 0, bebanUtang: 0 };
 
-      data.forEach((item, index) => {
-        const date = new Date(item.CreatedAt);
-        const month = date.toLocaleString(undefined, { month: 'long' });
-        const year = date.getFullYear();
-        if (period == `${month} ${year}`) {
-          debt.piutang += item.change;
-        }
-      });
+      if (data) {
+        data.forEach((item, index) => {
+          const date = new Date(item.CreatedAt);
+          const month = date.toLocaleString(undefined, { month: 'long' });
+          const year = date.getFullYear();
+          if (period == `${month} ${year}`) {
+            debt.piutang += item.change;
+          }
+        });
+      }
 
       return debt;
     }
@@ -189,26 +196,28 @@ const ReportsList = props => {
         totalCos: 0,
       };
 
-      data.forEach((item, index) => {
-        const date = new Date(item.CreatedAt);
-        const month = date.toLocaleString(undefined, { month: 'long' });
-        const year = date.getFullYear();
+      if (data) {
+        data.forEach((item, index) => {
+          const date = new Date(item.CreatedAt);
+          const month = date.toLocaleString(undefined, { month: 'long' });
+          const year = date.getFullYear();
 
-        if (period == `${month} ${year}`) {
-          switch (item.jenis) {
-            case 'Pembelian':
-              cos.pembelian -= item.total;
-              break;
-            case 'Beban Angkut':
-              cos.bebanAngkut -= item.total;
-              break;
+          if (period == `${month} ${year}`) {
+            switch (item.jenis) {
+              case 'Pembelian':
+                cos.pembelian -= item.total;
+                break;
+              case 'Beban Angkut':
+                cos.bebanAngkut -= item.total;
+                break;
+            }
           }
-        }
-      });
+        });
 
-      for (let key in cos) {
-        if (key !== 'totalCos') {
-          cos.totalCos += cos[key];
+        for (let key in cos) {
+          if (key !== 'totalCos') {
+            cos.totalCos += cos[key];
+          }
         }
       }
 
@@ -232,38 +241,40 @@ const ReportsList = props => {
         totalExpenses: 0,
       };
 
-      expensesData.forEach((item, index) => {
-        const date = new Date(item.CreatedAt);
-        const month = date.toLocaleString(undefined, { month: 'long' });
-        const year = date.getFullYear();
+      if (expensesData) {
+        expensesData.forEach((item, index) => {
+          const date = new Date(item.CreatedAt);
+          const month = date.toLocaleString(undefined, { month: 'long' });
+          const year = date.getFullYear();
 
-        if (period == `${month} ${year}`) {
-          switch (item.jenis) {
-            case 'Beban Listrik':
-              expenses.bebanOperasional.bebanListrik -= item.total;
-              break;
-            case 'Beban Sewa':
-              expenses.bebanOperasional.bebanSewa -= item.total;
-              break;
-            case 'Beban Telepon':
-              expenses.bebanOperasional.bebanTelepon -= item.total;
-              break;
-            case 'Penyesuaian Persediaan':
-              expenses.bebanLain.penyesuaianPersediaan -= item.total;
-              break;
-            case 'Lain-lain':
-              expenses.bebanLain.lainLain -= item.total;
-              break;
-            case 'Prive':
-              expenses.prive.totalPrive -= item.total;
+          if (period == `${month} ${year}`) {
+            switch (item.jenis) {
+              case 'Beban Listrik':
+                expenses.bebanOperasional.bebanListrik -= item.total;
+                break;
+              case 'Beban Sewa':
+                expenses.bebanOperasional.bebanSewa -= item.total;
+                break;
+              case 'Beban Telepon':
+                expenses.bebanOperasional.bebanTelepon -= item.total;
+                break;
+              case 'Penyesuaian Persediaan':
+                expenses.bebanLain.penyesuaianPersediaan -= item.total;
+                break;
+              case 'Lain-lain':
+                expenses.bebanLain.lainLain -= item.total;
+                break;
+              case 'Prive':
+                expenses.prive.totalPrive -= item.total;
+            }
           }
-        }
-      });
+        });
 
-      for (let key in expenses) {
-        if (key !== 'totalExpenses') {
-          for (let key2 in expenses[key]) {
-            expenses.totalExpenses += expenses[key][key2];
+        for (let key in expenses) {
+          if (key !== 'totalExpenses') {
+            for (let key2 in expenses[key]) {
+              expenses.totalExpenses += expenses[key][key2];
+            }
           }
         }
       }
@@ -304,16 +315,31 @@ const ReportsList = props => {
     //   totalProfit: 0,
     // };
 
-    if (transData) {
-      const periods = [];
+    if (transData || expensesData) {
+      let periods = [];
+      const transPeriods = [];
+      const expensesPeriods = [];
       transData.forEach((rData, index) => {
         const date = new Date(rData.CreatedAt);
         const month = date.toLocaleString(undefined, { month: 'long' });
         const year = date.getFullYear();
-        if (!periods.includes(`${month} ${year}`)) {
-          periods.push(`${month} ${year}`);
+        if (!transPeriods.includes(`${month} ${year}`)) {
+          transPeriods.push(`${month} ${year}`);
         }
       });
+      expensesData.forEach((rData, index) => {
+        const date = new Date(rData.CreatedAt);
+        const month = date.toLocaleString(undefined, { month: 'long' });
+        const year = date.getFullYear();
+        if (!expensesPeriods.includes(`${month} ${year}`)) {
+          expensesPeriods.push(`${month} ${year}`);
+        }
+      });
+      if (transPeriods >= expensesPeriods) {
+        periods = transPeriods;
+      } else {
+        periods = expensesPeriods;
+      }
 
       // console.log(periods);
       periods.forEach((period, index) => {
