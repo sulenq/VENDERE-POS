@@ -127,7 +127,7 @@ export default function LandingPage(props) {
             });
             toast({
               position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-              title: 'Account created.',
+              title: 'Account created',
               description: `your account has been registered!`,
               status: 'success',
               duration: 3000,
@@ -135,6 +135,7 @@ export default function LandingPage(props) {
             });
             onClose();
             setIsCreateAccountLoading(false);
+            document.querySelector('#signInBtn').click();
           })
           .catch(err => {
             console.log(err);
@@ -145,7 +146,7 @@ export default function LandingPage(props) {
                 title: 'Sorry, fail create account ☹️.',
                 description:
                   err.response?.data.data.error ||
-                  'network error, might be the server or your internet connection.',
+                  'network error, might be the server or your internet connection',
                 status: 'error',
                 duration: 3000,
                 isClosable: true,
@@ -346,7 +347,7 @@ export default function LandingPage(props) {
                 toast({
                   position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
                   title: `Signed In 😎`,
-                  description: `as ${r.data.data.role}.`,
+                  description: `as ${r.data.data.role}`,
                   status: 'success',
                   duration: 3000,
                   isClosable: true,
@@ -382,7 +383,7 @@ export default function LandingPage(props) {
                 description:
                   err.code === 'ERR_NETWORK'
                     ? 'network error, might be the server or your internet connection.'
-                    : err.response?.data.data.error,
+                    : 'email or password invalid',
                 status: 'error',
                 duration: 3000,
                 isClosable: true,
@@ -606,8 +607,10 @@ export default function LandingPage(props) {
             #pakaiVENDEREoke
           </Text>
         </Heading>
+
         <HStack>
           <ColorModeIconButton
+            size={screenWidth <= 1000 ? 'sm' : 'md'}
             _hover={{ bg: 'var(--p-300a)' }}
             _active={{ bg: 'var(--p-200a)' }}
           />

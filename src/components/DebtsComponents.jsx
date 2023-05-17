@@ -18,6 +18,7 @@ import {
   FormControl,
   Button,
   Badge,
+  useToast,
 } from '@chakra-ui/react';
 
 // MUI Icons
@@ -267,6 +268,7 @@ const DebtDetails = props => {
   const PayDebt = () => {
     const baseURL = 'http://localhost:8080';
 
+    const toast = useToast();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [data, setData] = useState({
       status: 'hutang',
@@ -320,6 +322,15 @@ const DebtDetails = props => {
             headers: { Authorization: `Bearer ${token}` },
           })
           .then(r => {
+            if (r.status === 200) {
+              toast({
+                position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
+                title: 'Debt updated',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+              });
+            }
             console.log(r);
             props.setSelectedItem({});
             props.setRefresh(!props.refresh);

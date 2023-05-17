@@ -63,7 +63,6 @@ const ResponsiveNav = props => {
     window.addEventListener('resize', handleResize);
   });
   const toast = useToast();
-
   const auth = useAuthUser();
   const logout = useSignOut();
 

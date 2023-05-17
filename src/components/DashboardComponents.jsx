@@ -118,7 +118,7 @@ const RDashboard = () => {
         style={{ width: '100%', justifyContent: 'space-between' }}
       >
         <Text fontWeight={'bold'} opacity={0.5}>
-          Cashiers
+          Employees
         </Text>
       </HStack>
 
@@ -142,7 +142,7 @@ const RDashboard = () => {
                 {data?.total?.toLocaleString('id-ID')}
               </Text>
               <Text mt={'0px !important'} color={'var(--p-200)'}>
-                Total Cashiers
+                Total Employees
               </Text>
             </HStack>
           ) : (

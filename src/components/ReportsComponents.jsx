@@ -1018,7 +1018,7 @@ const ReportDetailsModal = props => {
             <>
               <ModalBody
                 // h={'100%'}
-                overflowY={'hidden'}
+                // overflowY={'hidden'}
                 content={
                   <>
                     <ModalCloseButton borderRadius={50} />

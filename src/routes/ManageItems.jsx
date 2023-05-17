@@ -235,7 +235,7 @@ export default function ManageItems(props) {
             if (r.status === 201) {
               toast({
                 position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-                title: 'New item(s) registered',
+                title: 'New product registered',
                 status: 'success',
                 duration: 3000,
                 isClosable: true,
@@ -249,8 +249,8 @@ export default function ManageItems(props) {
             if (err) {
               toast({
                 position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-                title: 'Sorry, fail add new item.',
-                description: err.response.data.data.error,
+                title: 'Sorry, fail add new item',
+                description: "require product's name",
                 status: 'error',
                 duration: 3000,
                 isClosable: true,
@@ -281,7 +281,7 @@ export default function ManageItems(props) {
                 <ModalHeader px={4}>
                   <HStack>
                     <Icon as={Inventory2OutlinedIcon} fontSize={'xx-large'} />
-                    <Text>Adding New Item</Text>
+                    <Text>Adding New Product</Text>
                   </HStack>
                 </ModalHeader>
 
@@ -392,7 +392,7 @@ export default function ManageItems(props) {
                         </Button>
                         <PrimaryButton
                           id={'addNewItemBtn'}
-                          label={'Add New Item'}
+                          label={'Add New Product'}
                           onClick={onAddNewItem}
                           isLoading={isLoading}
                         />
@@ -424,7 +424,6 @@ export default function ManageItems(props) {
         h={'100%'}
         ml={'0px !important'}
         p={2}
-        pl={3}
         alignItems={'flex-start'}
       >
         <ActionTopBar />

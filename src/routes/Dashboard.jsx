@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -47,6 +48,7 @@ export default function Dashboard(props) {
     const [data, setData] = useState();
     const [loading, setLoading] = useState(false);
 
+    const navigate = useNavigate();
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
     const currentMonth = currentDate.getMonth() + 1;
@@ -169,7 +171,12 @@ export default function Dashboard(props) {
                 borderRadius: '20px',
               }}
               content={
-                <>
+                <VStack
+                  onClick={() => {
+                    navigate('/vendere-app/transactions');
+                  }}
+                  alignItems={'flex-start'}
+                >
                   <StatLabel>
                     <HStack>
                       <Icon
@@ -180,14 +187,14 @@ export default function Dashboard(props) {
                       <Text color={'var(--p-200)'}>Transactions</Text>
                     </HStack>
                   </StatLabel>
-                  <StatNumber fontSize={'xx-large'}>
+                  <StatNumber fontSize={'xx-large'} mt={'0 !important'}>
                     {data?.transactions}
                   </StatNumber>
-                  <StatHelpText mb={0}>
+                  <StatHelpText mb={0} mt={'0 !important'}>
                     <StatArrow type="increase" />
                     23.36% (soon!)
                   </StatHelpText>
-                </>
+                </VStack>
               }
             />
 
@@ -238,7 +245,6 @@ export default function Dashboard(props) {
         h={'100%'}
         ml={'0px !important'}
         p={2}
-        pl={3}
         alignItems={'flex-start'}
       >
         <>

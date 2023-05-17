@@ -252,7 +252,6 @@ export default function Cashier({
         h={'100%'}
         ml={'0px !important'}
         p={2}
-        pl={3}
         alignItems={'flex-start'}
       >
         <ActionTopBar />

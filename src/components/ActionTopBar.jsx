@@ -2,7 +2,7 @@ import React from 'react';
 import { HStack, Text, useColorMode, IconButton } from '@chakra-ui/react';
 import { ColorModeIconButton } from './ColorModeSwitcher';
 
-import SyncOutlinedIcon from '@mui/icons-material/SyncOutlined';
+import RefreshOutlinedIcon from '@mui/icons-material/RefreshOutlined';
 
 export const ActionTopBar = () => {
   const dateOptions = {
@@ -19,7 +19,7 @@ export const ActionTopBar = () => {
       <Text opacity={'0.5'}>{todayDate}</Text>
       <HStack>
         <IconButton
-          icon={<SyncOutlinedIcon style={{ fontSize: '18px' }} />}
+          icon={<RefreshOutlinedIcon style={{ fontSize: '18px' }} />}
           variant={'ghost'}
           size={'sm'}
           borderRadius={50}

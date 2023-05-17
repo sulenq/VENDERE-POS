@@ -118,7 +118,7 @@ const UpdateItem = props => {
           if (r.status === 200) {
             toast({
               position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-              title: 'Item Updated',
+              title: 'Product updated',
               status: 'success',
               duration: 3000,
               isClosable: true,
@@ -385,7 +385,7 @@ const DeleteItem = props => {
             console.log(r);
             toast({
               position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-              title: 'Item Deleted',
+              title: 'Product deleted',
               status: 'success',
               duration: 3000,
               isClosable: true,

@@ -519,7 +519,7 @@ const DeleteEmployee = props => {
             console.log(r);
             toast({
               position: screenWidth <= 1000 ? 'top-center' : 'bottom-right',
-              title: 'Employee Account Deleted',
+              title: 'Cashier account deleted',
               status: 'success',
               duration: 3000,
               isClosable: true,
