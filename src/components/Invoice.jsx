@@ -15,7 +15,6 @@ import {
   ButtonGroup,
   Box,
   Divider,
-  Input,
   useDisclosure,
   Modal,
   ModalHeader,
@@ -35,7 +34,7 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import '../css/vendereApp.css';
 import { PrimaryButton, PrimaryButtonOutline } from './Buttons';
 import { ModalContent, ModalBody, ModalFooter, ModalOverlay } from './Modals';
-import { SearchBox, Textarea } from '../components/Inputs';
+import { Input, SearchBox, Textarea } from '../components/Inputs';
 import { ItemsList } from '../components/Items';
 
 const CartList = ({
@@ -67,7 +66,14 @@ const CartList = ({
               : '1px solid var(--p-300)',
         }}
       >
-        <VStack w={'100%'} className="cartList" px={2} pb={2}>
+        <VStack
+          w={'100%'}
+          className={
+            colorMode === 'light' ? 'cartList onLight' : 'cartList onDark'
+          }
+          px={2}
+          pb={2}
+        >
           {cartList
             .slice(0)
             .reverse()
@@ -346,6 +352,7 @@ const Checkout = ({ total, auth, cartList, clearInvoice, screenWidth }) => {
 
     return formattedNum;
   }
+
   return (
     <>
       <PrimaryButton
