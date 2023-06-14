@@ -386,6 +386,26 @@ const LDashboard = () => {
     return revenueData;
   }
 
+  function getExpensesData() {
+    const getExpensesAPI = `${baseURL}/api/v1/bebans/get`;
+
+    axios
+      .get(getExpensesAPI, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(r => {
+        // console.log(r.data.data);
+        if (r.data.data) {
+          setTotalExpenses(getTotalExpenses(r.data.data));
+        } else {
+          setTotalExpenses(0);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   function getTotalExpenses(expensesData) {
     // console.log(expensesData);
     const period = `${currentMonthLong} ${currentYear}`;
@@ -473,26 +493,6 @@ const LDashboard = () => {
       .catch(err => {
         console.log(err);
         setLoading(false);
-      });
-  }
-
-  function getExpensesData() {
-    const getExpensesAPI = `${baseURL}/api/v1/bebans/get`;
-
-    axios
-      .get(getExpensesAPI, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then(r => {
-        // console.log(r.data.data);
-        if (r.data.data) {
-          setTotalExpenses(getTotalExpenses(r.data.data));
-        } else {
-          setTotalExpenses(0);
-        }
-      })
-      .catch(err => {
-        console.log(err);
       });
   }
 
